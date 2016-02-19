@@ -25,4 +25,5 @@
     <string name="menu_convocatoria_agregar_punto">Agregar punto</string>
     <string name="menu_convocatoria_quitar_punto">Quitar punto</string>
     <string name="menu_convocatoria_hecho">Hecho</string>
+    <string name="hacer_encabezado_convocatoria_firma">Firma</string>
 </resources>

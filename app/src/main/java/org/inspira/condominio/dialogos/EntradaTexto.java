@@ -12,6 +12,8 @@ import android.widget.EditText;
 
 import org.inspira.condominio.R;
 
+import java.io.Serializable;
+
 /**
  * Created by Siempre on 19/02/2016.
  */
@@ -20,7 +22,7 @@ public class EntradaTexto extends DialogFragment {
     private String mensaje;
     private String contenido;
 
-    public interface AccionDialogo{
+    public interface AccionDialogo extends Serializable{
         void accionPositiva(DialogFragment fragment);
         void accionNegativa(DialogFragment fragment);
     }

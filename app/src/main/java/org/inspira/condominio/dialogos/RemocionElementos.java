@@ -37,8 +37,13 @@ public class RemocionElementos extends DialogFragment {
         }else{
             args = savedInstanceState;
             elementosSeleccionados = args.getIntegerArrayList("elementos_seleccionados");
+            ad = (EntradaTexto.AccionDialogo)args.getSerializable("acciones_dialogo");
         }
         elementos = args.getStringArray("elementos");
+        boolean[] booleanos = new boolean[elementos.length];
+        for(Integer elemento : elementosSeleccionados){
+            booleanos[elemento] = true;
+        }
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle(R.string.dialogo_remocion_elementos_titulo)
                 .setPositiveButton(R.string.dialogo_entrada_texto_aceptar,
@@ -55,7 +60,7 @@ public class RemocionElementos extends DialogFragment {
                                 ad.accionNegativa(RemocionElementos.this);
                             }
                         })
-                .setMultiChoiceItems(elementos, null, new DialogInterface.OnMultiChoiceClickListener() {
+                .setMultiChoiceItems(elementos, booleanos, new DialogInterface.OnMultiChoiceClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which, boolean isChecked) {
                         if(isChecked){
@@ -71,7 +76,8 @@ public class RemocionElementos extends DialogFragment {
     @Override
     public void onSaveInstanceState(Bundle outState){
         outState.putStringArrayList("elementos_seleccionados",(ArrayList)elementosSeleccionados);
-        outState.putStringArray("elementos",elementos);
+        outState.putStringArray("elementos", elementos);
+        outState.putSerializable("acciones_dialogo",ad);
     }
 
 }
