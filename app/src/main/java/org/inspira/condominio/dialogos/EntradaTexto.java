@@ -3,11 +3,11 @@ package org.inspira.condominio.dialogos;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.support.v4.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
-import android.view.ViewGroup;
+import android.view.View;
 import android.widget.EditText;
 
 import org.inspira.condominio.R;
@@ -18,6 +18,7 @@ import org.inspira.condominio.R;
 public class EntradaTexto extends DialogFragment {
 
     private String mensaje;
+    private String contenido;
 
     public interface AccionDialogo{
         void accionPositiva(DialogFragment fragment);
@@ -46,13 +47,11 @@ public class EntradaTexto extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         Bundle args;
         LayoutInflater inflater = (LayoutInflater)getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        entradaDeTexto = (EditText)inflater.inflate(R.layout.entrada_de_texto, null);
-        if(savedInstanceState == null){
-            args = getArguments();
-        }else{
-            args = savedInstanceState;
-            entradaDeTexto.setText(args.getString("texto"));
-        }
+        View root = inflater.inflate(R.layout.entrada_de_texto, null);
+        entradaDeTexto = (EditText)root.findViewById(R.id.entrada_de_texto);
+        args = savedInstanceState == null ? getArguments() : savedInstanceState;
+        contenido = args.getString("contenido");
+        entradaDeTexto.setText(contenido);
         mensaje = args.getString("mensaje");
         builder.setTitle(mensaje)
                 .setPositiveButton(R.string.dialogo_entrada_texto_aceptar, new DialogInterface.OnClickListener() {
@@ -65,12 +64,13 @@ public class EntradaTexto extends DialogFragment {
                         accionDialogo.accionNegativa(EntradaTexto.this);
                     }
                 })
-                .setView(entradaDeTexto);
+                .setView(root);
         return builder.create();
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState){
+        outState.putString("contenido", contenido);
         outState.putString("mensaje", mensaje);
         outState.putString("texto", entradaDeTexto.getText().toString());
     }

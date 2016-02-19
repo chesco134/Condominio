@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import org.inspira.condominio.R;
 import org.inspira.condominio.actividades.CrearConvocatoria;
@@ -27,6 +28,7 @@ public class OrdenDelDia extends Fragment {
 
     private List<String> puntos;
     private ListView listaDePuntos;
+    private ArrayAdapter<String> adapter;
 
     @Override
     public void onAttach(Context context){
@@ -41,13 +43,13 @@ public class OrdenDelDia extends Fragment {
         else
             puntos = savedInstanceState.getStringArrayList("puntos");
         assert puntos != null;
-        ArrayAdapter adapter = new ArrayAdapter<>(getActivity(), R.layout.entrada_simple, puntos);
+        adapter = new ArrayAdapter<>(getActivity(), R.layout.entrada_simple, puntos);
         listaDePuntos = (ListView) rootView.findViewById(R.id.hacer_orden_del_dia_lista);
         listaDePuntos.setAdapter(adapter);
         listaDePuntos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                cambioDeTexto(position);
+                cambioDeTexto(((TextView)view).getText().toString(), position);
             }
         });
         setHasOptionsMenu(true);
@@ -70,7 +72,7 @@ public class OrdenDelDia extends Fragment {
             removerPuntos();
             manejado = true;
         }else if(itemId == R.id.menu_convocatoria_hecho){
-
+            ((CrearConvocatoria)getActivity()).creaConvocatoria();
         }
         return manejado;
     }
@@ -89,19 +91,20 @@ public class OrdenDelDia extends Fragment {
         }
     }
 
-    private void cambioDeTexto(int posicion){
+    private void cambioDeTexto(String contenido, int posicion){
         EntradaTexto det = new EntradaTexto();
         Bundle args = new Bundle();
+        args.putString("contenido", contenido);
         args.putString("mensaje",getResources().getString(R.string.dialogo_entrada_texto_modificar_texto));
         det.setArguments(args);
         det.setAccionDialogo(new AccionCambioDeTexto(posicion));
-        det.show(getActivity().getSupportFragmentManager(), "Cambio de texto");
+        det.show(getActivity().getSupportFragmentManager(), "Cambiar texto");
     }
 
     private void agregarPunto(){
         EntradaTexto et = new EntradaTexto();
         Bundle args = new Bundle();
-        args.putString("titulo", getResources().getString(R.string.dialogo_entrada_texto_agregar_texto));
+        args.putString("mensaje", getResources().getString(R.string.dialogo_entrada_texto_agregar_texto));
         et.setArguments(args);
         et.setAccionDialogo(new AccionAgregarPunto());
         et.show(getActivity().getSupportFragmentManager(), "Agregar texto");
@@ -109,6 +112,9 @@ public class OrdenDelDia extends Fragment {
 
     private void removerPuntos(){
         RemocionElementos re = new RemocionElementos();
+        Bundle args = new Bundle();
+        args.putStringArray("elementos", puntos.toArray(new String[0]));
+        re.setArguments(args);
         re.setAd(new AccionQuitarPuntos());
         re.show(getActivity().getSupportFragmentManager(), "Remover texto");
     }
@@ -126,6 +132,7 @@ public class OrdenDelDia extends Fragment {
             EntradaTexto det = (EntradaTexto) df;
             String texto = det.getEntradaDeTexto();
             puntos.set(posicion, texto);
+            adapter.notifyDataSetChanged();
         }
 
         @Override
@@ -138,6 +145,7 @@ public class OrdenDelDia extends Fragment {
         public void accionPositiva(DialogFragment fragment) {
             EntradaTexto det = (EntradaTexto) fragment;
             puntos.add(det.getEntradaDeTexto());
+            adapter.notifyDataSetChanged();
         }
 
         @Override
@@ -150,12 +158,27 @@ public class OrdenDelDia extends Fragment {
         public void accionPositiva(DialogFragment fragment) {
             RemocionElementos re = (RemocionElementos) fragment;
             Integer[] elementos = re.getElementosSeleccionados();
+            prepareElements(elementos);
             for(Integer elemento : elementos)
                 puntos.remove(elemento.intValue());
+            adapter.notifyDataSetChanged();
         }
 
         @Override
         public void accionNegativa(DialogFragment fragment) {}
+    }
+
+    private void prepareElements(Integer[] elements){
+        Integer hold;
+        for(int i=0; i<elements.length; i++){
+            for(int j=i+1; j<elements.length; j++){
+                if(elements[i] < elements[j]){
+                    hold = elements[i];
+                    elements[i] = elements[j];
+                    elements[j] = hold;
+                }
+            }
+        }
     }
 
     public String[] getPuntos() {

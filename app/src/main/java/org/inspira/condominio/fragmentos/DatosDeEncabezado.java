@@ -76,12 +76,16 @@ public class DatosDeEncabezado extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater){
         inflater.inflate(R.menu.menu_convocatoria, menu);
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu){
         menu.findItem(R.id.menu_convocatoria_agregar_punto).setVisible(false);
         menu.findItem(R.id.menu_convocatoria_agregar_punto).setEnabled(false);
-        menu.findItem(R.id.menu_convocatoria_hecho).setVisible(false);
-        menu.findItem(R.id.menu_convocatoria_hecho).setEnabled(false);
         menu.findItem(R.id.menu_convocatoria_quitar_punto).setVisible(false);
         menu.findItem(R.id.menu_convocatoria_quitar_punto).setEnabled(false);
+        menu.findItem(R.id.menu_convocatoria_hecho).setEnabled(false);
+        menu.findItem(R.id.menu_convocatoria_hecho).setVisible(false);
     }
 
     private void crearDialogo(int tipoDeDialogo){

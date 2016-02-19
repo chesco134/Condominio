@@ -1,24 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".actividades.CrearConvocatoria">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/menu_convocatoria_agregar_punto"
         android:orderInCategory="100"
-        android:title="@string/action_settings"
+        android:title="@string/menu_convocatoria_agregar_punto"
         android:icon="@drawable/ic_add_circle_outline_white_24dp"
-        app:showAsAction="collapseActionView" />
+        app:showAsAction="ifRoom|collapseActionView" />
     <item
         android:id="@+id/menu_convocatoria_quitar_punto"
         android:orderInCategory="100"
-        android:title="@string/action_settings"
+        android:title="@string/menu_convocatoria_quitar_punto"
         android:icon="@drawable/ic_remove_circle_outline_white_24dp"
-        app:showAsAction="collapseActionView" />
+        app:showAsAction="ifRoom|collapseActionView" />
     <item
         android:id="@+id/menu_convocatoria_hecho"
         android:orderInCategory="100"
-        android:title="@string/action_settings"
+        android:title="@string/menu_convocatoria_hecho"
         android:icon="@drawable/ic_done_white_24dp"
-        app:showAsAction="collapseActionView" />
+        app:showAsAction="ifRoom|collapseActionView" />
 </menu>

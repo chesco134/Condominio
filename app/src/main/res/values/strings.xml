@@ -22,4 +22,7 @@
     <string name="dialogo_informacion_confirmar_salida">¿Está seguro de salir? Se perderán los datos al moemento (sistema de borrador en contrucción)</string>
     <string name="dialogo_remocion_elementos_titulo">Seleccione elementos a remover</string>
     <string name="barra_de_bocados_aviso">Aviso</string>
+    <string name="menu_convocatoria_agregar_punto">Agregar punto</string>
+    <string name="menu_convocatoria_quitar_punto">Quitar punto</string>
+    <string name="menu_convocatoria_hecho">Hecho</string>
 </resources>
