@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">Condominio</string>
+    <string name="action_settings">Settings</string>
+    <string name="texto_convocatoria">Convocatorias</string>
+    <string name="hacer_encabezado_convocatoria_asunto">Asunto</string>
+    <string name="hacer_encabezado_convocatoria_condominio">Condominio</string>
+    <string name="hacer_encabezado_convocatoria_ubicacion_interna">Ubicación interna</string>
+    <string name="hacer_encabezado_convocatoria_fecha_inicial">Fecha de inicio</string>
+    <string name="hacer_encabezado_convocatoria_ubicacion">Ubicación</string>
+    <string name="hacer_encabezado_convocatoria_nueva_convocatoria">Nueva convocatoria</string>
+    <string name="hacer_encabezado_convocatoria_boton_siguiente">Siguiente</string>
+    <string name="hacer_encabezado_convocatoria_hora_inicial">Hora de inicio</string>
+    <string name="orden_del_dia_parametros_faltantes">Aún no hay puntos a tratar</string>
+    <string name="crear_convocatoria_fecha_incorrecta">La fecha es incorrecta</string>
+    <string name="crear_convocatoria_hora_incorrecta">La hora es incorrecta</string>
+    <string name="crear_convocatoria_datos_incorrectos">Debe llenar todos los datos</string>
+    <string name="crear_convocatoria_sitio_en_construccion">Sitio en construcción :)</string>
+    <string name="dialogo_entrada_texto_cancelar">Cancelar</string>
+    <string name="dialogo_entrada_texto_aceptar">Aceptar</string>
+    <string name="dialogo_entrada_texto_modificar_texto">Modifique el elemento</string>
+    <string name="dialogo_entrada_texto_agregar_texto">Agregue elemento</string>
+    <string name="dialogo_informacion_confirmar_salida">¿Está seguro de salir? Se perderán los datos al moemento (sistema de borrador en contrucción)</string>
+    <string name="dialogo_remocion_elementos_titulo">Seleccione elementos a remover</string>
+    <string name="barra_de_bocados_aviso">Aviso</string>
+</resources>
