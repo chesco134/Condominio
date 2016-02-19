@@ -104,6 +104,7 @@ public class OrdenDelDia extends Fragment {
     private void agregarPunto(){
         EntradaTexto et = new EntradaTexto();
         Bundle args = new Bundle();
+        args.putString("contenido","");
         args.putString("mensaje", getResources().getString(R.string.dialogo_entrada_texto_agregar_texto));
         et.setArguments(args);
         et.setAccionDialogo(new AccionAgregarPunto());

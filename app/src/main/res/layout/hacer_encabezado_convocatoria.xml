@@ -91,7 +91,7 @@
             android:layout_marginRight="20sp"
             android:paddingTop="14sp"
             android:background="@drawable/custom_edit_text_state"
-            android:layout_below="@+id/hacer_encabezado_convocatoria_entrada_ubicacion_interna"
+            android:layout_below="@+id/hacer_encabezado_convocatoria_entrada_firma"
             android:hint="@string/hacer_encabezado_convocatoria_fecha_inicial"
             android:textSize="20sp"/>
 
@@ -120,7 +120,7 @@
             android:layout_marginEnd="20sp"
             android:layout_marginRight="20sp"
             android:layout_marginBottom="20sp"
-            android:layout_below="@+id/hacer_encabezado_convocatoria_entrada_ubicacion_interna"
+            android:layout_below="@+id/hacer_encabezado_convocatoria_entrada_hora_inicial"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:text="@string/hacer_encabezado_convocatoria_boton_siguiente"/>

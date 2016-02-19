@@ -51,7 +51,12 @@ public class EntradaTexto extends DialogFragment {
         LayoutInflater inflater = (LayoutInflater)getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View root = inflater.inflate(R.layout.entrada_de_texto, null);
         entradaDeTexto = (EditText)root.findViewById(R.id.entrada_de_texto);
-        args = savedInstanceState == null ? getArguments() : savedInstanceState;
+        if(savedInstanceState == null){
+            args = getArguments();
+        }else{
+            args = savedInstanceState;
+            accionDialogo = (AccionDialogo)args.getSerializable("accion_dialogo");
+        }
         contenido = args.getString("contenido");
         entradaDeTexto.setText(contenido);
         mensaje = args.getString("mensaje");
@@ -75,6 +80,7 @@ public class EntradaTexto extends DialogFragment {
         outState.putString("contenido", contenido);
         outState.putString("mensaje", mensaje);
         outState.putString("texto", entradaDeTexto.getText().toString());
+        outState.putSerializable("accion_dialogo", accionDialogo);
     }
 
 }
