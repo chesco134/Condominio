@@ -3,7 +3,6 @@ package org.inspira.condominio.actividades;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 
 import org.inspira.condominio.R;
 import org.inspira.condominio.dialogos.EntradaTexto;
@@ -46,7 +45,6 @@ public class CrearConvocatoria extends AppCompatActivity {
             puntos = savedInstanceState.getStringArray("puntos");
         }
         colocarFragmento();
-        Log.d("@{onCreate}", "Andamos en onCreate");
     }
 
     @Override
@@ -62,32 +60,7 @@ public class CrearConvocatoria extends AppCompatActivity {
         outState.putString("tiempo_inicial", tiempoInicial);
         outState.putStringArray("puntos", puntos);
     }
-/*
-    @Override
-    public void onRestoreInstanceState(Bundle savedInstanceState){
-        Log.d("onRestore", "Andamos en onRestoreInstanceState");
-        state = savedInstanceState.getInt("state");
-        asunto = savedInstanceState.getString("asunto");
-        condominio = savedInstanceState.getString("condominio");
-        ubicacion = savedInstanceState.getString("ubicacion");
-        ubicacionInterna = savedInstanceState.getString("ubicacion_interna");
-        fechaInicial = savedInstanceState.getString("fecha_inicial");
-        tiempoInicial = savedInstanceState.getString("tiempo_inicial");
-        firma = savedInstanceState.getString("firma");
-        try {
-            datosDeEncabezado.setAsunto(asunto);
-            datosDeEncabezado.setCondominio(condominio);
-            datosDeEncabezado.setUbicacion(ubicacion);
-            datosDeEncabezado.setUbicacionInterna(ubicacionInterna);
-            datosDeEncabezado.setFirma(firma);
-            datosDeEncabezado.setFechaInicial(fechaInicial);
-            datosDeEncabezado.setTiempoInicial(tiempoInicial);
-        }catch (NullPointerException ignore){}
-        puntos = savedInstanceState.getStringArray("puntos");
-        if(puntos != null)
-        ordenDelDia.setPuntos(puntos);
-    }
-*/
+
     @Override
     public void onBackPressed(){
         if(state == 1){
