@@ -1,10 +1,8 @@
 package org.inspira.condominio.actividades;
 
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 
 import org.inspira.condominio.R;
 import org.inspira.condominio.datos.AlmacenamientoInterno;
