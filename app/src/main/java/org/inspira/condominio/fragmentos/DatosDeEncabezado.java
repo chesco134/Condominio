@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -79,6 +80,7 @@ public class DatosDeEncabezado extends Fragment {
         firma.setText(args.getString("firma"));
         fechaInicial.setText(args.getString("fecha_inicial"));
         tiempoInicial.setText(args.getString("tiempo_inicial"));
+        Log.d("DatosDeEncabezado", "Soy del encabezado y me he recreado");
         return rootView;
     }
 
@@ -203,31 +205,38 @@ public class DatosDeEncabezado extends Fragment {
         }
     }
 
-    public void setFirma(String firma) {
+    public void setFirma(String firma) throws NullPointerException{
         this.firma.setText(firma);
+        Log.d("Set dde", firma);
     }
 
     public void setAsunto(String asunto) throws NullPointerException{
         this.asunto.setText(asunto);
+        Log.d("Set dde", asunto);
     }
 
     public void setCondominio(String condominio) throws NullPointerException{
         this.condominio.setText(condominio);
+        Log.d("Set dde", condominio);
     }
 
     public void setUbicacion(String ubicacion) throws NullPointerException{
         this.ubicacion.setText(ubicacion);
+        Log.d("Set dde", ubicacion);
     }
 
     public void setUbicacionInterna(String ubicacionInterna) throws NullPointerException{
         this.ubicacionInterna.setText(ubicacionInterna);
+        Log.d("Set dde", ubicacionInterna);
     }
 
     public void setFechaInicial(String fechaInicial) throws NullPointerException{
         this.fechaInicial.setText(fechaInicial);
+        Log.d("Set dde", fechaInicial);
     }
 
     public void setTiempoInicial(String tiempoInicial) throws NullPointerException{
         this.tiempoInicial.setText(tiempoInicial);
+        Log.d("Set dde", tiempoInicial);
     }
 }

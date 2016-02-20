@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -53,10 +54,11 @@ public class OrdenDelDia extends Fragment {
         listaDePuntos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                cambioDeTexto(((TextView)view).getText().toString(), position);
+                cambioDeTexto(((TextView) view).getText().toString(), position);
             }
         });
         setHasOptionsMenu(true);
+        Log.d("{Orden del día}", "Soy de la sagrada orden del día y me he recreado");
         return rootView;
     }
 

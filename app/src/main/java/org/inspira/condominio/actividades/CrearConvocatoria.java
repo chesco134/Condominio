@@ -2,8 +2,8 @@ package org.inspira.condominio.actividades;
 
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 import org.inspira.condominio.R;
 import org.inspira.condominio.dialogos.EntradaTexto;
@@ -32,30 +32,40 @@ public class CrearConvocatoria extends AppCompatActivity {
         setContentView(R.layout.formato_para_convocatoria);
         datosDeEncabezado = new DatosDeEncabezado();
         ordenDelDia = new OrdenDelDia();
-        if(savedInstanceState == null){
-            colocaDatosDeEncabezadoFragmento();
+        if(savedInstanceState == null)
             state = 0;
-        }else{
+        else {
             state = savedInstanceState.getInt("state");
-            colocarFragmento();
+            asunto = savedInstanceState.getString("asunto");
+            condominio = savedInstanceState.getString("condominio");
+            ubicacion = savedInstanceState.getString("ubicacion");
+            ubicacionInterna = savedInstanceState.getString("ubicacion_interna");
+            fechaInicial = savedInstanceState.getString("fecha_inicial");
+            tiempoInicial = savedInstanceState.getString("tiempo_inicial");
+            firma = savedInstanceState.getString("firma");
+            puntos = savedInstanceState.getStringArray("puntos");
         }
+        colocarFragmento();
+        Log.d("@{onCreate}", "Andamos en onCreate");
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState){
         outState.putInt("state", state);
-        outState.putString("asunto", datosDeEncabezado.getAsunto() != null ? datosDeEncabezado.getAsunto() : asunto);
-        outState.putString("condominio",datosDeEncabezado.getCondominio() != null ? datosDeEncabezado.getCondominio() : condominio);
-        outState.putString("ubicacion",datosDeEncabezado.getUbicacion() != null ? datosDeEncabezado.getUbicacion() : ubicacion);
-        outState.putString("ubicacion_interna", datosDeEncabezado.getUbicacionInterna() != null ? datosDeEncabezado.getUbicacionInterna() : ubicacionInterna);
-        outState.putString("firma", datosDeEncabezado.getFirma() != null ? datosDeEncabezado.getFirma() : firma);
-        outState.putString("fecha_inicial", datosDeEncabezado.getFechaInicial() != null ? datosDeEncabezado.getFechaInicial() : fechaInicial);
-        outState.putString("tiempo_inicial", datosDeEncabezado.getTiempoInicial() != null ? datosDeEncabezado.getTiempoInicial() : tiempoInicial);
-        outState.putStringArray("puntos", ordenDelDia.getPuntos() != null ? ordenDelDia.getPuntos() : puntos);
+        grabData();
+        outState.putString("asunto", asunto);
+        outState.putString("condominio", condominio);
+        outState.putString("ubicacion", ubicacion);
+        outState.putString("ubicacion_interna", ubicacionInterna);
+        outState.putString("firma", firma);
+        outState.putString("fecha_inicial", fechaInicial);
+        outState.putString("tiempo_inicial", tiempoInicial);
+        outState.putStringArray("puntos", puntos);
     }
-
+/*
     @Override
     public void onRestoreInstanceState(Bundle savedInstanceState){
+        Log.d("onRestore", "Andamos en onRestoreInstanceState");
         state = savedInstanceState.getInt("state");
         asunto = savedInstanceState.getString("asunto");
         condominio = savedInstanceState.getString("condominio");
@@ -77,7 +87,7 @@ public class CrearConvocatoria extends AppCompatActivity {
         if(puntos != null)
         ordenDelDia.setPuntos(puntos);
     }
-
+*/
     @Override
     public void onBackPressed(){
         if(state == 1){
@@ -165,6 +175,7 @@ public class CrearConvocatoria extends AppCompatActivity {
         grabData();
         generaPDF();
         guardaEnBaseDeDatos();
+        difundeConvocatoria();
     }
 
     private void grabData(){
@@ -180,7 +191,9 @@ public class CrearConvocatoria extends AppCompatActivity {
 
     private void generaPDF(){}
 
-    private void guardaEnBaseDeDatos(){
+    private void guardaEnBaseDeDatos(){}
+
+    private void difundeConvocatoria(){
         ProveedorSnackBar.muestraBarraDeBocados(findViewById(R.id.formato_convocatoria_contenedor),
                 getString(R.string.crear_convocatoria_sitio_en_construccion));
     }
