@@ -166,11 +166,11 @@ public class OrdenDelDia extends Fragment {
                 if(elementos.length > 1) {
                     try {
                         int num = Integer.parseInt(elementos[0]);
-                        if (num > 0 && num <= puntos.size()) {
+                        if (num > 2 && num <= puntos.size() + 2) {
                             if( posicion == num) {
                                 puntos.set(posicion, elemento);
                             }else{
-                                puntos.add(num,elemento);
+                                puntos.add(num-2,elemento);
                                 puntos.remove(posicion);
                             }
                             adapter.notifyDataSetChanged();
@@ -213,10 +213,10 @@ public class OrdenDelDia extends Fragment {
                 if (elementos.length > 1) {
                     try {
                         int num = Integer.parseInt(elementos[0]);
-                        if (num > 0 && num <= puntos.size()) {
-                            puntos.add(num, elemento);
+                        if (num > 2 && num <= puntos.size()+2) {
+                            puntos.add(num-2, elemento);
                             adapter.notifyDataSetChanged();
-                        } else if (num > puntos.size()) {
+                        } else if (num > puntos.size() + 2) {
                             puntos.add(elemento);
                             adapter.notifyDataSetChanged();
                         } else {
