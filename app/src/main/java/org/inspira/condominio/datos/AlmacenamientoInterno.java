@@ -30,6 +30,6 @@ public class AlmacenamientoInterno {
     }
 
     public String obtenerRutaDeAlmacenamiento(){
-        return obtenerRutaDeAlmacenamiento() + "/" + context.getString(R.string.app_name);
+        return obtenerRutaAlmacenamientoInterno() + "/" + context.getString(R.string.app_name);
     }
 }
