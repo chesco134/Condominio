@@ -2,10 +2,8 @@ package org.inspira.condominio.actividades;
 
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.TextView;
 
 import org.inspira.condominio.R;
 import org.inspira.condominio.dialogos.EntradaTexto;
@@ -18,59 +16,96 @@ public class CrearConvocatoria extends AppCompatActivity {
 
     private DatosDeEncabezado datosDeEncabezado;
     private OrdenDelDia ordenDelDia;
-    private TextView tiempoInicial;
+    private String tiempoInicial;
     private String asunto;
     private String condominio;
     private String ubicacion;
     private String ubicacionInterna;
     private String fechaInicial;
     private String[] puntos;
+    private int state;
+    private String firma;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.formato_para_convocatoria);
+        datosDeEncabezado = new DatosDeEncabezado();
+        ordenDelDia = new OrdenDelDia();
         if(savedInstanceState == null){
-            datosDeEncabezado = new DatosDeEncabezado();
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .add(R.id.formato_convocatoria_contenedor,datosDeEncabezado,"DatosDeEncabezado")
-                    .setCustomAnimations(R.anim.traslacion_derecha,R.anim.traslacion_izquierda)
-                    .commit();
+            colocaDatosDeEncabezadoFragmento();
+            state = 0;
+        }else{
+            state = savedInstanceState.getInt("state");
+            colocarFragmento();
         }
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_convocatoria, menu);
-        return true;
+    public void onSaveInstanceState(Bundle outState){
+        outState.putInt("state", state);
+        outState.putString("asunto", datosDeEncabezado.getAsunto() != null ? datosDeEncabezado.getAsunto() : asunto);
+        outState.putString("condominio",datosDeEncabezado.getCondominio() != null ? datosDeEncabezado.getCondominio() : condominio);
+        outState.putString("ubicacion",datosDeEncabezado.getUbicacion() != null ? datosDeEncabezado.getUbicacion() : ubicacion);
+        outState.putString("ubicacion_interna", datosDeEncabezado.getUbicacionInterna() != null ? datosDeEncabezado.getUbicacionInterna() : ubicacionInterna);
+        outState.putString("firma", datosDeEncabezado.getFirma() != null ? datosDeEncabezado.getFirma() : firma);
+        outState.putString("fecha_inicial", datosDeEncabezado.getFechaInicial() != null ? datosDeEncabezado.getFechaInicial() : fechaInicial);
+        outState.putString("tiempo_inicial", datosDeEncabezado.getTiempoInicial() != null ? datosDeEncabezado.getTiempoInicial() : tiempoInicial);
+        outState.putStringArray("puntos", ordenDelDia.getPuntos() != null ? ordenDelDia.getPuntos() : puntos);
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+    public void onRestoreInstanceState(Bundle savedInstanceState){
+        state = savedInstanceState.getInt("state");
+        asunto = savedInstanceState.getString("asunto");
+        condominio = savedInstanceState.getString("condominio");
+        ubicacion = savedInstanceState.getString("ubicacion");
+        ubicacionInterna = savedInstanceState.getString("ubicacion_interna");
+        fechaInicial = savedInstanceState.getString("fecha_inicial");
+        tiempoInicial = savedInstanceState.getString("tiempo_inicial");
+        firma = savedInstanceState.getString("firma");
+        try {
+            datosDeEncabezado.setAsunto(asunto);
+            datosDeEncabezado.setCondominio(condominio);
+            datosDeEncabezado.setUbicacion(ubicacion);
+            datosDeEncabezado.setUbicacionInterna(ubicacionInterna);
+            datosDeEncabezado.setFirma(firma);
+            datosDeEncabezado.setFechaInicial(fechaInicial);
+            datosDeEncabezado.setTiempoInicial(tiempoInicial);
+        }catch (NullPointerException ignore){}
+        puntos = savedInstanceState.getStringArray("puntos");
+        if(puntos != null)
+        ordenDelDia.setPuntos(puntos);
     }
 
     @Override
     public void onBackPressed(){
-        muestraMensajeInformacion(getResources().getString(R.string.dialogo_informacion_confirmar_salida));
+        if(state == 1){
+            getSupportActionBar().setTitle(R.string.hacer_encabezado_convocatoria_nueva_convocatoria);
+            grabData();
+            state--;
+            super.onBackPressed();
+        }else {
+            muestraMensajeInformacion(getResources().getString(R.string.dialogo_informacion_confirmar_salida));
+        }
+    }
+
+    private void colocarFragmento(){
+        switch (state){
+            case 0:
+                colocaDatosDeEncabezadoFragmento();
+                break;
+            case 1:
+                colocaDatosDeEncabezadoFragmento();
+                colocaOrdenDelDiaFragmento();
+                break;
+        }
     }
 
     private void muestraMensajeInformacion(String mensaje){
         Bundle arguments = new Bundle();
         arguments.putString("titulo","Alerta");
-        arguments.putString("mensaje",mensaje);
+        arguments.putString("mensaje", mensaje);
         Informacion info = new Informacion();
         info.setArguments(arguments);
         info.setAccion(new EntradaTexto.AccionDialogo() {
@@ -80,30 +115,67 @@ public class CrearConvocatoria extends AppCompatActivity {
             }
 
             @Override
-            public void accionNegativa(DialogFragment fragment) {}
+            public void accionNegativa(DialogFragment fragment) {
+            }
         });
-        info.show(getSupportFragmentManager(),"Informacion");
+        info.show(getSupportFragmentManager(), "Informacion");
     }
 
-    public void colocaOrdenDelDiaFragmento(){
-        ordenDelDia = new OrdenDelDia();
+    public void colocaDatosDeEncabezadoFragmento(){
+        getSupportActionBar().setTitle(R.string.hacer_encabezado_convocatoria_nueva_convocatoria);
+        Bundle args = new Bundle();
+        if(asunto!=null)
+            args.putString("asunto",asunto);
+        if(condominio != null)
+            args.putString("condominio",condominio);
+        if(ubicacion != null)
+            args.putString("ubicacion", ubicacion);
+        if(ubicacionInterna != null)
+            args.putString("ubicacion_interna", ubicacionInterna);
+        if(firma != null)
+            args.putString("firma", firma);
+        if(fechaInicial != null)
+            args.putString("fecha_inicial", fechaInicial);
+        if(tiempoInicial != null)
+            args.putString("tiempo_inicial", tiempoInicial);
+        datosDeEncabezado.setArguments(args);
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.formato_convocatoria_contenedor, datosDeEncabezado)
+                .commit();
+    }
+
+    public void colocaOrdenDelDiaFragmento() {
+        getSupportActionBar().setTitle(R.string.orden_del_dia_definir_orden_del_dia);
+        Bundle args = new Bundle();
+        if(puntos != null) {
+            args.putStringArray("puntos", puntos);
+            ordenDelDia.setArguments(args);
+        }
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.formato_convocatoria_contenedor, ordenDelDia, "Orden del Día")
                 .setCustomAnimations(R.anim.traslacion_derecha, R.anim.traslacion_izquierda)
+                .addToBackStack("Kaoru")
                 .commit();
+        state = 1;
     }
 
     public void creaConvocatoria(){
+        grabData();
+        generaPDF();
+        guardaEnBaseDeDatos();
+    }
+
+    private void grabData(){
         asunto = datosDeEncabezado.getAsunto();
         condominio = datosDeEncabezado.getCondominio();
         ubicacion = datosDeEncabezado.getUbicacion();
         ubicacionInterna = datosDeEncabezado.getUbicacionInterna();
+        firma = datosDeEncabezado.getFirma();
         fechaInicial = datosDeEncabezado.getFechaInicial();
         tiempoInicial = datosDeEncabezado.getTiempoInicial();
         puntos = ordenDelDia.getPuntos();
-        generaPDF();
-        guardaEnBaseDeDatos();
     }
 
     private void generaPDF(){}

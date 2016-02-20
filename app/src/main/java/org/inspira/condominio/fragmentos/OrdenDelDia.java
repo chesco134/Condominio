@@ -22,6 +22,7 @@ import org.inspira.condominio.dialogos.ProveedorSnackBar;
 import org.inspira.condominio.dialogos.RemocionElementos;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class OrdenDelDia extends Fragment {
@@ -38,9 +39,12 @@ public class OrdenDelDia extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState){
         View rootView = inflater.inflate(R.layout.hacer_orden_del_dia,parent,false);
-        if(savedInstanceState == null)
+        if(savedInstanceState == null) {
             puntos = new ArrayList<>();
-        else
+            Bundle args = getArguments();
+            if(args != null)
+                Collections.addAll(puntos, args.getStringArray("puntos"));
+        }else
             puntos = savedInstanceState.getStringArrayList("puntos");
         assert puntos != null;
         adapter = new ArrayAdapter<>(getActivity(), R.layout.entrada_simple, puntos);
@@ -183,6 +187,14 @@ public class OrdenDelDia extends Fragment {
     }
 
     public String[] getPuntos() {
-        return puntos.toArray(new String[0]);
+        try{return puntos.toArray(new String[0]);}
+        catch(NullPointerException ignore){ return null; }
+    }
+
+    public void setPuntos(String[] puntos) {
+        try {
+            Collections.addAll(this.puntos, puntos);
+            adapter.notifyDataSetChanged();
+        }catch(NullPointerException ignore){}
     }
 }

@@ -11,6 +11,7 @@
     <string name="hacer_encabezado_convocatoria_boton_siguiente">Siguiente</string>
     <string name="hacer_encabezado_convocatoria_hora_inicial">Hora de inicio</string>
     <string name="orden_del_dia_parametros_faltantes">Aún no hay puntos a tratar</string>
+    <string name="orden_del_dia_definir_orden_del_dia">Orden del día</string>
     <string name="crear_convocatoria_fecha_incorrecta">La fecha es incorrecta</string>
     <string name="crear_convocatoria_hora_incorrecta">La hora es incorrecta</string>
     <string name="crear_convocatoria_datos_incorrectos">Debe llenar todos los datos</string>

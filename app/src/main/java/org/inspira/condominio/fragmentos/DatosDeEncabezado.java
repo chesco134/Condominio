@@ -29,6 +29,7 @@ public class DatosDeEncabezado extends Fragment {
     private EditText ubicacionInterna;
     private TextView fechaInicial;
     private TextView tiempoInicial;
+    private EditText firma;
 
     @Override
     public void onAttach(Context context){
@@ -42,6 +43,7 @@ public class DatosDeEncabezado extends Fragment {
         condominio = (EditText)rootView.findViewById(R.id.hacer_encabezado_convocatoria_entrada_condominio);
         ubicacion = (EditText)rootView.findViewById(R.id.hacer_encabezado_convocatoria_entrada_ubicacion);
         ubicacionInterna = (EditText)rootView.findViewById(R.id.hacer_encabezado_convocatoria_entrada_ubicacion_interna);
+        firma = (EditText)rootView.findViewById(R.id.hacer_encabezado_convocatoria_entrada_firma);
         fechaInicial = (TextView)rootView.findViewById(R.id.hacer_encabezado_convocatoria_entrada_fecha_inicial);
         tiempoInicial = (TextView)rootView.findViewById(R.id.hacer_encabezado_convocatoria_entrada_hora_inicial);
         fechaInicial.setOnClickListener(new View.OnClickListener() {
@@ -69,7 +71,26 @@ public class DatosDeEncabezado extends Fragment {
                         }
                     }
                 });
+        Bundle args = savedInstanceState == null ? getArguments() : savedInstanceState;
+        asunto.setText(args.getString("asunto"));
+        condominio.setText(args.getString("condominio"));
+        ubicacion.setText(args.getString("ubicacion"));
+        ubicacionInterna.setText(args.getString("ubicacion_interna"));
+        firma.setText(args.getString("firma"));
+        fechaInicial.setText(args.getString("fecha_inicial"));
+        tiempoInicial.setText(args.getString("tiempo_inicial"));
         return rootView;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState){
+        outState.putString("asunto", asunto.getText().toString());
+        outState.putString("condominio", condominio.getText().toString());
+        outState.putString("ubicacion", ubicacion.getText().toString());
+        outState.putString("ubicacion_interna", ubicacionInterna.getText().toString());
+        outState.putString("firma", firma.getText().toString());
+        outState.putString("fecha_inicial", fechaInicial.getText().toString());
+        outState.putString("tiempo_inicial", tiempoInicial.getText().toString());
     }
 
     private void crearDialogo(int tipoDeDialogo){
@@ -124,10 +145,12 @@ public class DatosDeEncabezado extends Fragment {
         String sUbicacion = ubicacion.getText().toString();
         String sUbicacionInterna = ubicacionInterna.getText().toString();
         String sCondominio = condominio.getText().toString();
+        String sFirma = firma.getText().toString();
         String sFechaInicio = fechaInicial.getText().toString();
         String sHoraInicio = tiempoInicial.getText().toString();
         return !sAsunto.equals("") && !sUbicacion.equals("") && !sUbicacionInterna.equals("")
-                && !sCondominio.equals("") && !sFechaInicio.equals("") && !sHoraInicio.equals("");
+                && !sCondominio.equals("") && !sFechaInicio.equals("")
+                && !sHoraInicio.equals("") && !sFirma.equals("");
     }
 
     private void muestraBarraDeBocados(String mensaje){
@@ -139,26 +162,72 @@ public class DatosDeEncabezado extends Fragment {
     }
 
     public String getAsunto() {
-        return asunto.getText().toString();
+        try{return asunto.getText().toString();}catch(NullPointerException ignore){return null;}
     }
 
     public String getCondominio() {
-        return condominio.getText().toString();
+        try {
+            return condominio.getText().toString();
+        }catch (NullPointerException ignore){return null;}
     }
 
     public String getUbicacion() {
-        return ubicacion.getText().toString();
+        try {
+            return ubicacion.getText().toString();
+        }catch(NullPointerException ignore){return null;}
     }
 
     public String getUbicacionInterna() {
-        return ubicacionInterna.getText().toString();
+        try{return ubicacionInterna.getText().toString();}catch(NullPointerException ignore){return null;}
     }
 
     public String getFechaInicial() {
-        return fechaInicial.getText().toString();
+        try {
+            return fechaInicial.getText().toString();
+        }catch(NullPointerException ignore){return null;}
     }
 
-    public TextView getTiempoInicial() {
-        return tiempoInicial;
+    public String getTiempoInicial() {
+        try{
+            return tiempoInicial.getText().toString();
+        }catch(NullPointerException ignore){
+            return null;
+        }
+    }
+
+    public String getFirma() {
+        try {
+            return firma.getText().toString();
+        }catch (NullPointerException ignore){
+            return null;
+        }
+    }
+
+    public void setFirma(String firma) {
+        this.firma.setText(firma);
+    }
+
+    public void setAsunto(String asunto) throws NullPointerException{
+        this.asunto.setText(asunto);
+    }
+
+    public void setCondominio(String condominio) throws NullPointerException{
+        this.condominio.setText(condominio);
+    }
+
+    public void setUbicacion(String ubicacion) throws NullPointerException{
+        this.ubicacion.setText(ubicacion);
+    }
+
+    public void setUbicacionInterna(String ubicacionInterna) throws NullPointerException{
+        this.ubicacionInterna.setText(ubicacionInterna);
+    }
+
+    public void setFechaInicial(String fechaInicial) throws NullPointerException{
+        this.fechaInicial.setText(fechaInicial);
+    }
+
+    public void setTiempoInicial(String tiempoInicial) throws NullPointerException{
+        this.tiempoInicial.setText(tiempoInicial);
     }
 }
