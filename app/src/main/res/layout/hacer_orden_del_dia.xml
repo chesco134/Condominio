@@ -1,6 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20sp"
+        android:layout_marginLeft="10sp"
+        android:layout_marginStart="10sp"
+        android:layout_marginEnd="10sp"
+        android:layout_marginRight="10sp"
+        android:textSize="20sp"
+        android:text="@string/estructura_de_convocatoria_primer_punto_unamovible"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12sp"
+        android:layout_marginLeft="10sp"
+        android:layout_marginStart="10sp"
+        android:layout_marginEnd="10sp"
+        android:layout_marginRight="10sp"
+        android:textSize="20sp"
+        android:text="@string/estructura_de_convocatoria_segundo_punto_inamovible"/>
 
     <ListView
         android:id="@+id/hacer_orden_del_dia_lista"
@@ -13,4 +36,4 @@
         android:layout_marginEnd="10sp"
         android:layout_marginRight="10sp"/>
 
-</RelativeLayout>
+</LinearLayout>

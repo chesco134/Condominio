@@ -37,7 +37,7 @@ public class TomarFecha extends DialogFragment implements DatePickerDialog.OnDat
         c.set(Calendar.YEAR,year);
         c.set(Calendar.MONTH, month);
         c.set(Calendar.DAY_OF_MONTH, day);
-        if(Calendar.getInstance().compareTo(c) >= 0){
+        if(Calendar.getInstance().compareTo(c) <= 0){
             view.setBackgroundColor(Color.parseColor("#ff86241f"));
             fecha = (day < 10 ? "0" + day : day) + "/" + (month < 10 ? "0" + month : month)
                     + "/" + year;

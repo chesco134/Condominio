@@ -10,12 +10,18 @@
     <string name="hacer_encabezado_convocatoria_nueva_convocatoria">Nueva convocatoria</string>
     <string name="hacer_encabezado_convocatoria_boton_siguiente">Siguiente</string>
     <string name="hacer_encabezado_convocatoria_hora_inicial">Hora de inicio</string>
-    <string name="orden_del_dia_parametros_faltantes">Aún no hay puntos a tratar</string>
+    <string name="hacer_encabezado_convocatoria_firma">Firma</string>
+    <string name="orden_del_dia_parametros_faltantes">Aún no hay puntos adicionales a tratar</string>
+    <string name="orden_del_dia_definir_nombre_de_archivo">Escriba el nombre del archivo</string>
+    <string name="orden_del_dia_numeracion_incorrecta">La numeración es incorrecta</string>
+    <string name="orden_del_dia_formato_incorrecto">El formato es incorrecto</string>
     <string name="orden_del_dia_definir_orden_del_dia">Orden del día</string>
+    <string name="orden_del_dia_error_en_nombre_de_archivo">Nombre no válido</string>
     <string name="crear_convocatoria_fecha_incorrecta">La fecha es incorrecta</string>
     <string name="crear_convocatoria_hora_incorrecta">La hora es incorrecta</string>
     <string name="crear_convocatoria_datos_incorrectos">Debe llenar todos los datos</string>
     <string name="crear_convocatoria_sitio_en_construccion">Sitio en construcción :)</string>
+    <string name="crear_convocatoria_error_pdf">No se guardó a PDF</string>
     <string name="dialogo_entrada_texto_cancelar">Cancelar</string>
     <string name="dialogo_entrada_texto_aceptar">Aceptar</string>
     <string name="dialogo_entrada_texto_modificar_texto">Modifique el elemento</string>
@@ -26,5 +32,28 @@
     <string name="menu_convocatoria_agregar_punto">Agregar punto</string>
     <string name="menu_convocatoria_quitar_punto">Quitar punto</string>
     <string name="menu_convocatoria_hecho">Hecho</string>
-    <string name="hacer_encabezado_convocatoria_firma">Firma</string>
+
+    <string name="estructura_de_convocatoria_convocatoria">C O N V O C A T O R I A</string>
+    <string name="estructura_de_convocatoria_primera_convocatoria">PRIMERA CONVOCATORIA</string>
+    <string name="estructura_de_convocatoria_segunda_convocatoria">SEGUNDA CONVOCATORIA</string>
+    <string name="estructura_de_convocatoria_tercera_convocatoria">TERCERA CONVOCATORIA</string>
+    <string name="estructura_de_convocatoria_introduccion">Con fundamento en los artículos 29, 32 Fracción III, Inciso c), y demás relativos aplicables de la Ley de la Propiedad en Condominio de Inmuebles para el Distrito Federal, se convoca a </string>
+    <string name="estructura_de_convocatoria_relleno_1">, que se llevará a cabo el día </string>
+    <string name="estructura_de_convocatoria_relleno_2">ESTA ASAMBLEA SE LLEVARÁ A CABO A LAS </string>
+    <string name="estructura_de_convocatoria_relleno_3">, BAJO LA SIGU" + "IENTE ORDEN DEL DÍA:</string>
+    <string name="estructura_de_convocatoria_relleno_4">EN CASO DE NO HABER QUÓRUM EN PRIMERA CONVOCATORIA, SE LLEVARÁ A CABO LA ASAMBLEA EN SEGUNDA CONVOCATORIA CON EL MISMO ORDEN DEL DÍA, LUGAR Y FECHA A LAS </string>
+    <string name="estructura_de_convocatoria_relleno_5">EN CASO DE NO HABER QUÓRUM EN PRIMERA CONVOCATORIA, SE LLEVARÁ A CABO LA ASAMBLEA EN TERCERA CONVOCATORIA CON EL MISMO ORDEN DEL DÍA, LUGAR Y FECHA A LAS </string>
+    <string name="estructura_de_convocatoria_relleno_6">Al respecto la Ley de Propiedad en Condominio  de inmuebles para el Distrito Federal establece:
+
+Art. 32. "Las convocatorias para la celebración de asambleas generales se harán de acuerdo a las siguientes disposiciones:
+
+IV.- cuando la asamblea se celebre en virtud de la primera convocatoria se requerirá de una asistencia del 75% de los condóminos, cuando se realice en segunda convocatoria el quórum se integrará con la mayoría simple del total de condóminos, en caso de la tercera convocatoria la asamblea se declarará legalmente instalada con los condóminos que asistan y las resoluciones se tomarán por la mayoría de los presentes;
+
+Las determinaciones adoptadas por las asambleas en los términos de esta ley, del reglamento del condominio y de las demás disposiciones legales aplicables, obligan a todos los condóminos, incluyendo a los ausentes y disidentes.
+
+Las convocatorias para la celebración de asambleas ordinarias, se notificarán con siete días naturales de anticipación a la fecha de la primera convocatoria. Entre la primer y la segunda convocatoria deberá mediar un plazo de treinta minutos; el mismo plazo deberá transcurrir entre la segunda y la tercera convocatoria.</string>
+    <string name="estructura_de_convocatoria_relleno_7">Ciudad de México a </string>
+    <string name="estructura_de_convocatoria_primer_punto_unamovible">1.- Lista de asistencia e instalación de la asamblea.</string>
+    <string name="estructura_de_convocatoria_segundo_punto_inamovible">2.- Nombramiento de presidente, secretario y escrutador de la asamblea.</string>
+
 </resources>

@@ -22,5 +22,5 @@
         android:layout_alignLeft="@+id/entrada_de_texto"
         android:layout_below="@+id/entrada_de_texto"
         android:layout_marginBottom="12sp"
-        android:background="@drawable/piso_2"/>
+        android:background="@drawable/piso_1"/>
 </RelativeLayout>

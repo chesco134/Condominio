@@ -30,6 +30,7 @@ public class OrdenDelDia extends Fragment {
     private List<String> puntos;
     private ListView listaDePuntos;
     private ArrayAdapter<String> adapter;
+    private String nombreArchivo;
 
     @Override
     public void onAttach(Context context){
@@ -42,10 +43,14 @@ public class OrdenDelDia extends Fragment {
         if(savedInstanceState == null) {
             puntos = new ArrayList<>();
             Bundle args = getArguments();
-            if(args != null)
+            if(args != null) {
                 Collections.addAll(puntos, args.getStringArray("puntos"));
-        }else
+                nombreArchivo = args.getString("nombre_de_archivo");
+            }
+        }else {
             puntos = savedInstanceState.getStringArrayList("puntos");
+            nombreArchivo = savedInstanceState.getString("nombre_de_archivo");
+        }
         assert puntos != null;
         adapter = new ArrayAdapter<>(getActivity(), R.layout.entrada_simple, puntos);
         listaDePuntos = (ListView) rootView.findViewById(R.id.hacer_orden_del_dia_lista);
@@ -76,7 +81,7 @@ public class OrdenDelDia extends Fragment {
             removerPuntos();
             manejado = true;
         }else if(itemId == R.id.menu_convocatoria_hecho){
-            ((CrearConvocatoria)getActivity()).creaConvocatoria();
+            hecho();
         }
         return manejado;
     }
@@ -84,11 +89,12 @@ public class OrdenDelDia extends Fragment {
     @Override
     public void onSaveInstanceState(Bundle outState){
         outState.putStringArrayList("puntos", (ArrayList<String>) puntos);
+        outState.putString("nombre_de_archivo", nombreArchivo);
     }
 
     private void hecho(){
         if(puntos.size() > 0){
-            ((CrearConvocatoria)getActivity()).creaConvocatoria();
+            obtenerNombreDeArchivo();
         }else{
             ProveedorSnackBar.muestraBarraDeBocados(listaDePuntos,
                     getActivity().getString(R.string.orden_del_dia_parametros_faltantes));
@@ -108,7 +114,7 @@ public class OrdenDelDia extends Fragment {
     private void agregarPunto(){
         EntradaTexto et = new EntradaTexto();
         Bundle args = new Bundle();
-        args.putString("contenido","");
+        args.putString("contenido",puntos.size() + 3 + ".- ");
         args.putString("mensaje", getResources().getString(R.string.dialogo_entrada_texto_agregar_texto));
         et.setArguments(args);
         et.setAccionDialogo(new AccionAgregarPunto());
@@ -124,6 +130,16 @@ public class OrdenDelDia extends Fragment {
         re.show(getActivity().getSupportFragmentManager(), "Remover texto");
     }
 
+    private void obtenerNombreDeArchivo(){
+        EntradaTexto et = new EntradaTexto();
+        Bundle args = new Bundle();
+        args.putString("contenido","");
+        args.putString("mensaje", getString(R.string.orden_del_dia_definir_nombre_de_archivo));
+        et.setArguments(args);
+        et.setAccionDialogo(new AccionObtenerNombreDeArchivo());
+        et.show(getActivity().getSupportFragmentManager(), "Nombrar archivo");
+    }
+
     private class AccionCambioDeTexto implements EntradaTexto.AccionDialogo{
 
         private int posicion;
@@ -135,26 +151,93 @@ public class OrdenDelDia extends Fragment {
         @Override
         public void accionPositiva(DialogFragment df){
             EntradaTexto det = (EntradaTexto) df;
-            String texto = det.getEntradaDeTexto();
-            puntos.set(posicion, texto);
-            adapter.notifyDataSetChanged();
+            String texto = det.getEntradaDeTexto().trim();
+            reordenarElementos(texto);
         }
 
         @Override
         public void accionNegativa(DialogFragment df){}
+
+        private void reordenarElementos(String elemento){
+            if("".equals(elemento))
+                puntos.remove(posicion);
+            else {
+                String[] elementos = elemento.split("\\.-");
+                if(elementos.length > 1) {
+                    try {
+                        int num = Integer.parseInt(elementos[0]);
+                        if (num > 0 && num <= puntos.size()) {
+                            if( posicion == num) {
+                                puntos.set(posicion, elemento);
+                            }else{
+                                puntos.add(num,elemento);
+                                puntos.remove(posicion);
+                            }
+                            adapter.notifyDataSetChanged();
+                        } else {
+                            ProveedorSnackBar
+                                    .muestraBarraDeBocados(
+                                            listaDePuntos, getString(R.string.orden_del_dia_numeracion_incorrecta)
+                                    );
+                        }
+                    } catch (NumberFormatException e) {
+                        ProveedorSnackBar
+                                .muestraBarraDeBocados(
+                                        listaDePuntos, getString(R.string.orden_del_dia_formato_incorrecto)
+                                );
+                    }
+                }else
+                    ProveedorSnackBar.muestraBarraDeBocados(
+                            listaDePuntos, getString(R.string.orden_del_dia_formato_incorrecto)
+                    );
+            }
+        }
     }
 
-    private class AccionAgregarPunto implements EntradaTexto.AccionDialogo{
+    private class AccionAgregarPunto implements EntradaTexto.AccionDialogo {
 
         @Override
         public void accionPositiva(DialogFragment fragment) {
             EntradaTexto det = (EntradaTexto) fragment;
-            puntos.add(det.getEntradaDeTexto());
-            adapter.notifyDataSetChanged();
+            String texto = det.getEntradaDeTexto().trim();
+            reordenarElementos(texto);
         }
 
         @Override
-        public void accionNegativa(DialogFragment fragment) {}
+        public void accionNegativa(DialogFragment fragment) {
+        }
+
+        private void reordenarElementos(String elemento) {
+            if (!"".equals(elemento)) {
+                String[] elementos = elemento.split("\\.-");
+                if (elementos.length > 1) {
+                    try {
+                        int num = Integer.parseInt(elementos[0]);
+                        if (num > 0 && num <= puntos.size()) {
+                            puntos.add(num, elemento);
+                            adapter.notifyDataSetChanged();
+                        } else if (num > puntos.size()) {
+                            puntos.add(elemento);
+                            adapter.notifyDataSetChanged();
+                        } else {
+                            ProveedorSnackBar
+                                    .muestraBarraDeBocados(
+                                            listaDePuntos, getString(R.string.orden_del_dia_numeracion_incorrecta)
+                                    );
+                        }
+                    } catch (NumberFormatException e) {
+                        ProveedorSnackBar
+                                .muestraBarraDeBocados(
+                                        listaDePuntos, getString(R.string.orden_del_dia_formato_incorrecto)
+                                );
+                    }
+                } else
+                    ProveedorSnackBar
+                            .muestraBarraDeBocados(
+                                    listaDePuntos, getString(R.string.orden_del_dia_formato_incorrecto)
+                            );
+            }
+        }
     }
 
     private class AccionQuitarPuntos implements EntradaTexto.AccionDialogo{
@@ -167,6 +250,24 @@ public class OrdenDelDia extends Fragment {
             for(Integer elemento : elementos)
                 puntos.remove(elemento.intValue());
             adapter.notifyDataSetChanged();
+        }
+
+        @Override
+        public void accionNegativa(DialogFragment fragment) {}
+    }
+
+    private class AccionObtenerNombreDeArchivo implements EntradaTexto.AccionDialogo{
+
+        @Override
+        public void accionPositiva(DialogFragment fragment) {
+            EntradaTexto et = (EntradaTexto)fragment;
+            nombreArchivo = et.getEntradaDeTexto().trim();
+            if(!"".equals(nombreArchivo)) {
+                nombreArchivo = nombreArchivo.contains(".pdf") ? nombreArchivo : nombreArchivo.concat(".pdf");
+                ((CrearConvocatoria) getActivity()).creaConvocatoria();
+            }else
+                ProveedorSnackBar
+                        .muestraBarraDeBocados(listaDePuntos, getString(R.string.orden_del_dia_error_en_nombre_de_archivo));
         }
 
         @Override
@@ -191,10 +292,8 @@ public class OrdenDelDia extends Fragment {
         catch(NullPointerException ignore){ return null; }
     }
 
-    public void setPuntos(String[] puntos) {
-        try {
-            Collections.addAll(this.puntos, puntos);
-            adapter.notifyDataSetChanged();
-        }catch(NullPointerException ignore){}
+    public String getNombreArchivo() {
+        try{return nombreArchivo;}
+        catch(NullPointerException ignore){ return null; }
     }
 }
