@@ -1,8 +1,10 @@
 package org.inspira.condominio.actividades;
 
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 import org.inspira.condominio.R;
 import org.inspira.condominio.datos.AlmacenamientoInterno;
@@ -184,9 +186,12 @@ public class CrearConvocatoria extends AppCompatActivity {
                 calcularTiempo(SEGUNDA_CONV), calcularTiempo(TERCERA_CONV),
                 new Date(), firma);
         try {
-            new File(AlmacenamientoInterno.obtenerRutaAlmacenamientoInterno()).createNewFile();
-            File archivo = new File(AlmacenamientoInterno.obtenerRutaAlmacenamientoInterno() + "/"
-                    + nombreDeArchivo);
+            File f = new File(Environment.getExternalStorageDirectory(), "Abbit");
+            if (!f.exists()) {
+                f.mkdirs();
+            }
+            File archivo = //new File(AlmacenamientoInterno.obtenerRutaAlmacenamientoInterno());
+            new File(AlmacenamientoInterno.obtenerRutaAlmacenamientoInterno() + "/" + nombreDeArchivo);
             generar.crearArchivo(archivo);
         }catch(IOException e){
             e.printStackTrace();

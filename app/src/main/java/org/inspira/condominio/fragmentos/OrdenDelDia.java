@@ -159,9 +159,10 @@ public class OrdenDelDia extends Fragment {
         public void accionNegativa(DialogFragment df){}
 
         private void reordenarElementos(String elemento){
-            if("".equals(elemento))
+            if("".equals(elemento) || elemento.split("\\.-").length <= 1) {
                 puntos.remove(posicion);
-            else {
+                adapter.notifyDataSetChanged();
+            }else {
                 String[] elementos = elemento.split("\\.-");
                 if(elementos.length > 1) {
                     try {
@@ -170,8 +171,12 @@ public class OrdenDelDia extends Fragment {
                             if( posicion == num) {
                                 puntos.set(posicion, elemento);
                             }else{
-                                puntos.add(num-2,elemento);
-                                puntos.remove(posicion);
+                                puntos.add(num-3,elemento);
+                                for(int i=num-2; i<=posicion; i++){
+                                    String[] args = puntos.get(i).split("\\.-");
+                                    puntos.set(i,(Integer.parseInt(args[0])+1)+".-"+args[1]);
+                                }
+                                puntos.remove(posicion+1);
                             }
                             adapter.notifyDataSetChanged();
                         } else {
@@ -214,7 +219,11 @@ public class OrdenDelDia extends Fragment {
                     try {
                         int num = Integer.parseInt(elementos[0]);
                         if (num > 2 && num <= puntos.size()+2) {
-                            puntos.add(num-2, elemento);
+                            puntos.add(num-3, elemento);
+                            for(int i=num-2; i<puntos.size(); i++){
+                                String[] args = puntos.get(i).split("\\.-");
+                                puntos.set(i, (Integer.parseInt(args[0]) + 1) + ".-" + args[1]);
+                            }
                             adapter.notifyDataSetChanged();
                         } else if (num > puntos.size() + 2) {
                             puntos.add(elemento);

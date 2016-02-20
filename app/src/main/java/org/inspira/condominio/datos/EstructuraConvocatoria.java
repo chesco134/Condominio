@@ -24,7 +24,7 @@ public class EstructuraConvocatoria {
 
     public String getIntro(String convocatoria){
         return context.getString(R.string.estructura_de_convocatoria_introduccion)
-                + "\"" +  convocatoria + "\" ";
+                + " \"" +  convocatoria + "\" ";
     }
 
     public String getOrigenDeConvocatoria(String Origen){
