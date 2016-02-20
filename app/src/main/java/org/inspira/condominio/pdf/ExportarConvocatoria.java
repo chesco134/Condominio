@@ -61,17 +61,15 @@ public class ExportarConvocatoria {
     }
 
     public void crearArchivo(File file) throws IOException {
-        try
-        {
+        try{
             Document document = new Document(PageSize.A4);
-            PdfWriter.getInstance(document, new FileOutputStream(file));
+            FileOutputStream fos = new FileOutputStream(file);
+            PdfWriter.getInstance(document, fos);
             document.open();
             document.newPage();
             setContenido(document);
             document.close();
-        }
-        catch (FileNotFoundException | DocumentException e)
-        {
+        }catch (FileNotFoundException | DocumentException e){
             e.printStackTrace();
         }
     }
