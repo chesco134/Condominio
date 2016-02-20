@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Condominio</string>
+    <string name="app_name">Abbit</string>
     <string name="action_settings">Settings</string>
     <string name="texto_convocatoria">Convocatorias</string>
     <string name="hacer_encabezado_convocatoria_asunto">Asunto</string>
@@ -33,7 +33,7 @@
     <string name="menu_convocatoria_quitar_punto">Quitar punto</string>
     <string name="menu_convocatoria_hecho">Hecho</string>
 
-    <string name="estructura_de_convocatoria_convocatoria">C O N V O C A T O R I A</string>
+    <string name="estructura_de_convocatoria_convocatoria_titulo">C O N V O C A T O R I A</string>
     <string name="estructura_de_convocatoria_primera_convocatoria">PRIMERA CONVOCATORIA</string>
     <string name="estructura_de_convocatoria_segunda_convocatoria">SEGUNDA CONVOCATORIA</string>
     <string name="estructura_de_convocatoria_tercera_convocatoria">TERCERA CONVOCATORIA</string>

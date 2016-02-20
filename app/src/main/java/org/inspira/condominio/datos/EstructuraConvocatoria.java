@@ -19,7 +19,7 @@ public class EstructuraConvocatoria {
     }
 
     public String getTitulo(){
-        return context.getString(R.string.dialogo_remocion_elementos_titulo);
+        return context.getString(R.string.estructura_de_convocatoria_convocatoria_titulo);
     }
 
     public String getIntro(String convocatoria){

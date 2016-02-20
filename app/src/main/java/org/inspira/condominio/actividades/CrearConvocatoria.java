@@ -186,12 +186,9 @@ public class CrearConvocatoria extends AppCompatActivity {
                 calcularTiempo(SEGUNDA_CONV), calcularTiempo(TERCERA_CONV),
                 new Date(), firma);
         try {
-            File f = new File(Environment.getExternalStorageDirectory(), "Abbit");
-            if (!f.exists()) {
-                f.mkdirs();
-            }
-            File archivo = //new File(AlmacenamientoInterno.obtenerRutaAlmacenamientoInterno());
-            new File(AlmacenamientoInterno.obtenerRutaAlmacenamientoInterno() + "/" + nombreDeArchivo);
+            AlmacenamientoInterno a = new AlmacenamientoInterno(this);
+            a.crearDirectorio();
+            File archivo = new File(a.obtenerRutaDeAlmacenamiento() + "/" + nombreDeArchivo);
             generar.crearArchivo(archivo);
         }catch(IOException e){
             e.printStackTrace();
