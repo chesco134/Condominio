@@ -3,6 +3,7 @@ package org.inspira.condominio.actividades;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.Toast;
 
 import org.inspira.condominio.R;
 import org.inspira.condominio.datos.AlmacenamientoInterno;
@@ -198,9 +199,7 @@ public class CrearConvocatoria extends AppCompatActivity {
     private void guardaEnBaseDeDatos(){}
 
     private void difundeConvocatoria(){
-        ProveedorSnackBar.muestraBarraDeBocados(
-                findViewById(R.id.formato_convocatoria_contenedor), getString(R.string.crear_convocatoria_archivo_creado)
-        );
+        Toast.makeText(this,R.string.crear_convocatoria_archivo_creado, Toast.LENGTH_SHORT).show();
         finish();
     }
 
