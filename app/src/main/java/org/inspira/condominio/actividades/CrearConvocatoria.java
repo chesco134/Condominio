@@ -210,10 +210,10 @@ public class CrearConvocatoria extends AppCompatActivity {
         c.set(Calendar.MINUTE,Integer.parseInt(factores[1]));
         switch(choose) {
             case SEGUNDA_CONV:
-                c.setTime(new Date(c.getTime().getTime() + 3600000 * 30));
+                c.add(Calendar.MINUTE, 30);
                 break;
             case TERCERA_CONV:
-                c.setTime(new Date(c.getTime().getTime() + 3600000 * 60));
+                c.add(Calendar.MINUTE, 60);
                 break;
         }
         int hora = c.get(Calendar.HOUR_OF_DAY);
