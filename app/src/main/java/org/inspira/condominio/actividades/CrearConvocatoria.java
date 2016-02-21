@@ -198,8 +198,10 @@ public class CrearConvocatoria extends AppCompatActivity {
     private void guardaEnBaseDeDatos(){}
 
     private void difundeConvocatoria(){
-        ProveedorSnackBar.muestraBarraDeBocados(findViewById(R.id.formato_convocatoria_contenedor),
-                getString(R.string.crear_convocatoria_sitio_en_construccion));
+        ProveedorSnackBar.muestraBarraDeBocados(
+                findViewById(R.id.formato_convocatoria_contenedor), getString(R.string.crear_convocatoria_archivo_creado)
+        );
+        finish();
     }
 
     private String calcularTiempo(int choose){

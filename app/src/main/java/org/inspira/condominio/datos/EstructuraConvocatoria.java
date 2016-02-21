@@ -19,16 +19,16 @@ public class EstructuraConvocatoria {
     }
 
     public String getTitulo(){
-        return context.getString(R.string.estructura_de_convocatoria_convocatoria_titulo);
+        return context.getString(R.string.estructura_de_convocatoria_convocatoria_titulo) + "\n\n";
     }
 
     public String getIntro(String convocatoria){
         return context.getString(R.string.estructura_de_convocatoria_introduccion)
-                + " \"" +  convocatoria + "\" ";
+                + " \"" +  convocatoria + "\"";
     }
 
     public String getOrigenDeConvocatoria(String Origen){
-        return "del \"" + Origen + "\"";
+        return " del \"" + Origen + "\"";
     }
 
     public String getUbicacion(String Ubicacion){
@@ -38,7 +38,7 @@ public class EstructuraConvocatoria {
     public String getFechaConvocatoria(Date fecha){
         SimpleDateFormat sdf = new SimpleDateFormat("EEEE d' de 'MMMM' del 'yyyy");
         String strDate = sdf.format(fecha);
-        return context.getString(R.string.estructura_de_convocatoria_relleno_1) + strDate;
+        return context.getString(R.string.estructura_de_convocatoria_relleno_1) + " " + strDate;
     }
 
     public String getLugar(String lugar){
@@ -46,28 +46,28 @@ public class EstructuraConvocatoria {
     }
 
     public String getPrimeraConvocatoriaTitulo(){
-        return context.getString(R.string.estructura_de_convocatoria_primera_convocatoria);
+        return "\n" + context.getString(R.string.estructura_de_convocatoria_primera_convocatoria) + "\n\n";
     }
 
     public String getHoraPrimera(String hora){
-        return context.getString(R.string.estructura_de_convocatoria_relleno_2) + hora
-                + context.getString(R.string.estructura_de_convocatoria_relleno_3);
+        return context.getString(R.string.estructura_de_convocatoria_relleno_2) + " " + hora
+                + " " + context.getString(R.string.estructura_de_convocatoria_relleno_3);
     }
 
     public String getHoraSegunda(String hora){
-        return context.getString(R.string.estructura_de_convocatoria_relleno_4) + hora + ".";
+        return context.getString(R.string.estructura_de_convocatoria_relleno_4) + " " + hora + " horas.";
     }
 
     public String getSegundaConvocatoriaTitulo(){
-        return context.getString(R.string.estructura_de_convocatoria_segunda_convocatoria);
+        return "\n" + context.getString(R.string.estructura_de_convocatoria_segunda_convocatoria) + "\n\n";
     }
 
     public String getTerceraConvocatoriaTitulo(){
-        return context.getString(R.string.estructura_de_convocatoria_tercera_convocatoria);
+        return "\n" + context.getString(R.string.estructura_de_convocatoria_tercera_convocatoria) + "\n\n";
     }
 
     public String getHoraTercera(String hora){
-        return context.getString(R.string.estructura_de_convocatoria_relleno_5) + hora + ".";
+        return context.getString(R.string.estructura_de_convocatoria_relleno_5) + " " + hora + " horas.";
     }
 
     public String getLey(){
@@ -77,7 +77,7 @@ public class EstructuraConvocatoria {
     public String getFechaPublicacion(Date fecha){
         SimpleDateFormat sdf = new SimpleDateFormat("d' de 'MMMM' del 'yyyy");
         String strDate = sdf.format(fecha);
-        String f = context.getString(R.string.estructura_de_convocatoria_relleno_7) + strDate + ".";
+        String f = "\n\n" + context.getString(R.string.estructura_de_convocatoria_relleno_7) + " " + strDate + ".";
         return f.toUpperCase();
     }
 }

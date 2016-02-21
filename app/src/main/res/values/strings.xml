@@ -22,6 +22,7 @@
     <string name="crear_convocatoria_datos_incorrectos">Debe llenar todos los datos</string>
     <string name="crear_convocatoria_sitio_en_construccion">Sitio en construcción :)</string>
     <string name="crear_convocatoria_error_pdf">No se guardó a PDF</string>
+    <string name="crear_convocatoria_archivo_creado">Archivo creado n.n</string>
     <string name="dialogo_entrada_texto_cancelar">Cancelar</string>
     <string name="dialogo_entrada_texto_aceptar">Aceptar</string>
     <string name="dialogo_entrada_texto_modificar_texto">Modifique el elemento</string>
@@ -40,7 +41,7 @@
     <string name="estructura_de_convocatoria_introduccion">Con fundamento en los artículos 29, 32 Fracción III, Inciso c), y demás relativos aplicables de la Ley de la Propiedad en Condominio de Inmuebles para el Distrito Federal, se convoca a </string>
     <string name="estructura_de_convocatoria_relleno_1">, que se llevará a cabo el día </string>
     <string name="estructura_de_convocatoria_relleno_2">ESTA ASAMBLEA SE LLEVARÁ A CABO A LAS </string>
-    <string name="estructura_de_convocatoria_relleno_3">, BAJO LA SIGU" + "IENTE ORDEN DEL DÍA:</string>
+    <string name="estructura_de_convocatoria_relleno_3">horas, BAJO LA SIGUIENTE ORDEN DEL DÍA:</string>
     <string name="estructura_de_convocatoria_relleno_4">EN CASO DE NO HABER QUÓRUM EN PRIMERA CONVOCATORIA, SE LLEVARÁ A CABO LA ASAMBLEA EN SEGUNDA CONVOCATORIA CON EL MISMO ORDEN DEL DÍA, LUGAR Y FECHA A LAS </string>
     <string name="estructura_de_convocatoria_relleno_5">EN CASO DE NO HABER QUÓRUM EN PRIMERA CONVOCATORIA, SE LLEVARÁ A CABO LA ASAMBLEA EN TERCERA CONVOCATORIA CON EL MISMO ORDEN DEL DÍA, LUGAR Y FECHA A LAS </string>
     <string name="estructura_de_convocatoria_relleno_6">Al respecto la Ley de Propiedad en Condominio  de inmuebles para el Distrito Federal establece:
