@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import org.inspira.condominio.R;
 import org.inspira.condominio.actividades.CrearConvocatoria;
+import org.inspira.condominio.datos.Convocatoria;
 import org.inspira.condominio.dialogos.EntradaTexto;
 import org.inspira.condominio.dialogos.ProveedorSnackBar;
 import org.inspira.condominio.dialogos.ProveedorToast;
@@ -45,7 +46,7 @@ public class OrdenDelDia extends Fragment {
             puntos = new ArrayList<>();
             Bundle args = getArguments();
             if(args != null) {
-                Collections.addAll(puntos, args.getStringArray("puntos"));
+                puntos = ((Convocatoria)args.getSerializable("convocatoria")).obtenerDescripciones();
                 nombreArchivo = args.getString("nombre_de_archivo");
             }
         }else {

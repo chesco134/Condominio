@@ -12,10 +12,15 @@ import android.widget.TextView;
 
 import org.inspira.condominio.R;
 import org.inspira.condominio.actividades.CrearConvocatoria;
+import org.inspira.condominio.datos.Convocatoria;
 import org.inspira.condominio.dialogos.EntradaTexto;
 import org.inspira.condominio.dialogos.ProveedorSnackBar;
 import org.inspira.condominio.dialogos.TomarFecha;
 import org.inspira.condominio.dialogos.TomarTiempo;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 public class DatosDeEncabezado extends Fragment {
 
@@ -28,6 +33,7 @@ public class DatosDeEncabezado extends Fragment {
     private TextView fechaInicial;
     private TextView tiempoInicial;
     private EditText firma;
+    private Convocatoria conv;
 
     @Override
     public void onAttach(Context context){
@@ -70,25 +76,36 @@ public class DatosDeEncabezado extends Fragment {
                     }
                 });
         Bundle args = savedInstanceState == null ? getArguments() : savedInstanceState;
-        asunto.setText(args.getString("asunto"));
-        condominio.setText(args.getString("condominio"));
-        ubicacion.setText(args.getString("ubicacion"));
-        ubicacionInterna.setText(args.getString("ubicacion_interna"));
-        firma.setText(args.getString("firma"));
-        fechaInicial.setText(args.getString("fecha_inicial"));
-        tiempoInicial.setText(args.getString("tiempo_inicial"));
+        conv = (Convocatoria)args.getSerializable("convocatoria");
+        asunto.setText(conv.getAsunto());
+        condominio.setText(conv.getCondominio());
+        ubicacion.setText(conv.getUbicacion());
+        ubicacionInterna.setText(conv.getUbicacionInterna());
+        firma.setText(conv.getFirma());
+        Long fechaInicio = conv.getFechaInicio() == null ? new Date().getTime() : conv.getFechaInicio();
+        String[] elementos = new SimpleDateFormat("dd/MM/yyyy@@hh:mm").format(new Date(fechaInicio)).split("@@");
+        fechaInicial.setText(elementos[0]);
+        tiempoInicial.setText(elementos[1]);
         return rootView;
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState){
-        outState.putString("asunto", asunto.getText().toString());
-        outState.putString("condominio", condominio.getText().toString());
-        outState.putString("ubicacion", ubicacion.getText().toString());
-        outState.putString("ubicacion_interna", ubicacionInterna.getText().toString());
-        outState.putString("firma", firma.getText().toString());
-        outState.putString("fecha_inicial", fechaInicial.getText().toString());
-        outState.putString("tiempo_inicial", tiempoInicial.getText().toString());
+        conv.setAsunto(asunto.getText().toString());
+        conv.setCondominio(condominio.getText().toString());
+        conv.setUbicacion(condominio.getText().toString());
+        conv.setUbicacionInterna(condominio.getText().toString());
+        Calendar c = Calendar.getInstance();
+        String[] eFecha = fechaInicial.getText().toString().split("/");
+        String[] eTiempo = tiempoInicial.getText().toString().split(":");
+        c.set(Calendar.DAY_OF_MONTH, Integer.parseInt(eFecha[0]));
+        c.set(Calendar.MONTH, Integer.parseInt(eFecha[1]));
+        c.set(Calendar.YEAR, Integer.parseInt(eFecha[2]));
+        c.set(Calendar.HOUR_OF_DAY, Integer.parseInt(eTiempo[0]));
+        c.set(Calendar.MINUTE, Integer.parseInt(eTiempo[1]));
+        conv.setFechaInicio(c.getTimeInMillis());
+        conv.setFirma(firma.getText().toString());
+        outState.putSerializable("convocatoria", conv);
     }
 
     private void crearDialogo(int tipoDeDialogo){
