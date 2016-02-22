@@ -199,7 +199,6 @@ public class CrearConvocatoria extends AppCompatActivity {
     private void guardaEnBaseDeDatos(){}
 
     private void difundeConvocatoria(){
-        Toast.makeText(this,R.string.crear_convocatoria_archivo_creado, Toast.LENGTH_SHORT).show();
         finish();
     }
 

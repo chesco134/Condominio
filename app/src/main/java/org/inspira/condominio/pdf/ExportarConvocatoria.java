@@ -1,6 +1,8 @@
 package org.inspira.condominio.pdf;
 
+import android.app.Activity;
 import android.content.Context;
+import android.widget.Toast;
 
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Chunk;
@@ -13,6 +15,7 @@ import com.itextpdf.text.pdf.PdfWriter;
 
 import org.inspira.condominio.R;
 import org.inspira.condominio.datos.EstructuraConvocatoria;
+import org.inspira.condominio.dialogos.ProveedorToast;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -60,18 +63,29 @@ public class ExportarConvocatoria {
         estructuraConvocatoria = new EstructuraConvocatoria(context);
     }
 
-    public void crearArchivo(File file) throws IOException {
-        try{
-            Document document = new Document(PageSize.A4);
-            FileOutputStream fos = new FileOutputStream(file);
-            PdfWriter.getInstance(document, fos);
-            document.open();
-            document.newPage();
-            setContenido(document);
-            document.close();
-        }catch (FileNotFoundException | DocumentException e){
-            e.printStackTrace();
-        }
+    public void crearArchivo(final File file) throws IOException {
+        new Thread() {
+            @Override public void run() {
+                try {
+                    Document document = new Document(PageSize.A4);
+                    FileOutputStream fos = new FileOutputStream(file);
+                    PdfWriter.getInstance(document, fos);
+                    document.open();
+                    document.newPage();
+                    setContenido(document);
+                    document.close();
+                    ((Activity)context).runOnUiThread(new Runnable(){
+                        @Override
+                        public void run() {
+                            ProveedorToast
+                                    .showToast(context, R.string.crear_convocatoria_archivo_creado);
+                        }
+                    });
+                } catch (FileNotFoundException | DocumentException e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
     }
 
     private void setContenido(Document document)

@@ -17,6 +17,7 @@
     <string name="orden_del_dia_formato_incorrecto">El formato es incorrecto</string>
     <string name="orden_del_dia_definir_orden_del_dia">Orden del día</string>
     <string name="orden_del_dia_error_en_nombre_de_archivo">Nombre no válido</string>
+    <string name="orden_del_dia_creando_pdf">Creando PDF</string>
     <string name="crear_convocatoria_fecha_incorrecta">La fecha es incorrecta</string>
     <string name="crear_convocatoria_hora_incorrecta">La hora es incorrecta</string>
     <string name="crear_convocatoria_datos_incorrectos">Debe llenar todos los datos</string>

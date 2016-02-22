@@ -19,6 +19,7 @@ import org.inspira.condominio.R;
 import org.inspira.condominio.actividades.CrearConvocatoria;
 import org.inspira.condominio.dialogos.EntradaTexto;
 import org.inspira.condominio.dialogos.ProveedorSnackBar;
+import org.inspira.condominio.dialogos.ProveedorToast;
 import org.inspira.condominio.dialogos.RemocionElementos;
 
 import java.util.ArrayList;
@@ -277,6 +278,7 @@ public class OrdenDelDia extends Fragment {
             nombreArchivo = et.getEntradaDeTexto().trim();
             if(!"".equals(nombreArchivo)) {
                 nombreArchivo = nombreArchivo.contains(".pdf") ? nombreArchivo : nombreArchivo.concat(".pdf");
+                ProveedorToast.showToast(getActivity(), R.string.orden_del_dia_creando_pdf);
                 ((CrearConvocatoria) getActivity()).creaConvocatoria();
             }else
                 ProveedorSnackBar
