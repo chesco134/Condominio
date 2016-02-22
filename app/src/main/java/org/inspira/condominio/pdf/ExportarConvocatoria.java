@@ -115,7 +115,7 @@ public class ExportarConvocatoria {
         p = new Paragraph(estructuraConvocatoria.getTerceraConvocatoriaTitulo(), CHIQUITA_NEGRITA);
         p.setAlignment(1);
         document.add(p);
-        p = new Paragraph(estructuraConvocatoria.getHoraTercera(this.segundaHora), CHIQUITA);
+        p = new Paragraph(estructuraConvocatoria.getHoraTercera(this.terceraHora), CHIQUITA);
         p.setAlignment(3);
         document.add(p);
 

@@ -164,19 +164,24 @@ public class OrdenDelDia extends Fragment {
                 adapter.notifyDataSetChanged();
             }else {
                 String[] elementos = elemento.split("\\.-");
-                if(elementos.length > 1) {
+                if(elementos.length == 2) {
                     try {
                         int num = Integer.parseInt(elementos[0]);
-                        if (num > 2 && num <= puntos.size() + 2) {
-                            if( posicion == num) {
+                        if (num > 2 && num <= puntos.size() + 3) {
+                            if( posicion == num-3) {
                                 puntos.set(posicion, elemento);
-                            }else{
+                            }else if (posicion > num-3){
                                 puntos.add(num-3,elemento);
                                 for(int i=num-2; i<=posicion; i++){
-                                    String[] args = puntos.get(i).split("\\.-");
-                                    puntos.set(i,(Integer.parseInt(args[0])+1)+".-"+args[1]);
+                                    refreshLabel(i);
                                 }
                                 puntos.remove(posicion+1);
+                            } else {
+                                puntos.add(num - 2, elemento);
+                                puntos.remove(posicion);
+                                for(int i=posicion; i<puntos.size(); i++){
+                                    refreshLabel(i);
+                                }
                             }
                             adapter.notifyDataSetChanged();
                         } else {
@@ -215,14 +220,13 @@ public class OrdenDelDia extends Fragment {
         private void reordenarElementos(String elemento) {
             if (!"".equals(elemento)) {
                 String[] elementos = elemento.split("\\.-");
-                if (elementos.length > 1) {
+                if (elementos.length == 2) {
                     try {
                         int num = Integer.parseInt(elementos[0]);
                         if (num > 2 && num <= puntos.size()+2) {
                             puntos.add(num-3, elemento);
                             for(int i=num-2; i<puntos.size(); i++){
-                                String[] args = puntos.get(i).split("\\.-");
-                                puntos.set(i, (Integer.parseInt(args[0]) + 1) + ".-" + args[1]);
+                                refreshLabel(i);
                             }
                             adapter.notifyDataSetChanged();
                         } else if (num > puntos.size() + 2) {
@@ -294,6 +298,11 @@ public class OrdenDelDia extends Fragment {
                 }
             }
         }
+    }
+
+    private void refreshLabel(int position){
+        String[] args = puntos.get(position).split("\\.-");
+        puntos.set(position, (position + 3) + ".-" + args[1]);
     }
 
     public String[] getPuntos() {
