@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -145,8 +146,17 @@ public class DatosDeEncabezado extends Fragment {
         public void accionPositiva(DialogFragment df){
             TomarTiempo dialogo = (TomarTiempo)df;
             String fechaObtenida = dialogo.getTiempo();
-            if(fechaObtenida != null)
-                tiempoInicial.setText(fechaObtenida);
+            String[] fechaInicial = DatosDeEncabezado.this.fechaInicial.getText().toString().split("/");
+            String[] tiempoInicial = fechaObtenida.split(":");
+            Calendar c = Calendar.getInstance();
+            c.set(Calendar.DAY_OF_MONTH, Integer.parseInt(fechaInicial[0]));
+            c.set(Calendar.MONTH, Integer.parseInt(fechaInicial[1])-1);
+            c.set(Calendar.YEAR, Integer.parseInt(fechaInicial[2]));
+            c.set(Calendar.HOUR_OF_DAY, Integer.parseInt(tiempoInicial[0]));
+            c.set(Calendar.MINUTE, Integer.parseInt(tiempoInicial[1]));
+            Calendar cal = Calendar.getInstance();
+            if(c.compareTo(cal) > 0)
+                DatosDeEncabezado.this.tiempoInicial.setText(fechaObtenida);
             else
                 muestraBarraDeBocados(getActivity().getResources().getString(R.string.crear_convocatoria_hora_incorrecta));
         }

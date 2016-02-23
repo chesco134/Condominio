@@ -48,15 +48,8 @@ public class TomarTiempo extends DialogFragment implements TimePickerDialog.OnTi
     }
 
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-        Calendar c = Calendar.getInstance();
-        int cHourOfDay = c.get(Calendar.HOUR_OF_DAY);
-        int cMinute = c.get(Calendar.MINUTE);
-        if( cHourOfDay >= hourOfDay && cMinute > minute){
-            panic = true;
-        }else{
-            tiempo = (hourOfDay < 10 ? "0"+hourOfDay : hourOfDay) + ":" + (minute < 10 ? "0" + minute : minute);
-            accionDialogo.accionPositiva(this);
-        }
+        tiempo = (hourOfDay < 10 ? "0"+hourOfDay : hourOfDay) + ":" + (minute < 10 ? "0" + minute : minute);
+        accionDialogo.accionPositiva(this);
     }
 
 }

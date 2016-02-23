@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.Toast;
 
 import org.inspira.condominio.R;
 import org.inspira.condominio.datos.AlmacenamientoInterno;
@@ -21,11 +20,8 @@ import org.inspira.condominio.pdf.ExportarConvocatoria;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 public class CrearConvocatoria extends AppCompatActivity {
@@ -149,12 +145,13 @@ public class CrearConvocatoria extends AppCompatActivity {
         String[] tiempoInicial = datosDeEncabezado.getTiempoInicial().split(":");
         Calendar c = Calendar.getInstance();
         c.set(Calendar.DAY_OF_MONTH, Integer.parseInt(fechaInicial[0]));
-        c.set(Calendar.MONTH, Integer.parseInt(fechaInicial[1]));
+        c.set(Calendar.MONTH, Integer.parseInt(fechaInicial[1])-1);
         c.set(Calendar.YEAR, Integer.parseInt(fechaInicial[2]));
         c.set(Calendar.HOUR_OF_DAY, Integer.parseInt(tiempoInicial[0]));
         c.set(Calendar.MINUTE, Integer.parseInt(tiempoInicial[1]));
         convocatoria.setFechaInicio(c.getTimeInMillis());
         List<PuntoOdD> puntos = new ArrayList<>();
+        if(ordenDelDia.getPuntos() != null)
         for(String descripcion : ordenDelDia.getPuntos()){
             PuntoOdD punto = new PuntoOdD();
             punto.setDescripcion(descripcion);

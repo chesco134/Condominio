@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Siempre on 22/02/2016.
+ * adb -d logcat com.example.example:I *:S
  */
 public class CondominioBD extends SQLiteOpenHelper {
 
@@ -33,7 +33,7 @@ public class CondominioBD extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase dataBase) {
         dataBase.execSQL("create table Convocatoria(" +
-                "idConvocatoria INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "idConvocatoria INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," +
                 "Asunto TEXT NOT NULL," +
                 "Condominio TEXT," +
                 "Ubicacion TEXT," +
@@ -44,7 +44,7 @@ public class CondominioBD extends SQLiteOpenHelper {
         dataBase.execSQL("create table Punto_OdD(" +
                 "idPunto_OdD INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "Descripcion TEXT NOT NULL," +
-                "idConvocatoria INTEGER," +
+                "idConvocatoria INTEGER NOT NULL," +
                 "FOREIGN KEY(idConvocatoria) REFERENCES Convocatoria(idConvocatoria)" +
                 ")");
     }
@@ -59,9 +59,8 @@ public class CondominioBD extends SQLiteOpenHelper {
         values.put("Firma", conv.getFirma());
         values.put("Fecha_de_Inicio", conv.getFechaInicio());
         db.insert("Convocatoria", "---", values);
-        db.close();
         db = getReadableDatabase();
-        Cursor c = db.rawQuery("select last_insert_rowid()", null);
+        Cursor c = db.rawQuery("select last_insert_rowid() v", null);
         int id = -1;
         if(c.moveToNext()){
             id = c.getInt(0);
@@ -73,7 +72,7 @@ public class CondominioBD extends SQLiteOpenHelper {
     public void insertaPuntoOdD(PuntoOdD punto){
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put("Descipcion", punto.getDescripcion());
+        values.put("Descripcion", punto.getDescripcion());
         values.put("idConvocatoria", punto.getIdConvocatoria());
         db.insert("Punto_OdD", "---", values);
         db.close();
@@ -100,7 +99,7 @@ public class CondominioBD extends SQLiteOpenHelper {
                     new String[]{String.valueOf(convocatoria.getId())});
             List<PuntoOdD> puntos = new ArrayList<>();
             while(c2.moveToNext()) {
-                PuntoOdD punto = new PuntoOdD(c2.getInt(c.getColumnIndex("idPunto_OdD")));
+                PuntoOdD punto = new PuntoOdD(c2.getInt(c2.getColumnIndex("idPunto_OdD")));
                 punto.setDescripcion(c2.getString(c2.getColumnIndex("Descripcion")));
                 punto.setIdConvocatoria(convocatoria.getId());
                 puntos.add(punto);

@@ -1,6 +1,7 @@
 package org.inspira.condominio.actividades;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -12,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import org.inspira.condominio.R;
 import org.inspira.condominio.adaptadores.AdaptadorParaConvocatoria;
@@ -20,9 +22,16 @@ import org.inspira.condominio.datos.CondominioBD;
 import org.inspira.condominio.datos.Convocatoria;
 import org.inspira.condominio.dialogos.ProveedorSnackBar;
 import org.inspira.condominio.pdf.ExportarConvocatoria;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -56,6 +65,7 @@ public class Lobby extends AppCompatActivity {
     protected void onResume(){
         super.onResume();
         loadContent();
+        new DummyTester().start();
     }
 
     @Override
@@ -66,7 +76,7 @@ public class Lobby extends AppCompatActivity {
                     Bundle extra = data.getExtras();
                     Convocatoria conv = (Convocatoria)extra.getSerializable("convocatoria");
                     if(conv == null)
-                        ProveedorSnackBar.muestraBarraDeBocados(listaConvocatorias, "Merga");
+                        ProveedorSnackBar.muestraBarraDeBocados(listaConvocatorias, "u.u");
                     else
                         adapter.addItem(conv);
                     break;
@@ -75,7 +85,6 @@ public class Lobby extends AppCompatActivity {
         if(requestCode == VISOR_PDF){
             adapter.borrarArchivos();
         }
-        Log.d("Arizawa", "-----------------------------> " + requestCode);
     }
 
     private void loadContent(){
@@ -84,5 +93,38 @@ public class Lobby extends AppCompatActivity {
         Collections.addAll(convocatorias,db.obtenerConvocatorias());
         adapter = new AdaptadorParaConvocatoria(this, convocatorias);
         listaConvocatorias.setAdapter(adapter);
+    }
+
+    private class DummyTester extends Thread{
+
+        @Override public void run(){
+            try{
+                HttpURLConnection con = (HttpURLConnection) new URL("http://192.168.43.23:8080/Condominio/RecibirUsuario").openConnection();
+                con.setDoOutput(true);
+                DataOutputStream salida = new DataOutputStream(con.getOutputStream());
+                JSONObject json = new JSONObject();
+                json.put("name", "Juan");
+                json.put("ap", "Capiz");
+                salida.write(("tunas=" + json.toString()).getBytes());
+                salida.write("&cocol=Hay cocoles".getBytes());
+                salida.flush();
+                DataInputStream entrada = new DataInputStream(con.getInputStream());
+                int length;
+                byte[] chunk = new byte[128];
+                final ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                while( (length = entrada.read(chunk)) != -1 )
+                    baos.write(chunk, 0, length);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(Lobby.this, baos.toString(), Toast.LENGTH_LONG).show();
+                        try{baos.close();}catch(IOException ignore){}
+                    }
+                });
+                con.disconnect();
+            }catch(JSONException | IOException e){
+                e.printStackTrace();
+            }
+        }
     }
 }
