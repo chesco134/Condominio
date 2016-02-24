@@ -1,12 +1,3 @@
 <?xml version="1.0" encoding="utf-8"?>
-<items version="2" >
+<items version="2" />
 
-    <item
-        jar="C:\Users\Siempre\Programming\Android\Condominio\app\build\intermediates\exploded-aar\Condominio\admin\unspecified\jars\classes.jar"
-        jumboMode="false"
-        revision="23.0.2"
-        sha1="6ff41239fd14ef78e4e2c93a287d40346bb2470c">
-        <dex dex="C:\Users\Siempre\Programming\Android\Condominio\app\build\intermediates\pre-dexed\debug\Condominio-admin-unspecified_292580e5e52eb63d5d966b3af0e47494f1c36176.jar" />
-    </item>
-
-</items>

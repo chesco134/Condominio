@@ -3,23 +3,23 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_camera"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="Import" />
+            android:id="@+id/nav_convocatorias"
+            android:icon="@drawable/ic_insert_invitation_black_24dp"
+            android:title="@string/central_point_menu_convocatorias" />
         <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="Gallery" />
+            android:id="@+id/nav_administracion"
+            android:icon="@drawable/ic_domain_black_24dp"
+            android:title="@string/central_point_menu_administracion" />
         <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Slideshow" />
+            android:id="@+id/nav_accidentes"
+            android:icon="@drawable/ic_event_note_black_24dp"
+            android:title="@string/central_point_menu_accidentes" />
         <item
-            android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
+            android:id="@+id/nav_configuracion"
+            android:icon="@drawable/ic_settings_black_24dp"
+            android:title="@string/central_point_menu_configuracion" />
     </group>
-
+<!--
     <item android:title="Communicate">
         <menu>
             <item
@@ -32,5 +32,5 @@
                 android:title="Send" />
         </menu>
     </item>
-
+-->
 </menu>
