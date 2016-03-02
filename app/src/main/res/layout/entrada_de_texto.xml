@@ -15,7 +15,7 @@
         android:background="@drawable/fondo_edit_text_no_opaque"/>
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="4sp"
+        android:layout_height="1sp"
         android:layout_alignEnd="@+id/entrada_de_texto"
         android:layout_alignRight="@+id/entrada_de_texto"
         android:layout_alignStart="@+id/entrada_de_texto"
