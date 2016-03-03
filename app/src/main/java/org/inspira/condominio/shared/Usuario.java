@@ -43,9 +43,4 @@ public class Usuario implements Shareable {
     public void setDateOfBirth(long dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
-
-    @Override
-    public void commitEntry(Context ctx) {
-
-    }
 }
