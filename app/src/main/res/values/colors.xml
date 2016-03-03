@@ -6,4 +6,6 @@
     <color name="colorBlue">#4fd5d5</color>
     <color name="beige">#C8AD7F</color>
     <color name="missigno">#ff553000</color>
+    <color name="white">#ffffffff</color>
+    <color name="error">#ffff5050</color>
 </resources>

@@ -17,10 +17,16 @@ import android.view.View;
 import android.widget.TextView;
 
 import org.inspira.condominio.actividades.Lobby;
+import org.inspira.condominio.actividades.Preparacion;
+import org.inspira.condominio.datos.CondominioBD;
 import org.inspira.condominio.dialogos.ProveedorSnackBar;
+
+import java.net.URL;
 
 public class CentralPoint extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    public static final String SERVER_URL = "http://votacionesipn.com/condominios/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +89,22 @@ public class CentralPoint extends AppCompatActivity
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onPostResume(){
+        super.onPostResume();
+        revisarDatosDeUsuario();
+    }
+
+    private void revisarDatosDeUsuario() {
+        CondominioBD db = new CondominioBD(this);
+        if(!db.revisarExistenciaDeUsuarios())
+            iniciaRegistro();
+    }
+
+    private void iniciaRegistro() {
+        startActivity(new Intent(this, Preparacion.class));
     }
 
     @SuppressWarnings("StatementWithEmptyBody")

@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import org.inspira.condominio.shared.Usuario;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +34,11 @@ public class CondominioBD extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase dataBase) {
+        dataBase.execSQL("create table Usuario(" +
+                "email TEXT NOT NULL PRIMARY KEY," +
+                "nickname TEXT NOT NULL," +
+                "dateOfBirth long not null" +
+                ")");
         dataBase.execSQL("create table Convocatoria(" +
                 "idConvocatoria INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," +
                 "Asunto TEXT NOT NULL," +
@@ -39,7 +46,9 @@ public class CondominioBD extends SQLiteOpenHelper {
                 "Ubicacion TEXT," +
                 "Ubicacion_Interna TEXT," +
                 "Firma TEXT," +
-                "Fecha_de_Inicio LONG" +
+                "Fecha_de_Inicio LONG," +
+                "email TEXT NOT NULL," +
+                "FOREIGN KEY (email) REFERENCES Usuario(email)" +
                 ")");
         dataBase.execSQL("create table Punto_OdD(" +
                 "idPunto_OdD INTEGER PRIMARY KEY AUTOINCREMENT," +
@@ -49,7 +58,25 @@ public class CondominioBD extends SQLiteOpenHelper {
                 ")");
     }
 
-    public int insertaConvocatoria(Convocatoria conv){
+    public void agregarUsuario(Usuario usuario){
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("email", usuario.getEmail());
+        values.put("nickname", usuario.getNickname());
+        values.put("dateOfBirth", usuario.getDateOfBirth());
+        db.insert("Usuario", "---", values);
+        db.close();
+    }
+
+    public boolean revisarExistenciaDeUsuarios(){
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor c = db.rawQuery("select * from Usuario", null);
+        boolean exists = c.moveToNext();
+        c.close();
+        return exists;
+    }
+
+    public int insertaConvocatoria(Convocatoria conv, String email){
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("Asunto", conv.getAsunto());
@@ -58,6 +85,7 @@ public class CondominioBD extends SQLiteOpenHelper {
         values.put("Ubicacion_Interna", conv.getUbicacionInterna());
         values.put("Firma", conv.getFirma());
         values.put("Fecha_de_Inicio", conv.getFechaInicio());
+        values.put("email", email);
         db.insert("Convocatoria", "---", values);
         db = getReadableDatabase();
         Cursor c = db.rawQuery("select last_insert_rowid() v", null);

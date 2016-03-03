@@ -1,11 +1,13 @@
 package org.inspira.condominio.actividades;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 
 import org.inspira.condominio.R;
+import org.inspira.condominio.admin.CentralPoint;
 import org.inspira.condominio.datos.AlmacenamientoInterno;
 import org.inspira.condominio.datos.CondominioBD;
 import org.inspira.condominio.datos.Convocatoria;
@@ -187,7 +189,7 @@ public class CrearConvocatoria extends AppCompatActivity {
 
     private void guardaEnBaseDeDatos(){
         CondominioBD db = new CondominioBD(this);
-        convocatoria.setId(db.insertaConvocatoria(convocatoria));
+        convocatoria.setId(db.insertaConvocatoria(convocatoria, getSharedPreferences(CentralPoint.class.getName(), Context.MODE_PRIVATE).getString("usuario", "NaN")));
         for(PuntoOdD punto : convocatoria.getPuntos())
             db.insertaPuntoOdD(punto);
     }
