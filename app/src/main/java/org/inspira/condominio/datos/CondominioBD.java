@@ -56,18 +56,10 @@ public class CondominioBD extends SQLiteOpenHelper {
                 "idConvocatoria INTEGER NOT NULL," +
                 "FOREIGN KEY(idConvocatoria) REFERENCES Convocatoria(idConvocatoria)" +
                 ")");
-        dataBase.execSQL("create table Tipo_de_Registro_de_Pago(" +
-                "idTipo_de_Registro_de_Pago INTEGER PRIMARY KEY NOT NULL AUTOINCREMENT," +
-                "tipo_de_registro_de_pago TEXT NOT NULL" +
-                ")");
-        dataBase.execSQL("create table Concepto_de_Ingreso(" +
-                "idConcepto_de_Ingreso INTEGER NOT NULL PRIMAY KEY AUTOINCREMENT," +
-                "concepto_de_ingreso TEXT NOT NULL" +
-                ")");
         dataBase.execSQL("create table Ingreso(" +
                 "idIngreso INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
-                "idTipo_de_Registro_de_Pago INTEGER NOT NULL," +
-                "idConcepto_de_Ingreso INTEGER NOT NULL," +
+                "tipo_de_registro_de_pago INTEGER NOT NULL," +
+                "concepto text NOT NULL," +
                 "monto float not null," +
                 "nombre text not null," +
                 "departamento text," +
@@ -75,6 +67,14 @@ public class CondominioBD extends SQLiteOpenHelper {
                 "sello text not null," +
                 "foreign key(idTipo_de_Registro_de_Pago) references Tipo_de_Registro_de_Pago(idTipo_de_Registro_de_Pago)," +
                 "foreign key(idConcepto_de_Ingreso) references Concepto_de_Ingreso(idConcepto_de_Ingreso)" +
+                ")");
+        dataBase.execSQL("create table Egreso(" +
+                "idEgreso INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
+                "concepto text not null," +
+                "monto float not null," +
+                "favorecido text not null," +
+                "fecha text not null," +
+                "sello text not null," +
                 ")");
     }
 
