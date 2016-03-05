@@ -64,9 +64,7 @@ public class CondominioBD extends SQLiteOpenHelper {
                 "nombre text not null," +
                 "departamento text," +
                 "fecha text not null," +
-                "sello text not null," +
-                "foreign key(idTipo_de_Registro_de_Pago) references Tipo_de_Registro_de_Pago(idTipo_de_Registro_de_Pago)," +
-                "foreign key(idConcepto_de_Ingreso) references Concepto_de_Ingreso(idConcepto_de_Ingreso)" +
+                "sello text not null" +
                 ")");
         dataBase.execSQL("create table Egreso(" +
                 "idEgreso INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
@@ -74,7 +72,7 @@ public class CondominioBD extends SQLiteOpenHelper {
                 "monto float not null," +
                 "favorecido text not null," +
                 "fecha text not null," +
-                "sello text not null," +
+                "sello text not null" +
                 ")");
     }
 

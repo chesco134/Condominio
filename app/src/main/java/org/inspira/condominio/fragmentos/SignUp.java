@@ -201,7 +201,7 @@ public class SignUp extends Fragment {
         boolean veredicto = false;
         try{
             JSONObject json = new JSONObject();
-            json.put("action",7); // La acción 7 es para solicitar una validación de datos.
+            json.put("action",1); // La acción 7 es para solicitar una validación de datos.
             json.put("email", user.getEmail());
             json.put("nickname", user.getNickname());
             json.put("fecha_de_nacimiento", user.getDateOfBirth());
