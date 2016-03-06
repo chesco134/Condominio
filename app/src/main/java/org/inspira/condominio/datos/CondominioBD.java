@@ -97,6 +97,7 @@ public class CondominioBD extends SQLiteOpenHelper {
     public int insertaConvocatoria(Convocatoria conv, String email){
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
+        values.put("idConvocatoria", conv.getId());
         values.put("Asunto", conv.getAsunto());
         values.put("Condominio", conv.getCondominio());
         values.put("Ubicacion", conv.getUbicacion());

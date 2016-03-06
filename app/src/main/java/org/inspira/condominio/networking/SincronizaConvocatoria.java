@@ -39,7 +39,7 @@ public class SincronizaConvocatoria extends Thread {
     }
 
     public interface AccionesSyncConvocatoria{
-        void validacionCorrecta();
+        void validacionCorrecta(int idConvocatoria);
         void validacionIncorrecta();
     }
 
@@ -74,7 +74,7 @@ public class SincronizaConvocatoria extends Thread {
             json = new JSONObject(URLDecoder.decode(baos.toString(), "utf8"));
             baos.close();
             if(json.getBoolean("content")){
-                acciones.validacionCorrecta();
+                acciones.validacionCorrecta(json.getInt("idConvocatoria"));
             }else{
                 acciones.validacionIncorrecta();
             }

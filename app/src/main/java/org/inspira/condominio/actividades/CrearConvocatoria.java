@@ -134,7 +134,6 @@ public class CrearConvocatoria extends AppCompatActivity {
     public void creaConvocatoria(){
         grabData();
         generaPDF();
-        guardaEnBaseDeDatos();
         difundeConvocatoria();
     }
 
@@ -188,9 +187,10 @@ public class CrearConvocatoria extends AppCompatActivity {
         }.start();
     }
 
-    private void guardaEnBaseDeDatos(){
+    private void guardaEnBaseDeDatos(int idConvocatoria){
         CondominioBD db = new CondominioBD(this);
-        convocatoria.setId(db.insertaConvocatoria(convocatoria, getSharedPreferences(CentralPoint.class.getName(), Context.MODE_PRIVATE).getString("email", "NaN")));
+        convocatoria.setId(idConvocatoria);
+        db.insertaConvocatoria(convocatoria, getSharedPreferences(CentralPoint.class.getName(), Context.MODE_PRIVATE).getString("email", "NaN"));
         for(PuntoOdD punto : convocatoria.getPuntos())
             db.insertaPuntoOdD(punto);
     }
@@ -204,7 +204,8 @@ public class CrearConvocatoria extends AppCompatActivity {
     private class RespuestaAccionSyncConvocatoria implements SincronizaConvocatoria.AccionesSyncConvocatoria{
 
         @Override
-        public void validacionCorrecta() {
+        public void validacionCorrecta(int idConvocatoria) {
+            guardaEnBaseDeDatos(idConvocatoria);
             Intent i = new Intent();
             i.putExtra("convocatoria", convocatoria);
             setResult(RESULT_OK, i);

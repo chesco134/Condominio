@@ -29,6 +29,8 @@ import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Login extends Fragment {
 
@@ -179,14 +181,19 @@ public class Login extends Fragment {
                 convocatoria.setUbicacionInterna(json.getString("Ubicacion_Interna"));
                 convocatoria.setFirma(json.getString("Firma"));
                 convocatoria.setFechaInicio(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(json.getString("Fecha_de_Inicio")).getTime());
-                db.insertaConvocatoria(convocatoria, email);
                 JSONArray puntosConv = json.getJSONArray("puntos");
+                List<PuntoOdD> puntos = new ArrayList<>();
                 for(int j=0; j<puntosConv.length(); j++){
                     PuntoOdD punto = new PuntoOdD();
                     punto.setDescripcion(puntosConv.getString(j));
-                    punto.setIdConvocatoria(i+1);
-                    db.insertaPuntoOdD(punto);
+                    punto.setIdConvocatoria(json.getInt("idConvocatoria"));
+                    puntos.add(punto);
                 }
+                convocatoria.setPuntos(puntos);
+                convocatoria.setId(json.getInt("idConvocatoria"));
+                db.insertaConvocatoria(convocatoria, email);
+                for(PuntoOdD punto : puntos)
+                    db.insertaPuntoOdD(punto);
             }
         }catch(JSONException | ParseException e){
             e.printStackTrace();
