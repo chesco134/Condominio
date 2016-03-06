@@ -18,6 +18,7 @@ import org.inspira.condominio.dialogos.ProveedorSnackBar;
 import org.inspira.condominio.dialogos.ProveedorToast;
 import org.inspira.condominio.fragmentos.DatosDeEncabezado;
 import org.inspira.condominio.fragmentos.OrdenDelDia;
+import org.inspira.condominio.networking.SincronizaConvocatoria;
 import org.inspira.condominio.pdf.ExportarConvocatoria;
 
 import java.io.File;
@@ -189,15 +190,37 @@ public class CrearConvocatoria extends AppCompatActivity {
 
     private void guardaEnBaseDeDatos(){
         CondominioBD db = new CondominioBD(this);
-        convocatoria.setId(db.insertaConvocatoria(convocatoria, getSharedPreferences(CentralPoint.class.getName(), Context.MODE_PRIVATE).getString("usuario", "NaN")));
+        convocatoria.setId(db.insertaConvocatoria(convocatoria, getSharedPreferences(CentralPoint.class.getName(), Context.MODE_PRIVATE).getString("email", "NaN")));
         for(PuntoOdD punto : convocatoria.getPuntos())
             db.insertaPuntoOdD(punto);
     }
 
     private void difundeConvocatoria(){
-        Intent i = new Intent();
-        i.putExtra("convocatoria", convocatoria);
-        setResult(RESULT_OK, i);
-        finish();
+        SincronizaConvocatoria sinc = new SincronizaConvocatoria(this, convocatoria);
+        sinc.setAcciones(new RespuestaAccionSyncConvocatoria());
+        sinc.start();
+    }
+
+    private class RespuestaAccionSyncConvocatoria implements SincronizaConvocatoria.AccionesSyncConvocatoria{
+
+        @Override
+        public void validacionCorrecta() {
+            Intent i = new Intent();
+            i.putExtra("convocatoria", convocatoria);
+            setResult(RESULT_OK, i);
+            finish();
+        }
+
+        @Override
+        public void validacionIncorrecta() {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    ProveedorSnackBar
+                            .muestraBarraDeBocados(findViewById(R.id.formato_convocatoria_contenedor),
+                                    "Servicio temporalmente no disponible");
+                }
+            });
+        }
     }
 }

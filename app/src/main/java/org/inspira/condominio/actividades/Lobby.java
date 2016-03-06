@@ -57,7 +57,7 @@ public class Lobby extends AppCompatActivity {
     protected void onResume(){
         super.onResume();
         loadContent();
-        new DummyTester().start();
+        // new DummyTester().start();
     }
 
     @Override

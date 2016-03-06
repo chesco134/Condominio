@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import org.inspira.condominio.R;
+import org.inspira.condominio.fragmentos.Login;
 import org.inspira.condominio.fragmentos.SignUp;
 
 /**
@@ -20,9 +21,10 @@ public class Preparacion extends AppCompatActivity {
     }
 
     private void colocaFragmento() {
+        getSupportActionBar().setTitle("Ingreso");
         getSupportFragmentManager()
                 .beginTransaction()
-                .add(R.id.preparacion_main_container, new SignUp())
+                .add(R.id.preparacion_main_container, new Login())
                 .commit();
     }
 }

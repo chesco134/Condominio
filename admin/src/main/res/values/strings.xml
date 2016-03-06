@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">My Application</string>
 
+    <string name="barra_de_bocados_aviso">Aviso</string>
+
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
@@ -9,4 +11,26 @@
     <string name="central_point_menu_administracion">Administración</string>
     <string name="central_point_menu_accidentes">Accidentes</string>
     <string name="central_point_menu_configuracion">Configuración</string>
+
+    <string name="crear_convocatoria_fecha_incorrecta">La fecha es incorrecta</string>
+    <string name="crear_convocatoria_hora_incorrecta">La hora es incorrecta</string>
+    <string name="crear_convocatoria_datos_incorrectos">Debe llenar todos los datos</string>
+    <string name="crear_convocatoria_sitio_en_construccion">Sitio en construcción :)</string>
+    <string name="crear_convocatoria_error_pdf">No se guardó a PDF</string>
+    <string name="crear_convocatoria_archivo_creado">Archivo creado n.n</string>
+
+    <string name="dialogo_entrada_texto_cancelar">Cancelar</string>
+    <string name="dialogo_entrada_texto_aceptar">Aceptar</string>
+    <string name="dialogo_entrada_texto_modificar_texto">Modifique el elemento</string>
+    <string name="dialogo_entrada_texto_agregar_texto">Agregue elemento</string>
+    <string name="dialogo_informacion_confirmar_salida">¿Está seguro de salir? Se perderán los datos al moemento (sistema de borrador en contrucción)</string>
+    <string name="dialogo_remocion_elementos_titulo">Seleccione elementos a remover</string>
+
+    <string name="signup_usuario">Nombre de usuario</string>
+    <string name="startup_email">E-mail</string>
+    <string name="signup_date_of_birth">Fecha de nacimiento</string>
+    <string name="signup_car_nickname">Apodo del coche</string>
+    <string name="signup_registrar">Registrar</string>
+    <string name="startup_pass">Password</string>
+    <string name="signup_pista_password">La contraseña debe tener al menos 5 caracteres, incluir una mayúscula, un número y un caracter no alfanumérico: !@#$&amp;*</string>
 </resources>

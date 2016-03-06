@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#A8512E</color>
-    <color name="colorPrimaryDark">#8C4326</color>
+<!--    <color name="colorPrimary">#A8512E</color> -->
+<!--    <color name="colorPrimaryDark">#8C4326</color> -->
     <color name="colorAccent">#C8AD7F</color>
+    <color name="colorPrimary">#FF966C2D</color>
+    <color name="colorPrimaryDark">#ff553300</color>
+    <color name="colorBlue">#4fd5d5</color>
+    <color name="beige">#C8AD7F</color>
+    <color name="missigno">#ff553000</color>
+    <color name="white">#ffffffff</color>
+    <color name="error">#ffff5050</color>
+    <color name="default_button">#FF966C2D</color>
+    <color name="pressed_button">#ff553300</color>
+    <color name="login_bg">#ffffe870</color>
 </resources>

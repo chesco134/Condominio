@@ -13,6 +13,7 @@
             <option value="$PROJECT_DIR$/admin" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/itextpdf-5.4.0" />
+            <option value="$PROJECT_DIR$/login" />
           </set>
         </option>
       </GradleProjectSettings>

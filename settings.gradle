@@ -1,1 +1,1 @@
-include ':app', ':itextpdf-5.4.0', ':admin', ':admin'
+include ':app', ':itextpdf-5.4.0', ':admin', ':admin', ':login'

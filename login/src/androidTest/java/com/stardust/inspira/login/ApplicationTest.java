@@ -1,4 +1,4 @@
-package org.inspira.condominio.admin;
+package com.stardust.inspira.login;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

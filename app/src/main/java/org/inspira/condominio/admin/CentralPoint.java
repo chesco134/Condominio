@@ -1,6 +1,6 @@
 package org.inspira.condominio.admin;
 
-import org.inspira.condominio.R;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -11,22 +11,22 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import org.inspira.condominio.R;
 import org.inspira.condominio.actividades.Lobby;
 import org.inspira.condominio.actividades.Preparacion;
+import org.inspira.condominio.actividades.SplashScreen;
 import org.inspira.condominio.datos.CondominioBD;
 import org.inspira.condominio.dialogos.ProveedorSnackBar;
-
-import java.net.URL;
 
 public class CentralPoint extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     public static final String SERVER_URL = "http://votacionesipn.com/condominios/";
+    private boolean isFirstTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,8 +55,18 @@ public class CentralPoint extends AppCompatActivity
 
         TextView helloMessage = (TextView) findViewById(R.id.hello_world);
         helloMessage
-                .setTypeface(Typeface.createFromAsset(getAssets(),"Roboto-Black.ttf"));
+                .setTypeface(Typeface.createFromAsset(getAssets(), "Roboto-Black.ttf"));
         helloMessage.setText("Aqui aparecerán las notificaciones al admin.");
+        isFirstTime = savedInstanceState == null;
+        View hView = navigationView.getHeaderView(navigationView.getHeaderCount()-1);
+        ((TextView)hView.findViewById(R.id.under_pp)).setText(
+                getSharedPreferences(getClass().getName(), Context.MODE_PRIVATE)
+                        .getString("usuario", "NaN")
+        );
+        ((TextView)hView.findViewById(R.id.textView)).setText(
+                getSharedPreferences(getClass().getName(), Context.MODE_PRIVATE)
+                .getString("email", "NaN")
+        );
     }
 
     @Override
@@ -70,31 +80,17 @@ public class CentralPoint extends AppCompatActivity
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.central_point, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
     protected void onPostResume(){
         super.onPostResume();
-        revisarDatosDeUsuario();
+        if(isFirstTime) {
+            isFirstTime = false;
+            launchSplash();
+        }else
+            revisarDatosDeUsuario();
+    }
+
+    private void launchSplash() {
+        startActivity(new Intent(this,SplashScreen.class));
     }
 
     private void revisarDatosDeUsuario() {

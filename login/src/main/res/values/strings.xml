@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Login</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_splash_screen">SplashScreen</string>
+    <string name="login_registrar">Registrar</string>
+    <string name="login_email">Correo electrónico</string>
+    <string name="login_iniciar_sesion">Iniciar sesión</string>
+</resources>

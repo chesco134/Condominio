@@ -192,6 +192,7 @@ public class SignUp extends Fragment {
     private void guardarInformacion(Usuario usuario) {
         SharedPreferences.Editor editor = getActivity().getSharedPreferences(CentralPoint.class.getName(), Context.MODE_PRIVATE).edit();
         editor.putString("usuario", usuario.getNickname());
+        editor.putString("email", usuario.getEmail());
         editor.apply();
         CondominioBD db = new CondominioBD(getContext());
         db.agregarUsuario(usuario);
@@ -201,7 +202,7 @@ public class SignUp extends Fragment {
         boolean veredicto = false;
         try{
             JSONObject json = new JSONObject();
-            json.put("action",1); // La acción 7 es para solicitar una validación de datos.
+            json.put("action", 2); // La acción 2 es para solicitar una validación de datos.
             json.put("email", user.getEmail());
             json.put("nickname", user.getNickname());
             json.put("fecha_de_nacimiento", user.getDateOfBirth());
