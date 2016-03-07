@@ -2,9 +2,9 @@
 <resources>
 <!--    <color name="colorPrimary">#A8512E</color> -->
 <!--    <color name="colorPrimaryDark">#8C4326</color> -->
-    <color name="colorAccent">#C8AD7F</color>
-    <color name="colorPrimary">#FF966C2D</color>
-    <color name="colorPrimaryDark">#ff553300</color>
+    <color name="colorAccent">#ff009eff</color>
+    <color name="colorPrimary">#ff009846</color>
+    <color name="colorPrimaryDark">#ff00803c</color>
     <color name="colorBlue">#4fd5d5</color>
     <color name="beige">#C8AD7F</color>
     <color name="missigno">#ff553000</color>
@@ -13,4 +13,6 @@
     <color name="default_button">#FF966C2D</color>
     <color name="pressed_button">#ff553300</color>
     <color name="login_bg">#ffffe870</color>
+    <color name="shadowColor">#FF202020</color>
+    <color name="gris_9">#ff999999</color>
 </resources>

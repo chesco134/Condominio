@@ -1,6 +1,4 @@
-package org.inspira.condominio.shared;
-
-import android.content.Context;
+package org.inspira.condominio.datos;
 
 /**
  * Created by jcapiz on 29/02/16.

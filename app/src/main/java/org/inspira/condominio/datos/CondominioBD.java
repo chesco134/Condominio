@@ -6,8 +6,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import org.inspira.condominio.shared.Usuario;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,6 +37,10 @@ public class CondominioBD extends SQLiteOpenHelper {
                 "nickname TEXT NOT NULL," +
                 "dateOfBirth long not null" +
                 ")");
+        dataBase.execSQL("create table InformacionAdmin(" +
+                "email text not null primary key," +
+                "sello text not null" +
+                ")");
         dataBase.execSQL("create table Convocatoria(" +
                 "idConvocatoria INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," +
                 "Asunto TEXT NOT NULL," +
@@ -56,25 +58,48 @@ public class CondominioBD extends SQLiteOpenHelper {
                 "idConvocatoria INTEGER NOT NULL," +
                 "FOREIGN KEY(idConvocatoria) REFERENCES Convocatoria(idConvocatoria)" +
                 ")");
+        dataBase.execSQL("create table Razon_de_Ingreso(" +
+                "idRazon_de_Ingreso INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
+                "Razon_de_Ingreso TEXT NOT NULL" +
+                ")");
+        dataBase.execSQL("create table Concepto_de_Ingreso(" +
+                "idConcepto_de_Ingreso integer not null primary key autoincrement," +
+                "Concepto_de_Ingreso text not null" +
+                ")");
         dataBase.execSQL("create table Ingreso(" +
                 "idIngreso INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
-                "tipo_de_registro_de_pago INTEGER NOT NULL," +
-                "concepto text NOT NULL," +
+                "idRazon_de_Ingreso INTEGER NOT NULL," +
+                "idConcepto_de_Ingreso integer NOT NULL," +
                 "monto float not null," +
                 "nombre text not null," +
                 "departamento text," +
                 "fecha text not null," +
-                "sello text not null" +
+                "email text not null," +
+                "foreign key(idRazon_de_Ingreso) references Razon_de_Ingreso(idRazon_de_Ingreso)," +
+                "foreign key(idConcepto_de_Ingreso) references Concepto_de_Ingreso(idConcepto_de_Ingreso)," +
+                "foreign key(email) references InformacionAdmin(email)" +
+                ")");
+        dataBase.execSQL("create table Razon_de_Egreso(" +
+                "idRazon_de_Egreso integer not null primary key autoincrement," +
+                "Razon_de_Egreso text not null" +
                 ")");
         dataBase.execSQL("create table Egreso(" +
                 "idEgreso INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
-                "concepto text not null," +
+                "idRazon_de_Egreso integer not null," +
                 "monto float not null," +
-                "favorecido text not null," +
+                "favorecido text not null," +  // Debe ser un string que venga del server de un habitante registrado.
                 "fecha text not null," +
-                "sello text not null" +
+                "email text not null," +
+                "foreign key(idRazon_de_Egreso) references Razon_de_Egreso(idRazon_de_Egreso)," +
+                "foreign key(email) references InformacionAdmin(email)" +
                 ")");
     }
+
+    /***
+     *
+     * Zona de inserts
+     *
+     ***********************/
 
     public void agregarUsuario(Usuario usuario){
         SQLiteDatabase db = getWritableDatabase();
@@ -86,12 +111,13 @@ public class CondominioBD extends SQLiteOpenHelper {
         db.close();
     }
 
-    public boolean revisarExistenciaDeUsuarios(){
-        SQLiteDatabase db = getReadableDatabase();
-        Cursor c = db.rawQuery("select * from Usuario", null);
-        boolean exists = c.moveToNext();
-        c.close();
-        return exists;
+    public void agregaSello(String email, String sello){
+        ContentValues values = new ContentValues();
+        values.put("email", email);
+        values.put("sello", sello);
+        SQLiteDatabase db = getWritableDatabase();
+        db.insert("InformacionAdmin", "---", values);
+        db.close();
     }
 
     public int insertaConvocatoria(Convocatoria conv, String email){
@@ -158,5 +184,29 @@ public class CondominioBD extends SQLiteOpenHelper {
         c.close();
         db.close();
         return convocatorias.toArray(new Convocatoria[0]);
+    }
+
+    /***
+     *
+     * Zona de Revisiones
+     *
+     **********************/
+
+
+    public boolean revisarExistenciaDeUsuarios(){
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor c = db.rawQuery("select * from Usuario", null);
+        boolean exists = c.moveToNext();
+        c.close();
+        return exists;
+    }
+
+    public boolean revisaExistenciaDeSello(String email){
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor c = db.rawQuery("select sello from InformacionAdmin where email = ?", new String[]{email});
+        boolean resultado = c.moveToNext();
+        c.close();
+        db.close();
+        return resultado;
     }
 }

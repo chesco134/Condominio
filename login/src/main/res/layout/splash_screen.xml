@@ -17,4 +17,15 @@
         android:layout_centerInParent="true"
         android:contentDescription="@string/app_name"/>
 
+    <TextView
+        android:id="@+id/splash_slogan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:textSize="52sp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20sp"
+        android:text="@string/slogan"
+        android:textColor="@color/gris_9"/>
+
 </RelativeLayout>

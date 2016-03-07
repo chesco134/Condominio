@@ -1,11 +1,9 @@
 package org.inspira.condominio.datos;
 
-import java.io.Serializable;
-
 /**
  * Created by Siempre on 22/02/2016.
  */
-public class ModeloDeDatos implements Serializable {
+public class ModeloDeDatos implements Shareable {
 
     private int id;
 

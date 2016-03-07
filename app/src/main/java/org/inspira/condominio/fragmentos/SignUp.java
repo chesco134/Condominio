@@ -22,7 +22,7 @@ import org.inspira.condominio.dialogos.DialogoDeConsultaSimple;
 import org.inspira.condominio.dialogos.ObtenerFecha;
 import org.inspira.condominio.dialogos.ProveedorSnackBar;
 import org.inspira.condominio.seguridad.Hasher;
-import org.inspira.condominio.shared.Usuario;
+import org.inspira.condominio.datos.Usuario;
 import org.json.JSONException;
 import org.json.JSONObject;
 

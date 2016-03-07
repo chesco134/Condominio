@@ -30,7 +30,7 @@ public class EntradaTexto extends DialogFragment {
     private AccionDialogo accionDialogo;
 
     public String getEntradaDeTexto() {
-        return entradaDeTexto.getText().toString();
+        return entradaDeTexto.getText().toString().trim();
     }
 
     public void setEntradaDeTexto(EditText entradaDeTexto) {

@@ -2,7 +2,6 @@ package org.inspira.condominio.admin;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -19,6 +18,8 @@ import org.inspira.condominio.R;
 import org.inspira.condominio.actividades.Lobby;
 import org.inspira.condominio.actividades.Preparacion;
 import org.inspira.condominio.actividades.SplashScreen;
+import org.inspira.condominio.admin.formatos.Formatos;
+import org.inspira.condominio.admin.formatos.FormatosLobby;
 import org.inspira.condominio.datos.CondominioBD;
 import org.inspira.condominio.dialogos.ProveedorSnackBar;
 
@@ -27,6 +28,7 @@ public class CentralPoint extends AppCompatActivity
 
     public static final String SERVER_URL = "http://votacionesipn.com/condominios/";
     private boolean isFirstTime;
+    private boolean secondTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,9 +56,7 @@ public class CentralPoint extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         TextView helloMessage = (TextView) findViewById(R.id.hello_world);
-        helloMessage
-                .setTypeface(Typeface.createFromAsset(getAssets(), "Roboto-Black.ttf"));
-        helloMessage.setText("Aqui aparecerán las notificaciones al admin.");
+        //helloMessage.setText(getString(R.string.large_text));
         isFirstTime = savedInstanceState == null;
         View hView = navigationView.getHeaderView(navigationView.getHeaderCount()-1);
         ((TextView)hView.findViewById(R.id.under_pp)).setText(
@@ -67,16 +67,7 @@ public class CentralPoint extends AppCompatActivity
                 getSharedPreferences(getClass().getName(), Context.MODE_PRIVATE)
                 .getString("email", "NaN")
         );
-    }
-
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
+        secondTime = true;
     }
 
     @Override
@@ -90,7 +81,7 @@ public class CentralPoint extends AppCompatActivity
     }
 
     private void launchSplash() {
-        startActivity(new Intent(this,SplashScreen.class));
+        startActivity(new Intent(this, SplashScreen.class));
     }
 
     private void revisarDatosDeUsuario() {
@@ -130,8 +121,7 @@ public class CentralPoint extends AppCompatActivity
     }
 
     private void launchAdministracion(){
-        ProveedorSnackBar.muestraBarraDeBocados(findViewById(R.id.hello_world),
-                getString(R.string.crear_convocatoria_sitio_en_construccion));
+        startActivity(new Intent(this, FormatosLobby.class));
     }
 
     private void launchAccidentes(){
@@ -142,5 +132,21 @@ public class CentralPoint extends AppCompatActivity
     private void launchConfiguracion(){
         ProveedorSnackBar.muestraBarraDeBocados(findViewById(R.id.hello_world),
                 getString(R.string.crear_convocatoria_sitio_en_construccion));
+    }
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            if(secondTime){
+                ProveedorSnackBar
+                        .muestraBarraDeBocados(findViewById(R.id.toolbar), "Presione una vez más para salir");
+                secondTime = false;
+            }else{
+                super.onBackPressed();
+            }
+        }
     }
 }

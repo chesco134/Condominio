@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="conceptos_de_ingreso">
+        <item>Cuota ordinaria</item>
+        <item>Cuota extraordinaria</item>
+        <item>Adeudos</item>
+        <item>Fondo anual</item>
+        <item>Arrendatario</item>
+        <item>Otro</item>
+    </string-array>
+</resources>

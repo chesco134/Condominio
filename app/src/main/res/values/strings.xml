@@ -3,6 +3,7 @@
     <string name="registro">Registro</string>
     <string name="action_settings">Settings</string>
     <string name="texto_convocatoria">Convocatorias</string>
+    <string name="texto_formatos_admin">Formatos generados</string>
     <string name="hacer_encabezado_convocatoria_asunto">Asunto</string>
     <string name="hacer_encabezado_convocatoria_condominio">Condominio</string>
     <string name="hacer_encabezado_convocatoria_ubicacion_interna">Ubicación interna</string>
@@ -66,5 +67,17 @@ Las convocatorias para la celebración de asambleas ordinarias, se notificarán 
     <string name="estructura_de_convocatoria_relleno_7">Ciudad de México a </string>
     <string name="estructura_de_convocatoria_primer_punto_unamovible">1.- Lista de asistencia e instalación de la asamblea.</string>
     <string name="estructura_de_convocatoria_segundo_punto_inamovible">2.- Nombramiento de presidente, secretario y escrutador de la asamblea.</string>
+    <string name="formato_de_ingreso_razon_de_pago">Seleccione razón de pago:</string>
+    <string name="formato_de_ingreso_concepto">Concepto:</string>
+    <string name="formato_de_ingreso_pista_monto">Monto</string>
+    <string name="formato_de_ingreso_pista_nombre">Nombre</string>
+    <string name="formato_de_ingreso_confirmar">Confirmar</string>
+    <string name="formato_de_egreso_razon_de_pago">Concepto:</string>
+    <string name="formato_de_egreso_pista_nombre">A favor de</string>
+    <string name="title_activity_formatos_admin">Formatos Admin</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="formato_de_egreso_header">Egreso</string>
+    <string name="formato_de_ingreso_header">Ingreso</string>
+    <string name="title_activity_formatos_lobby">FormatosLobby</string>
 
 </resources>

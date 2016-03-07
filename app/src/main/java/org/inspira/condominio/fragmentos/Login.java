@@ -22,7 +22,7 @@ import org.inspira.condominio.dialogos.ProveedorSnackBar;
 import org.inspira.condominio.networking.LoginConnection;
 import org.inspira.condominio.networking.ObtencionDeConvocatorias;
 import org.inspira.condominio.seguridad.Hasher;
-import org.inspira.condominio.shared.Usuario;
+import org.inspira.condominio.datos.Usuario;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;

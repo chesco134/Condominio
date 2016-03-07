@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="razones_de_egreso">
+        <item>Pago a proveedor</item>
+        <item>Efectivo para compra de materiales</item>
+        <item>Pago a administrador</item>
+        <item>Pago a personal de limpieza</item>
+        <item>Pago a personal de seguridad, vigilancia y/o portería</item>
+        <item>Otro</item>
+    </string-array>
+</resources>

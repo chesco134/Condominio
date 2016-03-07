@@ -44,11 +44,12 @@ public class CrearConvocatoria extends AppCompatActivity {
         if (savedInstanceState == null){
             convocatoria = new Convocatoria();
             state = 0;
-    }else {
+        }else {
             state = savedInstanceState.getInt("state");
             convocatoria = (Convocatoria)savedInstanceState.getSerializable("convocatoria");
             nombreDeArchivo = savedInstanceState.getString("nombre_de_archivo");
         }
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp);
         colocarFragmento();
     }
 
