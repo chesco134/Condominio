@@ -25,4 +25,5 @@ dependencies {
     compile project(':itextpdf-5.4.0')
     compile project(':login')
     compile 'com.android.support:support-v13:23.2.0'
+    compile 'com.android.support:support-v4:23.2.0'
 }

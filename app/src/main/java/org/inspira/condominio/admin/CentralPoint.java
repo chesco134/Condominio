@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import org.inspira.condominio.R;
+import org.inspira.condominio.actividades.Configuraciones;
 import org.inspira.condominio.actividades.Lobby;
 import org.inspira.condominio.actividades.Preparacion;
 import org.inspira.condominio.actividades.SplashScreen;
@@ -130,8 +131,7 @@ public class CentralPoint extends AppCompatActivity
     }
 
     private void launchConfiguracion(){
-        ProveedorSnackBar.muestraBarraDeBocados(findViewById(R.id.hello_world),
-                getString(R.string.crear_convocatoria_sitio_en_construccion));
+        startActivity(new Intent(this, Configuraciones.class));
     }
 
     @Override

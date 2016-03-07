@@ -88,7 +88,7 @@ public class CondominioBD extends SQLiteOpenHelper {
                 "idRazon_de_Egreso integer not null," +
                 "monto float not null," +
                 "favorecido text not null," +  // Debe ser un string que venga del server de un habitante registrado.
-                "fecha text not null," +
+                "fecha long not null," +
                 "email text not null," +
                 "foreign key(idRazon_de_Egreso) references Razon_de_Egreso(idRazon_de_Egreso)," +
                 "foreign key(email) references InformacionAdmin(email)" +

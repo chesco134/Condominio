@@ -68,6 +68,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.inspira.condominio.admin.CentralPoint" />
         </activity>
+        <activity
+            android:name=".actividades.Configuraciones"
+            android:label="@string/title_activity_configuraciones"
+            android:parentActivityName=".admin.CentralPoint">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.inspira.condominio.admin.CentralPoint" />
+        </activity>
     </application>
 
 </manifest>
