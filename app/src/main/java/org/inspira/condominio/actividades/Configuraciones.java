@@ -17,9 +17,14 @@ import android.app.ActionBar;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.RingtonePreference;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.support.v4.app.NavUtils;
+import android.view.View;
+import android.widget.LinearLayout;
 
 import org.inspira.condominio.R;
 
@@ -125,6 +130,11 @@ public class Configuraciones extends PreferenceActivity {
         setupActionBar();
     }
 
+    @Override
+     protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+    }
+
     /**
      * Set up the {@link android.app.ActionBar}, if the API is available.
      */
@@ -133,6 +143,17 @@ public class Configuraciones extends PreferenceActivity {
         if (actionBar != null) {
             // Show the Up button in the action bar.
             actionBar.setDisplayHomeAsUpEnabled(true);
+        }else{
+            LinearLayout root = (LinearLayout)findViewById(android.R.id.list).getParent().getParent().getParent();
+            View rootView = LayoutInflater.from(this).inflate(R.layout.dummy_layout, root, false);
+            Toolbar bar = (Toolbar) rootView.findViewById(R.id.toolbar);
+            root.addView(rootView, 0); // insert at top
+            bar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finish();
+                }
+            });
         }
     }
 

@@ -71,6 +71,7 @@
         <activity
             android:name=".actividades.Configuraciones"
             android:label="@string/title_activity_configuraciones"
+            android:theme="@style/AppTheme"
             android:parentActivityName=".admin.CentralPoint">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

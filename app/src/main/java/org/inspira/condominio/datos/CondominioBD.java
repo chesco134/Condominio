@@ -95,7 +95,7 @@ public class CondominioBD extends SQLiteOpenHelper {
                 ")");
     }
 
-    /***
+    /*********************
      *
      * Zona de inserts
      *
@@ -186,7 +186,7 @@ public class CondominioBD extends SQLiteOpenHelper {
         return convocatorias.toArray(new Convocatoria[0]);
     }
 
-    /***
+    /*********************
      *
      * Zona de Revisiones
      *
