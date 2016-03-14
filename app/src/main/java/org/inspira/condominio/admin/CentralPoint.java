@@ -7,9 +7,11 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -56,18 +58,7 @@ public class CentralPoint extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        TextView helloMessage = (TextView) findViewById(R.id.hello_world);
-        //helloMessage.setText(getString(R.string.large_text));
         isFirstTime = savedInstanceState == null;
-        View hView = navigationView.getHeaderView(navigationView.getHeaderCount()-1);
-        ((TextView)hView.findViewById(R.id.under_pp)).setText(
-                getSharedPreferences(getClass().getName(), Context.MODE_PRIVATE)
-                        .getString("usuario", "NaN")
-        );
-        ((TextView)hView.findViewById(R.id.textView)).setText(
-                getSharedPreferences(getClass().getName(), Context.MODE_PRIVATE)
-                .getString("email", "NaN")
-        );
         secondTime = true;
     }
 
@@ -79,6 +70,37 @@ public class CentralPoint extends AppCompatActivity
             launchSplash();
         }else
             revisarDatosDeUsuario();
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        View hView = navigationView.getHeaderView(navigationView.getHeaderCount()-1);
+        ((TextView)hView.findViewById(R.id.under_pp)).setText(
+                getSharedPreferences(getClass().getName(), Context.MODE_PRIVATE)
+                        .getString("usuario", "NaN")
+        );
+        ((TextView)hView.findViewById(R.id.textView)).setText(
+                getSharedPreferences(getClass().getName(), Context.MODE_PRIVATE)
+                        .getString("email", "NaN")
+        );
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        getMenuInflater().inflate(R.menu.central_point, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        int itemId = item.getItemId();
+        if(itemId == R.id.action_add_person){
+            launchRegitraNuevoHabitante();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void launchRegitraNuevoHabitante() {
+        ProveedorSnackBar
+                .muestraBarraDeBocados(findViewById(R.id.hello_world), "Sitio en construcción");
     }
 
     private void launchSplash() {

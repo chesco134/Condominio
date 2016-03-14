@@ -23,61 +23,11 @@
             android:id="@+id/hacer_encabezado_convocatoria_piso_asunto"
             android:layout_width="wrap_content"
             android:layout_height="1sp"
-            android:layout_alignEnd="@+id/hacer_encabezado_convocatoria_entrada_firma"
-            android:layout_alignRight="@+id/hacer_encabezado_convocatoria_entrada_firma"
-            android:layout_alignStart="@+id/hacer_encabezado_convocatoria_entrada_firma"
-            android:layout_alignLeft="@+id/hacer_encabezado_convocatoria_entrada_firma"
+            android:layout_alignEnd="@+id/hacer_encabezado_convocatoria_entrada_asunto"
+            android:layout_alignRight="@+id/hacer_encabezado_convocatoria_entrada_asunto"
+            android:layout_alignStart="@+id/hacer_encabezado_convocatoria_entrada_asunto"
+            android:layout_alignLeft="@+id/hacer_encabezado_convocatoria_entrada_asunto"
             android:layout_below="@+id/hacer_encabezado_convocatoria_entrada_asunto"
-            android:background="@drawable/piso_1"/>
-
-        <EditText
-            android:id="@+id/hacer_encabezado_convocatoria_entrada_condominio"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20sp"
-            android:layout_marginStart="20sp"
-            android:layout_marginLeft="20sp"
-            android:layout_marginEnd="20sp"
-            android:layout_marginRight="20sp"
-            android:layout_below="@+id/hacer_encabezado_convocatoria_entrada_asunto"
-            android:hint="@string/hacer_encabezado_convocatoria_condominio"
-            android:inputType="text"
-            android:background="@drawable/fondo_edit_text_no_opaque"
-            android:textSize="20sp"/>
-        <TextView
-            android:id="@+id/hacer_encabezado_convocatoria_piso_condominio"
-            android:layout_width="wrap_content"
-            android:layout_height="1sp"
-            android:layout_alignEnd="@+id/hacer_encabezado_convocatoria_entrada_firma"
-            android:layout_alignRight="@+id/hacer_encabezado_convocatoria_entrada_firma"
-            android:layout_alignStart="@+id/hacer_encabezado_convocatoria_entrada_firma"
-            android:layout_alignLeft="@+id/hacer_encabezado_convocatoria_entrada_firma"
-            android:layout_below="@+id/hacer_encabezado_convocatoria_entrada_condominio"
-            android:background="@drawable/piso_1"/>
-
-        <EditText
-            android:id="@+id/hacer_encabezado_convocatoria_entrada_ubicacion"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20sp"
-            android:layout_marginStart="20sp"
-            android:layout_marginLeft="20sp"
-            android:layout_marginEnd="20sp"
-            android:layout_marginRight="20sp"
-            android:textSize="20sp"
-            android:background="@drawable/fondo_edit_text_no_opaque"
-            android:layout_below="@+id/hacer_encabezado_convocatoria_entrada_condominio"
-            android:hint="@string/hacer_encabezado_convocatoria_ubicacion"
-            android:inputType="text"/>
-        <TextView
-            android:id="@+id/hacer_encabezado_convocatoria_piso_ubicacion"
-            android:layout_width="wrap_content"
-            android:layout_height="1sp"
-            android:layout_alignEnd="@+id/hacer_encabezado_convocatoria_entrada_firma"
-            android:layout_alignRight="@+id/hacer_encabezado_convocatoria_entrada_firma"
-            android:layout_alignStart="@+id/hacer_encabezado_convocatoria_entrada_firma"
-            android:layout_alignLeft="@+id/hacer_encabezado_convocatoria_entrada_firma"
-            android:layout_below="@+id/hacer_encabezado_convocatoria_entrada_ubicacion"
             android:background="@drawable/piso_1"/>
 
         <EditText
@@ -92,42 +42,17 @@
             android:textSize="20sp"
             android:inputType="text"
             android:background="@drawable/fondo_edit_text_no_opaque"
-            android:layout_below="@+id/hacer_encabezado_convocatoria_entrada_ubicacion"
+            android:layout_below="@+id/hacer_encabezado_convocatoria_entrada_asunto"
             android:hint="@string/hacer_encabezado_convocatoria_ubicacion_interna"/>
         <TextView
             android:id="@+id/hacer_encabezado_convocatoria_piso_ubicacion_interna"
             android:layout_width="wrap_content"
             android:layout_height="1sp"
-            android:layout_alignEnd="@+id/hacer_encabezado_convocatoria_entrada_firma"
-            android:layout_alignRight="@+id/hacer_encabezado_convocatoria_entrada_firma"
-            android:layout_alignStart="@+id/hacer_encabezado_convocatoria_entrada_firma"
-            android:layout_alignLeft="@+id/hacer_encabezado_convocatoria_entrada_firma"
+            android:layout_alignEnd="@+id/hacer_encabezado_convocatoria_entrada_asunto"
+            android:layout_alignRight="@+id/hacer_encabezado_convocatoria_entrada_asunto"
+            android:layout_alignStart="@+id/hacer_encabezado_convocatoria_entrada_asunto"
+            android:layout_alignLeft="@+id/hacer_encabezado_convocatoria_entrada_asunto"
             android:layout_below="@+id/hacer_encabezado_convocatoria_entrada_ubicacion_interna"
-            android:background="@drawable/piso_1"/>
-
-        <EditText
-            android:id="@+id/hacer_encabezado_convocatoria_entrada_firma"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20sp"
-            android:layout_marginStart="20sp"
-            android:layout_marginLeft="20sp"
-            android:layout_marginEnd="20sp"
-            android:layout_marginRight="20sp"
-            android:textSize="20sp"
-            android:inputType="textMultiLine"
-            android:background="@drawable/fondo_edit_text_no_opaque"
-            android:layout_below="@+id/hacer_encabezado_convocatoria_entrada_ubicacion_interna"
-            android:hint="@string/hacer_encabezado_convocatoria_firma"/>
-        <TextView
-            android:id="@+id/hacer_encabezado_convocatoria_piso_firma"
-            android:layout_width="wrap_content"
-            android:layout_height="1sp"
-            android:layout_alignEnd="@+id/hacer_encabezado_convocatoria_entrada_firma"
-            android:layout_alignRight="@+id/hacer_encabezado_convocatoria_entrada_firma"
-            android:layout_alignStart="@+id/hacer_encabezado_convocatoria_entrada_firma"
-            android:layout_alignLeft="@+id/hacer_encabezado_convocatoria_entrada_firma"
-            android:layout_below="@+id/hacer_encabezado_convocatoria_entrada_firma"
             android:background="@drawable/piso_1"/>
 
         <TextView
@@ -141,17 +66,17 @@
             android:layout_marginRight="20sp"
             android:paddingTop="14sp"
             android:background="@drawable/fondo_edit_text_no_opaque"
-            android:layout_below="@+id/hacer_encabezado_convocatoria_piso_firma"
+            android:layout_below="@+id/hacer_encabezado_convocatoria_entrada_ubicacion_interna"
             android:hint="@string/hacer_encabezado_convocatoria_fecha_inicial"
             android:textSize="20sp"/>
         <TextView
             android:id="@+id/hacer_encabezado_convocatoria_piso_fecha_inicio"
             android:layout_width="wrap_content"
             android:layout_height="1sp"
-            android:layout_alignEnd="@+id/hacer_encabezado_convocatoria_entrada_firma"
-            android:layout_alignRight="@+id/hacer_encabezado_convocatoria_entrada_firma"
-            android:layout_alignStart="@+id/hacer_encabezado_convocatoria_entrada_firma"
-            android:layout_alignLeft="@+id/hacer_encabezado_convocatoria_entrada_firma"
+            android:layout_alignEnd="@+id/hacer_encabezado_convocatoria_entrada_asunto"
+            android:layout_alignRight="@+id/hacer_encabezado_convocatoria_entrada_asunto"
+            android:layout_alignStart="@+id/hacer_encabezado_convocatoria_entrada_asunto"
+            android:layout_alignLeft="@+id/hacer_encabezado_convocatoria_entrada_asunto"
             android:layout_below="@+id/hacer_encabezado_convocatoria_entrada_fecha_inicial"
             android:background="@drawable/piso_1"/>
 
@@ -173,10 +98,10 @@
             android:id="@+id/hacer_encabezado_convocatoria_piso_hora_inicial"
             android:layout_width="wrap_content"
             android:layout_height="1sp"
-            android:layout_alignEnd="@+id/hacer_encabezado_convocatoria_entrada_firma"
-            android:layout_alignRight="@+id/hacer_encabezado_convocatoria_entrada_firma"
-            android:layout_alignStart="@+id/hacer_encabezado_convocatoria_entrada_firma"
-            android:layout_alignLeft="@+id/hacer_encabezado_convocatoria_entrada_firma"
+            android:layout_alignEnd="@+id/hacer_encabezado_convocatoria_entrada_asunto"
+            android:layout_alignRight="@+id/hacer_encabezado_convocatoria_entrada_asunto"
+            android:layout_alignStart="@+id/hacer_encabezado_convocatoria_entrada_asunto"
+            android:layout_alignLeft="@+id/hacer_encabezado_convocatoria_entrada_asunto"
             android:layout_below="@+id/hacer_encabezado_convocatoria_entrada_hora_inicial"
             android:background="@drawable/piso_1"/>
 

@@ -1,2 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<items version="2" />
+<items version="2" >
+
+    <item
+        jar="/Users/jcapiz/StudioProjects/Condominio/app/build/intermediates/exploded-aar/Condominio/admin/unspecified/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="784572f3ce931aae709458be8c94dff33370dd92">
+        <dex dex="/Users/jcapiz/StudioProjects/Condominio/app/build/intermediates/pre-dexed/debug/Condominio-admin-unspecified_245d2ef7f9552d190964941b0c2673742ce69eea.jar" />
+    </item>
+
+</items>

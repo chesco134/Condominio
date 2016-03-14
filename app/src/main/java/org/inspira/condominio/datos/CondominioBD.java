@@ -32,7 +32,47 @@ public class CondominioBD extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase dataBase) {
-        dataBase.execSQL("create table Usuario(" +
+        dataBase.execSQL("create table TipoCondominio(" +
+                "idTipoCondominio integer not null primary key autoincrement," +
+                "descripcion text not null" +
+                ")");
+        dataBase.execSQL("create table Condominio(" +
+                "idCondominio integer not null primary key autoincrement," +
+                "direccion text not null," +
+                "edad integer not null," +
+                "idTipoCondominio integer not null," +
+                "inmoviliaria text not null," +
+                "numero_de_torres integer not null," +
+                "posee_sala_de_juntas integer default 0," +
+                "posee_gym integer default 0," +
+                "posee_espacio_recreativo integer default 0," +
+                "posee_espacio_cultural integer default 0," +
+                "posee_oficinas_administrativas integer default 0," +
+                "posee_alarma_sismica integer default 0," +
+                "posee_estacionamiento integer default 0," +
+                "cantidad_de_lugares_estacionamiento integer not null," +
+                "cantidad_de_lugares_estacionamiento_visitas default 0," +
+                "costo_aproximado integer not null," + // costo aproximado por unidad privativa
+                "capacidad_cisterna integer default 0," +
+                "posee_cisterna_agua_pluvial default 0," +
+                "foreign key(idTipoCondominio) references TipoCondominio(idTipoCondominio)" +
+                ")");
+        dataBase.execSQL("create table Torre(" +
+                "idTorre integer not null autoincrement primary key," +
+                "nombre text not null," +
+                "posee_elevador integer default 0" +
+                "cantidad_de_pisos integer not null," +
+                "cantidad_de_focos integer not null," +
+                "cantidad_de_departamentos not null," +
+                "cuota_de_mantenimiento float not null," +
+                "idCondominio integer not null," +
+                "foreign key(idCondominio) references Condominio(idCondominio)" +
+                ")");
+        dataBase.execSQL("create table TipoAdministrador(" +
+                "idTipoAdministrador integer not null primary key autoincrement," +
+                "descripcion text not null" +
+                ")");
+        dataBase.execSQL("create table Usuario(" + // Se trata del admin.
                 "email TEXT NOT NULL PRIMARY KEY," +
                 "nickname TEXT NOT NULL," +
                 "dateOfBirth long not null" +
