@@ -32,15 +32,16 @@ public class CondominioBD extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase dataBase) {
-        dataBase.execSQL("create table TipoCondominio(" +
+        dataBase.execSQL("create table Tipo_de_Condominio(" +
                 "idTipoCondominio integer not null primary key autoincrement," +
                 "descripcion text not null" +
                 ")");
+        dataBase.execSQL("insert into Tipo_de_Condominio(descripcion) values('Conjunto Condominal'),('Condominio'),('Unidad Habitacional')");
         dataBase.execSQL("create table Condominio(" +
                 "idCondominio integer not null primary key autoincrement," +
                 "direccion text not null," +
                 "edad integer not null," +
-                "idTipoCondominio integer not null," +
+                "idTipo_de_Condominio integer not null," +
                 "inmoviliaria text not null," +
                 "numero_de_torres integer not null," +
                 "posee_sala_de_juntas integer default 0," +
@@ -49,18 +50,17 @@ public class CondominioBD extends SQLiteOpenHelper {
                 "posee_espacio_cultural integer default 0," +
                 "posee_oficinas_administrativas integer default 0," +
                 "posee_alarma_sismica integer default 0," +
-                "posee_estacionamiento integer default 0," +
                 "cantidad_de_lugares_estacionamiento integer not null," +
-                "cantidad_de_lugares_estacionamiento_visitas default 0," +
+                "cantidad_de_lugares_estacionamiento_visitas integer not null," +
                 "costo_aproximado integer not null," + // costo aproximado por unidad privativa
-                "capacidad_cisterna integer default 0," +
+                "capacidad_cisterna integer not null," +
                 "posee_cisterna_agua_pluvial default 0," +
-                "foreign key(idTipoCondominio) references TipoCondominio(idTipoCondominio)" +
+                "foreign key(idTipo_de_Condominio) references TipoCondominio(idTipo_de_Condominio)" +
                 ")");
         dataBase.execSQL("create table Torre(" +
-                "idTorre integer not null autoincrement primary key," +
+                "idTorre integer not null primary key autoincrement," +
                 "nombre text not null," +
-                "posee_elevador integer default 0" +
+                "posee_elevador integer default 0," +
                 "cantidad_de_pisos integer not null," +
                 "cantidad_de_focos integer not null," +
                 "cantidad_de_departamentos not null," +
@@ -68,18 +68,142 @@ public class CondominioBD extends SQLiteOpenHelper {
                 "idCondominio integer not null," +
                 "foreign key(idCondominio) references Condominio(idCondominio)" +
                 ")");
-        dataBase.execSQL("create table TipoAdministrador(" +
-                "idTipoAdministrador integer not null primary key autoincrement," +
+        dataBase.execSQL("create table Departamento(" +
+                "idDepartamento integer not null primary key autoincrement," +
+                "nombre_departamento text not null," +
+                "idTorre integer not null," +
+                "foreign key(idTorre) references Torre(idTorre)" +
+                ")");
+        dataBase.execSQL("create table Habitante(" +
+                "idHabitante integer not null primary key autoincrement," +
+                "nombres text not null," +
+                "ap_paterno text not null," +
+                "ap_materno text not null," +
+                "idDepartamento integer not null," +
+                "foreign key(idDepartamento) references Departamento(idDepartamento)" +
+                ")");
+        dataBase.execSQL("create table Contacto_Habitante(" +
+                "idContacto_Habitante integer not null primary key autoincrement," +
+                "contacto text not null," +
+                "idHabitante integer not null," +
+                "foreign key(idHabitante) references Habitante(idHabitante)" +
+                ")");
+        dataBase.execSQL("create table Propietario_de_Departamento(" +
+                "idHabitante integer not null primary key," +
+                "posee_seguro integer default 0," +
+                "foreign key(idHabitante) references Habitante(idHabitante)" +
+                ")");
+        dataBase.execSQL("create table Intervalo_Transparencia(" +
+                "idIntervalo_Transparencia integer not null primary key autoincrement," +
+                "intervalo_de_transparencia text not null" +
+                ")");
+        dataBase.execSQL("insert into Intervalo_Transparencia(intervalo_de_transparencia) values('Corto plazo'),('Mediano plazo'), ('Largo plazo')");
+        dataBase.execSQL("create table Administracion(" +
+                "idAdministracion integer not null primary key autoincrement," +
+                "posee_planes_de_trabajo integer default 0," +
+                "costo_de_cuota_de_mantenimiento_mensual float not null," +
+                "costo_de_cuota_anual float not null," +
+                "promedio_inicial_de_egresos float not null," + // promedio de egresos de los 6 meses anteriores al registro.
+                "promedio_inicial_de_morosidad float not null," +// promedio de morosidad de los 6 meses anteriores al registro.
+                "posee_mantenimiento_profesional_a_elevadores integer default 0," +
+                "posee_personal_capacitado_en_seguridad_intramuros integer default 0," +
+                "posee_mantenimiento_profesional_al_cuarto_de_maquinas integer default 0," +
+                "posee_wifi_abierto integer default 0," +
+                "idCondominio integer not null," +
+                "idIntervalo_Transparencia integer not null," +
+                "foreign key(idCondominio) references Condominio(idCondominio)," +
+                "foreign key(idIntervalo_Transparencia) references Intervalo_Transparencia(idIntervalo_Transparencia)" +
+                ")");
+        dataBase.execSQL("create table Contacto_Administracion(" +
+                "idContacto_Administracion integer not null primary key autoincrement," +
+                "contacto text not null," +
+                "idAdministracion integer not null," +
+                "foreign key(idAdministracion) references Administracion(idAdministracion)" +
+                ")");
+        dataBase.execSQL("create table Tipo_de_Siniestro(" +
+                "idTipo_de_Siniestro integer not null primary key autoincrement," +
+                "tipo_de_siniestro text" +
+                ")");
+        /** La siguiente tabla debe contar con un método de ingreso de más campos. **/
+        dataBase.execSQL("insert into Tipo_de_Siniestro(tipo_de_siniestro) values('Asalto'),('Robo a departamento'),('Robo de autopartes'),('Violencia física'),('Incendio'),('Desabasto de agua'),('Eléctrico'),('Administrativo'),('Sismos'),('Inundación'),('Material de construcción'),('Cajones de Estacionamiento'),('Fuga de agua'),('Fuga de gas')");
+        dataBase.execSQL("create table Reporte_de_Siniestro(" +
+                "idreporte_de_Siniestro integer not null primary key autoincrement," +
+                "idTipo_de_Siniestro integer not null," +
+                "idHabitante integer not null," +
+                "descripcion text not null," +
+                "foreign key(idTipo_de_Siniestro) references Tipo_de_Siniestro(idTipo_de_Siniestro)," +
+                "foreign key(idHabitante) references Habitante(idHabitante)" +
+                ")");
+        dataBase.execSQL("create table Tipo_de_Administrador(" +
+                "idTipo_de_Administrador integer not null primary key autoincrement," +
                 "descripcion text not null" +
+                ")");
+        dataBase.execSQL("insert into Tipo_de_Administrador(descripcion) values('Profesional'),('Condómino'),('Provisional')");
+        dataBase.execSQL("create table Nombre_de_Usuario(" +
+                "idNombre_de_Usuario integer not null primary key autoincrement," +
+                "nombres text not null," +
+                "ap_paterno not null," +
+                "ap_materno not null" +
+                ")");
+        dataBase.execSQL("create table Escolaridad(" +
+                "idEscolaridad integer not null primary key autoincrement," +
+                "escolaridad text not null" +
                 ")");
         dataBase.execSQL("create table Usuario(" + // Se trata del admin.
                 "email TEXT NOT NULL PRIMARY KEY," +
                 "nickname TEXT NOT NULL," +
-                "dateOfBirth long not null" +
+                "dateOfBirth long not null," +
+                "certificado_prosoc text," +
+                "remuneracion float," +
+                "idAdministracion integer not null," +
+                "idEscolaridad integer not null," +
+                "idNombre_de_Usuario integer not null," +
+                "idTipo_de_Administrador integer not null," +
+                "foreign key(idAdministracion) references Administracion(idAdministracion)," +
+                "foreign key(idEscolaridad) references Escolaridad(idEscolaridad)," +
+                "foreign key(idTipo_de_Administrador) references Tipo_de_Administrador(idTipo_de_Administrador)," +
+                "foreign key(idNombre_de_Usuario) references NombreUsuario(idNombre_de_Usuario)" +
                 ")");
-        dataBase.execSQL("create table InformacionAdmin(" +
-                "email text not null primary key," +
-                "sello text not null" +
+        dataBase.execSQL("create table UsuarioProfesionista(" +
+                "email integer not null primary key," +
+                "profesion text not null," +
+                "foreign key (email) references Usuario(email)" +
+                ")");
+        dataBase.execSQL("create table ContactoUsuario(" +
+                "idContactoUsuario integer not null primary key autoincrement," +
+                "telefono text not null," +
+                "email text not null," +
+                "foreign key(email) references Usuario(email)" +
+                ")");
+        dataBase.execSQL("create table Integrante_de_Comite_de_Vigilancia(" +
+                "idIntegrante_de_Comite_de_Vigilancia integer not null primary key autoincrement," +
+                "nombres text not null," +
+                "ap_paterno text not null," +
+                "ap_materno text not null," +
+                "idAdministracion integer not null," +
+                "foreign key(idAdministracion) references Administracion(idAdministracion)" +
+                ")");
+        dataBase.execSQL("create table Presidente_de_Comite_de_Vigilancia(" +
+                "idIntegrante_de_Comite_de_Vigilancia integer not null primary key," +
+                "escolaridad_de_presidente text not null," +
+                "foreign key(idIntegrante_de_Comite_de_Vigilancia) references Integrante_de_Comite_de_Vigilancia(idIntegrante_de_Comite_de_Vigilancia)" +
+                ")");
+        dataBase.execSQL("create table Tipo_de_Trabajador(" +
+                "idTipo_de_Trabajador integer not null primary key autoincrement," +
+                "tipo_de_trabajador text not null" +
+                ")");
+        dataBase.execSQL("insert into Tipo_de_Trabajador(tipo_de_trabajador) values('Seguridad y vigilancia'),('Limpieza'),('Mantenimiento'),('Oficina')");
+        dataBase.execSQL("create table Trabajador(" +
+                "idTrabajador integer not null primary key autoincrement," +
+                "nombres text not null," +
+                "ap_paterno text not null," +
+                "ap_materno text not null," +
+                "salario float not null," +
+                "tiene_seguro_social integer default 0," +
+                "idAdministracion integer not null," +
+                "idTipo_de_Trabajador integer not null," +
+                "foreign key(idAdministracion) references Administracion(idAministracion)," +
+                "foreign key(idTipo_de_Trabajador) references Tipo_de_Trabajador(idTipo_de_Trabajador)" +
                 ")");
         dataBase.execSQL("create table Convocatoria(" +
                 "idConvocatoria INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," +
@@ -111,13 +235,14 @@ public class CondominioBD extends SQLiteOpenHelper {
                 "idRazon_de_Ingreso INTEGER NOT NULL," +
                 "idConcepto_de_Ingreso integer NOT NULL," +
                 "monto float not null," +
-                "nombre text not null," +
+                "idHabitante integer not null," +
                 "departamento text," +
                 "fecha text not null," +
                 "email text not null," +
+                "foreign key(idHabitante) references Habitante(idHabitante)," +
                 "foreign key(idRazon_de_Ingreso) references Razon_de_Ingreso(idRazon_de_Ingreso)," +
                 "foreign key(idConcepto_de_Ingreso) references Concepto_de_Ingreso(idConcepto_de_Ingreso)," +
-                "foreign key(email) references InformacionAdmin(email)" +
+                "foreign key(email) references Usuario(email)" +
                 ")");
         dataBase.execSQL("create table Razon_de_Egreso(" +
                 "idRazon_de_Egreso integer not null primary key autoincrement," +
@@ -131,7 +256,7 @@ public class CondominioBD extends SQLiteOpenHelper {
                 "fecha long not null," +
                 "email text not null," +
                 "foreign key(idRazon_de_Egreso) references Razon_de_Egreso(idRazon_de_Egreso)," +
-                "foreign key(email) references InformacionAdmin(email)" +
+                "foreign key(email) references Usuario(email)" +
                 ")");
     }
 
@@ -148,15 +273,6 @@ public class CondominioBD extends SQLiteOpenHelper {
         values.put("nickname", usuario.getNickname());
         values.put("dateOfBirth", usuario.getDateOfBirth());
         db.insert("Usuario", "---", values);
-        db.close();
-    }
-
-    public void agregaSello(String email, String sello){
-        ContentValues values = new ContentValues();
-        values.put("email", email);
-        values.put("sello", sello);
-        SQLiteDatabase db = getWritableDatabase();
-        db.insert("InformacionAdmin", "---", values);
         db.close();
     }
 
@@ -239,14 +355,5 @@ public class CondominioBD extends SQLiteOpenHelper {
         boolean exists = c.moveToNext();
         c.close();
         return exists;
-    }
-
-    public boolean revisaExistenciaDeSello(String email){
-        SQLiteDatabase db = getReadableDatabase();
-        Cursor c = db.rawQuery("select sello from InformacionAdmin where email = ?", new String[]{email});
-        boolean resultado = c.moveToNext();
-        c.close();
-        db.close();
-        return resultado;
     }
 }

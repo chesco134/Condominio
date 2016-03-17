@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="tipos_de_condominio">
+        <item>Conjunto condominal</item>
+        <item>Condominio</item>
+        <item>Unidad Habitacional</item>
+    </string-array>
+</resources>

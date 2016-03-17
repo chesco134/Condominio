@@ -23,6 +23,7 @@ import org.inspira.condominio.actividades.Preparacion;
 import org.inspira.condominio.actividades.SplashScreen;
 import org.inspira.condominio.admin.formatos.Formatos;
 import org.inspira.condominio.admin.formatos.FormatosLobby;
+import org.inspira.condominio.admon.NuevoCondominioActivity;
 import org.inspira.condominio.datos.CondominioBD;
 import org.inspira.condominio.dialogos.ProveedorSnackBar;
 
@@ -70,6 +71,10 @@ public class CentralPoint extends AppCompatActivity
             launchSplash();
         }else
             revisarDatosDeUsuario();
+        actualizaNavigationView();
+    }
+
+    private void actualizaNavigationView() {
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         View hView = navigationView.getHeaderView(navigationView.getHeaderCount()-1);
         ((TextView)hView.findViewById(R.id.under_pp)).setText(
@@ -111,6 +116,9 @@ public class CentralPoint extends AppCompatActivity
         CondominioBD db = new CondominioBD(this);
         if(!db.revisarExistenciaDeUsuarios())
             iniciaRegistro();
+        else{
+            startActivity(new Intent(this, NuevoCondominioActivity.class));
+        }
     }
 
     private void iniciaRegistro() {

@@ -13,6 +13,11 @@
         android:supportsRtl="true"
         android:theme="@style/MyAppTheme">
         <activity
+            android:name=".dialogos.ActividadDeEspera"
+            android:theme="@style/CustomTheme" />
+        <activity
+            android:name=".admon.NuevoCondominioActivity" />
+        <activity
             android:name=".actividades.SplashScreen"
             android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen" />
         <activity

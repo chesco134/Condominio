@@ -140,10 +140,7 @@ public class CrearConvocatoria extends AppCompatActivity {
 
     private void grabData(){
         convocatoria.setAsunto(datosDeEncabezado.getAsunto());
-        convocatoria.setCondominio(datosDeEncabezado.getCondominio());
-        convocatoria.setUbicacion(datosDeEncabezado.getUbicacion());
         convocatoria.setUbicacionInterna(datosDeEncabezado.getUbicacionInterna());
-        convocatoria.setFirma(datosDeEncabezado.getFirma());
         String[] fechaInicial = datosDeEncabezado.getFechaInicial().split("/");
         String[] tiempoInicial = datosDeEncabezado.getTiempoInicial().split(":");
         Calendar c = Calendar.getInstance();

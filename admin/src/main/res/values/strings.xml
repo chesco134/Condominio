@@ -33,6 +33,18 @@
     <string name="signup_registrar">Registrar</string>
     <string name="startup_pass">Password</string>
     <string name="signup_pista_password">La contraseña debe tener al menos 5 caracteres, incluir una mayúscula, un número y un caracter no alfanumérico: !@#$&amp;*</string>
+
+    <string name="nuevo_condominio_direccion">Dirección</string>
+    <string name="nuevo_condominio_edad">Antigüedad</string>
+    <string name="nuevo_condominio_inmoviliaria">Inmoviliaria</string>
+    <string name="nuevo_condominio_tipo_de_condominio">Tipo de Condominio</string>
+    <string name="nuevo_condominio_numero_de_torres">Numero de Torres</string>
+    <string name="nuevo_condominio_siguiente">Siguiente</string>
+    <string name="nuevo_condominio_cantidad_de_lugares_estacionamiento"># Cajones de estacionamiento</string>
+    <string name="nuevo_condominio_costo_aprox_por_unidad_privativa">Costo aprox por unidad privativa</string>
+    <string name="nuevo_condominio_capacidad_de_cisterna">Capacidad de cisterna en litros</string>
+    <string name="nuevo_condominio_hecho">Listo</string>
+
     <string name="large_text">
         "Material is the metaphor.\n\n"
 

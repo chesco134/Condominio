@@ -46,4 +46,10 @@
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">24sp</item>
     </style>
+
+    <style name="CustomTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@color/shadowColor</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
 </resources>

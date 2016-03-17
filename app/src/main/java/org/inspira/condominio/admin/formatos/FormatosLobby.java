@@ -45,11 +45,14 @@ public class FormatosLobby extends AppCompatActivity {
         String email = getSharedPreferences(CentralPoint.class.getName(), Context.MODE_PRIVATE)
                 .getString("email", "NaN");
         if(!"NaN".equals(email)){
+            launchFormatos();
+            /*
             if(new CondominioBD(this).revisaExistenciaDeSello(email)){
                 launchFormatos();
             }else{
                 iniciaDialogoParaConsultaDeSello(email);
             }
+            */
         }
     }
 
@@ -80,7 +83,7 @@ public class FormatosLobby extends AppCompatActivity {
             EntradaTexto et = (EntradaTexto) fragment;
             String sello = et.getEntradaDeTexto();
             if (!"".equals(sello)) {
-                new CondominioBD(FormatosLobby.this).agregaSello(email, sello);
+                //new CondominioBD(FormatosLobby.this).agregaSello(email, sello);
                 launchFormatos();
                 ProveedorToast.showToast(FormatosLobby.this, "Gracias");
             }else{

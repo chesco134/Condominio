@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <GridView
+        android:id="@+id/nuevo_condominio_2_checkboxes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12sp"
+        android:layout_marginLeft="12sp"
+        android:layout_marginRight="12sp"
+        android:layout_marginEnd="12sp"
+        android:layout_marginTop="20sp"
+        android:columnWidth="95sp"
+        android:numColumns="auto_fit"
+        android:verticalSpacing="10sp"
+        android:horizontalSpacing="10sp"
+        android:stretchMode="columnWidth"/>
+    <Button
+        android:id="@+id/nuevo_condominio_2_siguiente"
+        android:layout_width="wrap_content"
+        android:layout_height="36sp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="20sp"
+        android:layout_marginEnd="20sp"
+        android:layout_marginRight="20sp"
+        style="?android:attr/borderlessButtonStyle"
+        android:background="@drawable/my_custom_button"
+        android:textColor="@color/white"
+        android:layout_below="@+id/nuevo_condominio_2_checkboxes"
+        android:text="@string/nuevo_condominio_siguiente"/>
+
+</RelativeLayout>
