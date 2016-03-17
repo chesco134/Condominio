@@ -33,7 +33,7 @@ public class CondominioBD extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase dataBase) {
         dataBase.execSQL("create table Tipo_de_Condominio(" +
-                "idTipoCondominio integer not null primary key autoincrement," +
+                "idTipo_de_Condominio integer not null primary key autoincrement," +
                 "descripcion text not null" +
                 ")");
         dataBase.execSQL("insert into Tipo_de_Condominio(descripcion) values('Conjunto Condominal'),('Condominio'),('Unidad Habitacional')");
@@ -52,10 +52,10 @@ public class CondominioBD extends SQLiteOpenHelper {
                 "posee_alarma_sismica integer default 0," +
                 "cantidad_de_lugares_estacionamiento integer not null," +
                 "cantidad_de_lugares_estacionamiento_visitas integer not null," +
-                "costo_aproximado integer not null," + // costo aproximado por unidad privativa
-                "capacidad_cisterna integer not null," +
+                "costo_aproximado float not null," + // costo aproximado por unidad privativa
+                "capacidad_cisterna float not null," +
                 "posee_cisterna_agua_pluvial default 0," +
-                "foreign key(idTipo_de_Condominio) references TipoCondominio(idTipo_de_Condominio)" +
+                "foreign key(idTipo_de_Condominio) references Tipo_de_Condominio(idTipo_de_Condominio)" +
                 ")");
         dataBase.execSQL("create table Torre(" +
                 "idTorre integer not null primary key autoincrement," +

@@ -2,7 +2,6 @@ package org.inspira.condominio.admon;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
@@ -12,7 +11,6 @@ import org.inspira.condominio.dialogos.ProveedorToast;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -105,10 +103,10 @@ public class NuevoCondominioActivity extends AppCompatActivity {
         String content = armaCuerpoDeMensaje();
         if(content != null){
             Log.d("Content", "To send: " + content);
-            new ValidaInformacionDeCondominio(new ValidaInformacionDeCondominio.AccionesDeValidacionConServidor() {
+            new ContactoConServidor(new ContactoConServidor.AccionesDeValidacionConServidor() {
                 @Override
                 public void resultadoSatisfactorio(final Thread t) {
-                    ValidaInformacionDeCondominio aval = (ValidaInformacionDeCondominio) t;
+                    ContactoConServidor aval = (ContactoConServidor) t;
                     final String respuesta = aval.getResponse();
                     if(CompruebaCamposJSON.validaContenido(respuesta)) {
                         guardaRegistroEnBaseDeDatos();

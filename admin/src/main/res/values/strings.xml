@@ -135,4 +135,11 @@
         "when a user tries to pick up one of cards.\n\n"
     </string>
     <string name="action_add_person">Nuevo habitante</string>
+    <string name="formulario_torre_nombre">Nombre de la torre</string>
+    <string name="formulario_torre_cantidad_de_pisos">Cantidad de pisos</string>
+    <string name="formulario_torre_cantidad_De_focos">Cantidad de focos</string>
+    <string name="formulario_torre_cantidad_De_departamentos">Cantidad de departamentos</string>
+    <string name="formulario_torre_cuota_de_mantenimiento">Cuota de mantenimiento</string>
+    <string name="formulario_torre_posee_elevador">Cuenta con elevador </string>
+    <string name="formulario_torre_hecho">Hecho</string>
 </resources>
