@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/consulta_condominio_texto_saludo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="42sp"
+        android:layout_marginTop="20sp"
+        android:layout_marginStart="12sp"
+        android:layout_marginLeft="12sp"
+        android:layout_marginEnd="12sp"
+        android:layout_marginRight="12sp"
+        android:text="@string/consulta_condominio_texto_saludo"/>
+
+    <TextView
+        android:id="@+id/consulta_condominio_instrucciones"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/consulta_condominio_texto_saludo"
+        android:layout_marginTop="20sp"
+        android:layout_marginStart="12sp"
+        android:layout_marginLeft="12sp"
+        android:layout_marginEnd="12sp"
+        android:layout_marginRight="12sp"
+        android:textSize="16sp"
+        android:text="@string/consulta_condominio_instrucciones"/>
+
+    <EditText
+        style="@style/MyEditText"
+        android:id="@+id/consulta_condominio_direccion"
+        android:layout_below="@+id/consulta_condominio_instrucciones"
+        android:hint="@string/consulta_condominio_hint_direccion_de_condominio"
+        android:inputType="textPostalAddress"
+        android:imeOptions="actionDone"/>
+    <TextView
+        style="@style/MyTextView"
+        android:id="@+id/consulta_condominio_piso_direccion"
+        android:layout_below="@+id/consulta_condominio_direccion"
+        android:layout_alignStart="@+id/consulta_condominio_direccion"
+        android:layout_alignLeft="@+id/consulta_condominio_direccion"
+        android:layout_alignRight="@+id/consulta_condominio_direccion"
+        android:layout_alignEnd="@+id/consulta_condominio_direccion"/>
+    <Button
+        style="@style/MyButtonCustom"
+        android:id="@+id/consulta_condominio_boton_consulta"
+        android:layout_below="@+id/consulta_condominio_direccion"
+        android:text="@string/consulta_condominio_texto_boton_consulta"/>
+    <Button
+        android:id="@+id/consulta_condominio_boton_nuevo_registro"
+        android:layout_width="wrap_content"
+        android:layout_height="36sp"
+        android:layout_marginTop="12sp"
+        android:layout_marginEnd="12sp"
+        android:layout_marginRight="12sp"
+        android:layout_below="@+id/consulta_condominio_direccion"
+        android:layout_toStartOf="@+id/consulta_condominio_boton_consulta"
+        android:layout_toLeftOf="@+id/consulta_condominio_boton_consulta"
+        android:background="@drawable/my_custom_button"
+        android:textColor="@color/white"
+        android:text="@string/consulta_condominio_texto_boton_nuevo_registro"/>
+
+</RelativeLayout>

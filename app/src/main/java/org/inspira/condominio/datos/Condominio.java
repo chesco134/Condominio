@@ -9,7 +9,6 @@ public class Condominio extends ModeloDeDatos {
     private int edad;
     private TipoDeCondominio tipoDeCondominio;
     private String inmoviliaria;
-    private int numeroDeTorres;
     private boolean poseeSalaDeJuntas;
     private boolean poseeGym;
     private boolean poseeEspacioRecreativo;
@@ -43,10 +42,6 @@ public class Condominio extends ModeloDeDatos {
 
     public String getInmoviliaria() {
         return inmoviliaria;
-    }
-
-    public int getNumeroDeTorres() {
-        return numeroDeTorres;
     }
 
     public boolean isPoseeSalaDeJuntas() {
@@ -107,10 +102,6 @@ public class Condominio extends ModeloDeDatos {
 
     public void setInmoviliaria(String inmoviliaria) {
         this.inmoviliaria = inmoviliaria;
-    }
-
-    public void setNumeroDeTorres(int numeroDeTorres) {
-        this.numeroDeTorres = numeroDeTorres;
     }
 
     public void setPoseeSalaDeJuntas(boolean poseeSalaDeJuntas) {

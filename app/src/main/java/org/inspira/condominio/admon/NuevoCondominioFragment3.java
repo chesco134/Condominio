@@ -20,13 +20,17 @@ import org.inspira.condominio.dialogos.ProveedorSnackBar;
 public class NuevoCondominioFragment3 extends Fragment {
 
     private EditText cajonesDeEstacionamiento;
+    private EditText cajonesDeEstacionamientoVisitas;
     private EditText costoPorUnidadPrivativa;
     private EditText capacidadDeCisterna;
     private int error_color;
     private AccionNCondominio3 accion;
 
     public interface AccionNCondominio3 {
-        void hecho(int cajonesDeEstacionamiento, float costoPorUnidadPrivativa, float capacidadDeCisterna);
+        void hecho(int cajonesDeEstacionamiento,
+                   int cajonesDeEstacionamientoVisitas,
+                   float costoPorUnidadPrivativa,
+                   float capacidadDeCisterna);
 
         void onResume();
     }
@@ -44,6 +48,7 @@ public class NuevoCondominioFragment3 extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState){
         final View rootView = inflater.inflate(R.layout.nuevo_condominio_3, parent, false);
         cajonesDeEstacionamiento = (EditText)rootView.findViewById(R.id.nuevo_condominio_3_cantidad_de_lugares_estacionamiento);
+        cajonesDeEstacionamientoVisitas = (EditText) rootView.findViewById(R.id.nuevo_condominio_3_cantidad_de_lugares_estacionamiento_visitas);
         costoPorUnidadPrivativa = (EditText)rootView.findViewById(R.id.nuevo_condominio_3_costo_aprox_por_unidad_privativa);
         capacidadDeCisterna = (EditText)rootView.findViewById(R.id.nuevo_condominio_3_capacidad_de_cisterna);
         rootView.findViewById(R.id.nuevo_condominio_3_boton_hecho)
@@ -60,8 +65,20 @@ public class NuevoCondominioFragment3 extends Fragment {
                     rootView.findViewById(R.id.nuevo_condominio_3_piso_cantidad_de_lugares_estacionamiento)
                             .setBackgroundColor(getResources().getColor(R.color.colorAccent));
                     restoreBackgroundColor(v);
-                }else
+                } else
                     rootView.findViewById(R.id.nuevo_condominio_3_piso_cantidad_de_lugares_estacionamiento)
+                            .setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+            }
+        });
+        cajonesDeEstacionamientoVisitas.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    rootView.findViewById(R.id.nuevo_condominio_3_piso_cantidad_de_lugares_estacionamiento_visitas)
+                            .setBackgroundColor(getResources().getColor(R.color.colorAccent));
+                    restoreBackgroundColor(v);
+                }else
+                    rootView.findViewById(R.id.nuevo_condominio_3_piso_cantidad_de_lugares_estacionamiento_visitas)
                             .setBackgroundColor(getResources().getColor(R.color.colorPrimary));
             }
         });
@@ -102,12 +119,14 @@ public class NuevoCondominioFragment3 extends Fragment {
     private void validaCampos(){
         boolean[] tripod = new boolean[3];
         tripod[0] = this.esUnCampoValido(cajonesDeEstacionamiento);
-        tripod[1] = this.esUnCampoValido(costoPorUnidadPrivativa);
-        tripod[2] = this.esUnCampoValido(capacidadDeCisterna);
-        if(tripod[0] && tripod[1] && tripod[2]){
-            accion.hecho(Integer.parseInt(cajonesDeEstacionamiento.getText().toString().trim())
-                        ,Float.parseFloat(costoPorUnidadPrivativa.getText().toString().trim())
-                        ,Float.parseFloat(capacidadDeCisterna.getText().toString().trim()));
+        tripod[1] = this.esUnCampoValido(cajonesDeEstacionamientoVisitas);
+        tripod[2] = this.esUnCampoValido(costoPorUnidadPrivativa);
+        tripod[3] = this.esUnCampoValido(capacidadDeCisterna);
+        if(tripod[0] && tripod[1] && tripod[2] && tripod[3]){
+            accion.hecho(Integer.parseInt(cajonesDeEstacionamiento.getText().toString().trim()),
+                    Integer.parseInt(cajonesDeEstacionamientoVisitas.getText().toString().trim()),
+                    Float.parseFloat(costoPorUnidadPrivativa.getText().toString().trim()),
+                    Float.parseFloat(capacidadDeCisterna.getText().toString().trim()));
         }else{
             ProveedorSnackBar
                     .muestraBarraDeBocados(cajonesDeEstacionamiento, "Por favor verifique los campos marcados.");

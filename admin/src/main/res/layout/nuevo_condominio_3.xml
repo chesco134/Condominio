@@ -32,11 +32,39 @@
             android:layout_alignRight="@+id/nuevo_condominio_3_cantidad_de_lugares_estacionamiento"
             android:layout_alignEnd="@+id/nuevo_condominio_3_cantidad_de_lugares_estacionamiento"
             android:background="@drawable/piso_1"/>
+
+        <EditText
+            android:id="@+id/nuevo_condominio_3_cantidad_de_lugares_estacionamiento_visitas"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/nuevo_condominio_3_cantidad_de_lugares_estacionamiento"
+            android:layout_marginTop="20sp"
+            android:layout_marginStart="20sp"
+            android:layout_marginLeft="20sp"
+            android:layout_marginEnd="20sp"
+            android:layout_marginRight="20sp"
+            android:paddingTop="6sp"
+            android:paddingBottom="6sp"
+            android:inputType="numberDecimal"
+            android:background="@drawable/fondo_edit_text_no_opaque"
+            android:hint="@string/nuevo_condominio_cantidad_de_lugares_estacionamiento_visitas"
+            android:imeOptions="actionNext"/>
+        <TextView
+            android:id="@+id/nuevo_condominio_3_piso_cantidad_de_lugares_estacionamiento_visitas"
+            android:layout_width="match_parent"
+            android:layout_height="1sp"
+            android:layout_below="@+id/nuevo_condominio_3_cantidad_de_lugares_estacionamiento_visitas"
+            android:layout_alignLeft="@+id/nuevo_condominio_3_cantidad_de_lugares_estacionamiento_visitas"
+            android:layout_alignStart="@+id/nuevo_condominio_3_cantidad_de_lugares_estacionamiento_visitas"
+            android:layout_alignRight="@+id/nuevo_condominio_3_cantidad_de_lugares_estacionamiento_visitas"
+            android:layout_alignEnd="@+id/nuevo_condominio_3_cantidad_de_lugares_estacionamiento_visitas"
+            android:background="@drawable/piso_1"/>
+
         <EditText
             android:id="@+id/nuevo_condominio_3_costo_aprox_por_unidad_privativa"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/nuevo_condominio_3_cantidad_de_lugares_estacionamiento"
+            android:layout_below="@+id/nuevo_condominio_3_cantidad_de_lugares_estacionamiento_visitas"
             android:layout_marginTop="20sp"
             android:layout_marginStart="20sp"
             android:layout_marginLeft="20sp"

@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * adb -d logcat com.example.example:I *:S
+ * adb -d logcat com.example.example:I    *:S
  */
 public class CondominioBD extends SQLiteOpenHelper {
 
@@ -43,7 +43,6 @@ public class CondominioBD extends SQLiteOpenHelper {
                 "edad integer not null," +
                 "idTipo_de_Condominio integer not null," +
                 "inmoviliaria text not null," +
-                "numero_de_torres integer not null," +
                 "posee_sala_de_juntas integer default 0," +
                 "posee_gym integer default 0," +
                 "posee_espacio_recreativo integer default 0," +

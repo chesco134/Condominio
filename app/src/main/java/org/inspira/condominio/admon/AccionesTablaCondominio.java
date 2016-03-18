@@ -47,7 +47,6 @@ public class AccionesTablaCondominio {
         values.put("edad", condominio.getEdad());
         values.put("idTipo_de_Condominio", condominio.getTipoDeCondominio().getId());
         values.put("inmoviliaria", condominio.getInmoviliaria());
-        values.put("numero_de_torres", condominio.getNumeroDeTorres());
         values.put("posee_sala_de_juntas", condominio.isPoseeSalaDeJuntas());
         values.put("posee_gym", condominio.isPoseeGym());
         values.put("posee_espacio_recreativo", condominio.isPoseeEspacioRecreativo());
@@ -86,7 +85,6 @@ public class AccionesTablaCondominio {
             condominio.setDireccion(c.getString(c.getColumnIndex("direccion")));
             condominio.setEdad(c.getInt(c.getColumnIndex("edad")));
             condominio.setInmoviliaria(c.getString(c.getColumnIndex("inmoviliaria")));
-            condominio.setNumeroDeTorres(c.getInt(c.getColumnIndex("numero_de_torres")));
             condominio.setPoseeAlarmaSismica(c.getInt(c.getColumnIndex("posee_alarma_sismica")) != 0);
             condominio.setPoseeCisternaAguaPluvial(c.getInt(c.getColumnIndex("posee_cisterna_agua_pluvial")) != 0);
             condominio.setPoseeEspacioCultural(c.getInt(c.getColumnIndex("posee_espacio_cultural")) != 0);

@@ -1,13 +1,20 @@
 package org.inspira.condominio.admon;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import org.inspira.condominio.R;
+import org.inspira.condominio.actividades.Configuraciones;
+import org.inspira.condominio.adaptadores.MallaDeCheckBoxes;
+import org.inspira.condominio.datos.Condominio;
+import org.inspira.condominio.datos.TipoDeCondominio;
 import org.inspira.condominio.dialogos.ActividadDeEspera;
 import org.inspira.condominio.dialogos.ProveedorToast;
+import org.inspira.condominio.networking.ContactoConServidor;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -26,6 +33,7 @@ public class NuevoCondominioActivity extends AppCompatActivity {
     private int torres;
     private Map<String, Boolean> camposOpcionales;
     private int cajonesDeEstacionamiento;
+    private int cajonesDeEstacionamientoVisitas;
     private float costoPorUnidadPrivativa;
     private float capacidadDeCisterna;
 
@@ -75,8 +83,9 @@ public class NuevoCondominioActivity extends AppCompatActivity {
 
     private NuevoCondominioFragment3.AccionNCondominio3 accion3 = new NuevoCondominioFragment3.AccionNCondominio3() {
         @Override
-        public void hecho(int cajonesDeEstacionamiento, float costoPorUnidadPrivativa, float capacidadDeCisterna) {
+        public void hecho(int cajonesDeEstacionamiento, int cajonesDeEstacionamientoVisitas, float costoPorUnidadPrivativa, float capacidadDeCisterna) {
             NuevoCondominioActivity.this.cajonesDeEstacionamiento = cajonesDeEstacionamiento;
+            NuevoCondominioActivity.this.cajonesDeEstacionamientoVisitas = cajonesDeEstacionamientoVisitas;
             NuevoCondominioActivity.this.costoPorUnidadPrivativa = costoPorUnidadPrivativa;
             NuevoCondominioActivity.this.capacidadDeCisterna = capacidadDeCisterna;
             enviaInformacionAlServidor();
@@ -155,7 +164,40 @@ public class NuevoCondominioActivity extends AppCompatActivity {
     }
 
     private void guardaRegistroEnBaseDeDatos() {
+        Condominio condominio = new Condominio();
+        condominio.setCostoAproximadoPorUnidadPrivativa(costoPorUnidadPrivativa);
+        TipoDeCondominio tipoDeCondominio =
+                new TipoDeCondominio(AccionesTablaCondominio.obtenerIdTipoDeCondominio(this,tipo));
+        tipoDeCondominio.setDescripcion(tipo);
+        condominio.setTipoDeCondominio(tipoDeCondominio);
+        condominio.setCantidadDeLugaresEstacionamiento(cajonesDeEstacionamiento);
+        condominio.setCantidadDeLugaresEstacionamientoVisitas(cajonesDeEstacionamientoVisitas);
+        condominio.setCapacidadDeCisterna(capacidadDeCisterna);
+        condominio.setDireccion(direccion);
+        condominio.setEdad(edadCondominio);
+        condominio.setInmoviliaria(inmoviliaria);
+        condominio.setPoseeSalaDeJuntas(camposOpcionales.get(MallaDeCheckBoxes.TEXTOS[0]));
+        condominio.setPoseeGym(camposOpcionales.get(MallaDeCheckBoxes.TEXTOS[1]));
+        condominio.setPoseeEspacioRecreativo(camposOpcionales.get(MallaDeCheckBoxes.TEXTOS[2]));
+        condominio.setPoseeEspacioCultural(camposOpcionales.get(MallaDeCheckBoxes.TEXTOS[3]));
+        condominio.setPoseeOficinasAdministrativas(camposOpcionales.get(MallaDeCheckBoxes.TEXTOS[4]));
+        condominio.setPoseeAlarmaSismica(camposOpcionales.get(MallaDeCheckBoxes.TEXTOS[5]));
+        condominio.setPoseeCisternaAguaPluvial(camposOpcionales.get(MallaDeCheckBoxes.TEXTOS[6]));
+        condominio.setId(AccionesTablaCondominio.agregarCondominio(this,condominio));
+        registroDeIdCondominio(condominio.getId());
+        iniciaRegistroDeTorre();
+    }
 
+    private void registroDeIdCondominio(int idCondominio) {
+        SharedPreferences.Editor editor =
+                getSharedPreferences(Configuraciones.class.getName(), Context.MODE_PRIVATE).edit();
+        editor.putInt("idCondominio", idCondominio);
+        editor.apply();
+    }
+
+    private void iniciaRegistroDeTorre() {
+        /** Si se debe registrar a cada torre por separado, lanzar ese número de formularios. **/
+        //startActivityForResult(new Intent(this, ))
     }
 
     private String armaCuerpoDeMensaje() {
@@ -171,6 +213,7 @@ public class NuevoCondominioActivity extends AppCompatActivity {
             for(String key : camposOpcionales.keySet())
                 json.put(key, camposOpcionales.get(key));
             json.put("cajones_de_estacionamiento", cajonesDeEstacionamiento);
+            json.put("cajones_de_estacionamiento_visitas", cajonesDeEstacionamientoVisitas);
             json.put("costo_por_unidad_privativa", costoPorUnidadPrivativa);
             json.put("capacidad_de_cisterna", capacidadDeCisterna);
             content = json.toString();
@@ -208,6 +251,7 @@ public class NuevoCondominioActivity extends AppCompatActivity {
             b.putBoolean(key, camposOpcionales.get(key));
         outState.putBundle("campos_opcionales", b);
         outState.putInt("cajones_de_estacionamiento", cajonesDeEstacionamiento);
+        outState.putInt("cajones_de_estacionamiento_visitas", cajonesDeEstacionamientoVisitas);
         outState.putFloat("costo_por_unidad_privativa", costoPorUnidadPrivativa);
         outState.putFloat("capacidad_de_cisterna", capacidadDeCisterna);
     }
@@ -225,6 +269,7 @@ public class NuevoCondominioActivity extends AppCompatActivity {
         for(String key : b.keySet())
             camposOpcionales.put(key, b.getBoolean(key));
         cajonesDeEstacionamiento = savedInstanceState.getInt("cajones_de_estacionamiento");
+        cajonesDeEstacionamientoVisitas = savedInstanceState.getInt("cajones_de_estacionamiento_visitas");
         costoPorUnidadPrivativa = savedInstanceState.getFloat("costo_por_unidad_privativa");
         capacidadDeCisterna = savedInstanceState.getFloat("capacidad_de_cisterna");
     }
