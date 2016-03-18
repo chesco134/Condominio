@@ -64,23 +64,17 @@ public class CondominioBD extends SQLiteOpenHelper {
                 "cantidad_de_pisos integer not null," +
                 "cantidad_de_focos integer not null," +
                 "cantidad_de_departamentos not null," +
-                "cuota_de_mantenimiento float not null," +
                 "idCondominio integer not null," +
                 "foreign key(idCondominio) references Condominio(idCondominio)" +
-                ")");
-        dataBase.execSQL("create table Departamento(" +
-                "idDepartamento integer not null primary key autoincrement," +
-                "nombre_departamento text not null," +
-                "idTorre integer not null," +
-                "foreign key(idTorre) references Torre(idTorre)" +
                 ")");
         dataBase.execSQL("create table Habitante(" +
                 "idHabitante integer not null primary key autoincrement," +
                 "nombres text not null," +
                 "ap_paterno text not null," +
                 "ap_materno text not null," +
-                "idDepartamento integer not null," +
-                "foreign key(idDepartamento) references Departamento(idDepartamento)" +
+                "nombre_departamento text not null," +
+                "idTorre integer not null," +
+                "foreign key(idTorre) references Torre(idTorre)" +
                 ")");
         dataBase.execSQL("create table Contacto_Habitante(" +
                 "idContacto_Habitante integer not null primary key autoincrement," +
@@ -151,9 +145,7 @@ public class CondominioBD extends SQLiteOpenHelper {
                 ")");
         dataBase.execSQL("create table Usuario(" + // Se trata del admin.
                 "email TEXT NOT NULL PRIMARY KEY," +
-                "nickname TEXT NOT NULL," +
                 "dateOfBirth long not null," +
-                "certificado_prosoc text," +
                 "remuneracion float," +
                 "idAdministracion integer not null," +
                 "idEscolaridad integer not null," +
@@ -199,7 +191,7 @@ public class CondominioBD extends SQLiteOpenHelper {
                 "ap_paterno text not null," +
                 "ap_materno text not null," +
                 "salario float not null," +
-                "tiene_seguro_social integer default 0," +
+                "posee_seguro_social integer default 0," +
                 "idAdministracion integer not null," +
                 "idTipo_de_Trabajador integer not null," +
                 "foreign key(idAdministracion) references Administracion(idAministracion)," +
@@ -208,10 +200,7 @@ public class CondominioBD extends SQLiteOpenHelper {
         dataBase.execSQL("create table Convocatoria(" +
                 "idConvocatoria INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," +
                 "Asunto TEXT NOT NULL," +
-                "Condominio TEXT," +
-                "Ubicacion TEXT," +
                 "Ubicacion_Interna TEXT," +
-                "Firma TEXT," +
                 "Fecha_de_Inicio LONG," +
                 "email TEXT NOT NULL," +
                 "FOREIGN KEY (email) REFERENCES Usuario(email)" +
@@ -266,11 +255,10 @@ public class CondominioBD extends SQLiteOpenHelper {
      *
      ***********************/
 
-    public void agregarUsuario(Usuario usuario){
+    public void agregarUsuario(Usuario usuario){ // Pending revision
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("email", usuario.getEmail());
-        values.put("nickname", usuario.getNickname());
         values.put("dateOfBirth", usuario.getDateOfBirth());
         db.insert("Usuario", "---", values);
         db.close();
@@ -281,10 +269,7 @@ public class CondominioBD extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put("idConvocatoria", conv.getId());
         values.put("Asunto", conv.getAsunto());
-        values.put("Condominio", conv.getCondominio());
-        values.put("Ubicacion", conv.getUbicacion());
         values.put("Ubicacion_Interna", conv.getUbicacionInterna());
-        values.put("Firma", conv.getFirma());
         values.put("Fecha_de_Inicio", conv.getFechaInicio());
         values.put("email", email);
         db.insert("Convocatoria", "---", values);
@@ -319,10 +304,7 @@ public class CondominioBD extends SQLiteOpenHelper {
         while(c.moveToNext()){
             Convocatoria convocatoria = new Convocatoria(c.getInt(c.getColumnIndex("idConvocatoria")));
             convocatoria.setAsunto(c.getString(c.getColumnIndex("Asunto")));
-            convocatoria.setCondominio(c.getString(c.getColumnIndex("Condominio")));
-            convocatoria.setUbicacion(c.getString(c.getColumnIndex("Ubicacion")));
             convocatoria.setUbicacionInterna(c.getString(c.getColumnIndex("Ubicacion_Interna")));
-            convocatoria.setFirma(c.getString(c.getColumnIndex("Firma")));
             convocatoria.setFechaInicio(c.getLong(c.getColumnIndex("Fecha_de_Inicio")));
             Cursor c2 = db.rawQuery("select idPunto_OdD,Descripcion from Punto_OdD where idConvocatoria = CAST(? as INTEGER)",
                     new String[]{String.valueOf(convocatoria.getId())});
@@ -334,7 +316,6 @@ public class CondominioBD extends SQLiteOpenHelper {
                 puntos.add(punto);
             }
             c2.close();
-            convocatoria.setPuntos(puntos);
             convocatorias.add(convocatoria);
         }
         c.close();

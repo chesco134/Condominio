@@ -23,7 +23,6 @@ public class AccionesTablaTorre {
         values.put("cantidad_de_pisos", torre.getCantidadDePisos());
         values.put("cantidad_de_focos", torre.getCantidadDeFocos());
         values.put("cantidad_de_departamentos", torre.getCantidadDeDepartamentos());
-        values.put("cuota_de_mantenimiento", torre.getCuotaDeMantenimiento());
         values.put("idCondominio", torre.getCondominio().getId());
         CondominioBD condominioBD = new CondominioBD(context);
         SQLiteDatabase writable = condominioBD.getWritableDatabase();
@@ -48,7 +47,6 @@ public class AccionesTablaTorre {
             torre.setCantidadDeDepartamentos(c.getInt(c.getColumnIndex("cantidad_de_departamentos")));
             torre.setCantidadDeFocos(c.getInt(c.getColumnIndex("cantidad_de_focos")));
             torre.setCantidadDePisos(c.getInt(c.getColumnIndex("cantidad_de_pisos")));
-            torre.setCuotaDeMantenimiento(c.getFloat(c.getColumnIndex("cuota_de_mantenimiento")));
             torre.setNombre(c.getString(c.getColumnIndex("nombre")));
             torre.setPoseeElevador(c.getInt(c.getColumnIndex("posee_elevador")) != 0);
             torre.setCondominio(AccionesTablaCondominio.obtenerCondominio(context, idCondominio));

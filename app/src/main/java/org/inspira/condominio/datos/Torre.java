@@ -10,7 +10,6 @@ public class Torre extends ModeloDeDatos {
     private int cantidadDePisos;
     private int cantidadDeFocos;
     private int cantidadDeDepartamentos;
-    private float cuotaDeMantenimiento;
     private Condominio condominio;
 
     public Torre() {
@@ -58,14 +57,6 @@ public class Torre extends ModeloDeDatos {
 
     public void setCantidadDeDepartamentos(int cantidadDeDepartamentos) {
         this.cantidadDeDepartamentos = cantidadDeDepartamentos;
-    }
-
-    public float getCuotaDeMantenimiento() {
-        return cuotaDeMantenimiento;
-    }
-
-    public void setCuotaDeMantenimiento(float cuotaDeMantenimiento) {
-        this.cuotaDeMantenimiento = cuotaDeMantenimiento;
     }
 
     public Condominio getCondominio() {
