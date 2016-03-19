@@ -197,7 +197,7 @@ public class NuevoCondominioActivity extends AppCompatActivity {
 
     private void iniciaRegistroDeTorre() {
         /** Si se debe registrar a cada torre por separado, lanzar ese número de formularios. **/
-        //startActivityForResult(new Intent(this, ))
+        startActivity(new Intent(this, RegistroDeTorre.class));
     }
 
     private String armaCuerpoDeMensaje() {
@@ -210,8 +210,14 @@ public class NuevoCondominioActivity extends AppCompatActivity {
             json.put("tipo", tipo);
             json.put("inmoviliaria", inmoviliaria);
             json.put("torres", torres);
-            for(String key : camposOpcionales.keySet())
-                json.put(key, camposOpcionales.get(key));
+            String[] elementos = MallaDeCheckBoxes.TEXTOS;
+            json.put("posee_sala_de_juntas", elementos[0]);
+            json.put("posee_gym", elementos[1]);
+            json.put("posee_espacio_recreativo", elementos[2]);
+            json.put("posee_espacio_cultural", elementos[3]);
+            json.put("posee_oficinas_administrativas", elementos[4]);
+            json.put("posee_alarma_sismica", elementos[5]);
+            json.put("posee_cisterna_agua_pluvial", elementos[6]);
             json.put("cajones_de_estacionamiento", cajonesDeEstacionamiento);
             json.put("cajones_de_estacionamiento_visitas", cajonesDeEstacionamientoVisitas);
             json.put("costo_por_unidad_privativa", costoPorUnidadPrivativa);

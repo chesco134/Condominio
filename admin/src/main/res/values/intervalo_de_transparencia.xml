@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="intervalos_de_transparencia_admon">
+        <item>Corto plazo</item>
+        <item>Mediano plazo</item>
+        <item>Largo plazo</item>
+    </string-array>
+</resources>

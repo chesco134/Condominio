@@ -148,4 +148,11 @@
     <string name="consulta_condominio_texto_boton_nuevo_registro">Registrar</string>
     <string name="consulta_condominio_texto_saludo">Hola</string>
     <string name="nuevo_condominio_cantidad_de_lugares_estacionamiento_visitas"># Cajodes de estacionamiento visitas</string>
+    <string name="formulario_registro_administracion_costo_mantenimiento_mensual">Cuota de mantenimiento mensual</string>
+    <string name="formulario_registro_administracion_costo_mantenimiento_anual">Cuota de mantenimiento anual</string>
+    <string name="formulario_registro_administracion_promedio_morosidad">Promedio de morosidad semestral anterior</string>
+    <string name="formulario_registro_administracion_promedio_egresos">Promedio de egresos semestral anterior</string>
+    <string name="formulario_registro_administracion_intervalo_de_transparencia">Tipo de administración</string>
+    <string name="formulario_registro_administracion_texto_hecho">Hecho</string>
+    <string name="formulario_registro_administracion_indicaciones_campos_opcionales">La administración posee:</string>
 </resources>

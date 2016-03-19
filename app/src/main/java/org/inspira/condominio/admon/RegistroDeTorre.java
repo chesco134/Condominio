@@ -1,5 +1,6 @@
 package org.inspira.condominio.admon;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SwitchCompat;
@@ -128,7 +129,7 @@ public class RegistroDeTorre extends AppCompatActivity {
         @Override
         public void resultadoSatisfactorio(Thread t) {
             guardarCamposEnBaseDeDatos();
-            iniciaRegistroDeUsuario();
+            iniciaRegistroDeAdministracion();
         }
 
         @Override
@@ -143,7 +144,7 @@ public class RegistroDeTorre extends AppCompatActivity {
         }
     }
 
-    private void iniciaRegistroDeUsuario() {
-
+    private void iniciaRegistroDeAdministracion() {
+        startActivity(new Intent(this, RegistroAdministracion.class));
     }
 }

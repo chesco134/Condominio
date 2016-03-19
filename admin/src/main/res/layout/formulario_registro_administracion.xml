@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent" android:layout_height="wrap_content">
+
+        <EditText
+            style="@style/MyEditText"
+            android:id="@+id/formulario_registro_administracion_costo_mantenimiento_mensual"
+            android:inputType="numberDecimal"
+            android:imeOptions="actionNext"
+            android:hint="@string/formulario_registro_administracion_costo_mantenimiento_mensual"/>
+        <TextView
+            style="@style/MyTextView"
+            android:id="@+id/formulario_registro_administracion_piso_costo_mantenimiento_mensual"
+            android:layout_below="@+id/formulario_registro_administracion_costo_mantenimiento_mensual"
+            android:layout_alignLeft="@+id/formulario_registro_administracion_costo_mantenimiento_mensual"
+            android:layout_alignStart="@+id/formulario_registro_administracion_costo_mantenimiento_mensual"
+            android:layout_alignEnd="@+id/formulario_registro_administracion_costo_mantenimiento_mensual"
+            android:layout_alignRight="@+id/formulario_registro_administracion_costo_mantenimiento_mensual"/>
+
+        <EditText
+            style="@style/MyEditText"
+            android:id="@+id/formulario_registro_administracion_costo_mantenimiento_anual"
+            android:layout_below="@id/formulario_registro_administracion_costo_mantenimiento_mensual"
+            android:imeOption="actionNext"
+            android:inputType="numberDecimal"
+            android:hint="@string/formulario_registro_administracion_costo_mantenimiento_anual"/>
+        <TextView
+            style="@style/MyTextView"
+            android:id="@+id/formulario_registro_administracion_piso_costo_mantenimiento_anual"
+            android:layout_below="@+id/formulario_registro_administracion_costo_mantenimiento_anual"
+            android:layout_alignStart="@+id/formulario_registro_administracion_costo_mantenimiento_anual"
+            android:layout_alignLeft="@+id/formulario_registro_administracion_costo_mantenimiento_anual"
+            android:layout_alignEnd="@+id/formulario_registro_administracion_costo_mantenimiento_anual"
+            android:layout_alignRight="@+id/formulario_registro_administracion_costo_mantenimiento_anual"/>
+
+        <EditText
+            style="@style/MyEditText"
+            android:id="@+id/formulario_registro_administracion_promedio_morosidad"
+            android:imeOptions="actionNext"
+            android:layout_below="@+id/formulario_registro_administracion_costo_mantenimiento_anual"
+            android:hint="@string/formulario_registro_administracion_promedio_morosidad"/>
+        <TextView
+            style="@style/MyTextView"
+            android:id="@+id/formulario_registro_administracion_piso_promedio_ingresos"
+            android:layout_below="@+id/formulario_registro_administracion_promedio_morosidad"
+            android:layout_alignStart="@+id/formulario_registro_administracion_promedio_morosidad"
+            android:layout_alignLeft="@+id/formulario_registro_administracion_promedio_morosidad"
+            android:layout_alignEnd="@+id/formulario_registro_administracion_promedio_morosidad"
+            android:layout_alignRight="@+id/formulario_registro_administracion_promedio_morosidad"/>
+
+        <EditText
+            style="@style/MyEditText"
+            android:id="@+id/formulario_registro_administracion_promedio_egresos"
+            android:imeOptions="actionDone"
+            android:layout_below="@+id/formulario_registro_administracion_promedio_morosidad"
+            android:hint="@string/formulario_registro_administracion_promedio_egresos"/>
+        <TextView
+            style="@style/MyTextView"
+            android:id="@+id/formulario_registro_administracion_piso_promedio_egresos"
+            android:layout_below="@+id/formulario_registro_administracion_promedio_egresos"
+            android:layout_alignLeft="@+id/formulario_registro_administracion_promedio_egresos"
+            android:layout_alignStart="@+id/formulario_registro_administracion_promedio_egresos"
+            android:layout_alignEnd="@+id/formulario_registro_administracion_promedio_egresos"
+            android:layout_alignRight="@+id/formulario_registro_administracion_promedio_egresos"/>
+
+        <TextView
+            style="@style/MyEditText"
+            android:id="@+id/formulario_registro_administracion_intervalo_de_transparencia"
+            android:layout_below="@+id/formulario_registro_administracion_promedio_egresos"
+            android:hint="@string/formulario_registro_administracion_intervalo_de_transparencia"/>
+        <TextView
+            style="@style/MyTextView"
+            android:id="@+id/formulario_registro_administracion_piso_tipo_de_administracion"
+            android:layout_below="@+id/formulario_registro_administracion_intervalo_de_transparencia"
+            android:layout_alignStart="@+id/formulario_registro_administracion_intervalo_de_transparencia"
+            android:layout_alignLeft="@+id/formulario_registro_administracion_intervalo_de_transparencia"
+            android:layout_alignEnd="@+id/formulario_registro_administracion_intervalo_de_transparencia"
+            android:layout_alignRight="@+id/formulario_registro_administracion_intervalo_de_transparencia"/>
+
+        <TextView
+            android:id="@+id/formulario_registro_administracion_indicaciones_campos_opcionales"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/formulario_registro_administracion_intervalo_de_transparencia"
+            android:layout_marginTop="20sp"
+            android:layout_marginStart="12sp"
+            android:layout_marginLeft="12sp"
+            android:layout_marginEnd="12sp"
+            android:layout_marginRight="12sp"
+            android:textSize="18sp"
+            android:text="@string/formulario_registro_administracion_indicaciones_campos_opcionales"/>
+
+        <GridView
+            android:id="@+id/formulario_registro_administracion_campos_opcionales"
+            android:layout_width="match_parent"
+            android:layout_height="200sp"
+            android:layout_below="@+id/formulario_registro_administracion_indicaciones_campos_opcionales"
+            android:layout_marginStart="12sp"
+            android:layout_marginLeft="12sp"
+            android:layout_marginRight="12sp"
+            android:layout_marginEnd="12sp"
+            android:layout_marginTop="12sp"
+            android:columnWidth="120sp"
+            android:numColumns="auto_fit"
+            android:verticalSpacing="10sp"
+            android:horizontalSpacing="10sp"
+            android:stretchMode="columnWidth"/>
+
+        <Button
+            style="@style/MyButtonCustom"
+            android:id="@+id/formulario_registro_administracion_boton_hecho"
+            android:layout_below="@+id/formulario_registro_administracion_campos_opcionales"
+            android:text="@string/formulario_registro_administracion_texto_hecho"/>
+    </RelativeLayout>
+</ScrollView>

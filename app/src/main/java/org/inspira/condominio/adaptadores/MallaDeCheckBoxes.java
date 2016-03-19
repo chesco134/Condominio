@@ -20,20 +20,28 @@ public class MallaDeCheckBoxes extends BaseAdapter {
 
     private final Map<String, Boolean> marcas;
     private Context context;
+    private String[] elementos;
 
     public MallaDeCheckBoxes(Context context, Map<String, Boolean> marcas){
         this.context = context;
         this.marcas = marcas;
+        elementos = TEXTOS;
+    }
+
+    public MallaDeCheckBoxes(Context context, Map<String, Boolean> marcas, String[] elementos){
+        this.context = context;
+        this.marcas = marcas;
+        this.elementos = elementos;
     }
 
     @Override
     public int getCount() {
-        return TEXTOS.length;
+        return elementos.length;
     }
 
     @Override
     public Object getItem(int position) {
-        return null;
+        return elementos[position];
     }
 
     @Override
@@ -51,17 +59,11 @@ public class MallaDeCheckBoxes extends BaseAdapter {
             LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             view = inflater.inflate(R.layout.elemento_check_box, parent, false);
             CheckBox cbox = (CheckBox)view.findViewById(R.id.nuevo_condominio_check_box);
-            cbox.setText(TEXTOS[position]);
-            cbox.setChecked(marcas.get(TEXTOS[position]));
+            cbox.setText(elementos[position]);
+            cbox.setChecked(marcas.get(elementos[position]));
             cbox.setOnClickListener(new CheckBoxClicked());
-            boxes.add(cbox);
         }
         return view;
-    }
-
-    public void setBoxValue(int position, boolean isChecked){
-        boxes.get(position).setChecked(isChecked);
-        notifyDataSetChanged();
     }
 
     private class CheckBoxClicked implements View.OnClickListener{
@@ -72,8 +74,6 @@ public class MallaDeCheckBoxes extends BaseAdapter {
             marcas.put(box.getText().toString(), box.isChecked());
         }
     }
-
-    private static final List<CheckBox> boxes = new ArrayList<>();
 
     public static final String[] TEXTOS =
             {"Sala de juntas"

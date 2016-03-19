@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="campos_opcionales_administracion">
+        <item>Planes de trabajo</item>
+        <item>Mantenimiento profesional a elevadores</item>
+        <item>Personal capacitado en seguridad intramuros</item>
+        <item>Mantenimiento profesional al cuarto de máquinas</item>
+        <item>Wi-Fi abierto</item>
+    </string-array>
+</resources>
