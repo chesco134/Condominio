@@ -56,36 +56,6 @@ public class CondominioBD extends SQLiteOpenHelper {
                 "posee_cisterna_agua_pluvial default 0," +
                 "foreign key(idTipo_de_Condominio) references Tipo_de_Condominio(idTipo_de_Condominio)" +
                 ")");
-        dataBase.execSQL("create table Torre(" +
-                "idTorre integer not null primary key autoincrement," +
-                "nombre text not null," +
-                "posee_elevador integer default 0," +
-                "cantidad_de_pisos integer not null," +
-                "cantidad_de_focos integer not null," +
-                "cantidad_de_departamentos not null," +
-                "idCondominio integer not null," +
-                "foreign key(idCondominio) references Condominio(idCondominio)" +
-                ")");
-        dataBase.execSQL("create table Habitante(" +
-                "idHabitante integer not null primary key autoincrement," +
-                "nombres text not null," +
-                "ap_paterno text not null," +
-                "ap_materno text not null," +
-                "nombre_departamento text not null," +
-                "idTorre integer not null," +
-                "foreign key(idTorre) references Torre(idTorre)" +
-                ")");
-        dataBase.execSQL("create table Contacto_Habitante(" +
-                "idContacto_Habitante integer not null primary key autoincrement," +
-                "contacto text not null," +
-                "idHabitante integer not null," +
-                "foreign key(idHabitante) references Habitante(idHabitante)" +
-                ")");
-        dataBase.execSQL("create table Propietario_de_Departamento(" +
-                "idHabitante integer not null primary key," +
-                "posee_seguro integer default 0," +
-                "foreign key(idHabitante) references Habitante(idHabitante)" +
-                ")");
         dataBase.execSQL("create table Intervalo_Transparencia(" +
                 "idIntervalo_Transparencia integer not null primary key autoincrement," +
                 "intervalo_de_transparencia text not null" +
@@ -112,6 +82,36 @@ public class CondominioBD extends SQLiteOpenHelper {
                 "contacto text not null," +
                 "idAdministracion integer not null," +
                 "foreign key(idAdministracion) references Administracion(idAdministracion)" +
+                ")");
+        dataBase.execSQL("create table Torre(" +
+                "idTorre integer not null primary key autoincrement," +
+                "nombre text not null," +
+                "posee_elevador integer default 0," +
+                "cantidad_de_pisos integer not null," +
+                "cantidad_de_focos integer not null," +
+                "cantidad_de_departamentos not null," +
+                "idAdministracion integer not null," +
+                "foreign key(idAdministracion) references Administracion(idAdministracion)" +
+                ")");
+        dataBase.execSQL("create table Habitante(" +
+                "idHabitante integer not null primary key autoincrement," +
+                "nombres text not null," +
+                "ap_paterno text not null," +
+                "ap_materno text not null," +
+                "nombre_departamento text not null," +
+                "idTorre integer not null," +
+                "foreign key(idTorre) references Torre(idTorre)" +
+                ")");
+        dataBase.execSQL("create table Contacto_Habitante(" +
+                "idContacto_Habitante integer not null primary key autoincrement," +
+                "contacto text not null," +
+                "idHabitante integer not null," +
+                "foreign key(idHabitante) references Habitante(idHabitante)" +
+                ")");
+        dataBase.execSQL("create table Propietario_de_Departamento(" +
+                "idHabitante integer not null primary key," +
+                "posee_seguro integer default 0," +
+                "foreign key(idHabitante) references Habitante(idHabitante)" +
                 ")");
         dataBase.execSQL("create table Tipo_de_Siniestro(" +
                 "idTipo_de_Siniestro integer not null primary key autoincrement," +
@@ -142,6 +142,7 @@ public class CondominioBD extends SQLiteOpenHelper {
                 "idEscolaridad integer not null primary key autoincrement," +
                 "escolaridad text not null" +
                 ")");
+        dataBase.execSQL("insert into Escolaridad(escolaridad) values('Básico'),('Medio superior'),('Superior'),('Maestría'),('Doctorado')");
         dataBase.execSQL("create table Usuario(" + // Se trata del admin.
                 "email TEXT NOT NULL PRIMARY KEY," +
                 "dateOfBirth long not null," +
@@ -155,12 +156,12 @@ public class CondominioBD extends SQLiteOpenHelper {
                 "foreign key(idTipo_de_Administrador) references Tipo_de_Administrador(idTipo_de_Administrador)," +
                 "foreign key(idNombre_de_Usuario) references NombreUsuario(idNombre_de_Usuario)" +
                 ")");
-        dataBase.execSQL("create table UsuarioProfesionista(" +
+        dataBase.execSQL("create table Usuario_Profesionista(" +
                 "email integer not null primary key," +
                 "profesion text not null," +
                 "foreign key (email) references Usuario(email)" +
                 ")");
-        dataBase.execSQL("create table ContactoUsuario(" +
+        dataBase.execSQL("create table Contacto_Usuario(" +
                 "idContactoUsuario integer not null primary key autoincrement," +
                 "telefono text not null," +
                 "email text not null," +
@@ -253,15 +254,6 @@ public class CondominioBD extends SQLiteOpenHelper {
      * Zona de inserts
      *
      ***********************/
-
-    public void agregarUsuario(Usuario usuario){ // Pending revision
-        SQLiteDatabase db = getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put("email", usuario.getEmail());
-        values.put("dateOfBirth", usuario.getDateOfBirth());
-        db.insert("Usuario", "---", values);
-        db.close();
-    }
 
     public int insertaConvocatoria(Convocatoria conv, String email){
         SQLiteDatabase db = getWritableDatabase();

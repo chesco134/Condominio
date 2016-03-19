@@ -26,14 +26,6 @@
     <string name="dialogo_informacion_confirmar_salida">¿Está seguro de salir? Se perderán los datos al moemento (sistema de borrador en contrucción)</string>
     <string name="dialogo_remocion_elementos_titulo">Seleccione elementos a remover</string>
 
-    <string name="signup_usuario">Nombre de usuario</string>
-    <string name="startup_email">E-mail</string>
-    <string name="signup_date_of_birth">Fecha de nacimiento</string>
-    <string name="signup_car_nickname">Apodo del coche</string>
-    <string name="signup_registrar">Registrar</string>
-    <string name="startup_pass">Password</string>
-    <string name="signup_pista_password">La contraseña debe tener al menos 5 caracteres, incluir una mayúscula, un número y un caracter no alfanumérico: !@#$&amp;*</string>
-
     <string name="nuevo_condominio_direccion">Dirección</string>
     <string name="nuevo_condominio_edad">Antigüedad</string>
     <string name="nuevo_condominio_inmoviliaria">Inmoviliaria</string>
@@ -44,6 +36,18 @@
     <string name="nuevo_condominio_costo_aprox_por_unidad_privativa">Costo aprox por unidad privativa</string>
     <string name="nuevo_condominio_capacidad_de_cisterna">Capacidad de cisterna en litros</string>
     <string name="nuevo_condominio_hecho">Listo</string>
+
+    <string name="signup_usuario">Nombres</string>
+    <string name="signup_ap_paterno">Apellido paterno</string>
+    <string name="signup_ap_materno">Apellido materno</string>
+    <string name="signup_escolaridad">Escolaridad</string>
+    <string name="signup_tipo_de_administrador">Tipo de administrador</string>
+    <string name="signup_remuneracion">Remuneración</string>
+    <string name="startup_email">E-mail</string>
+    <string name="signup_date_of_birth">Fecha de nacimiento</string>
+    <string name="signup_registrar">Registrar</string>
+    <string name="startup_pass">Contraseña</string>
+    <string name="signup_pista_password">La contraseña debe tener al menos 5 caracteres, incluir una mayúscula, un número y un caracter no alfanumérico: !@#$&amp;*</string>
 
     <string name="large_text">
         "Material is the metaphor.\n\n"

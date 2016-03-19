@@ -3,110 +3,218 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <RelativeLayout
-        android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:layout_margin="20sp">
+        android:layout_width="match_parent" android:layout_height="wrap_content">
 
-        <EditText
-            android:id="@+id/signup_email"
-            android:layout_width="match_parent"
-            android:layout_height="40sp"
-            android:hint="@string/startup_email"
-            android:background="@color/white"
-            android:textSize="20sp"
-            android:inputType="textEmailAddress"/>
-        <TextView
-            android:id="@+id/signup_piso_email"
-            android:layout_width="wrap_content"
-            android:layout_height="1sp"
-            android:layout_below="@+id/signup_email"
-            android:layout_alignEnd="@+id/signup_email"
-            android:layout_alignRight="@+id/signup_email"
-            android:layout_alignStart="@+id/signup_email"
-            android:layout_alignLeft="@+id/signup_email"
-            android:background="@drawable/piso_1"/>
-
-        <EditText
-            android:id="@+id/signup_pass"
-            android:layout_width="match_parent"
-            android:layout_height="40sp"
-            android:hint="@string/startup_pass"
-            android:background="@color/white"
-            android:layout_below="@+id/signup_email"
-            android:layout_marginTop="20sp"
-            android:inputType="textPassword"
-            android:textSize="20sp"/>
-        <TextView
-            android:id="@+id/signup_piso_pass"
-            android:layout_width="wrap_content"
-            android:layout_height="1sp"
-            android:layout_below="@+id/signup_pass"
-            android:layout_alignEnd="@+id/signup_pass"
-            android:layout_alignRight="@+id/signup_pass"
-            android:layout_alignStart="@+id/signup_pass"
-            android:layout_alignLeft="@+id/signup_pass"
-            android:background="@drawable/piso_1"/>
-
-        <EditText
-            android:id="@+id/signup_usuario"
-            android:layout_width="match_parent"
-            android:layout_height="40sp"
-            android:hint="@string/signup_usuario"
-            android:layout_below="@+id/signup_pass"
-            android:layout_marginTop="20sp"
-            android:background="@color/white"
-            android:textSize="20sp"/>
-        <TextView
-            android:id="@+id/signup_piso_usuario"
-            android:layout_width="wrap_content"
-            android:layout_height="1sp"
-            android:layout_below="@+id/signup_usuario"
-            android:layout_alignEnd="@+id/signup_usuario"
-            android:layout_alignRight="@+id/signup_usuario"
-            android:layout_alignStart="@+id/signup_usuario"
-            android:layout_alignLeft="@+id/signup_usuario"
-            android:background="@drawable/piso_1"/>
-
-        <TextView
-            android:id="@+id/signup_fecha_de_nacimiento"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/signup_date_of_birth"
-            android:layout_below="@+id/signup_usuario"
-            android:textSize="20sp"
-            android:layout_marginTop="20sp"
-            android:paddingTop="8sp"
-            android:paddingBottom="4sp"/>
-        <TextView
-            android:id="@+id/signup_piso_fecha_de_nacimiento"
-            android:layout_width="wrap_content"
-            android:layout_height="1sp"
-            android:layout_below="@+id/signup_fecha_de_nacimiento"
-            android:layout_alignEnd="@+id/signup_fecha_de_nacimiento"
-            android:layout_alignRight="@+id/signup_fecha_de_nacimiento"
-            android:layout_alignStart="@+id/signup_fecha_de_nacimiento"
-            android:layout_alignLeft="@+id/signup_fecha_de_nacimiento"
-            android:background="@drawable/piso_1"/>
-
-        <Button
-            android:id="@+id/signup_registrar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/signup_registrar"
-            android:layout_below="@+id/signup_piso_fecha_de_nacimiento"
-            android:layout_marginTop="12sp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"/>
         <TextView
             android:id="@+id/signup_pass_help"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/signup_piso_fecha_de_nacimiento"
+            android:layout_marginTop="12sp"
+            android:layout_marginStart="12sp"
+            android:layout_marginLeft="12sp"
+            android:layout_marginEnd="12sp"
+            android:layout_marginRight="12sp"
             android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
-            android:layout_toStartOf="@+id/signup_registrar"
-            android:layout_toLeftOf="@+id/signup_registrar"
-            android:layout_marginTop="12sp"
+            android:layout_alignParentTop="true"
             android:text="@string/signup_pista_password"/>
+
+        <EditText
+            style="@style/MyEditText"
+            android:id="@+id/signup_pass"
+            android:hint="@string/startup_pass"
+            android:layout_below="@+id/signup_pass_help"
+            android:inputType="textPassword"
+            android:imeOptions="actionNext"/>
+        <TextView
+            style="@style/MyTextView"
+            android:id="@+id/signup_piso_pass"
+            android:layout_below="@+id/signup_pass"
+            android:layout_alignEnd="@+id/signup_pass"
+            android:layout_alignRight="@+id/signup_pass"
+            android:layout_alignStart="@+id/signup_pass"
+            android:layout_alignLeft="@+id/signup_pass"/>
+
+        <EditText
+            style="@style/MyEditText"
+            android:id="@+id/signup_email"
+            android:hint="@string/startup_email"
+            android:layout_below="@+id/signup_pass"
+            android:imeOptions="actionNext"
+            android:inputType="textEmailAddress"/>
+        <TextView
+            style="@style/MyTextView"
+            android:id="@+id/signup_piso_email"
+            android:layout_below="@+id/signup_email"
+            android:layout_alignEnd="@+id/signup_email"
+            android:layout_alignRight="@+id/signup_email"
+            android:layout_alignStart="@+id/signup_email"
+            android:layout_alignLeft="@+id/signup_email"/>
+
+        <EditText
+            style="@style/MyEditText"
+            android:id="@+id/signup_ap_paterno"
+            android:hint="@string/signup_ap_paterno"
+            android:layout_below="@+id/signup_email"
+            android:inputType="text"
+            android:imeOptions="actionNext"/>
+        <TextView
+            style="@style/MyTextView"
+            android:id="@+id/signup_piso_ap_paterno"
+            android:layout_below="@+id/signup_ap_paterno"
+            android:layout_alignEnd="@+id/signup_ap_paterno"
+            android:layout_alignRight="@+id/signup_ap_paterno"
+            android:layout_alignStart="@+id/signup_ap_paterno"
+            android:layout_alignLeft="@+id/signup_ap_paterno"/>
+
+        <EditText
+            style="@style/MyEditText"
+            android:id="@+id/signup_ap_materno"
+            android:hint="@string/signup_ap_materno"
+            android:layout_below="@+id/signup_ap_paterno"
+            android:inputType="text"
+            android:imeOptions="actionNext"/>
+        <TextView
+            style="@style/MyTextView"
+            android:id="@+id/signup_piso_ap_materno"
+            android:layout_below="@+id/signup_ap_materno"
+            android:layout_alignEnd="@+id/signup_ap_materno"
+            android:layout_alignRight="@+id/signup_ap_materno"
+            android:layout_alignStart="@+id/signup_ap_materno"
+            android:layout_alignLeft="@+id/signup_ap_materno"/>
+
+        <EditText
+            style="@style/MyEditText"
+            android:id="@+id/signup_usuario"
+            android:hint="@string/signup_usuario"
+            android:layout_below="@+id/signup_ap_materno"
+            android:imeOptions="actionNext"
+            android:inputType="text"/>
+        <TextView
+            style="@style/MyTextView"
+            android:id="@+id/signup_piso_usuario"
+            android:layout_below="@+id/signup_usuario"
+            android:layout_alignEnd="@+id/signup_usuario"
+            android:layout_alignRight="@+id/signup_usuario"
+            android:layout_alignStart="@+id/signup_usuario"
+            android:layout_alignLeft="@+id/signup_usuario"/>
+
+        <EditText
+            style="@style/MyEditText"
+            android:id="@+id/signup_remuneracion"
+            android:layout_below="@+id/signup_usuario"
+            android:hint="@string/signup_remuneracion"
+            android:imeOptions="actionNext"
+            android:inputType="numberDecimal"/>
+        <TextView
+            style="@style/MyTextView"
+            android:id="@+id/signup_piso_remuneracion"
+            android:layout_below="@+id/signup_remuneracion"
+            android:layout_alignStart="@+id/signup_remuneracion"
+            android:layout_alignLeft="@+id/signup_remuneracion"
+            android:layout_alignEnd="@+id/signup_remuneracion"
+            android:layout_alignRight="@+id/signup_remuneracion"/>
+
+        <EditText
+            style="@style/MyEditText"
+            android:id="@+id/signup_contacto"
+            android:layout_below="@+id/signup_remuneracion"
+            android:hint="@string/signup_contacto"
+            android:imeOptions="actionDone"
+            android:inputType="phone|number"/>
+        <TextView
+            style="@style/MyTextView"
+            android:id="@+id/signup_piso_contacto"
+            android:layout_alignStart="@+id/signup_contacto"
+            android:layout_alignLeft="@+id/signup_contacto"
+            android:layout_alignEnd="@+id/signup_contacto"
+            android:layout_alignRight="@+id/signup_contacto"/>
+
+
+        <TextView
+            style="@style/MyEditText"
+            android:id="@+id/signup_fecha_de_nacimiento"
+            android:hint="@string/signup_date_of_birth"
+            android:layout_below="@+id/signup_contacto"
+            android:textSize="18sp"
+            android:paddingTop="6sp"
+            android:paddingBottom="6sp"/>
+        <TextView
+            style="@style/MyTextView"
+            android:id="@+id/signup_piso_fecha_de_nacimiento"
+            android:layout_below="@+id/signup_fecha_de_nacimiento"
+            android:layout_alignEnd="@+id/signup_fecha_de_nacimiento"
+            android:layout_alignRight="@+id/signup_fecha_de_nacimiento"
+            android:layout_alignStart="@+id/signup_fecha_de_nacimiento"
+            android:layout_alignLeft="@+id/signup_fecha_de_nacimiento"/>
+
+        <TextView
+            style="@style/MyEditText"
+            android:id="@+id/signup_tipo_de_administrador"
+            android:layout_below="@+id/signup_fecha_de_nacimiento"
+            android:hint="@string/signup_tipo_de_administrador"/>
+        <TextView
+            style="@style/MyTextView"
+            android:id="@+id/signup_piso_tipo_de_administrador"
+            android:layout_below="@+id/signup_tipo_de_administrador"
+            android:layout_alignStart="@+id/signup_tipo_de_administrador"
+            android:layout_alignLeft="@+id/signup_tipo_de_administrador"
+            android:layout_alignEnd="@+id/signup_tipo_de_administrador"
+            android:layout_alignRight="@+id/signup_tipo_de_administrador"/>
+
+        <TextView
+            style="@style/MyEditText"
+            android:id="@+id/signup_escolaridad"
+            android:layout_below="@+id/signup_tipo_de_administrador"
+            android:hint="@string/signup_escolaridad"/>
+        <TextView
+            style="@style/MyTextView"
+            android:id="@+id/signup_piso_escolaridad"
+            android:layout_below="@+id/signup_escolaridad"
+            android:layout_alignStart="@+id/signup_escolaridad"
+            android:layout_alignLeft="@+id/signup_escolaridad"
+            android:layout_alignEnd="@+id/signup_escolaridad"
+            android:layout_alignRight="@+id/signup_escolaridad"/>
+
+        <CheckBox
+            android:id="@+id/signup_habilitar_profesion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/signup_escolaridad"
+            android:layout_marginTop="20sp"
+            android:layout_marginStart="12sp"
+            android:layout_marginLeft="12sp"
+            android:layout_marginEnd="12sp"
+            android:layout_marginRight="12sp"
+            android:text="@string/signup_habilitar_profesion"/>
+        <EditText
+            style="@style/MyEditText"
+            android:id="@+id/signup_profesion"
+            android:layout_below="@+id/signup_habilitar_profesion"
+            android:layout_alignLeft="@+id/signup_habilitar_profesion"
+            android:layout_alignStart="@+id/signup_habilitar_profesion"
+            android:hint="@string/signup_profesion"
+            android:imeOptions="actionDone"
+            android:inputType="text"
+            android:enabled="false"/>
+        <TextView
+            style="@style/MyTextView"
+            android:id="@+id/signup_piso_profesion"
+            android:layout_below="@+id/signup_profesion"
+            android:layout_alignLeft="@+id/signup_profesion"
+            android:layout_alignStart="@+id/signup_profesion"
+            android:layout_alignRight="@+id/signup_profesion"
+            android:layout_alignEnd="@+id/signup_profesion"
+            android:enabled="false"/>
+
+        <Button
+            style="@style/MyButtonCustom"
+            android:id="@+id/signup_registrar"
+            android:text="@string/signup_registrar"
+            android:layout_below="@+id/signup_piso_profesion"
+            android:layout_marginTop="12sp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"/>
 
     </RelativeLayout>
 </ScrollView>

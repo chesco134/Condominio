@@ -15,8 +15,11 @@ import android.widget.EditText;
 
 import org.inspira.condominio.R;
 import org.inspira.condominio.admin.CentralPoint;
+import org.inspira.condominio.admon.AccionesTablaAdministracion;
+import org.inspira.condominio.admon.AccionesTablaUsuario;
 import org.inspira.condominio.datos.CondominioBD;
 import org.inspira.condominio.datos.Convocatoria;
+import org.inspira.condominio.datos.NombreDeUsuario;
 import org.inspira.condominio.datos.PuntoOdD;
 import org.inspira.condominio.dialogos.ProveedorSnackBar;
 import org.inspira.condominio.networking.LoginConnection;
@@ -85,10 +88,9 @@ public class Login extends Fragment {
         rootView.findViewById(R.id.registrarse).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Nuevo registro");
                 getActivity().getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.preparacion_main_container, new SignUp())
+                        .replace(R.id.preparacion_main_container, new BuscarCondominio())
                         .addToBackStack("login")
                         .commit();
             }
@@ -116,6 +118,12 @@ public class Login extends Fragment {
         outState.putString("user", userString);
     }
 
+    @Override
+    public void onResume(){
+        super.onResume();
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Iniciar sesión");
+    }
+
     private void setUserInfo(JSONObject json){
         try{
             SharedPreferences.Editor editor = getActivity().getSharedPreferences(CentralPoint.class.getName(), Context.MODE_PRIVATE).edit();
@@ -124,9 +132,13 @@ public class Login extends Fragment {
             editor.apply();
             Usuario usuario = new Usuario();
             usuario.setEmail(json.getString("email"));
-            usuario.setNickname(json.getString("nickname"));
+            usuario.setNombreDeUsuario(AccionesTablaUsuario.obtenerNombreDeUsuario(getContext(), json.getString("nombres"), json.getString("ap_paterno"), json.getString("ap_materno")));
             usuario.setDateOfBirth(json.getLong("fecha_de_nacimiento"));
-            new CondominioBD(getContext()).agregarUsuario(usuario);
+            usuario.setTipoDeAdministrador(AccionesTablaUsuario.obtenerTipoDeAdministrador(getContext(), json.getString("tipo_de_administrador")));
+            usuario.setEscolaridad(AccionesTablaUsuario.obtenerEscolaridad(getContext(), json.getString("escolaridad")));
+            usuario.setRemuneracion(((float) json.getDouble("remuneracion")));
+            usuario.setAdministracion(AccionesTablaAdministracion.obtenerAdministracion(getContext(),json.getInt("idAdministracion")));
+            AccionesTablaUsuario.agregaUsuario(getContext(), usuario);
         }catch(JSONException e){
             e.printStackTrace();
             ProveedorSnackBar
@@ -167,6 +179,7 @@ public class Login extends Fragment {
         }
     }
 
+    /*** Queda pendiente una revisión ***/
     private void setConvocatorias(JSONObject resp) {
         try {
             CondominioBD db = new CondominioBD(getContext());
@@ -176,10 +189,7 @@ public class Login extends Fragment {
                 JSONObject json = convocatorias.getJSONObject(i);
                 Convocatoria convocatoria = new Convocatoria();
                 convocatoria.setAsunto(json.getString("Asunto"));
-                convocatoria.setCondominio(json.getString("Condominio"));
-                convocatoria.setUbicacion(json.getString("Ubicacion"));
                 convocatoria.setUbicacionInterna(json.getString("Ubicacion_Interna"));
-                convocatoria.setFirma(json.getString("Firma"));
                 convocatoria.setFechaInicio(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(json.getString("Fecha_de_Inicio")).getTime());
                 JSONArray puntosConv = json.getJSONArray("puntos");
                 List<PuntoOdD> puntos = new ArrayList<>();
@@ -189,7 +199,6 @@ public class Login extends Fragment {
                     punto.setIdConvocatoria(json.getInt("idConvocatoria"));
                     puntos.add(punto);
                 }
-                convocatoria.setPuntos(puntos);
                 convocatoria.setId(json.getInt("idConvocatoria"));
                 db.insertaConvocatoria(convocatoria, email);
                 for(PuntoOdD punto : puntos)

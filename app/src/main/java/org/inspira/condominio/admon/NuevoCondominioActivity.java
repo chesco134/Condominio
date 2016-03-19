@@ -118,7 +118,7 @@ public class NuevoCondominioActivity extends AppCompatActivity {
                     ContactoConServidor aval = (ContactoConServidor) t;
                     final String respuesta = aval.getResponse();
                     if(CompruebaCamposJSON.validaContenido(respuesta)) {
-                        guardaRegistroEnBaseDeDatos();
+                        guardaRegistroEnBaseDeDatos(obtenerIdCondominio(respuesta));
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -135,6 +135,17 @@ public class NuevoCondominioActivity extends AppCompatActivity {
                         });
                     }
                     terminaActividadDeEspera();
+                }
+
+                private int obtenerIdCondominio(String respuesta) {
+                    int idCondominio = -1;
+                    try{
+                        JSONObject json = new JSONObject(respuesta);
+                        idCondominio = json.getInt("idCondominio");
+                    }catch(JSONException e){
+                        e.printStackTrace();
+                    }
+                    return idCondominio;
                 }
 
                 @Override
@@ -163,8 +174,8 @@ public class NuevoCondominioActivity extends AppCompatActivity {
         Log.d("Revisor", "Tul");
     }
 
-    private void guardaRegistroEnBaseDeDatos() {
-        Condominio condominio = new Condominio();
+    private void guardaRegistroEnBaseDeDatos(int idCondominio) {
+        Condominio condominio = new Condominio(idCondominio);
         condominio.setCostoAproximadoPorUnidadPrivativa(costoPorUnidadPrivativa);
         TipoDeCondominio tipoDeCondominio =
                 new TipoDeCondominio(AccionesTablaCondominio.obtenerIdTipoDeCondominio(this,tipo));
@@ -183,7 +194,6 @@ public class NuevoCondominioActivity extends AppCompatActivity {
         condominio.setPoseeOficinasAdministrativas(camposOpcionales.get(MallaDeCheckBoxes.TEXTOS[4]));
         condominio.setPoseeAlarmaSismica(camposOpcionales.get(MallaDeCheckBoxes.TEXTOS[5]));
         condominio.setPoseeCisternaAguaPluvial(camposOpcionales.get(MallaDeCheckBoxes.TEXTOS[6]));
-        condominio.setId(AccionesTablaCondominio.agregarCondominio(this,condominio));
         registroDeIdCondominio(condominio.getId());
         iniciaRegistroDeTorre();
     }
@@ -198,6 +208,7 @@ public class NuevoCondominioActivity extends AppCompatActivity {
     private void iniciaRegistroDeTorre() {
         /** Si se debe registrar a cada torre por separado, lanzar ese número de formularios. **/
         startActivity(new Intent(this, RegistroDeTorre.class));
+        finish();
     }
 
     private String armaCuerpoDeMensaje() {

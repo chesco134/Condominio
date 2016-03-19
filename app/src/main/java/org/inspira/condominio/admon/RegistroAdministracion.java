@@ -1,5 +1,6 @@
 package org.inspira.condominio.admon;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -160,7 +161,7 @@ public class RegistroAdministracion extends AppCompatActivity {
         public void resultadoSatisfactorio(Thread t) {
             String respuesta = ((ContactoConServidor)t).getResponse();
             if(revisaRespuesta(respuesta)) {
-                guardaEnBaseDedatos();
+                guardaEnBaseDedatos(obtenerFolioDeAdministracion(respuesta));
                 notificaResultado("Hecho");
                 iniciaRegistroDeUsuario();
             }else{
@@ -178,6 +179,16 @@ public class RegistroAdministracion extends AppCompatActivity {
                     habilitaBoton();
                 }
             });
+        }
+
+        private int obtenerFolioDeAdministracion(String contenido){
+            int idAdministracion = -1;
+            try{
+                idAdministracion = new JSONObject(contenido).getInt("idAdministracion");
+            }catch(JSONException e){
+                e.printStackTrace();
+            }
+            return idAdministracion;
         }
 
         private String mensajeDeServidor(String respuesta) {
@@ -214,8 +225,8 @@ public class RegistroAdministracion extends AppCompatActivity {
         });
     }
 
-    private void guardaEnBaseDedatos() {
-        Administracion administracion = new Administracion();
+    private void guardaEnBaseDedatos(int idAdministracion) {
+        Administracion administracion = new Administracion(idAdministracion);
         administracion.setCondominio(AccionesTablaCondominio.obtenerCondominio(this, ProveedorDeRecursos.obtenerIdCondominio(this)));
         IntervaloDeTransparencia intervaloDeTransparencia = new IntervaloDeTransparencia(AccionesTablaAdministracion.obtenerIdIntervaloTransparencia(this, this.intervaloDeTransparencia.getText().toString().trim()));
         administracion.setIntervaloDeTransparencia(intervaloDeTransparencia);
@@ -233,7 +244,8 @@ public class RegistroAdministracion extends AppCompatActivity {
     }
 
     private void iniciaRegistroDeUsuario() {
-
+        startActivity(new Intent(this, RegistroUsuario.class));
+        finish();
     }
 
     private void habilitaBoton(){

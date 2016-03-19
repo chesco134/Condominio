@@ -21,7 +21,6 @@ public class Preparacion extends AppCompatActivity {
     }
 
     private void colocaFragmento() {
-        getSupportActionBar().setTitle("Ingreso");
         getSupportFragmentManager()
                 .beginTransaction()
                 .add(R.id.preparacion_main_container, new Login())

@@ -24,7 +24,7 @@
             style="@style/MyEditText"
             android:id="@+id/formulario_registro_administracion_costo_mantenimiento_anual"
             android:layout_below="@id/formulario_registro_administracion_costo_mantenimiento_mensual"
-            android:imeOption="actionNext"
+            android:imeOptions="actionNext"
             android:inputType="numberDecimal"
             android:hint="@string/formulario_registro_administracion_costo_mantenimiento_anual"/>
         <TextView

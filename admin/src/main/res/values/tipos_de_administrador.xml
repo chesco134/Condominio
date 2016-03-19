@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="tipos_de_administrador">
+        <item>Profesional</item>
+        <item>Condómino</item>
+        <item>Provisional</item>
+    </array>
+</resources>

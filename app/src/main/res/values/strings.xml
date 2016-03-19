@@ -37,12 +37,16 @@
     <string name="menu_convocatoria_quitar_punto">Quitar punto</string>
     <string name="menu_convocatoria_hecho">Hecho</string>
 
-    <string name="signup_usuario">Nombre de usuario</string>
+    <string name="signup_usuario">Nombres</string>
+    <string name="signup_ap_paterno">Apellido paterno</string>
+    <string name="signup_ap_materno">Apellido materno</string>
+    <string name="signup_escolaridad">Escolaridad</string>
+    <string name="signup_tipo_de_administrador">Tipo de administrador</string>
+    <string name="signup_remuneracion">Remuneración</string>
     <string name="startup_email">E-mail</string>
     <string name="signup_date_of_birth">Fecha de nacimiento</string>
-    <string name="signup_car_nickname">Apodo del coche</string>
     <string name="signup_registrar">Registrar</string>
-    <string name="startup_pass">Password</string>
+    <string name="startup_pass">Contraseña</string>
     <string name="signup_pista_password">La contraseña debe tener al menos 5 caracteres, incluir una mayúscula, un número y un caracter no alfanumérico: !@#$&amp;*</string>
 
     <string name="estructura_de_convocatoria_convocatoria_titulo">C O N V O C A T O R I A</string>
@@ -138,4 +142,7 @@ Las convocatorias para la celebración de asambleas ordinarias, se notificarán 
     <string name="pref_ringtone_silent">Silent</string>
 
     <string name="pref_title_vibrate">Vibrate</string>
+    <string name="signup_contacto">Teléfono</string>
+    <string name="signup_habilitar_profesion">Cuento con profesión</string>
+    <string name="signup_profesion">Profesión</string>
 </resources>

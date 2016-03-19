@@ -104,16 +104,14 @@ public class RegistroDeTorre extends AppCompatActivity {
         return cuerpoDeMensaje;
     }
 
-    private Torre guardarCamposEnBaseDeDatos() {
-        Torre torre = new Torre();
-        torre.setCondominio(AccionesTablaCondominio.obtenerCondominio(this, ProveedorDeRecursos.obtenerIdCondominio(this)));
+    private void guardarCamposEnBaseDeDatos(int idTorre) {
+        Torre torre = new Torre(idTorre);
+        torre.setcondominio(ProveedorDeRecursos.obtenercondominio(this));
         torre.setPoseeElevador(cuentaConElevador.isChecked());
         torre.setNombre(nombre.getText().toString().trim());
         torre.setCantidadDePisos(Integer.parseInt(numeroDePisos.getText().toString().trim()));
         torre.setCantidadDeDepartamentos(Integer.parseInt(numeroDeDepartamentos.getText().toString().trim()));
         torre.setCantidadDeFocos(Integer.parseInt(numeroDeFocos.getText().toString().trim()));
-        torre.setId(AccionesTablaTorre.agregarTorre(this, torre));
-        return torre;
     }
 
     private boolean validaCampos(){
@@ -128,8 +126,19 @@ public class RegistroDeTorre extends AppCompatActivity {
     private class InteraccionConServidor implements ContactoConServidor.AccionesDeValidacionConServidor {
         @Override
         public void resultadoSatisfactorio(Thread t) {
-            guardarCamposEnBaseDeDatos();
+            String contenido = ((ContactoConServidor)t).getResponse();
+            guardarCamposEnBaseDeDatos(obtenerIdTorre(contenido));
             iniciaRegistroDeAdministracion();
+        }
+
+        private int obtenerIdTorre(String contenido) {
+            int idTorre = -1;
+            try{
+                idTorre = new JSONObject(contenido).getInt("idTorre");
+            }catch (JSONException e){
+                e.printStackTrace();
+            }
+            return idTorre;
         }
 
         @Override
@@ -146,5 +155,6 @@ public class RegistroDeTorre extends AppCompatActivity {
 
     private void iniciaRegistroDeAdministracion() {
         startActivity(new Intent(this, RegistroAdministracion.class));
+        finish();
     }
 }

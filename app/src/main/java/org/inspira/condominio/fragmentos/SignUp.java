@@ -2,37 +2,37 @@ package org.inspira.condominio.fragmentos;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import org.inspira.condominio.R;
+import org.inspira.condominio.actividades.ActualizaTextoDesdeLista;
+import org.inspira.condominio.actividades.EfectoDeEnfoque;
+import org.inspira.condominio.actividades.Verificador;
 import org.inspira.condominio.admin.CentralPoint;
-import org.inspira.condominio.datos.CondominioBD;
+import org.inspira.condominio.admon.AccionesTablaAdministracion;
+import org.inspira.condominio.admon.AccionesTablaUsuario;
+import org.inspira.condominio.datos.NombreDeUsuario;
+import org.inspira.condominio.datos.Usuario;
 import org.inspira.condominio.dialogos.DialogoDeConsultaSimple;
 import org.inspira.condominio.dialogos.ObtenerFecha;
 import org.inspira.condominio.dialogos.ProveedorSnackBar;
-import org.inspira.condominio.seguridad.Hasher;
-import org.inspira.condominio.datos.Usuario;
+import org.inspira.condominio.networking.ContactoConServidor;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.ByteArrayOutputStream;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLDecoder;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -45,15 +45,25 @@ import java.util.regex.Pattern;
 public class SignUp extends Fragment {
 
     private EditText email;
-    private EditText nickname;
+    private EditText nombres;
     private EditText pass;
     private TextView date;
     private Button confirm;
     private long fechaDeNacimiento;
+    private EditText apPaterno;
+    private EditText apMaterno;
+    private EditText remuneracion;
+    private EditText contacto;
+    private TextView tipoDeAdministrador;
+    private TextView escolaridad;
+    private CheckBox habilitarProfesion;
+    private EditText profesion;
+    private TextView pisoProfesion;
 
     private MyWatcher myWatcher;
     private MyMailWatcher mailWatcher;
     private boolean cStatus;
+    private int idAdministracion;
 
     @Override
     public void onAttach(Context context){
@@ -66,17 +76,47 @@ public class SignUp extends Fragment {
         email = (EditText) rootView.findViewById(R.id.signup_email);
         mailWatcher = new MyMailWatcher();
         email.addTextChangedListener(mailWatcher);
-        email.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                email.setBackgroundColor(getActivity().getResources().getColor(R.color.white));
-            }
-        });
-        nickname = (EditText) rootView.findViewById(R.id.signup_usuario);
+        rootView.findViewById(R.id.signup_piso_email)
+                .setOnFocusChangeListener(new EfectoDeEnfoque(getActivity(), email));
+        nombres = (EditText) rootView.findViewById(R.id.signup_usuario);
+        rootView.findViewById(R.id.signup_piso_usuario)
+                .setOnFocusChangeListener(new EfectoDeEnfoque(getActivity(), nombres));
         pass = (EditText) rootView.findViewById(R.id.signup_pass);
+        rootView.findViewById(R.id.signup_piso_pass)
+                .setOnFocusChangeListener(new EfectoDeEnfoque(getActivity(), pass));
         myWatcher = new MyWatcher();
         pass.addTextChangedListener(myWatcher);
         date = (TextView) rootView.findViewById(R.id.signup_fecha_de_nacimiento);
+        apPaterno = (EditText) rootView.findViewById(R.id.signup_ap_paterno);
+        rootView.findViewById(R.id.signup_piso_ap_paterno)
+                .setOnFocusChangeListener(new EfectoDeEnfoque(getActivity(), apPaterno));
+        apMaterno = (EditText) rootView.findViewById(R.id.signup_ap_materno);
+        rootView.findViewById(R.id.signup_piso_ap_materno)
+                .setOnFocusChangeListener(new EfectoDeEnfoque(getActivity(), apMaterno));
+        remuneracion = (EditText) rootView.findViewById(R.id.signup_remuneracion);
+        rootView.findViewById(R.id.signup_piso_remuneracion)
+                .setOnFocusChangeListener(new EfectoDeEnfoque(getActivity(), remuneracion));
+        tipoDeAdministrador = (TextView) rootView.findViewById(R.id.signup_tipo_de_administrador);
+        tipoDeAdministrador.setOnClickListener(new ActualizaTextoDesdeLista(R.array.tipos_de_administrador, "Tipo de Administrador"));
+        escolaridad = (TextView) rootView.findViewById(R.id.signup_escolaridad);
+        escolaridad.setOnClickListener(new ActualizaTextoDesdeLista(R.array.escolaridades, "Escolaridad"));
+        contacto = (EditText)rootView.findViewById(R.id.signup_contacto);
+        rootView.findViewById(R.id.signup_piso_contacto)
+                .setOnFocusChangeListener(new EfectoDeEnfoque(getActivity(), contacto));
+        profesion = (EditText)rootView.findViewById(R.id.signup_profesion);
+        pisoProfesion = (TextView) rootView.findViewById(R.id.signup_piso_profesion);
+        pisoProfesion.setOnFocusChangeListener(new EfectoDeEnfoque(getActivity(), profesion));
+        habilitarProfesion = (CheckBox)rootView.findViewById(R.id.signup_habilitar_profesion);
+        habilitarProfesion.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    habilitaCamposDeProfesion();
+                }else{
+                    deshabilitaCamposDeProfesion();
+                }
+            }
+        });
         date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -90,7 +130,7 @@ public class SignUp extends Fragment {
                     public void clickSobreAccionPositiva(DialogFragment dialogo) {
                         fechaDeNacimiento = ((ObtenerFecha) dialogo).getFecha().getTime();
                         Calendar c = Calendar.getInstance();
-                        if (c.getTimeInMillis() - fechaDeNacimiento >= 662256e6)
+                        if (c.getTimeInMillis() - fechaDeNacimiento >= 662256e6) // 18 años
                             date.setText(new SimpleDateFormat("dd/MM/yyyy").format(new Date(fechaDeNacimiento)));
                         else
                             ProveedorSnackBar
@@ -108,136 +148,199 @@ public class SignUp extends Fragment {
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                v.setEnabled(false);
                 cStatus = false;
-                v.setEnabled(cStatus);
-                validarInformacion();
+                if(validarInformacion()){
+                    validarRemotamente();
+                }else{
+                    cStatus = true;
+                    v.setEnabled(true);
+                    ProveedorSnackBar
+                            .muestraBarraDeBocados(v, "Por favor verifique los campos marcados");
+                }
             }
         });
         if(savedInstanceState == null){
             fechaDeNacimiento = 0;
             cStatus = true;
+            idAdministracion = getArguments().getInt("idAdministracion");
         }else{
             fechaDeNacimiento = savedInstanceState.getLong("fecha_de_nacimiento");
             email.setText(savedInstanceState.getString("email"));
-            nickname.setText(savedInstanceState.getString("nickname"));
+            nombres.setText(savedInstanceState.getString("nombres"));
             cStatus = savedInstanceState.getBoolean("confirm_status");
+            date.setText(savedInstanceState.getString("date"));
+            apPaterno.setText(savedInstanceState.getString("ap_paterno"));
+            apMaterno.setText(savedInstanceState.getString("ap_materno"));
+            remuneracion.setText(savedInstanceState.getString("remuneracion"));
+            String tipoAdmin = savedInstanceState.getString("tipo_de_administrador");
+            tipoDeAdministrador.setText(tipoAdmin);
+            if(!"".equals(tipoAdmin))
+                tipoDeAdministrador.setTextColor(Color.BLACK);
+            String esco = savedInstanceState.getString("escolaridad");
+            escolaridad.setText(esco);
+            if(!"".equals(esco))
+                escolaridad.setTextColor(Color.BLACK);
+            idAdministracion = savedInstanceState.getInt("idAdministracion");
+            habilitarProfesion.setChecked(savedInstanceState.getBoolean("habilita_profesion"));
+            contacto.setText(savedInstanceState.getString("contacto"));
+            profesion.setText(savedInstanceState.getString("profesion"));
+            if(habilitarProfesion.isChecked())
+                habilitaCamposDeProfesion();
+            else
+                deshabilitaCamposDeProfesion();
         }
         confirm.setEnabled(cStatus);
         return rootView;
+    }
+
+    private void habilitaCamposDeProfesion() {
+        profesion.setEnabled(true);
+        pisoProfesion.setEnabled(true);
+
+    }
+
+    private void deshabilitaCamposDeProfesion() {
+        profesion.setEnabled(false);
+        pisoProfesion.setEnabled(false);
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState){
         outState.putLong("fecha_de_nacimiento", fechaDeNacimiento);
         outState.putString("email", email.getText().toString());
-        outState.putString("nickname", nickname.getText().toString());
+        outState.putString("nombres", nombres.getText().toString());
         outState.putBoolean("confirm_status", cStatus);
+        outState.putString("date", date.getText().toString());
+        outState.putString("ap_paterno", apPaterno.getText().toString());
+        outState.putString("ap_materno", apMaterno.getText().toString());
+        outState.putString("remuneracion", remuneracion.getText().toString());
+        outState.putString("tipo_de_administrador", tipoDeAdministrador.getText().toString());
+        outState.putString("escolaridad", escolaridad.getText().toString());
+        outState.putInt("idAdministracion", idAdministracion);
+        outState.putBoolean("habilita_profesion", habilitarProfesion.isChecked());
+        outState.putString("profesion", profesion.getText().toString());
+        outState.putString("contacto", contacto.getText().toString());
     }
 
-    private void validarInformacion() {
+    private boolean validarInformacion() {
+        boolean[] veredictos = new boolean[9];
+        veredictos[0] = Verificador.marcaCampo(getContext(), email, Verificador.TEXTO) && mailWatcher.isEnabled();
+        veredictos[1] = Verificador.marcaCampo(getContext(), pass, Verificador.TEXTO) && myWatcher.isEnabled();
+        veredictos[2] = Verificador.marcaCampo(getContext(), nombres, Verificador.TEXTO);
+        veredictos[3] = Verificador.marcaCampo(getContext(), date, Verificador.TEXTO);
+        veredictos[4] = Verificador.marcaCampo(getContext(), apPaterno, Verificador.TEXTO);
+        veredictos[5] = Verificador.marcaCampo(getContext(), apMaterno, Verificador.TEXTO);
+        veredictos[6] = Verificador.marcaCampo(getContext(), remuneracion, Verificador.FLOTANTE);
+        veredictos[7] = Verificador.marcaCampo(getContext(), tipoDeAdministrador, Verificador.TEXTO);
+        veredictos[8] = Verificador.marcaCampo(getContext(), escolaridad, Verificador.TEXTO);
         boolean veredicto = true;
-        if( !myWatcher.isEnabled() ){
-            ProveedorSnackBar
-                    .muestraBarraDeBocados(email, "Los campos en rojo son necesarios");
-            veredicto = false;
-        }
-        if( !mailWatcher.isEnabled() ){
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    email.setBackgroundColor(getActivity().getResources().getColor(R.color.error));
-                }
-            });
-            ProveedorSnackBar
-                    .muestraBarraDeBocados(email, "Los campos en rojo son necesarios");
-            veredicto = false;
-        }
-        if(veredicto) {
-            final String mail = email.getText().toString();
-            final String name = nickname.getText().toString();
-            final Usuario user = new Usuario();
-            user.setEmail(mail);
-            user.setNickname(name);
-            user.setPass(new Hasher().makeHashString(pass.getText().toString()));
-            user.setDateOfBirth(fechaDeNacimiento);
-            new Thread() {
-                @Override
-                public void run() {
-                    if (!"".equals(mail)
-                            && !"".equals(name)
-                            && !"".equals(pass.getText().toString())
-                            && 0 != fechaDeNacimiento
-                            && validarRemotamente(user)) {
-                        guardarInformacion(user);
-                        colocarPantallaPrincipal();
-                    } else {
-
-                    }
-                    cStatus = true;
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            confirm.setEnabled(cStatus);
-                        }
-                    });
-                }
-            }.start();
-        }
+        for(boolean iter : veredictos)
+            if(!(veredicto = iter))
+                break;
+        return veredicto;
     }
 
     private void colocarPantallaPrincipal() {
         getActivity().finish();
     }
 
-    private void guardarInformacion(Usuario usuario) {
+    private void guardarInformacion() {
+        final Usuario user = new Usuario();
+        user.setEmail(email.getText().toString().trim());
+        NombreDeUsuario nombreDeUsuario = new NombreDeUsuario();
+        nombreDeUsuario.setNombres(nombres.getText().toString().trim());
+        nombreDeUsuario.setApPaterno(apPaterno.getText().toString().trim());
+        nombreDeUsuario.setApMaterno(apMaterno.getText().toString().trim());
+        nombreDeUsuario.setId(AccionesTablaUsuario.agregaNombreDeUsuario(getContext(), nombreDeUsuario));
+        user.setNombreDeUsuario(nombreDeUsuario);
+        user.setDateOfBirth(fechaDeNacimiento);
+        user.setAdministracion(AccionesTablaAdministracion.obtenerAdministracion(getContext(), idAdministracion));
+        user.setRemuneracion(Float.parseFloat(remuneracion.getText().toString().trim()));
+        user.setEscolaridad(AccionesTablaUsuario.obtenerEscolaridad(getContext(), escolaridad.getText().toString()));
+        user.setTipoDeAdministrador(AccionesTablaUsuario.obtenerTipoDeAdministrador(getContext(), tipoDeAdministrador.getText().toString()));
         SharedPreferences.Editor editor = getActivity().getSharedPreferences(CentralPoint.class.getName(), Context.MODE_PRIVATE).edit();
-        editor.putString("usuario", usuario.getNickname());
-        editor.putString("email", usuario.getEmail());
+        editor.putString("usuario", user.getNombreDeUsuario().getNombres() + " " + user.getNombreDeUsuario().getApPaterno());
+        editor.putString("email", user.getEmail());
         editor.apply();
-        CondominioBD db = new CondominioBD(getContext());
-        db.agregarUsuario(usuario);
+        AccionesTablaUsuario.agregaUsuario(getContext(), user);
+        String prof = profesion.getText().toString().trim();
+        if(!"".equals(prof))
+            AccionesTablaUsuario.agregaUsuarioProfesionista(getContext(), user.getEmail(), prof);
+        String telefono = contacto.getText().toString().trim();
+        if(!"".equals(telefono))
+            AccionesTablaUsuario.agregaContactoUsuario(getContext(), user.getEmail(), telefono);
     }
 
-    private boolean validarRemotamente(Usuario user) {
-        boolean veredicto = false;
+    private String armarContenido(){
+        String contenido = null;
         try{
             JSONObject json = new JSONObject();
-            json.put("action", 2); // La acción 2 es para solicitar una validación de datos.
-            json.put("email", user.getEmail());
-            json.put("nickname", user.getNickname());
-            json.put("fecha_de_nacimiento", user.getDateOfBirth());
-            json.put("pass", user.getPass());
-            HttpURLConnection con = (HttpURLConnection) new URL(CentralPoint.SERVER_URL).openConnection();
-            con.setDoOutput(true);
-            DataOutputStream salida = new DataOutputStream(con.getOutputStream());
-            salida.write(json.toString().getBytes());
-            salida.flush();
-            DataInputStream entrada = new DataInputStream(con.getInputStream());
-            int length;
-            byte[] chunk = new byte[64];
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            while((length = entrada.read(chunk)) != -1)
-                baos.write(chunk,0,length);
-            Log.d("Momonga", URLDecoder.decode(baos.toString(), "utf8"));
-            final JSONObject respuesta = new JSONObject(URLDecoder.decode(baos.toString(), "utf8"));
-            baos.close();
-            veredicto = respuesta.getBoolean("content");
-            con.disconnect();
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        ProveedorSnackBar
-                                .muestraBarraDeBocados(email, respuesta.getString("mensaje"));
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-            });
-        }catch(JSONException | IOException e){
+            json.put("action",15);
+            json.put("email", email.getText().toString().trim());
+            json.put("nombres", nombres.getText().toString().trim());
+            json.put("ap_paterno", apPaterno.getText().toString());
+            json.put("ap_materno", apMaterno.getText().toString().trim());
+            json.put("fecha_de_nacimiento", fechaDeNacimiento);
+            json.put("idAdministracion", idAdministracion);
+            json.put("remuneracion", Float.parseFloat(remuneracion.getText().toString().trim()));
+            json.put("escolaridad", escolaridad.getText().toString());
+            json.put("tipo_de_administrador", tipoDeAdministrador.getText().toString());
+            json.put("profesion", profesion.getText().toString().trim());
+            json.put("contacto", contacto.getText().toString().trim());
+            contenido = json.toString();
+        }catch(JSONException e){
             e.printStackTrace();
         }
-        return veredicto;
+        return contenido;
+    }
+
+    private void validarRemotamente() {
+        ContactoConServidor contacto = new ContactoConServidor(new ContactoConServidor.AccionesDeValidacionConServidor() {
+            @Override
+            public void resultadoSatisfactorio(Thread t) {
+                String respuesta = ((ContactoConServidor)t).getResponse();
+                try{
+                    JSONObject json = new JSONObject(respuesta);
+                    if(json.getBoolean("content")) {
+                        muestraMensajeDesdeHilo("Hecho");
+                        guardarInformacion();
+                        colocarPantallaPrincipal();
+                    }
+                }catch(JSONException e){
+                    e.printStackTrace();
+                }
+                habilitaBotonDesdeHilo();
+            }
+
+            @Override
+            public void problemasDeConexion(Thread t) {
+                muestraMensajeDesdeHilo("Servidor temporalmente no disponible");
+                habilitaBotonDesdeHilo();
+            }
+        }, armarContenido());
+        contacto.start();
+    }
+
+    private void muestraMensajeDesdeHilo(final String mensaje){
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                ProveedorSnackBar
+                        .muestraBarraDeBocados(email, mensaje);
+                habilitaBotonDesdeHilo();
+            }
+        });
+    }
+
+    private void habilitaBotonDesdeHilo(){
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                confirm.setEnabled(true);
+                cStatus = true;
+            }
+        });
     }
 
     private class MyWatcher implements TextWatcher{

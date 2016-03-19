@@ -14,6 +14,16 @@ import org.inspira.condominio.R;
 public class DialogoDeLista extends DialogFragment {
 
     private AccionDialogoDeLista accion;
+    private int stringArrayRes;
+    private String titulo;
+
+    public void setStringArrayRes(int stringArrayRes) {
+        this.stringArrayRes = stringArrayRes;
+    }
+
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
+    }
 
     public interface AccionDialogoDeLista{
         void objetoSeleccionado(String texto);
@@ -26,8 +36,8 @@ public class DialogoDeLista extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("Tipo de condominio")
-                .setItems(R.array.tipos_de_condominio, new DialogInterface.OnClickListener() {
+        builder.setTitle(titulo)
+                .setItems(stringArrayRes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         // The 'which' argument contains the index position
                         // of the selected item

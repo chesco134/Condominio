@@ -23,7 +23,7 @@ public class AccionesTablaTorre {
         values.put("cantidad_de_pisos", torre.getCantidadDePisos());
         values.put("cantidad_de_focos", torre.getCantidadDeFocos());
         values.put("cantidad_de_departamentos", torre.getCantidadDeDepartamentos());
-        values.put("idCondominio", torre.getCondominio().getId());
+        //values.put("idCondominio", torre.getcondominio());
         CondominioBD condominioBD = new CondominioBD(context);
         SQLiteDatabase writable = condominioBD.getWritableDatabase();
         writable.insert("Torre", "---", values);
@@ -36,10 +36,10 @@ public class AccionesTablaTorre {
         return idTorre;
     }
 
-    public static Torre[] obtenerTorres(Context context, int idCondominio){
+    public static Torre[] obtenerTorres(Context context, int condominio){
         SQLiteDatabase db = new CondominioBD(context).getReadableDatabase();
         Cursor c = db.rawQuery("select * from Torre where idCondominio = CAST(? as INTEGER)",
-                new String[]{String.valueOf(idCondominio)});
+                new String[]{String.valueOf(condominio)});
         List<Torre> torres = new ArrayList<>();
         Torre torre;
         while(c.moveToNext()){
@@ -49,7 +49,7 @@ public class AccionesTablaTorre {
             torre.setCantidadDePisos(c.getInt(c.getColumnIndex("cantidad_de_pisos")));
             torre.setNombre(c.getString(c.getColumnIndex("nombre")));
             torre.setPoseeElevador(c.getInt(c.getColumnIndex("posee_elevador")) != 0);
-            torre.setCondominio(AccionesTablaCondominio.obtenerCondominio(context, idCondominio));
+            //torre.setcondominio(condominio);
             torres.add(torre);
         }
         c.close();

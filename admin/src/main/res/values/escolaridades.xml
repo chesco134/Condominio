@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="escolaridades">
+        <item>Básico</item>
+        <item>Medio superior</item>
+        <item>Superior</item>
+        <item>Maestría</item>
+        <item>Doctorado</item>
+    </array>
+</resources>

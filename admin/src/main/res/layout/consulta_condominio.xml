@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="@color/white">
 
     <TextView
         android:id="@+id/consulta_condominio_texto_saludo"
@@ -42,6 +43,7 @@
         android:layout_alignLeft="@+id/consulta_condominio_direccion"
         android:layout_alignRight="@+id/consulta_condominio_direccion"
         android:layout_alignEnd="@+id/consulta_condominio_direccion"/>
+
     <Button
         style="@style/MyButtonCustom"
         android:id="@+id/consulta_condominio_boton_consulta"
@@ -49,16 +51,16 @@
         android:text="@string/consulta_condominio_texto_boton_consulta"/>
     <Button
         android:id="@+id/consulta_condominio_boton_nuevo_registro"
-        android:layout_width="wrap_content"
+        android:layout_width="95sp"
         android:layout_height="36sp"
-        android:layout_marginTop="12sp"
+        android:layout_marginBottom="12sp"
         android:layout_marginEnd="12sp"
         android:layout_marginRight="12sp"
-        android:layout_below="@+id/consulta_condominio_direccion"
-        android:layout_toStartOf="@+id/consulta_condominio_boton_consulta"
-        android:layout_toLeftOf="@+id/consulta_condominio_boton_consulta"
-        android:background="@drawable/my_custom_button"
-        android:textColor="@color/white"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/fondo_edit_text_no_opaque"
+        android:textColor="@color/colorAccent"
         android:text="@string/consulta_condominio_texto_boton_nuevo_registro"/>
 
 </RelativeLayout>

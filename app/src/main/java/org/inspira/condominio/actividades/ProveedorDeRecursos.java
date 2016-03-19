@@ -19,4 +19,9 @@ public class ProveedorDeRecursos {
         return context.getSharedPreferences(Configuraciones.class.getName(), Context.MODE_PRIVATE)
                 .getInt("idCondominio", -1);
     }
+
+    public static int obtenerIdAdministracion(Context context){
+        return context.getSharedPreferences(Configuraciones.class.getName(), Context.MODE_PRIVATE)
+                .getInt("idAdministracion", -1);
+    }
 }
