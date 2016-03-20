@@ -1,6 +1,5 @@
 package org.inspira.condominio.admin.formatos;
 
-
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.os.Bundle;
@@ -55,13 +54,13 @@ public class Formatos extends AppCompatActivity implements
                     }
                 });
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-        for (int i = 0; i < TITULOS.length; i++) {
+        for (Integer TITULO : TITULOS) {
             // Create a tab with text corresponding to the page title defined by
             // the adapter. Also specify this Activity object, which implements
             // the TabListener interface, as the callback (listener) for when
             // this tab is selected.
             actionBar.addTab(actionBar.newTab()
-                    .setText(TITULOS[i])
+                    .setText(TITULO)
                     .setTabListener(this));
         }
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

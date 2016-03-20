@@ -53,7 +53,7 @@ public class CondominioBD extends SQLiteOpenHelper {
                 "cantidad_de_lugares_estacionamiento_visitas integer not null," +
                 "costo_aproximado float not null," + // costo aproximado por unidad privativa
                 "capacidad_cisterna float not null," +
-                "posee_cisterna_agua_pluvial default 0," +
+                "posee_cisterna_agua_pluvial integer default 0," +
                 "foreign key(idTipo_de_Condominio) references Tipo_de_Condominio(idTipo_de_Condominio)" +
                 ")");
         dataBase.execSQL("create table Intervalo_Transparencia(" +
@@ -89,7 +89,7 @@ public class CondominioBD extends SQLiteOpenHelper {
                 "posee_elevador integer default 0," +
                 "cantidad_de_pisos integer not null," +
                 "cantidad_de_focos integer not null," +
-                "cantidad_de_departamentos not null," +
+                "cantidad_de_departamentos integer not null," +
                 "idAdministracion integer not null," +
                 "foreign key(idAdministracion) references Administracion(idAdministracion)" +
                 ")");
@@ -157,7 +157,7 @@ public class CondominioBD extends SQLiteOpenHelper {
                 "foreign key(idNombre_de_Usuario) references NombreUsuario(idNombre_de_Usuario)" +
                 ")");
         dataBase.execSQL("create table Usuario_Profesionista(" +
-                "email integer not null primary key," +
+                "email TEXT not null primary key," +
                 "profesion text not null," +
                 "foreign key (email) references Usuario(email)" +
                 ")");
@@ -194,7 +194,7 @@ public class CondominioBD extends SQLiteOpenHelper {
                 "posee_seguro_social integer default 0," +
                 "idAdministracion integer not null," +
                 "idTipo_de_Trabajador integer not null," +
-                "foreign key(idAdministracion) references Administracion(idAministracion)," +
+                "foreign key(idAdministracion) references Administracion(idAdministracion)," +
                 "foreign key(idTipo_de_Trabajador) references Tipo_de_Trabajador(idTipo_de_Trabajador)" +
                 ")");
         dataBase.execSQL("create table Convocatoria(" +

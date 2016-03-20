@@ -108,4 +108,14 @@ public class AccionesTablaCondominio {
         db.close();
         return condominio;
     }
+
+    public static boolean consultaCondominio(Context context, int idCondominio){
+        SQLiteDatabase db = new CondominioBD(context).getReadableDatabase();
+        Cursor c = db.rawQuery("select count(*) from Condominio where idCondominio = CAST(? as INTEGER)", new String[]{String.valueOf(idCondominio)});
+        c.moveToFirst();
+        boolean resultado = c.getInt(0) > 0;
+        c.close();
+        db.close();
+        return resultado;
+    }
 }

@@ -90,13 +90,13 @@ public class RegistroDeTorre extends AppCompatActivity {
         String cuerpoDeMensaje = null;
         try{
             JSONObject json = new JSONObject();
-            json.put("action", 13);
+            json.put("action", ProveedorDeRecursos.REGISTRO_DE_TORRE);
             json.put("nombre", nombre.getText().toString().trim());
             json.put("posee_elevador", cuentaConElevador.isChecked());
             json.put("cantidad_de_pisos", Integer.parseInt(numeroDePisos.getText().toString().trim()));
             json.put("cantidad_de_focos", Integer.parseInt(numeroDeFocos.getText().toString().trim()));
             json.put("cantidad_de_departamentos", Integer.parseInt(numeroDeDepartamentos.getText().toString().trim()));
-            json.put("idCondominio", ProveedorDeRecursos.obtenerIdCondominio(this));
+            json.put("idAdministracion", ProveedorDeRecursos.obtenerIdAdministracion(this));
             cuerpoDeMensaje = json.toString();
         }catch(JSONException e){
             e.printStackTrace();
@@ -106,7 +106,7 @@ public class RegistroDeTorre extends AppCompatActivity {
 
     private void guardarCamposEnBaseDeDatos(int idTorre) {
         Torre torre = new Torre(idTorre);
-        torre.setcondominio(ProveedorDeRecursos.obtenercondominio(this));
+        torre.setIdAdministracion(ProveedorDeRecursos.obtenerIdAdministracion(this));
         torre.setPoseeElevador(cuentaConElevador.isChecked());
         torre.setNombre(nombre.getText().toString().trim());
         torre.setCantidadDePisos(Integer.parseInt(numeroDePisos.getText().toString().trim()));

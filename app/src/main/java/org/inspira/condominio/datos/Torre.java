@@ -10,7 +10,7 @@ public class Torre extends ModeloDeDatos {
     private int cantidadDePisos;
     private int cantidadDeFocos;
     private int cantidadDeDepartamentos;
-    private Condominio condominio;
+    private int idAdministracion;
 
     public Torre() {
     }
@@ -59,11 +59,11 @@ public class Torre extends ModeloDeDatos {
         this.cantidadDeDepartamentos = cantidadDeDepartamentos;
     }
 
-    public Condominio getCondominio() {
-        return condominio;
+    public int getIdAdministracion() {
+        return idAdministracion;
     }
 
-    public void setCondominio(Condominio condominio) {
-        this.condominio = condominio;
+    public void setIdAdministracion(int condominio) {
+        this.idAdministracion = condominio;
     }
 }

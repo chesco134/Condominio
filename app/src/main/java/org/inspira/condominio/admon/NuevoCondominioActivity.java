@@ -9,6 +9,7 @@ import android.util.Log;
 
 import org.inspira.condominio.R;
 import org.inspira.condominio.actividades.Configuraciones;
+import org.inspira.condominio.actividades.ProveedorDeRecursos;
 import org.inspira.condominio.adaptadores.MallaDeCheckBoxes;
 import org.inspira.condominio.datos.Condominio;
 import org.inspira.condominio.datos.TipoDeCondominio;
@@ -207,7 +208,7 @@ public class NuevoCondominioActivity extends AppCompatActivity {
 
     private void iniciaRegistroDeTorre() {
         /** Si se debe registrar a cada torre por separado, lanzar ese número de formularios. **/
-        startActivity(new Intent(this, RegistroDeTorre.class));
+        startActivity(new Intent(this, RegistroAdministracion.class));
         finish();
     }
 
@@ -215,7 +216,7 @@ public class NuevoCondominioActivity extends AppCompatActivity {
         String content = null;
         try{
             JSONObject json = new JSONObject();
-            json.put("action", 12);
+            json.put("action", ProveedorDeRecursos.REGISTRO_DE_CONDOMINIO);
             json.put("direccion", direccion);
             json.put("edad", edadCondominio);
             json.put("tipo", tipo);

@@ -20,6 +20,7 @@ import android.widget.TextView;
 import org.inspira.condominio.R;
 import org.inspira.condominio.actividades.ActualizaTextoDesdeLista;
 import org.inspira.condominio.actividades.EfectoDeEnfoque;
+import org.inspira.condominio.actividades.ProveedorDeRecursos;
 import org.inspira.condominio.actividades.Verificador;
 import org.inspira.condominio.admin.CentralPoint;
 import org.inspira.condominio.admon.AccionesTablaAdministracion;
@@ -63,7 +64,6 @@ public class SignUp extends Fragment {
     private MyWatcher myWatcher;
     private MyMailWatcher mailWatcher;
     private boolean cStatus;
-    private int idAdministracion;
 
     @Override
     public void onAttach(Context context){
@@ -130,7 +130,7 @@ public class SignUp extends Fragment {
                     public void clickSobreAccionPositiva(DialogFragment dialogo) {
                         fechaDeNacimiento = ((ObtenerFecha) dialogo).getFecha().getTime();
                         Calendar c = Calendar.getInstance();
-                        if (c.getTimeInMillis() - fechaDeNacimiento >= 662256e6) // 18 años
+                        if (c.getTimeInMillis() - fechaDeNacimiento >= 662256e6) // 21 años
                             date.setText(new SimpleDateFormat("dd/MM/yyyy").format(new Date(fechaDeNacimiento)));
                         else
                             ProveedorSnackBar
@@ -163,7 +163,6 @@ public class SignUp extends Fragment {
         if(savedInstanceState == null){
             fechaDeNacimiento = 0;
             cStatus = true;
-            idAdministracion = getArguments().getInt("idAdministracion");
         }else{
             fechaDeNacimiento = savedInstanceState.getLong("fecha_de_nacimiento");
             email.setText(savedInstanceState.getString("email"));
@@ -181,7 +180,6 @@ public class SignUp extends Fragment {
             escolaridad.setText(esco);
             if(!"".equals(esco))
                 escolaridad.setTextColor(Color.BLACK);
-            idAdministracion = savedInstanceState.getInt("idAdministracion");
             habilitarProfesion.setChecked(savedInstanceState.getBoolean("habilita_profesion"));
             contacto.setText(savedInstanceState.getString("contacto"));
             profesion.setText(savedInstanceState.getString("profesion"));
@@ -217,7 +215,6 @@ public class SignUp extends Fragment {
         outState.putString("remuneracion", remuneracion.getText().toString());
         outState.putString("tipo_de_administrador", tipoDeAdministrador.getText().toString());
         outState.putString("escolaridad", escolaridad.getText().toString());
-        outState.putInt("idAdministracion", idAdministracion);
         outState.putBoolean("habilita_profesion", habilitarProfesion.isChecked());
         outState.putString("profesion", profesion.getText().toString());
         outState.putString("contacto", contacto.getText().toString());
@@ -255,7 +252,7 @@ public class SignUp extends Fragment {
         nombreDeUsuario.setId(AccionesTablaUsuario.agregaNombreDeUsuario(getContext(), nombreDeUsuario));
         user.setNombreDeUsuario(nombreDeUsuario);
         user.setDateOfBirth(fechaDeNacimiento);
-        user.setAdministracion(AccionesTablaAdministracion.obtenerAdministracion(getContext(), idAdministracion));
+        user.setAdministracion(AccionesTablaAdministracion.obtenerAdministracion(getContext(), ProveedorDeRecursos.obtenerIdAdministracion(getContext())));
         user.setRemuneracion(Float.parseFloat(remuneracion.getText().toString().trim()));
         user.setEscolaridad(AccionesTablaUsuario.obtenerEscolaridad(getContext(), escolaridad.getText().toString()));
         user.setTipoDeAdministrador(AccionesTablaUsuario.obtenerTipoDeAdministrador(getContext(), tipoDeAdministrador.getText().toString()));
@@ -276,13 +273,13 @@ public class SignUp extends Fragment {
         String contenido = null;
         try{
             JSONObject json = new JSONObject();
-            json.put("action",15);
+            json.put("action", ProveedorDeRecursos.REGISTRO_DE_USUARIO);
             json.put("email", email.getText().toString().trim());
             json.put("nombres", nombres.getText().toString().trim());
             json.put("ap_paterno", apPaterno.getText().toString());
             json.put("ap_materno", apMaterno.getText().toString().trim());
             json.put("fecha_de_nacimiento", fechaDeNacimiento);
-            json.put("idAdministracion", idAdministracion);
+            json.put("idAdministracion", ProveedorDeRecursos.obtenerIdAdministracion(getContext()));
             json.put("remuneracion", Float.parseFloat(remuneracion.getText().toString().trim()));
             json.put("escolaridad", escolaridad.getText().toString());
             json.put("tipo_de_administrador", tipoDeAdministrador.getText().toString());

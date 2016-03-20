@@ -48,6 +48,9 @@
     <string name="signup_registrar">Registrar</string>
     <string name="startup_pass">Contraseña</string>
     <string name="signup_pista_password">La contraseña debe tener al menos 5 caracteres, incluir una mayúscula, un número y un caracter no alfanumérico: !@#$&amp;*</string>
+    <string name="signup_contacto">Teléfono</string>
+    <string name="signup_habilitar_profesion">Cuento con profesión</string>
+    <string name="signup_profesion">Profesión</string>
 
     <string name="large_text">
         "Material is the metaphor.\n\n"
@@ -146,9 +149,9 @@
     <string name="formulario_torre_cuota_de_mantenimiento">Cuota de mantenimiento</string>
     <string name="formulario_torre_posee_elevador">Cuenta con elevador </string>
     <string name="formulario_torre_hecho">Hecho</string>
-    <string name="consulta_condominio_instrucciones">Antes de continuar, puede revisar si el condominio al que pertenece ya está registrado</string>
-    <string name="consulta_condominio_hint_direccion_de_condominio">Escriba la dirección</string>
-    <string name="consulta_condominio_texto_boton_consulta">Consultar</string>
+    <string name="consulta_condominio_instrucciones">Puede formar parte de la administración proporcionando el código de registro</string>
+    <string name="consulta_condominio_hint_direccion_de_condominio">Código de registro</string>
+    <string name="consulta_condominio_texto_boton_consulta">Unirse</string>
     <string name="consulta_condominio_texto_boton_nuevo_registro">Registrar</string>
     <string name="consulta_condominio_texto_saludo">Hola</string>
     <string name="nuevo_condominio_cantidad_de_lugares_estacionamiento_visitas"># Cajodes de estacionamiento visitas</string>

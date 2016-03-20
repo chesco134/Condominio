@@ -106,7 +106,7 @@ public class RegistroAdministracion extends AppCompatActivity {
         String contenido = null;
         try{
             JSONObject json = new JSONObject();
-            json.put("action", 14);
+            json.put("action", ProveedorDeRecursos.REGISTRO_DE_ADMINISTRACION);
             json.put("cuota_de_mantenimiento_mensual", Float.parseFloat(cuotaMantenimientoMensual.getText().toString().trim()));
             json.put("cuota_de_mantenimiento_anual", Float.parseFloat(cuotaMantenimientoAnual.getText().toString().trim()));
             json.put("promedio_de_ingreso", Float.parseFloat(promedioDeMorosidad.getText().toString().trim()));
@@ -171,14 +171,7 @@ public class RegistroAdministracion extends AppCompatActivity {
 
         @Override
         public void problemasDeConexion(Thread t) {
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    ProveedorSnackBar
-                            .muestraBarraDeBocados(cuotaMantenimientoMensual, "Servicio temporalmente no disponible");
-                    habilitaBoton();
-                }
-            });
+            notificaResultado("Servicio temporalmente no disponible");
         }
 
         private int obtenerFolioDeAdministracion(String contenido){
@@ -241,6 +234,7 @@ public class RegistroAdministracion extends AppCompatActivity {
         administracion.setPoseeMantenimientoProfesionalCuartoDeMaquinas(marcas.get(keys[3]));
         administracion.setPoseeWiFiAbierto(marcas.get(keys[4]));
         AccionesTablaAdministracion.agregaAdministracion(this, administracion);
+        ProveedorDeRecursos.guardaRecursoInt(this, "idAdministracion", administracion.getId());
     }
 
     private void iniciaRegistroDeUsuario() {

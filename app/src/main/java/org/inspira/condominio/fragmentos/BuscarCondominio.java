@@ -20,10 +20,17 @@ import org.inspira.condominio.datos.Condominio;
 import org.inspira.condominio.datos.TipoDeCondominio;
 import org.inspira.condominio.datos.Torre;
 import org.inspira.condominio.dialogos.DialogoDeConsultaSimple;
+import org.inspira.condominio.dialogos.DialogoDeLista;
 import org.inspira.condominio.dialogos.ProveedorSnackBar;
 import org.inspira.condominio.networking.ContactoConServidor;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Created by jcapiz on 19/03/16.
@@ -52,9 +59,100 @@ public class BuscarCondominio extends Fragment {
                     public void onClick(View v) {
                         if(!"".equals(((EditText)v).getText().toString())){
                             ContactoConServidor contactoConServidor = new ContactoConServidor(new ContactoConServidor.AccionesDeValidacionConServidor() {
+
+                                private Map<String, Integer> resultadosCondominios;
+
                                 @Override
                                 public void resultadoSatisfactorio(Thread t) {
+                                    String respuesta = ((ContactoConServidor)t).getResponse();
+                                    if(estadoDeLaRespuesta(respuesta)){
+                                        String[] direcciones = obtenerDirecciones(respuesta);
+                                        if(direcciones != null){
+                                            muestraDialogoDeSeleccion(direcciones);
+                                        }
+                                    }else{
+                                        muestraMensajeDesdeHilo("Servicio por el momento no disponible");
+                                    }
+                                }
 
+                                private void muestraDialogoDeSeleccion(String[] direcciones) {
+                                    DialogoDeLista dlista = new DialogoDeLista();
+                                    dlista.setElementos(direcciones);
+                                    dlista.setTitulo("Condominios");
+                                    dlista.setAccion(new DialogoDeLista.AccionDialogoDeLista() {
+                                        @Override
+                                        public void objetoSeleccionado(String texto) {
+                                            int idCondominio = resultadosCondominios.get(texto);
+                                            if(AccionesTablaCondominio.consultaCondominio(getContext(), idCondominio)){
+                                                ProveedorDeRecursos.guardaRecursoInt(getContext(), "idCondominio", idCondominio);
+                                            }else{
+                                                String contenido = armaContenidoPeticionDeCondominio();
+                                                enviarSolicitudDeContenido(contenido);
+                                            }
+                                        }
+                                    });
+                                }
+
+                                private void enviarSolicitudDeContenido(String contenido) {
+                                    ContactoConServidor contacto = new ContactoConServidor(new ContactoConServidor.AccionesDeValidacionConServidor() {
+                                        @Override
+                                        public void resultadoSatisfactorio(Thread t) {
+                                            String respuesta = ((ContactoConServidor)t).getResponse();
+                                            if(estadoDeLaRespuesta(respuesta)){
+                                                armaCondominio(respuesta);
+                                                AccionesTablaCondominio.agregarCondominio(getContext(), condominio);
+                                            }else{
+                                                muestraMensajeDesdeHilo("Servicio por el momento inaccesible");
+                                            }
+                                        }
+
+                                        @Override
+                                        public void problemasDeConexion(Thread t) {
+                                            muestraMensajeDesdeHilo("Servicio temporalmente no disponible");
+                                        }
+                                    }, contenido);
+                                    contacto.start();
+                                }
+
+                                private String armaContenidoPeticionDeCondominio() {
+                                    String peticion = null;
+                                    try{
+                                        JSONObject json = new JSONObject();
+                                        json.put("action", ProveedorDeRecursos.SOLICITAR_CONTENIDO_CONDOMINIO);
+                                        json.put("idCondominio", ProveedorDeRecursos.obtenerIdCondominio(getContext()));
+                                        peticion = json.toString();
+                                    }catch(JSONException e){
+                                        e.printStackTrace();
+                                    }
+                                    return peticion;
+                                }
+
+                                private String[] obtenerDirecciones(String respuesta) {
+                                    String[] direcciones = null;
+                                    try{
+                                        JSONObject json = new JSONObject(respuesta);
+                                        JSONArray array = json.getJSONArray("content");
+                                        List<String> elementos = new ArrayList<>();
+                                        resultadosCondominios = new TreeMap<>();
+                                        for(int i=0; i<array.length(); i++) {
+                                            elementos.add(array.optJSONObject(i).getString("direccion"));
+                                            resultadosCondominios.put(array.optJSONObject(i).getString("direccion"), array.optJSONObject(i).getInt("idCondominio"));
+                                        }
+                                        direcciones = elementos.toArray(new String[1]);
+                                    }catch(JSONException e){
+                                        e.printStackTrace();
+                                    }
+                                    return direcciones;
+                                }
+
+                                private boolean estadoDeLaRespuesta(String respuesta) {
+                                    boolean adecuado = true;
+                                    try{
+                                        adecuado = new JSONObject(respuesta).getBoolean("content");
+                                    }catch(JSONException e){
+                                        e.printStackTrace();
+                                    }
+                                    return adecuado;
                                 }
 
                                 @Override
@@ -62,10 +160,12 @@ public class BuscarCondominio extends Fragment {
                                     muestraMensajeDesdeHilo("Servicio temporalmente no disponible");
                                 }
                             }, armaMensajeDeConsulta());
-                            contactoConServidor.start();
+//                            contactoConServidor.start();
+                            ProveedorSnackBar
+                                    .muestraBarraDeBocados(direccion, "En fase de pruebas...");
                         }else{
                             ProveedorSnackBar
-                                    .muestraBarraDeBocados(direccion, "Necesitamos una dirección");
+                                    .muestraBarraDeBocados(direccion, "Necesitamos un código");
                         }
                     }
                 });
@@ -74,11 +174,11 @@ public class BuscarCondominio extends Fragment {
                     @Override
                     public void onClick(View v) {
                         startActivity(new Intent(getActivity(), NuevoCondominioActivity.class));
-                        /*****
+                        /****************************
                          * En el onResume de "Preparacion", debe revisarse la existencia de
                          * Condominio, Torres, Administración y Administrador, para tomar la acción
                          * que corresponda.
-                         ******/
+                         **************************************************************************/
                     }
                 });
         if(savedInstanceState != null){
@@ -165,7 +265,7 @@ public class BuscarCondominio extends Fragment {
         try {
             JSONObject json = new JSONObject(contenido);
             torre = new Torre(json.getInt("idTorre"));
-            //torre.setCondominio(ProveedorDeRecursos.obtenerIdAdministracion(getContext()));
+            torre.setIdAdministracion(ProveedorDeRecursos.obtenerIdAdministracion(getContext()));
             torre.setPoseeElevador(json.getBoolean("cuenta_con_elevador"));
             torre.setNombre(json.getString("nombre"));
             torre.setCantidadDePisos(json.getInt("cantidad_de_pisos"));
