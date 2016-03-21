@@ -16,6 +16,12 @@
             android:name=".dialogos.ActividadDeEspera"
             android:theme="@style/CustomTheme" />
         <activity
+            android:name=".admon.RegistroAdministracion" />
+        <activity
+            android:name=".admon.RegistroDeTorre" />
+        <activity
+            android:name=".admon.RegistroUsuario" />
+        <activity
             android:name=".admon.NuevoCondominioActivity" />
         <activity
             android:name=".actividades.SplashScreen"

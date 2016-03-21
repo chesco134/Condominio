@@ -66,8 +66,7 @@
     <style name="MyTextView" parent="TextAppearance.AppCompat.Medium">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">1sp</item>
-        <item name="android:layout_marginLeft">12sp</item>
-        <item name="android:layout_marginRight">12sp</item>
+        <item name="android:background">@color/colorPrimary</item>
     </style>
     <style name="MyButtonCustom" parent="Base.Widget.AppCompat.Button.Borderless.Colored">
         <item name="android:layout_width">wrap_content</item>

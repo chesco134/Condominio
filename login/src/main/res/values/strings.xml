@@ -4,6 +4,6 @@
     <string name="title_activity_splash_screen">SplashScreen</string>
     <string name="login_registrar">Registrar</string>
     <string name="login_email">Correo electrónico</string>
-    <string name="login_iniciar_sesion">Iniciar sesión</string>
+    <string name="login_iniciar_sesion">Iniciar</string>
     <string name="slogan">Inspira</string>
 </resources>

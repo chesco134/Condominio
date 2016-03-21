@@ -62,6 +62,8 @@ public class RegistroAdministracion extends AppCompatActivity {
     private void setUpMallaCamposOpcionales() {
         if(marcas == null)
             marcas = new TreeMap<>();
+        for(String campo : getResources().getStringArray(R.array.campos_opcionales_administracion))
+            marcas.put(campo, false);
         MallaDeCheckBoxes adapter = new MallaDeCheckBoxes(this, marcas, getResources().getStringArray(R.array.campos_opcionales_administracion));
         mallaDeOpciones.setAdapter(adapter);
     }

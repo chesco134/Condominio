@@ -2,6 +2,7 @@ package org.inspira.condominio.fragmentos;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -52,6 +53,7 @@ public class Login extends Fragment {
         user = (EditText)rootView.findViewById(R.id.usuario);
         password = (EditText)rootView.findViewById(R.id.pw);
         start = (Button)rootView.findViewById(R.id.iniciar);
+        password.setTypeface(Typeface.createFromAsset(getActivity().getAssets(), "Roboto-Regular.ttf"));
 
         start.setOnClickListener(new View.OnClickListener() {
             @Override

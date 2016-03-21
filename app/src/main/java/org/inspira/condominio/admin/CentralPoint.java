@@ -31,6 +31,7 @@ public class CentralPoint extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     public static final String SERVER_URL = "http://votacionesipn.com/condominios/";
+    private static final int INICIAR_REGISTRO = 1;
     private boolean isFirstTime;
     private boolean secondTime;
 
@@ -122,7 +123,7 @@ public class CentralPoint extends AppCompatActivity
     }
 
     private void iniciaRegistro() {
-        startActivity(new Intent(this, Preparacion.class));
+        startActivityForResult(new Intent(this, Preparacion.class), INICIAR_REGISTRO);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -162,6 +163,12 @@ public class CentralPoint extends AppCompatActivity
 
     private void launchConfiguracion(){
         startActivity(new Intent(this, Configuraciones.class));
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+        if(resultCode != RESULT_OK)
+            finish();
     }
 
     @Override

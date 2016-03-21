@@ -51,13 +51,12 @@ public class BuscarCondominio extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState){
         View rootView = inflater.inflate(R.layout.consulta_condominio, parent, false);
         direccion = (EditText)rootView.findViewById(R.id.consulta_condominio_direccion);
-        rootView.findViewById(R.id.consulta_condominio_piso_direccion)
-                .setOnFocusChangeListener(new EfectoDeEnfoque(getActivity(), direccion));
+        direccion.setOnFocusChangeListener(new EfectoDeEnfoque(getActivity(), rootView.findViewById(R.id.consulta_condominio_piso_direccion)));
         rootView.findViewById(R.id.consulta_condominio_boton_consulta)
                 .setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if(!"".equals(((EditText)v).getText().toString())){
+                        if(!"".equals(direccion.getText().toString())){
                             ContactoConServidor contactoConServidor = new ContactoConServidor(new ContactoConServidor.AccionesDeValidacionConServidor() {
 
                                 private Map<String, Integer> resultadosCondominios;

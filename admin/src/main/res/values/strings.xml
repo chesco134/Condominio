@@ -149,7 +149,7 @@
     <string name="formulario_torre_cuota_de_mantenimiento">Cuota de mantenimiento</string>
     <string name="formulario_torre_posee_elevador">Cuenta con elevador </string>
     <string name="formulario_torre_hecho">Hecho</string>
-    <string name="consulta_condominio_instrucciones">Puede formar parte de la administración proporcionando el código de registro</string>
+    <string name="consulta_condominio_instrucciones">Puede formar parte de la administración de su condominio proporcionando el código de registro</string>
     <string name="consulta_condominio_hint_direccion_de_condominio">Código de registro</string>
     <string name="consulta_condominio_texto_boton_consulta">Unirse</string>
     <string name="consulta_condominio_texto_boton_nuevo_registro">Registrar</string>

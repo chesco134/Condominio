@@ -149,6 +149,8 @@ public class NuevoCondominioFragment1 extends Fragment {
                 tipoDeCondominio.setText(texto);
             }
         });
+        ddlista.setTitulo("Tipo de condominio");
+        ddlista.setStringArrayRes(R.array.tipos_de_condominio);
         ddlista.show(getActivity().getSupportFragmentManager(), "Dialogo Lista");
         tipoDeCondominio.setTextColor(Color.BLACK);
     }

@@ -117,7 +117,7 @@ public class NuevoCondominioFragment3 extends Fragment {
     }
 
     private void validaCampos(){
-        boolean[] tripod = new boolean[3];
+        boolean[] tripod = new boolean[4];
         tripod[0] = this.esUnCampoValido(cajonesDeEstacionamiento);
         tripod[1] = this.esUnCampoValido(cajonesDeEstacionamientoVisitas);
         tripod[2] = this.esUnCampoValido(costoPorUnidadPrivativa);

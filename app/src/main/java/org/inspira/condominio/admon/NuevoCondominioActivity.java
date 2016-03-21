@@ -276,6 +276,7 @@ public class NuevoCondominioActivity extends AppCompatActivity {
 
     @Override
     public void onRestoreInstanceState(Bundle savedInstanceState){
+        Log.d("SupremeAlchemist", "--->" + savedInstanceState.getString("numTorres") + "<---");
         direccion = savedInstanceState.getString("direccion");
         edadCondominio = savedInstanceState.getInt("edad");
         tipo = savedInstanceState.getString("tipo");
