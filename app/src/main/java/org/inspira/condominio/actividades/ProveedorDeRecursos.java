@@ -38,4 +38,9 @@ public class ProveedorDeRecursos {
         editor.putInt(nombre, recurso);
         editor.apply();
     }
+
+    public static String obtenerEmail(Context context){
+        return context.getSharedPreferences(Configuraciones.class.getName(), Context.MODE_PRIVATE)
+                .getString("email", "NaN");
+    }
 }

@@ -39,6 +39,7 @@ public class CondominioBD extends SQLiteOpenHelper {
         dataBase.execSQL("insert into Tipo_de_Condominio(descripcion) values('Conjunto Condominal'),('Condominio'),('Unidad Habitacional')");
         dataBase.execSQL("create table Condominio(" +
                 "idCondominio integer not null primary key autoincrement," +
+                "nombre text not null," +
                 "direccion text not null," +
                 "edad integer not null," +
                 "idTipo_de_Condominio integer not null," +
@@ -132,12 +133,6 @@ public class CondominioBD extends SQLiteOpenHelper {
                 "descripcion text not null" +
                 ")");
         dataBase.execSQL("insert into Tipo_de_Administrador(descripcion) values('Profesional'),('Condómino'),('Provisional')");
-        dataBase.execSQL("create table Nombre_de_Usuario(" +
-                "idNombre_de_Usuario integer not null primary key autoincrement," +
-                "nombres text not null," +
-                "ap_paterno not null," +
-                "ap_materno not null" +
-                ")");
         dataBase.execSQL("create table Escolaridad(" +
                 "idEscolaridad integer not null primary key autoincrement," +
                 "escolaridad text not null" +
@@ -145,16 +140,17 @@ public class CondominioBD extends SQLiteOpenHelper {
         dataBase.execSQL("insert into Escolaridad(escolaridad) values('Básico'),('Medio superior'),('Superior'),('Maestría'),('Doctorado')");
         dataBase.execSQL("create table Usuario(" + // Se trata del admin.
                 "email TEXT NOT NULL PRIMARY KEY," +
+                "nombres TEXT NOT NULL," +
+                "ap_paterno TEXT NOT NULL," +
+                "ap_materno TEXT NOT NULL," +
                 "dateOfBirth long not null," +
                 "remuneracion float," +
                 "idAdministracion integer not null," +
                 "idEscolaridad integer not null," +
-                "idNombre_de_Usuario integer not null," +
                 "idTipo_de_Administrador integer not null," +
                 "foreign key(idAdministracion) references Administracion(idAdministracion)," +
                 "foreign key(idEscolaridad) references Escolaridad(idEscolaridad)," +
-                "foreign key(idTipo_de_Administrador) references Tipo_de_Administrador(idTipo_de_Administrador)," +
-                "foreign key(idNombre_de_Usuario) references NombreUsuario(idNombre_de_Usuario)" +
+                "foreign key(idTipo_de_Administrador) references Tipo_de_Administrador(idTipo_de_Administrador)" +
                 ")");
         dataBase.execSQL("create table Usuario_Profesionista(" +
                 "email TEXT not null primary key," +

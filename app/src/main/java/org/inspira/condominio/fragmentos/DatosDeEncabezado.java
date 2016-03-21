@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -93,6 +94,12 @@ public class DatosDeEncabezado extends Fragment {
         c.set(Calendar.MINUTE, Integer.parseInt(eTiempo[1]));
         conv.setFechaInicio(c.getTimeInMillis());
         outState.putSerializable("convocatoria", conv);
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        getActivity().setTitle(R.string.hacer_encabezado_convocatoria_nueva_convocatoria);
     }
 
     private void crearDialogo(int tipoDeDialogo){

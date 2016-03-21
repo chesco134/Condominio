@@ -13,7 +13,7 @@ public class Convocatoria extends ModeloDeDatos{
     private String asunto;
     private String ubicacionInterna;
     private Long fechaInicio;
-    private Usuario usuario;
+    private String email;
 
     public Convocatoria(){}
 
@@ -45,12 +45,12 @@ public class Convocatoria extends ModeloDeDatos{
         this.fechaInicio = fechaInicio;
     }
 
-    public Usuario getUsuario() {
-        return usuario;
+    public String getEmail() {
+        return email;
     }
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     @Override

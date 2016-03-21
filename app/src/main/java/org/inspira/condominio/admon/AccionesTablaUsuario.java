@@ -7,7 +7,6 @@ import android.database.sqlite.SQLiteDatabase;
 
 import org.inspira.condominio.datos.CondominioBD;
 import org.inspira.condominio.datos.Escolaridad;
-import org.inspira.condominio.datos.NombreDeUsuario;
 import org.inspira.condominio.datos.TipoDeAdministrador;
 import org.inspira.condominio.datos.Usuario;
 
@@ -27,6 +26,17 @@ public class AccionesTablaUsuario {
         return escolaridad1;
     }
 
+    public static Escolaridad obtenerEscolaridad(Context context, int idEscoladirar){
+        SQLiteDatabase db = new CondominioBD(context).getReadableDatabase();
+        Cursor c = db.rawQuery("select escolaridad from Escolaridad where idEscolaridad = CAST(? as INTEGER)", new String[]{String.valueOf(idEscoladirar)});
+        c.moveToFirst();
+        Escolaridad escolaridad = new Escolaridad(idEscoladirar);
+        escolaridad.setEscolaridad(c.getString(0));
+        c.close();
+        db.close();
+        return escolaridad;
+    }
+
     public static TipoDeAdministrador obtenerTipoDeAdministrador(Context context, String tipoDeAdministrador){
         SQLiteDatabase db = new CondominioBD(context).getReadableDatabase();
         Cursor c = db.rawQuery("select idTipo_de_Administrador from Tipo_de_Administrador where tipo_de_administrador like ?", new String[]{tipoDeAdministrador});
@@ -38,28 +48,25 @@ public class AccionesTablaUsuario {
         return tipoDeAdministrador1;
     }
 
-    public static int agregaNombreDeUsuario(Context context, NombreDeUsuario nombreDeUsuario){
-        ContentValues values = new ContentValues();
-        values.put("nombres", nombreDeUsuario.getNombres());
-        values.put("ap_paterno", nombreDeUsuario.getApPaterno());
-        values.put("ap_materno", nombreDeUsuario.getApMaterno());
-        CondominioBD condominioBD = new CondominioBD(context);
-        SQLiteDatabase db = condominioBD.getWritableDatabase();
-        db.insert("Nombre_de_Usuario", "---", values);
-        db = condominioBD.getReadableDatabase();
-        Cursor c = db.rawQuery("select last_insert_rowid()", null);
-        int idNombreDeUsuario = c.moveToFirst() ? c.getInt(0) : -1;
-        c.close();
+    public static TipoDeAdministrador obtenerTipoDeAdministrador(Context context, int idTipoDeAdministrador){
+        SQLiteDatabase db = new CondominioBD(context).getReadableDatabase();
+        Cursor c = db.rawQuery("select descripcion from Tipo_de_Administrador where idTipo_de_Administrador = CAST(? as INTEGER)", new String[]{String.valueOf(idTipoDeAdministrador)});
         db.close();
-        return idNombreDeUsuario;
+        c.moveToFirst();
+        TipoDeAdministrador tipoDeAdministrador = new TipoDeAdministrador(idTipoDeAdministrador);
+        tipoDeAdministrador.setDescripcion(c.getString(0));
+        c.close();
+        return tipoDeAdministrador;
     }
 
     public static void agregaUsuario(Context context, Usuario usuario){
         ContentValues values = new ContentValues();
         values.put("email", usuario.getEmail());
+        values.put("nombres", usuario.getNombres());
+        values.put("ap_paterno", usuario.getApPaterno());
+        values.put("ap_materno", usuario.getApMaterno());
         values.put("dateOfBirth", usuario.getDateOfBirth());
         values.put("remuneracion", usuario.getRemuneracion());
-        values.put("idNombre_de_Usuario", usuario.getNombreDeUsuario().getId());
         values.put("idAdministracion", usuario.getAdministracion().getId());
         values.put("idEscolaridad", usuario.getEscolaridad().getId());
         values.put("idTipo_de_Administrador", usuario.getTipoDeAdministrador().getId());
@@ -87,18 +94,26 @@ public class AccionesTablaUsuario {
         db.close();
     }
 
-    public static NombreDeUsuario obtenerNombreDeUsuario(Context context, String nombres, String apPaterno, String apMaterno){
+    public static Usuario obtenerUsuario(Context context, String email){
         SQLiteDatabase db = new CondominioBD(context).getReadableDatabase();
-        Cursor c = db.rawQuery("select idNombre_de_Usuario from Nombre_de_Usuario where nombres like ? and ap_paterno like ? and ap_materno like ?", new String[]{nombres, apPaterno, apMaterno});
-        NombreDeUsuario nombreDeUsuario;
-        if(c.moveToFirst()){
-            nombreDeUsuario = new NombreDeUsuario(c.getInt(0));
-            nombreDeUsuario.setApPaterno(apPaterno);
-            nombreDeUsuario.setApMaterno(apMaterno);
-        }else
-            nombreDeUsuario = null;
+        Cursor c = db.rawQuery("select nombre, ap_paterno, ap_materno from Usuario where email like ?", new String[]{email});
+        Usuario usuario;
+        if(c.moveToNext()){
+            usuario = new Usuario();
+            usuario.setEmail(c.getString(c.getColumnIndex("email")));
+            usuario.setNombres(c.getString(c.getColumnIndex("nombres")));
+            usuario.setApPaterno(c.getString(c.getColumnIndex("ap_paterno")));
+            usuario.setApMaterno(c.getColumnName(c.getColumnIndex("ap_materno")));
+            usuario.setRemuneracion(c.getFloat(c.getColumnIndex("remuneracion")));
+            usuario.setEscolaridad(obtenerEscolaridad(context, c.getInt(c.getColumnIndex("idEscolaridad"))));
+            usuario.setTipoDeAdministrador(obtenerTipoDeAdministrador(context, c.getInt(c.getColumnIndex("idTipo_de_Administrador"))));
+            usuario.setAdministracion(AccionesTablaAdministracion.obtenerAdministracion(context, c.getInt(c.getColumnIndex("idAdministracion"))));
+            usuario.setDateOfBirth(c.getLong(c.getColumnIndex("dateOfBirth")));
+        }else{
+            usuario = null;
+        }
         c.close();
         db.close();
-        return nombreDeUsuario;
+        return usuario;
     }
 }

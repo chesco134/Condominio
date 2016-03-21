@@ -43,6 +43,7 @@ public class AccionesTablaCondominio {
 
     public static int agregarCondominio(Context context, Condominio condominio){
         ContentValues values = new ContentValues();
+        values.put("nombre", condominio.getNombre());
         values.put("direccion", condominio.getDireccion());
         values.put("edad", condominio.getEdad());
         values.put("idTipo_de_Condominio", condominio.getTipoDeCondominio().getId());
@@ -79,6 +80,7 @@ public class AccionesTablaCondominio {
         TipoDeCondominio tipoDeCondominio;
         if(c.moveToFirst()){
             condominio = new Condominio(idCondominio);
+            condominio.setNombre(c.getString(c.getColumnIndex("nombre")));
             condominio.setCantidadDeLugaresEstacionamiento(c.getInt(c.getColumnIndex("cantidad_de_lugares_estacionamiento")));
             condominio.setCantidadDeLugaresEstacionamientoVisitas(c.getInt(c.getColumnIndex("cantidad_de_lugares_estacionamiento_visitas")));
             condominio.setCapacidadDeCisterna(c.getFloat(c.getColumnIndex("capacidad_de_cisterna")));

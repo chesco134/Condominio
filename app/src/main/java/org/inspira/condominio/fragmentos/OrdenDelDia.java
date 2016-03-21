@@ -46,7 +46,7 @@ public class OrdenDelDia extends Fragment {
             puntos = new ArrayList<>();
             Bundle args = getArguments();
             if(args != null) {
-                puntos = ((Convocatoria)args.getSerializable("convocatoria")).obtenerDescripciones();
+                puntos = args.getStringArrayList("convocatoria");
                 nombreArchivo = args.getString("nombre_de_archivo");
             }
         }else {
@@ -101,6 +101,12 @@ public class OrdenDelDia extends Fragment {
             ProveedorSnackBar.muestraBarraDeBocados(listaDePuntos,
                     getActivity().getString(R.string.orden_del_dia_parametros_faltantes));
         }
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        getActivity().getActionBar().setTitle(R.string.orden_del_dia_definir_orden_del_dia);
     }
 
     private void cambioDeTexto(String contenido, int posicion){

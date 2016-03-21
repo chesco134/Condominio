@@ -1,15 +1,13 @@
 package org.inspira.condominio.actividades;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 
 import org.inspira.condominio.R;
-import org.inspira.condominio.admin.CentralPoint;
+import org.inspira.condominio.admon.AccionesTablaConvocatoria;
 import org.inspira.condominio.datos.AlmacenamientoInterno;
-import org.inspira.condominio.datos.CondominioBD;
 import org.inspira.condominio.datos.Convocatoria;
 import org.inspira.condominio.datos.PuntoOdD;
 import org.inspira.condominio.dialogos.EntradaTexto;
@@ -18,13 +16,17 @@ import org.inspira.condominio.dialogos.ProveedorSnackBar;
 import org.inspira.condominio.dialogos.ProveedorToast;
 import org.inspira.condominio.fragmentos.DatosDeEncabezado;
 import org.inspira.condominio.fragmentos.OrdenDelDia;
-import org.inspira.condominio.networking.SincronizaConvocatoria;
+import org.inspira.condominio.networking.ContactoConServidor;
 import org.inspira.condominio.pdf.ExportarConvocatoria;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 
 public class CrearConvocatoria extends AppCompatActivity {
@@ -34,6 +36,7 @@ public class CrearConvocatoria extends AppCompatActivity {
     private Convocatoria convocatoria;
     private int state;
     private String nombreDeArchivo;
+    private List<String> puntos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +67,6 @@ public class CrearConvocatoria extends AppCompatActivity {
     @Override
     public void onBackPressed(){
         if(state == 1){
-            getSupportActionBar().setTitle(R.string.hacer_encabezado_convocatoria_nueva_convocatoria);
             grabData();
             state--;
             super.onBackPressed();
@@ -105,7 +107,6 @@ public class CrearConvocatoria extends AppCompatActivity {
     }
 
     public void colocaDatosDeEncabezadoFragmento(){
-        getSupportActionBar().setTitle(R.string.hacer_encabezado_convocatoria_nueva_convocatoria);
         Bundle args = new Bundle();
         args.putSerializable("convocatoria", convocatoria);
         datosDeEncabezado.setArguments(args);
@@ -116,10 +117,9 @@ public class CrearConvocatoria extends AppCompatActivity {
     }
 
     public void colocaOrdenDelDiaFragmento() {
-        getSupportActionBar().setTitle(R.string.orden_del_dia_definir_orden_del_dia);
         Bundle args = new Bundle();
-        if(convocatoria.getPuntos() != null) {
-            args.putSerializable("convocatoria", convocatoria);
+        if(puntos != null) {
+            args.putStringArrayList("convocatoria", (ArrayList<String>)puntos);
             args.putString("nombre_de_archivo", nombreDeArchivo);
             ordenDelDia.setArguments(args);
         }
@@ -134,7 +134,6 @@ public class CrearConvocatoria extends AppCompatActivity {
 
     public void creaConvocatoria(){
         grabData();
-        generaPDF();
         difundeConvocatoria();
     }
 
@@ -150,14 +149,7 @@ public class CrearConvocatoria extends AppCompatActivity {
         c.set(Calendar.HOUR_OF_DAY, Integer.parseInt(tiempoInicial[0]));
         c.set(Calendar.MINUTE, Integer.parseInt(tiempoInicial[1]));
         convocatoria.setFechaInicio(c.getTimeInMillis());
-        List<PuntoOdD> puntos = new ArrayList<>();
-        if(ordenDelDia.getPuntos() != null)
-        for(String descripcion : ordenDelDia.getPuntos()){
-            PuntoOdD punto = new PuntoOdD();
-            punto.setDescripcion(descripcion);
-            puntos.add(punto);
-        }
-        convocatoria.setPuntos(puntos);
+        Collections.addAll(puntos, ordenDelDia.getPuntos());
         nombreDeArchivo = ordenDelDia.getNombreArchivo();
     }
 
@@ -178,32 +170,58 @@ public class CrearConvocatoria extends AppCompatActivity {
                     });
                 }catch(IOException e){
                     e.printStackTrace();
-                    ProveedorSnackBar
-                            .muestraBarraDeBocados(findViewById(R.id.formato_convocatoria_contenedor), getString(R.string.crear_convocatoria_error_pdf));
+                    MuestraSnackbarDesdeHilo.muestraMensaje(CrearConvocatoria.this,findViewById(R.id.formato_convocatoria_contenedor), getString(R.string.crear_convocatoria_error_pdf));
                 }
             }
         }.start();
     }
 
     private void guardaEnBaseDeDatos(int idConvocatoria){
-        CondominioBD db = new CondominioBD(this);
         convocatoria.setId(idConvocatoria);
-        db.insertaConvocatoria(convocatoria, getSharedPreferences(CentralPoint.class.getName(), Context.MODE_PRIVATE).getString("email", "NaN"));
-        for(PuntoOdD punto : convocatoria.getPuntos())
-            db.insertaPuntoOdD(punto);
+        AccionesTablaConvocatoria.agregaConvocatoria(this, convocatoria);
+        PuntoOdD punto;
+        for(String descPunto : puntos){
+            punto = new PuntoOdD();
+            punto.setDescripcion(descPunto);
+            punto.setIdConvocatoria(idConvocatoria);
+            AccionesTablaConvocatoria.agregaPuntoOdD(this, punto);
+        }
     }
 
     private void difundeConvocatoria(){
-        SincronizaConvocatoria sinc = new SincronizaConvocatoria(this, convocatoria);
-        sinc.setAcciones(new RespuestaAccionSyncConvocatoria());
-        sinc.start();
+        ContactoConServidor contacto = new ContactoConServidor(new RespuestaAccionSyncConvocatoria(), armarContenidoDeMensaje());
+        contacto.start();
     }
 
-    private class RespuestaAccionSyncConvocatoria implements SincronizaConvocatoria.AccionesSyncConvocatoria{
+    private String armarContenidoDeMensaje(){
+        String contenido = null;
+        convocatoria.setEmail(ProveedorDeRecursos.obtenerEmail(this));
+        try{
+            JSONObject json = new JSONObject();
+            json.put("action", 11);
+            json.put("Asunto", convocatoria.getAsunto());
+            json.put("Ubicacion_Interna", convocatoria.getUbicacionInterna());
+            json.put("Fecha_de_Inicio", convocatoria.getFechaInicio());
+            json.put("email", convocatoria.getEmail());
+            JSONArray puntosOdD = new JSONArray();
+            for(String descPunto : puntos)
+                puntosOdD.put(descPunto);
+            json.put("puntos", puntosOdD);
+            contenido = json.toString();
+        }catch(JSONException e){
+            e.printStackTrace();
+        }
+        return contenido;
+    }
+
+    private class RespuestaAccionSyncConvocatoria implements ContactoConServidor.AccionesDeValidacionConServidor{
 
         @Override
-        public void validacionCorrecta(int idConvocatoria) {
+        public void resultadoSatisfactorio(Thread t) {
+            String respuesta = ((ContactoConServidor)t).getResponse();
+            int idConvocatoria = obtenerIdConvocatoria(respuesta);
             guardaEnBaseDeDatos(idConvocatoria);
+            generaPDF();
             Intent i = new Intent();
             i.putExtra("convocatoria", convocatoria);
             setResult(RESULT_OK, i);
@@ -211,15 +229,19 @@ public class CrearConvocatoria extends AppCompatActivity {
         }
 
         @Override
-        public void validacionIncorrecta() {
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    ProveedorSnackBar
-                            .muestraBarraDeBocados(findViewById(R.id.formato_convocatoria_contenedor),
-                                    "Servicio temporalmente no disponible");
-                }
-            });
+        public void problemasDeConexion(Thread t) {
+            MuestraSnackbarDesdeHilo.muestraMensaje(CrearConvocatoria.this, findViewById(R.id.preparacion_main_container), "Hecho");
+        }
+
+        private int obtenerIdConvocatoria(String respuesta) {
+            int idConvocatoria = -1;
+            try{
+                JSONObject json = new JSONObject(respuesta);
+                idConvocatoria = json.getInt("idConvocatoria");
+            }catch(JSONException e){
+                e.printStackTrace();
+            }
+            return idConvocatoria;
         }
     }
 }

@@ -5,6 +5,7 @@ package org.inspira.condominio.datos;
  */
 public class Condominio extends ModeloDeDatos {
 
+    private String nombre;
     private String direccion;
     private int edad;
     private TipoDeCondominio tipoDeCondominio;
@@ -146,5 +147,13 @@ public class Condominio extends ModeloDeDatos {
 
     public void setPoseeCisternaAguaPluvial(boolean poseeCisternaAguaPluvial) {
         this.poseeCisternaAguaPluvial = poseeCisternaAguaPluvial;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 }

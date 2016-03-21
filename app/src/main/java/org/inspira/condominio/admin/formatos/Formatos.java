@@ -1,9 +1,8 @@
 package org.inspira.condominio.admin.formatos;
 
-import android.app.Fragment;
-import android.app.FragmentManager;
 import android.os.Bundle;
-import android.support.v13.app.FragmentPagerAdapter;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
@@ -16,19 +15,14 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import org.inspira.condominio.R;
+import org.inspira.condominio.adaptadores.MyFragmentStatePagerAdapter;
+
+import java.util.LinkedList;
 
 public class Formatos extends AppCompatActivity implements
         ActionBar.TabListener {
 
-    /**
-     * The {@link android.support.v4.view.PagerAdapter} that will provide
-     * fragments for each of the sections. We use a
-     * {@link FragmentPagerAdapter} derivative, which will keep every
-     * loaded fragment in memory. If this becomes too memory intensive, it
-     * may be best to switch to a
-     * {@link android.support.v13.app.FragmentStatePagerAdapter}.
-     */
-    private SectionsPagerAdapter mSectionsPagerAdapter;
+    private MyFragmentStatePagerAdapter mSectionsPagerAdapter;
 
     /**
      * The {@link ViewPager} that will host the section contents.
@@ -39,9 +33,14 @@ public class Formatos extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_formatos_admin);
+        FragmentManager fm = getSupportFragmentManager();
+        LinkedList<Fragment> frags = new LinkedList<>();
+        frags.add(new FormatoDeIngreso());
+        frags.add(new FormatoDeEgreso());
+
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getFragmentManager());
+        mSectionsPagerAdapter = new MyFragmentStatePagerAdapter(getSupportFragmentManager(), frags);
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
@@ -83,9 +82,7 @@ public class Formatos extends AppCompatActivity implements
 
     }
 
-    /**
-     * A placeholder fragment containing a simple view.
-     */
+
     public static class FormatoDeIngreso extends Fragment {
 
         private Spinner razonesDePago;
@@ -138,51 +135,6 @@ public class Formatos extends AppCompatActivity implements
             return rootView;
         }
     }
-
-    /**
-     * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
-     * one of the sections/tabs/pages.
-     */
-    public class SectionsPagerAdapter extends FragmentPagerAdapter {
-
-        public SectionsPagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            // getItem is called to instantiate the fragment for the given page.
-            // Return a FormatoDeIngreso (defined as a static inner class below).
-            Fragment fragment = null;
-            switch (position) {
-                case 0:
-                    fragment = new FormatoDeIngreso();
-                    break;
-                case 1:
-                    fragment = new FormatoDeEgreso();
-                    break;
-            }
-            return fragment;
-        }
-
-        @Override
-        public int getCount() {
-            // Show 2 total pages.
-            return 2;
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            switch (position) {
-                case 0:
-                    return "Nuevo Ingreso";
-                case 1:
-                    return "Nuevo Egreso";
-            }
-            return null;
-        }
-    }
-
 
     private static final Integer[] TITULOS = {
             R.string.formato_de_ingreso_header,

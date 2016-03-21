@@ -11,7 +11,25 @@ public class Usuario implements Shareable {
     private Administracion administracion;
     private Escolaridad escolaridad;
     private TipoDeAdministrador tipoDeAdministrador;
-    private NombreDeUsuario nombreDeUsuario;
+    private String nombres;
+    private String apPaterno;
+    private String apMaterno;
+
+    public String getApPaterno() {
+        return apPaterno;
+    }
+
+    public void setApPaterno(String apPaterno) {
+        this.apPaterno = apPaterno;
+    }
+
+    public String getApMaterno() {
+        return apMaterno;
+    }
+
+    public void setApMaterno(String apMaterno) {
+        this.apMaterno = apMaterno;
+    }
 
     public String getEmail() {
         return email;
@@ -61,11 +79,11 @@ public class Usuario implements Shareable {
         this.tipoDeAdministrador = tipoDeAdministrador;
     }
 
-    public NombreDeUsuario getNombreDeUsuario() {
-        return nombreDeUsuario;
+    public String getNombres() {
+        return nombres;
     }
 
-    public void setNombreDeUsuario(NombreDeUsuario nombreDeUsuario) {
-        this.nombreDeUsuario = nombreDeUsuario;
+    public void setNombres(String nombres) {
+        this.nombres = nombres;
     }
 }

@@ -19,7 +19,6 @@ import org.inspira.condominio.admon.AccionesTablaAdministracion;
 import org.inspira.condominio.admon.AccionesTablaUsuario;
 import org.inspira.condominio.datos.CondominioBD;
 import org.inspira.condominio.datos.Convocatoria;
-import org.inspira.condominio.datos.NombreDeUsuario;
 import org.inspira.condominio.datos.PuntoOdD;
 import org.inspira.condominio.dialogos.ProveedorSnackBar;
 import org.inspira.condominio.networking.LoginConnection;
@@ -132,7 +131,9 @@ public class Login extends Fragment {
             editor.apply();
             Usuario usuario = new Usuario();
             usuario.setEmail(json.getString("email"));
-            usuario.setNombreDeUsuario(AccionesTablaUsuario.obtenerNombreDeUsuario(getContext(), json.getString("nombres"), json.getString("ap_paterno"), json.getString("ap_materno")));
+            usuario.setNombres(json.getString("nombres"));
+            usuario.setApPaterno(json.getString("ap_paterno"));
+            usuario.setApMaterno(json.getString("ap_materno"));
             usuario.setDateOfBirth(json.getLong("fecha_de_nacimiento"));
             usuario.setTipoDeAdministrador(AccionesTablaUsuario.obtenerTipoDeAdministrador(getContext(), json.getString("tipo_de_administrador")));
             usuario.setEscolaridad(AccionesTablaUsuario.obtenerEscolaridad(getContext(), json.getString("escolaridad")));
