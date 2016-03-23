@@ -43,6 +43,7 @@ public class AccionesTablaCondominio {
 
     public static int agregarCondominio(Context context, Condominio condominio){
         ContentValues values = new ContentValues();
+        values.put("idCondominio", condominio.getId());
         values.put("nombre", condominio.getNombre());
         values.put("direccion", condominio.getDireccion());
         values.put("edad", condominio.getEdad());
@@ -57,7 +58,7 @@ public class AccionesTablaCondominio {
         values.put("cantidad_de_lugares_estacionamiento", condominio.getCantidadDeLugaresEstacionamiento());
         values.put("cantidad_de_lugares_estacionamiento_visitas", condominio.getCantidadDeLugaresEstacionamientoVisitas());
         values.put("costo_aproximado", condominio.getCostoAproximadoPorUnidadPrivativa());
-        values.put("posee_visterna_agua_pluvial", condominio.isPoseeCisternaAguaPluvial());
+        values.put("posee_cisterna_agua_pluvial", condominio.isPoseeCisternaAguaPluvial());
         values.put("capacidad_cisterna", condominio.getCapacidadDeCisterna());
         CondominioBD condominioBD = new CondominioBD(context);
         SQLiteDatabase db = condominioBD.getWritableDatabase();

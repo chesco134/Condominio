@@ -1,5 +1,7 @@
 package org.inspira.condominio.networking;
 
+import android.util.Log;
+
 import org.inspira.condominio.admin.CentralPoint;
 
 import java.io.ByteArrayOutputStream;
@@ -44,6 +46,7 @@ public class ContactoConServidor extends Thread {
             while((length = entrada.read(chunk)) != -1)
                 baos.write(chunk,0,length);
             response = URLDecoder.decode(baos.toString(), "utf8");
+            Log.d("ContactoServer", "Server dijo: " + response);
             baos.close();
             con.disconnect();
             entrada.close();

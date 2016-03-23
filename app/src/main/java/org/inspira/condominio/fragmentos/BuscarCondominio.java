@@ -274,4 +274,10 @@ public class BuscarCondominio extends Fragment {
             e.printStackTrace();
         }
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+        getActivity().setResult(resultCode);
+        getActivity().finish();
+    }
 }

@@ -31,7 +31,7 @@ public class NuevoCondominioActivity extends AppCompatActivity {
     private int edadCondominio;
     private String tipo;
     private String inmoviliaria;
-    private int torres;
+    private String nombre;
     private Map<String, Boolean> camposOpcionales;
     private int cajonesDeEstacionamiento;
     private int cajonesDeEstacionamientoVisitas;
@@ -41,12 +41,12 @@ public class NuevoCondominioActivity extends AppCompatActivity {
     private static NuevoCondominioFragment2 f2;
     private NuevoCondominioFragment1.AccionNCondominio1 accion1 = new NuevoCondominioFragment1.AccionNCondominio1() {
         @Override
-        public void siguiente(String direccion, int edad, String tipo, String inmoviliaria, int torres) {
+        public void siguiente(String direccion, int edad, String tipo, String inmoviliaria, String nombre) {
             NuevoCondominioActivity.this.direccion = direccion;
             NuevoCondominioActivity.this.edadCondominio = edad;
             NuevoCondominioActivity.this.tipo = tipo;
             NuevoCondominioActivity.this.inmoviliaria = inmoviliaria;
-            NuevoCondominioActivity.this.torres = torres;
+            NuevoCondominioActivity.this.nombre = nombre;
             f2 = new NuevoCondominioFragment2();
             f2.setAccion(accion2);
             getSupportFragmentManager()
@@ -124,7 +124,6 @@ public class NuevoCondominioActivity extends AppCompatActivity {
                             @Override
                             public void run() {
                                 ProveedorToast.showToast(NuevoCondominioActivity.this, "Hecho");
-                                finish();
                             }
                         });
                     }else{
@@ -177,6 +176,7 @@ public class NuevoCondominioActivity extends AppCompatActivity {
 
     private void guardaRegistroEnBaseDeDatos(int idCondominio) {
         Condominio condominio = new Condominio(idCondominio);
+        condominio.setNombre(nombre);
         condominio.setCostoAproximadoPorUnidadPrivativa(costoPorUnidadPrivativa);
         TipoDeCondominio tipoDeCondominio =
                 new TipoDeCondominio(AccionesTablaCondominio.obtenerIdTipoDeCondominio(this,tipo));
@@ -195,8 +195,9 @@ public class NuevoCondominioActivity extends AppCompatActivity {
         condominio.setPoseeOficinasAdministrativas(camposOpcionales.get(MallaDeCheckBoxes.TEXTOS[4]));
         condominio.setPoseeAlarmaSismica(camposOpcionales.get(MallaDeCheckBoxes.TEXTOS[5]));
         condominio.setPoseeCisternaAguaPluvial(camposOpcionales.get(MallaDeCheckBoxes.TEXTOS[6]));
+        AccionesTablaCondominio.agregarCondominio(this, condominio);
         registroDeIdCondominio(condominio.getId());
-        iniciaRegistroDeTorre();
+        iniciaRegistroDeAdministracion();
     }
 
     private void registroDeIdCondominio(int idCondominio) {
@@ -206,7 +207,7 @@ public class NuevoCondominioActivity extends AppCompatActivity {
         editor.apply();
     }
 
-    private void iniciaRegistroDeTorre() {
+    private void iniciaRegistroDeAdministracion() {
         /** Si se debe registrar a cada torre por separado, lanzar ese número de formularios. **/
         startActivity(new Intent(this, RegistroAdministracion.class));
         finish();
@@ -221,15 +222,15 @@ public class NuevoCondominioActivity extends AppCompatActivity {
             json.put("edad", edadCondominio);
             json.put("tipo", tipo);
             json.put("inmoviliaria", inmoviliaria);
-            json.put("torres", torres);
+            json.put("nombre", nombre);
             String[] elementos = MallaDeCheckBoxes.TEXTOS;
-            json.put("posee_sala_de_juntas", elementos[0]);
-            json.put("posee_gym", elementos[1]);
-            json.put("posee_espacio_recreativo", elementos[2]);
-            json.put("posee_espacio_cultural", elementos[3]);
-            json.put("posee_oficinas_administrativas", elementos[4]);
-            json.put("posee_alarma_sismica", elementos[5]);
-            json.put("posee_cisterna_agua_pluvial", elementos[6]);
+            json.put("posee_sala_de_juntas", camposOpcionales.get(elementos[0]));
+            json.put("posee_gym", camposOpcionales.get(elementos[1]));
+            json.put("posee_espacio_recreativo", camposOpcionales.get(elementos[2]));
+            json.put("posee_espacio_cultural", camposOpcionales.get(elementos[3]));
+            json.put("posee_oficinas_administrativas", camposOpcionales.get(elementos[4]));
+            json.put("posee_alarma_sismica", camposOpcionales.get(elementos[5]));
+            json.put("posee_cisterna_agua_pluvial", camposOpcionales.get(elementos[6]));
             json.put("cajones_de_estacionamiento", cajonesDeEstacionamiento);
             json.put("cajones_de_estacionamiento_visitas", cajonesDeEstacionamientoVisitas);
             json.put("costo_por_unidad_privativa", costoPorUnidadPrivativa);
@@ -251,7 +252,7 @@ public class NuevoCondominioActivity extends AppCompatActivity {
             direccion = "";
             edadCondominio = -1;
             tipo = "";
-            torres = 0;
+            nombre = "";
         }
         if(camposOpcionales == null)
             camposOpcionales = new TreeMap<>();
@@ -263,7 +264,7 @@ public class NuevoCondominioActivity extends AppCompatActivity {
         outState.putInt("edad", edadCondominio);
         outState.putString("tipo", tipo);
         outState.putString("inmoviliaria", inmoviliaria);
-        outState.putInt("torres", torres);
+        outState.putString("nombre", nombre);
         Bundle b = new Bundle();
         for(String key : camposOpcionales.keySet())
             b.putBoolean(key, camposOpcionales.get(key));
@@ -281,7 +282,7 @@ public class NuevoCondominioActivity extends AppCompatActivity {
         edadCondominio = savedInstanceState.getInt("edad");
         tipo = savedInstanceState.getString("tipo");
         inmoviliaria = savedInstanceState.getString("inmoviliaria");
-        torres = savedInstanceState.getInt("torres");
+        nombre = savedInstanceState.getString("nombre");
         Bundle b = savedInstanceState.getBundle("campos_opcionales");
         camposOpcionales = new TreeMap<>();
         assert b != null;
@@ -302,7 +303,7 @@ public class NuevoCondominioActivity extends AppCompatActivity {
     }
 
     private void colocaFragmentos() {
-        if( "".equals(direccion) || edadCondominio <= -1 || "".equals(tipo) || torres <= 0 ){
+        if( "".equals(direccion) || edadCondominio <= -1 || "".equals(tipo) || "".equals(nombre) ){
             f1.setAccion(accion1);
             getSupportFragmentManager()
                     .beginTransaction()
@@ -333,4 +334,9 @@ public class NuevoCondominioActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+        setResult(resultCode);
+        finish();
+    }
 }

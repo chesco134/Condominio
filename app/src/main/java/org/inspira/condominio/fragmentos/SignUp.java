@@ -1,8 +1,10 @@
 package org.inspira.condominio.fragmentos;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -30,6 +32,7 @@ import org.inspira.condominio.dialogos.DialogoDeConsultaSimple;
 import org.inspira.condominio.dialogos.ObtenerFecha;
 import org.inspira.condominio.dialogos.ProveedorSnackBar;
 import org.inspira.condominio.networking.ContactoConServidor;
+import org.inspira.condominio.seguridad.Hasher;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -81,6 +84,7 @@ public class SignUp extends Fragment {
         rootView.findViewById(R.id.signup_piso_usuario)
                 .setOnFocusChangeListener(new EfectoDeEnfoque(getActivity(), nombres));
         pass = (EditText) rootView.findViewById(R.id.signup_pass);
+        pass.setTypeface(Typeface.createFromAsset(getActivity().getAssets(), "Roboto-Regular.ttf"));
         rootView.findViewById(R.id.signup_piso_pass)
                 .setOnFocusChangeListener(new EfectoDeEnfoque(getActivity(), pass));
         myWatcher = new MyWatcher();
@@ -192,12 +196,15 @@ public class SignUp extends Fragment {
     }
 
     private void habilitaCamposDeProfesion() {
+        profesion.setVisibility(View.VISIBLE);
+        pisoProfesion.setVisibility(View.VISIBLE);
         profesion.setEnabled(true);
         pisoProfesion.setEnabled(true);
-
     }
 
     private void deshabilitaCamposDeProfesion() {
+        profesion.setVisibility(View.INVISIBLE);
+        pisoProfesion.setVisibility(View.INVISIBLE);
         profesion.setEnabled(false);
         pisoProfesion.setEnabled(false);
     }
@@ -238,6 +245,7 @@ public class SignUp extends Fragment {
     }
 
     private void colocarPantallaPrincipal() {
+        getActivity().setResult(Activity.RESULT_OK);
         getActivity().finish();
     }
 
@@ -270,6 +278,7 @@ public class SignUp extends Fragment {
         try{
             JSONObject json = new JSONObject();
             json.put("action", ProveedorDeRecursos.REGISTRO_DE_USUARIO);
+            json.put("pass", new Hasher().makeHashString(pass.getText().toString().trim()));
             json.put("email", email.getText().toString().trim());
             json.put("nombres", nombres.getText().toString().trim());
             json.put("ap_paterno", apPaterno.getText().toString());

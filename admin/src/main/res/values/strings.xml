@@ -30,7 +30,7 @@
     <string name="nuevo_condominio_edad">Antigüedad</string>
     <string name="nuevo_condominio_inmoviliaria">Inmoviliaria</string>
     <string name="nuevo_condominio_tipo_de_condominio">Tipo de Condominio</string>
-    <string name="nuevo_condominio_numero_de_torres">Numero de Torres</string>
+    <string name="nuevo_condominio_nombre_del_condominio">Nombre del condominio</string>
     <string name="nuevo_condominio_siguiente">Siguiente</string>
     <string name="nuevo_condominio_cantidad_de_lugares_estacionamiento"># Cajones de estacionamiento</string>
     <string name="nuevo_condominio_costo_aprox_por_unidad_privativa">Costo aprox por unidad privativa</string>

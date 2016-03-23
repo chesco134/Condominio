@@ -24,12 +24,12 @@ public class NuevoCondominioFragment1 extends Fragment {
     private EditText edad;
     private TextView tipoDeCondominio;
     private EditText inmoviliaria;
-    private EditText numTorres;
+    private EditText nombre;
     private AccionNCondominio1 accion;
     private static int ERROR;
 
     public interface AccionNCondominio1{
-        void siguiente(String direccion, int edad, String tipo, String inmoviliaria, int torres);
+        void siguiente(String direccion, int edad, String tipo, String inmoviliaria, String nombre);
         void onResume();
     }
 
@@ -50,8 +50,8 @@ public class NuevoCondominioFragment1 extends Fragment {
         edad = (EditText)rootView.findViewById(R.id.nuevo_condominio_1_edad);
         tipoDeCondominio = (TextView)rootView.findViewById(R.id.nuevo_condominio_1_tipo_de_condominio);
         inmoviliaria = (EditText)rootView.findViewById(R.id.nuevo_condominio_1_inmoviliaria);
-        numTorres = (EditText)rootView.findViewById(R.id.nuevo_condominio_1_numero_de_torres);
-        numTorres.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        nombre = (EditText)rootView.findViewById(R.id.nuevo_condominio_1_numero_de_torres);
+        nombre.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if(hasFocus) {
@@ -128,7 +128,7 @@ public class NuevoCondominioFragment1 extends Fragment {
             edad.setText(savedInstanceState.getString("edad"));
             tipoDeCondominio.setText(savedInstanceState.getString("tipoDeCondominio"));
             inmoviliaria.setText(savedInstanceState.getString("inmoviliaria"));
-            numTorres.setText(savedInstanceState.getString("numTorres"));
+            nombre.setText(savedInstanceState.getString("nombre"));
             if(!"".equals(tipoDeCondominio.getText()))
                 tipoDeCondominio.setTextColor(Color.BLACK);
         }
@@ -161,7 +161,7 @@ public class NuevoCondominioFragment1 extends Fragment {
         outState.putString("edad", edad.getText().toString().trim());
         outState.putString("tipoDeCondominio", tipoDeCondominio.getText().toString());
         outState.putString("inmoviliaria", inmoviliaria.getText().toString().trim());
-        outState.putString("numTorres", numTorres.getText().toString().trim());
+        outState.putString("nombre", nombre.getText().toString().trim());
     }
 
     private void validaInformacion() {
@@ -169,15 +169,12 @@ public class NuevoCondominioFragment1 extends Fragment {
         String age = edad.getText().toString();
         String tipo = tipoDeCondominio.getText().toString();
         String inmov = inmoviliaria.getText().toString();
-        String numT = numTorres.getText().toString();
         if (!marcaCamposIncorrectos()) {
             Integer edad = null;
-            Integer numTorres = null;
             try {
                 edad = Integer.parseInt(age);
-                numTorres = Integer.parseInt(numT);
-                if(!marcaCamposNumericosIncorrectos(edad, numTorres)){
-                    accion.siguiente(dir.trim(),edad,tipo.trim(),inmov.trim(),numTorres);
+                if(!marcaCamposNumericosIncorrectos(edad)){
+                    accion.siguiente(dir.trim(),edad,tipo.trim(),inmov.trim(),nombre.getText().toString().trim());
                 }else{
                     ProveedorSnackBar
                             .muestraBarraDeBocados(inmoviliaria, "Valor de edad o cantidad de torres incorrecto.");
@@ -185,11 +182,9 @@ public class NuevoCondominioFragment1 extends Fragment {
             }catch(NumberFormatException e){
                 if(edad == null)
                     edad = -1;
-                if(numTorres == null)
-                    numTorres = 0;
                 ProveedorSnackBar
                         .muestraBarraDeBocados(inmoviliaria, "Valor de edad o cantidad de torres incorrecto.");
-                marcaCamposNumericosIncorrectos(edad, numTorres);
+                marcaCamposNumericosIncorrectos(edad);
             }
         }else{
             ProveedorSnackBar
@@ -197,14 +192,10 @@ public class NuevoCondominioFragment1 extends Fragment {
         }
     }
 
-    private boolean marcaCamposNumericosIncorrectos(int edad, int numTorres){
+    private boolean marcaCamposNumericosIncorrectos(int edad){
         boolean hubieronCamposIncorrectos = false;
         if(edad <= -1) {
             NuevoCondominioFragment1.this.edad.setBackgroundColor(ERROR);
-            hubieronCamposIncorrectos = true;
-        }
-        if(numTorres <= 0) {
-            NuevoCondominioFragment1.this.numTorres.setBackgroundColor(ERROR);
             hubieronCamposIncorrectos = true;
         }
         return hubieronCamposIncorrectos;
@@ -216,7 +207,7 @@ public class NuevoCondominioFragment1 extends Fragment {
         camposMarcados[1] = coloreaCampo(edad);
         camposMarcados[2] = coloreaCampo(tipoDeCondominio);
         camposMarcados[3] = coloreaCampo(inmoviliaria);
-        camposMarcados[4] = coloreaCampo(numTorres);
+        camposMarcados[4] = coloreaCampo(nombre);
         return camposMarcados[0]
                 || camposMarcados[1]
                 || camposMarcados[2]

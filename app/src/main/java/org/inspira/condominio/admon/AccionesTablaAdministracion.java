@@ -17,7 +17,7 @@ public class AccionesTablaAdministracion {
 
     public static int obtenerIdIntervaloTransparencia(Context context, String intervaloTransparencia){
         SQLiteDatabase db = new CondominioBD(context).getReadableDatabase();
-        Cursor c = db.rawQuery("select idIntervalo_Transparencia from Intervalo_Transparencia where intervalo_transparencia like ?", new String[]{intervaloTransparencia});
+        Cursor c = db.rawQuery("select idIntervalo_Transparencia from Intervalo_Transparencia where intervalo_de_transparencia like ?", new String[]{intervaloTransparencia});
         int idIntervaloTransparencia = c.moveToFirst() ? c.getInt(0) : -1;
         c.close();
         db.close();
@@ -26,7 +26,7 @@ public class AccionesTablaAdministracion {
 
     public static IntervaloDeTransparencia obtenerIntervaloDeTransparencia(Context context, int idIntervaloDeTransparencia){
         SQLiteDatabase db = new CondominioBD(context).getReadableDatabase();
-        Cursor c = db.rawQuery("select intervalo_de_transparencia from Intervalo_de_Transparencia where idIntervalo_de_Transparencia = CAST(? as INTEGER)", new String[]{String.valueOf(idIntervaloDeTransparencia)});
+        Cursor c = db.rawQuery("select intervalo_de_transparencia from Intervalo_Transparencia where idIntervalo_Transparencia = CAST(? as INTEGER)", new String[]{String.valueOf(idIntervaloDeTransparencia)});
         IntervaloDeTransparencia intervaloDeTransparencia;
         if(c.moveToFirst()){
             intervaloDeTransparencia = new IntervaloDeTransparencia(idIntervaloDeTransparencia);
@@ -45,8 +45,8 @@ public class AccionesTablaAdministracion {
         values.put("costo_de_cuota_de_mantenimiento_mensual", administracion.getCostoDeCuotaDeMantenimientoMensual());
         values.put("promedio_inicial_de_egresos", administracion.getPromedioInicialDeEgresos());
         values.put("promedio_inicial_de_morosidad", administracion.getPromedioInicialDeMorosidad());
-        values.put("idIntervalo_de_Transparencia", administracion.getIntervaloDeTransparencia().getId());
-        values.put("idCondominio", administracion.getCondominio().getId());
+        values.put("idIntervalo_Transparencia", administracion.getIntervaloDeTransparencia().getId());
+        values.put("idCondominio", administracion.getIdCondominio());
         values.put("posee_mantenimiento_profesional_al_cuarto_de_maquinas", administracion.isPoseeMantenimientoProfesionalCuartoDeMaquinas());
         values.put("posee_mantenimiento_profesional_a_elevadores", administracion.isPoseeMantenimientoProfesionalElevadores());
         values.put("posee_personal_capacitado_en_seguridad_intramuros", administracion.isPoseePersonalidadCapacitadoEnSeguridadIntramuros());
@@ -70,7 +70,7 @@ public class AccionesTablaAdministracion {
         Administracion administracion;
         if(c.moveToFirst()){
             administracion = new Administracion(idAdministracion);
-            administracion.setCondominio(AccionesTablaCondominio.obtenerCondominio(context, ProveedorDeRecursos.obtenerIdCondominio(context)));
+            administracion.setIdCondominio(ProveedorDeRecursos.obtenerIdCondominio(context));
             administracion.setCostoDeCuotaAnual(c.getFloat(c.getColumnIndex("costo_de_cuota_anual")));
             administracion.setCostoDeCuotaDeMantenimientoMensual(c.getFloat(c.getColumnIndex("costo_de_cuota_de_mantenimiento_mensual")));
             administracion.setPoseeMantenimientoProfesionalCuartoDeMaquinas(c.getInt(c.getColumnIndex("posee_mantenimiento_profesional_al_cuarto_de_maquinas")) != 0);
@@ -80,7 +80,7 @@ public class AccionesTablaAdministracion {
             administracion.setPoseeWiFiAbierto(c.getInt(c.getColumnIndex("posee_wifi_abierto")) != 0);
             administracion.setPromedioInicialDeEgresos(c.getFloat(c.getColumnIndex("promedio_inicial_de_egresos")));
             administracion.setPromedioInicialDeMorosidad(c.getFloat(c.getColumnIndex("promedio_inicial_de_morosidad")));
-            IntervaloDeTransparencia intervaloDeTransparencia = obtenerIntervaloDeTransparencia(context, c.getInt(c.getColumnIndex("idIntervalo_de_Transparencia")));
+            IntervaloDeTransparencia intervaloDeTransparencia = obtenerIntervaloDeTransparencia(context, c.getInt(c.getColumnIndex("idIntervalo_Transparencia")));
             administracion.setIntervaloDeTransparencia(intervaloDeTransparencia);
         }else
             administracion = null;

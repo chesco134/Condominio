@@ -125,6 +125,7 @@
         <TextView
             style="@style/MyTextView"
             android:id="@+id/signup_piso_contacto"
+            android:layout_below="@+id/signup_contacto"
             android:layout_alignStart="@+id/signup_contacto"
             android:layout_alignLeft="@+id/signup_contacto"
             android:layout_alignEnd="@+id/signup_contacto"
@@ -213,6 +214,7 @@
             android:text="@string/signup_registrar"
             android:layout_below="@+id/signup_piso_profesion"
             android:layout_marginTop="12sp"
+            android:layout_marginBottom="20sp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"/>
 

@@ -123,8 +123,8 @@
             android:paddingTop="6sp"
             android:paddingBottom="6sp"
             android:layout_below="@+id/nuevo_condominio_1_inmoviliaria"
-            android:hint="@string/nuevo_condominio_numero_de_torres"
-            android:inputType="number"
+            android:hint="@string/nuevo_condominio_nombre_del_condominio"
+            android:inputType="text"
             android:background="@drawable/fondo_edit_text_no_opaque"
             android:imeOptions="actionDone"/>
         <TextView

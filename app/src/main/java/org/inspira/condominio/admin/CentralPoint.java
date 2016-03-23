@@ -117,9 +117,6 @@ public class CentralPoint extends AppCompatActivity
         CondominioBD db = new CondominioBD(this);
         if(!db.revisarExistenciaDeUsuarios())
             iniciaRegistro();
-        else{
-            startActivity(new Intent(this, NuevoCondominioActivity.class));
-        }
     }
 
     private void iniciaRegistro() {

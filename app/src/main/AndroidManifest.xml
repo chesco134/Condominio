@@ -16,11 +16,14 @@
             android:name=".dialogos.ActividadDeEspera"
             android:theme="@style/CustomTheme" />
         <activity
-            android:name=".admon.RegistroAdministracion" />
+            android:name=".admon.RegistroAdministracion"
+            android:label="@string/datos_administracion"/>
         <activity
-            android:name=".admon.RegistroDeTorre" />
+            android:name=".admon.RegistroDeTorre"
+            android:label="@string/label_torre"/>
         <activity
-            android:name=".admon.RegistroUsuario" />
+            android:name=".admon.RegistroUsuario"
+            android:label="@string/datos_usuario"/>
         <activity
             android:name=".admon.NuevoCondominioActivity" />
         <activity

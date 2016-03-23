@@ -39,7 +39,7 @@ public class AccionesTablaUsuario {
 
     public static TipoDeAdministrador obtenerTipoDeAdministrador(Context context, String tipoDeAdministrador){
         SQLiteDatabase db = new CondominioBD(context).getReadableDatabase();
-        Cursor c = db.rawQuery("select idTipo_de_Administrador from Tipo_de_Administrador where tipo_de_administrador like ?", new String[]{tipoDeAdministrador});
+        Cursor c = db.rawQuery("select idTipo_de_Administrador from Tipo_de_Administrador where descripcion like ?", new String[]{tipoDeAdministrador});
         int idTipoDeAdministrador = c.moveToFirst() ? c.getInt(0) : -1;
         c.close();
         db.close();

@@ -9,6 +9,7 @@ import android.widget.GridView;
 import android.widget.TextView;
 
 import org.inspira.condominio.R;
+import org.inspira.condominio.actividades.ActualizaTextoDesdeLista;
 import org.inspira.condominio.actividades.EfectoDeEnfoque;
 import org.inspira.condominio.actividades.ProveedorDeRecursos;
 import org.inspira.condominio.actividades.Verificador;
@@ -57,6 +58,7 @@ public class RegistroAdministracion extends AppCompatActivity {
         findViewById(R.id.formulario_registro_administracion_boton_hecho)
                 .setOnClickListener(new AccionHecho());
         setUpMallaCamposOpcionales();
+        intervaloDeTransparencia.setOnClickListener(new ActualizaTextoDesdeLista(R.array.intervalos_de_transparencia_admon, "Intervalo de transparencia"));
     }
 
     private void setUpMallaCamposOpcionales() {
@@ -111,15 +113,16 @@ public class RegistroAdministracion extends AppCompatActivity {
             json.put("action", ProveedorDeRecursos.REGISTRO_DE_ADMINISTRACION);
             json.put("cuota_de_mantenimiento_mensual", Float.parseFloat(cuotaMantenimientoMensual.getText().toString().trim()));
             json.put("cuota_de_mantenimiento_anual", Float.parseFloat(cuotaMantenimientoAnual.getText().toString().trim()));
-            json.put("promedio_de_ingreso", Float.parseFloat(promedioDeMorosidad.getText().toString().trim()));
+            json.put("promedio_de_morosidad", Float.parseFloat(promedioDeMorosidad.getText().toString().trim()));
             json.put("promedio_de_egreso", Float.parseFloat(promedioDeEgreso.getText().toString().trim()));
-            json.put("intervalo_de_transparencia", Float.parseFloat(intervaloDeTransparencia.getText().toString().trim()));
+            json.put("intervalo_de_transparencia", intervaloDeTransparencia.getText().toString());
             String[] keys = getResources().getStringArray(R.array.campos_opcionales_administracion);
             json.put("posee_planes_de_trabajo", marcas.get(keys[0]));
             json.put("posee_mantenimiento_profesional_a_elevadores", marcas.get(keys[1]));
             json.put("posee_personal_capacitado_en_seguridad_intramuros", marcas.get(keys[2]));
             json.put("posee_mantenimiento_profesional_al_cuarto_de_maquinas", marcas.get(keys[3]));
             json.put("posee_wifi_abierto", marcas.get(keys[4]));
+            json.put("idCondominio", ProveedorDeRecursos.obtenerIdCondominio(this));
             contenido = json.toString();
         }catch(JSONException e){
             e.printStackTrace();
@@ -222,7 +225,7 @@ public class RegistroAdministracion extends AppCompatActivity {
 
     private void guardaEnBaseDedatos(int idAdministracion) {
         Administracion administracion = new Administracion(idAdministracion);
-        administracion.setCondominio(AccionesTablaCondominio.obtenerCondominio(this, ProveedorDeRecursos.obtenerIdCondominio(this)));
+        administracion.setIdCondominio(ProveedorDeRecursos.obtenerIdCondominio(this));
         IntervaloDeTransparencia intervaloDeTransparencia = new IntervaloDeTransparencia(AccionesTablaAdministracion.obtenerIdIntervaloTransparencia(this, this.intervaloDeTransparencia.getText().toString().trim()));
         administracion.setIntervaloDeTransparencia(intervaloDeTransparencia);
         administracion.setCostoDeCuotaAnual(Float.parseFloat(cuotaMantenimientoAnual.getText().toString().trim()));
@@ -247,5 +250,11 @@ public class RegistroAdministracion extends AppCompatActivity {
     private void habilitaBoton(){
         findViewById(R.id.formulario_registro_administracion_boton_hecho)
                 .setEnabled(true);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+        setResult(resultCode);
+        finish();
     }
 }

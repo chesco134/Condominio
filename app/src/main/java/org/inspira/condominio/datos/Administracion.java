@@ -14,7 +14,7 @@ public class Administracion extends ModeloDeDatos {
     private boolean poseePersonalidadCapacitadoEnSeguridadIntramuros;
     private boolean poseeMantenimientoProfesionalCuartoDeMaquinas;
     private boolean poseeWiFiAbierto;
-    private Condominio condominio;
+    private int idCondominio;
     private IntervaloDeTransparencia intervaloDeTransparencia;
 
     public Administracion() {
@@ -96,12 +96,12 @@ public class Administracion extends ModeloDeDatos {
         this.poseeWiFiAbierto = poseeWiFiAbierto;
     }
 
-    public Condominio getCondominio() {
-        return condominio;
+    public int getIdCondominio() {
+        return idCondominio;
     }
 
-    public void setCondominio(Condominio condominio) {
-        this.condominio = condominio;
+    public void setIdCondominio(int idCondominio) {
+        this.idCondominio = idCondominio;
     }
 
     public IntervaloDeTransparencia getIntervaloDeTransparencia() {
