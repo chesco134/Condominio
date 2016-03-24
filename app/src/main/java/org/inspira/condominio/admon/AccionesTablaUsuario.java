@@ -51,11 +51,11 @@ public class AccionesTablaUsuario {
     public static TipoDeAdministrador obtenerTipoDeAdministrador(Context context, int idTipoDeAdministrador){
         SQLiteDatabase db = new CondominioBD(context).getReadableDatabase();
         Cursor c = db.rawQuery("select descripcion from Tipo_de_Administrador where idTipo_de_Administrador = CAST(? as INTEGER)", new String[]{String.valueOf(idTipoDeAdministrador)});
-        db.close();
         c.moveToFirst();
         TipoDeAdministrador tipoDeAdministrador = new TipoDeAdministrador(idTipoDeAdministrador);
         tipoDeAdministrador.setDescripcion(c.getString(0));
         c.close();
+        db.close();
         return tipoDeAdministrador;
     }
 
@@ -96,7 +96,7 @@ public class AccionesTablaUsuario {
 
     public static Usuario obtenerUsuario(Context context, String email){
         SQLiteDatabase db = new CondominioBD(context).getReadableDatabase();
-        Cursor c = db.rawQuery("select nombre, ap_paterno, ap_materno from Usuario where email like ?", new String[]{email});
+        Cursor c = db.rawQuery("select * from Usuario where email like ?", new String[]{email});
         Usuario usuario;
         if(c.moveToNext()){
             usuario = new Usuario();

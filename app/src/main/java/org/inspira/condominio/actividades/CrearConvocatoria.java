@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 import org.inspira.condominio.R;
 import org.inspira.condominio.admon.AccionesTablaConvocatoria;
@@ -57,9 +58,9 @@ public class CrearConvocatoria extends AppCompatActivity {
             state = savedInstanceState.getInt("state");
             convocatoria = (Convocatoria)savedInstanceState.getSerializable("convocatoria");
             nombreDeArchivo = savedInstanceState.getString("nombre_de_archivo");
+            puntos = savedInstanceState.getStringArrayList("puntos");
         }
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp);
-        colocarFragmento();
     }
 
     @Override
@@ -68,6 +69,21 @@ public class CrearConvocatoria extends AppCompatActivity {
         grabData();
         outState.putSerializable("convocatoria", convocatoria);
         outState.putString("nombre_de_archivo", nombreDeArchivo);
+        outState.putStringArrayList("puntos", (ArrayList<String>)puntos);
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState){
+        state = savedInstanceState.getInt("state");
+        convocatoria = (Convocatoria)savedInstanceState.getSerializable("convocatoria");
+        nombreDeArchivo = savedInstanceState.getString("nombre_de_archivo");
+        puntos = savedInstanceState.getStringArrayList("puntos");
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        colocarFragmento();
     }
 
     @Override
@@ -155,7 +171,15 @@ public class CrearConvocatoria extends AppCompatActivity {
         c.set(Calendar.HOUR_OF_DAY, Integer.parseInt(tiempoInicial[0]));
         c.set(Calendar.MINUTE, Integer.parseInt(tiempoInicial[1]));
         convocatoria.setFechaInicio(c.getTimeInMillis());
-        Collections.addAll(puntos, ordenDelDia.getPuntos());
+        String[] pts = ordenDelDia.getPuntos();
+        Log.d("Putos", "-->" + (pts == null));
+        puntos = new ArrayList<>();
+        if(pts != null) {
+            for(String pt : pts) {
+                Log.d("Basura", "--------> " + pt);
+                puntos.add(pt);
+            }
+        }
         nombreDeArchivo = ordenDelDia.getNombreArchivo();
     }
 
@@ -204,7 +228,7 @@ public class CrearConvocatoria extends AppCompatActivity {
         convocatoria.setEmail(ProveedorDeRecursos.obtenerEmail(this));
         try{
             JSONObject json = new JSONObject();
-            json.put("action", 11);
+            json.put("action", 3);
             json.put("Asunto", convocatoria.getAsunto());
             json.put("Ubicacion_Interna", convocatoria.getUbicacionInterna());
             json.put("Fecha_de_Inicio", convocatoria.getFechaInicio());

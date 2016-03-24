@@ -32,6 +32,21 @@ public class AccionesTablaCondominio {
         return tiposDeCondominio.toArray(new TipoDeCondominio[1]);
     }
 
+    public static TipoDeCondominio obtenerTipoDeCondominio(Context context, int idTipoDeCondominio){
+        SQLiteDatabase db = new CondominioBD(context).getReadableDatabase();
+        Cursor c = db.rawQuery("select descripcion from Tipo_de_Condominio where idTipo_de_Condominio = CAST(? as INTEGER)", new String[]{String.valueOf(idTipoDeCondominio)});
+        TipoDeCondominio tipoDeCondominio;
+        if(c.moveToFirst()){
+            tipoDeCondominio = new TipoDeCondominio(idTipoDeCondominio);
+            tipoDeCondominio.setDescripcion(c.getString(0));
+        }else{
+            tipoDeCondominio = null;
+        }
+        c.close();
+        db.close();
+        return tipoDeCondominio;
+    }
+
     public static int obtenerIdTipoDeCondominio(Context context, String descripcion){
         SQLiteDatabase db = new CondominioBD(context).getReadableDatabase();
         Cursor c = db.rawQuery("select idTipo_de_Condominio from Tipo_de_Condominio where descripcion like ?", new String[]{descripcion});
@@ -84,7 +99,7 @@ public class AccionesTablaCondominio {
             condominio.setNombre(c.getString(c.getColumnIndex("nombre")));
             condominio.setCantidadDeLugaresEstacionamiento(c.getInt(c.getColumnIndex("cantidad_de_lugares_estacionamiento")));
             condominio.setCantidadDeLugaresEstacionamientoVisitas(c.getInt(c.getColumnIndex("cantidad_de_lugares_estacionamiento_visitas")));
-            condominio.setCapacidadDeCisterna(c.getFloat(c.getColumnIndex("capacidad_de_cisterna")));
+            condominio.setCapacidadDeCisterna(c.getFloat(c.getColumnIndex("capacidad_cisterna")));
             condominio.setDireccion(c.getString(c.getColumnIndex("direccion")));
             condominio.setEdad(c.getInt(c.getColumnIndex("edad")));
             condominio.setInmoviliaria(c.getString(c.getColumnIndex("inmoviliaria")));

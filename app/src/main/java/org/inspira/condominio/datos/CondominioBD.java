@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -284,9 +285,9 @@ public class CondominioBD extends SQLiteOpenHelper {
      *      Zona de selecciones
      *
      ******************************/
-    public Convocatoria[] obtenerConvocatorias(){
+    public Convocatoria[] obtenerConvocatorias(String email){
         SQLiteDatabase db = getReadableDatabase();
-        Cursor c = db.rawQuery("select * from Convocatoria", null);
+        Cursor c = db.rawQuery("select * from Convocatoria where email like ?", new String[]{email});
         List<Convocatoria> convocatorias = new ArrayList<>();
         while(c.moveToNext()){
             Convocatoria convocatoria = new Convocatoria(c.getInt(c.getColumnIndex("idConvocatoria")));
@@ -301,6 +302,7 @@ public class CondominioBD extends SQLiteOpenHelper {
                 punto.setDescripcion(c2.getString(c2.getColumnIndex("Descripcion")));
                 punto.setIdConvocatoria(convocatoria.getId());
                 puntos.add(punto);
+                Log.d("DB", "Added convocatoria: " + convocatoria.getId() + " -- " + punto.getDescripcion());
             }
             c2.close();
             convocatorias.add(convocatoria);

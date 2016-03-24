@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import org.inspira.condominio.R;
+import org.inspira.condominio.actividades.ProveedorDeRecursos;
 import org.inspira.condominio.admin.CentralPoint;
 import org.inspira.condominio.admon.AccionesTablaAdministracion;
 import org.inspira.condominio.admon.AccionesTablaCondominio;
@@ -37,6 +38,7 @@ import org.json.JSONObject;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class Login extends Fragment {
@@ -141,6 +143,7 @@ public class Login extends Fragment {
             condominio.setCostoAproximadoPorUnidadPrivativa((float) jcondominio.getDouble("costo_aproximado"));
             condominio.setInmoviliaria(jcondominio.getString("inmoviliaria"));
             condominio.setNombre(jcondominio.getString("nombre"));
+            condominio.setTipoDeCondominio(AccionesTablaCondominio.obtenerTipoDeCondominio(getContext(), jcondominio.getInt("idTipo_de_Condominio")));
             condominio.setPoseeAlarmaSismica(jcondominio.getInt("posee_alarma_sismica") != 0);
             condominio.setPoseeCisternaAguaPluvial(jcondominio.getInt("posee_cisterna_agua_pluvial") != 0);
             condominio.setPoseeEspacioCultural(jcondominio.getInt("posee_espacio_cultural") != 0);
@@ -149,6 +152,7 @@ public class Login extends Fragment {
             condominio.setPoseeOficinasAdministrativas(jcondominio.getInt("posee_oficinas_administrativas") != 0);
             condominio.setPoseeSalaDeJuntas(jcondominio.getInt("posee_sala_de_juntas") != 0);
             AccionesTablaCondominio.agregarCondominio(getContext(), condominio);
+            ProveedorDeRecursos.guardaRecursoInt(getContext(), "idCondominio",condominio.getId());
         }catch(JSONException e){
             e.printStackTrace();
         }
@@ -170,6 +174,7 @@ public class Login extends Fragment {
             administracion.setPromedioInicialDeEgresos((float) jadministracion.getDouble("promedio_inicial_de_egresos"));
             administracion.setPromedioInicialDeMorosidad((float) jadministracion.getDouble("promedio_de_morosidad"));
             AccionesTablaAdministracion.agregaAdministracion(getContext(), administracion);
+            ProveedorDeRecursos.guardaRecursoInt(getContext(), "idAdministracion", administracion.getId());
         }catch(JSONException e){
             e.printStackTrace();
         }
@@ -246,7 +251,7 @@ public class Login extends Fragment {
                 Convocatoria convocatoria = new Convocatoria();
                 convocatoria.setAsunto(json.getString("Asunto"));
                 convocatoria.setUbicacionInterna(json.getString("Ubicacion_Interna"));
-                convocatoria.setFechaInicio(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(json.getString("Fecha_de_Inicio")).getTime());
+                convocatoria.setFechaInicio(json.getLong("Fecha_de_Inicio"));
                 JSONArray puntosConv = json.getJSONArray("puntos");
                 List<PuntoOdD> puntos = new ArrayList<>();
                 for(int j=0; j<puntosConv.length(); j++){
@@ -260,7 +265,7 @@ public class Login extends Fragment {
                 for(PuntoOdD punto : puntos)
                     db.insertaPuntoOdD(punto);
             }
-        }catch(JSONException | ParseException e){
+        }catch(JSONException e){
             e.printStackTrace();
         }
     }

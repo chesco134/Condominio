@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import org.inspira.condominio.datos.CondominioBD;
 import org.inspira.condominio.datos.Convocatoria;
@@ -41,7 +42,6 @@ public class AccionesTablaConvocatoria {
     public static Convocatoria obtenerConvocatoria(Context context, int idConvocatoria){
         SQLiteDatabase db = new CondominioBD(context).getReadableDatabase();
         Cursor c = db.rawQuery("select * from Convocatoria where idConvocatoria = CAST(? as INTEGER)", new String[]{String.valueOf(idConvocatoria)});
-        db.close();
         Convocatoria convocatoria;
         if(c.moveToFirst()){
             convocatoria = new Convocatoria(idConvocatoria);
@@ -52,6 +52,7 @@ public class AccionesTablaConvocatoria {
         }else{
             convocatoria = null;
         }
+        db.close();
         c.close();
         return convocatoria;
     }
@@ -59,15 +60,16 @@ public class AccionesTablaConvocatoria {
     public static PuntoOdD[] obtenerPuntosOdD(Context context, int idConvocatoria){
         SQLiteDatabase db = new CondominioBD(context).getReadableDatabase();
         Cursor c = db.rawQuery("select * from Punto_OdD where idConvocatoria = CAST(? as INTEGER)", new String[]{String.valueOf(idConvocatoria)});
-        db.close();
         List<PuntoOdD> puntos = new ArrayList<>();
         PuntoOdD punto;
         while(c.moveToNext()){
             punto = new PuntoOdD(c.getInt(c.getColumnIndex("idPunto_OdD")));
             punto.setDescripcion(c.getString(c.getColumnIndex("Descripcion")));
             punto.setIdConvocatoria(idConvocatoria);
+            Log.d("DB", "Added convocatoria: " + idConvocatoria + " -- " + punto.getDescripcion());
         }
         c.close();
-        return puntos.toArray(new PuntoOdD[1]);
+        db.close();
+        return puntos.toArray(new PuntoOdD[0]);
     }
 }

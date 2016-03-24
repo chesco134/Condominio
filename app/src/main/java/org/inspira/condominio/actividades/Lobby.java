@@ -85,7 +85,7 @@ public class Lobby extends AppCompatActivity {
     private void loadContent(){
         CondominioBD db = new CondominioBD(this);
         List<Convocatoria> convocatorias = new ArrayList<>();
-        Collections.addAll(convocatorias,db.obtenerConvocatorias());
+        Collections.addAll(convocatorias,db.obtenerConvocatorias(ProveedorDeRecursos.obtenerEmail(this)));
         adapter = new AdaptadorParaConvocatoria(this, convocatorias);
         listaConvocatorias.setAdapter(adapter);
     }

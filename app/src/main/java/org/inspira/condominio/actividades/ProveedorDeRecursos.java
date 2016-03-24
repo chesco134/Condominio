@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.widget.TextView;
 
 import org.inspira.condominio.R;
+import org.inspira.condominio.admin.CentralPoint;
 
 /**
  * Created by jcapiz on 18/03/16.
@@ -40,7 +41,7 @@ public class ProveedorDeRecursos {
     }
 
     public static String obtenerEmail(Context context){
-        return context.getSharedPreferences(Configuraciones.class.getName(), Context.MODE_PRIVATE)
+        return context.getSharedPreferences(CentralPoint.class.getName(), Context.MODE_PRIVATE)
                 .getString("email", "NaN");
     }
 }

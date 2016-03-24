@@ -322,7 +322,7 @@ public class OrdenDelDia extends Fragment {
 
     public String[] getPuntos() {
         try{return puntos.toArray(new String[0]);}
-        catch(NullPointerException ignore){ return null; }
+        catch(NullPointerException e){  e.printStackTrace(); return null; }
     }
 
     public String getNombreArchivo() {
