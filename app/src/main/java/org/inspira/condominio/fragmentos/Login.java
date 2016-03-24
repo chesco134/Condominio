@@ -1,5 +1,6 @@
 package org.inspira.condominio.fragmentos;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
@@ -17,7 +18,10 @@ import android.widget.EditText;
 import org.inspira.condominio.R;
 import org.inspira.condominio.admin.CentralPoint;
 import org.inspira.condominio.admon.AccionesTablaAdministracion;
+import org.inspira.condominio.admon.AccionesTablaCondominio;
 import org.inspira.condominio.admon.AccionesTablaUsuario;
+import org.inspira.condominio.datos.Administracion;
+import org.inspira.condominio.datos.Condominio;
 import org.inspira.condominio.datos.CondominioBD;
 import org.inspira.condominio.datos.Convocatoria;
 import org.inspira.condominio.datos.PuntoOdD;
@@ -125,10 +129,56 @@ public class Login extends Fragment {
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Iniciar sesión");
     }
 
+    private void setCondominio(JSONObject json){
+        try{
+            JSONObject jcondominio = json.getJSONObject("Condominio");
+            Condominio condominio = new Condominio(jcondominio.getInt("idCondominio"));
+            condominio.setDireccion(jcondominio.getString("direccion"));
+            condominio.setEdad(jcondominio.getInt("edad"));
+            condominio.setCantidadDeLugaresEstacionamiento(jcondominio.getInt("cantidad_de_lugares_estacionamiento"));
+            condominio.setCantidadDeLugaresEstacionamientoVisitas(jcondominio.getInt("cantidad_de_lugares_estacionamiento_visitas"));
+            condominio.setCapacidadDeCisterna((float) jcondominio.getDouble("capacidad_cisterna"));
+            condominio.setCostoAproximadoPorUnidadPrivativa((float) jcondominio.getDouble("costo_aproximado"));
+            condominio.setInmoviliaria(jcondominio.getString("inmoviliaria"));
+            condominio.setNombre(jcondominio.getString("nombre"));
+            condominio.setPoseeAlarmaSismica(jcondominio.getInt("posee_alarma_sismica") != 0);
+            condominio.setPoseeCisternaAguaPluvial(jcondominio.getInt("posee_cisterna_agua_pluvial") != 0);
+            condominio.setPoseeEspacioCultural(jcondominio.getInt("posee_espacio_cultural") != 0);
+            condominio.setPoseeEspacioRecreativo(jcondominio.getInt("posee_espacio_recreativo") != 0);
+            condominio.setPoseeGym(jcondominio.getInt("posee_gym") != 0);
+            condominio.setPoseeOficinasAdministrativas(jcondominio.getInt("posee_oficinas_administrativas") != 0);
+            condominio.setPoseeSalaDeJuntas(jcondominio.getInt("posee_sala_de_juntas") != 0);
+            AccionesTablaCondominio.agregarCondominio(getContext(), condominio);
+        }catch(JSONException e){
+            e.printStackTrace();
+        }
+    }
+
+    private void setAdministracion(JSONObject json){
+        try{
+            JSONObject jadministracion = json.getJSONObject("Administracion");
+            Administracion administracion = new Administracion(jadministracion.getInt("idAdministracion"));
+            administracion.setCostoDeCuotaAnual((float) jadministracion.getDouble("costo_de_cuota_anual"));
+            administracion.setCostoDeCuotaDeMantenimientoMensual((float) jadministracion.getDouble("costo_de_cuota_de_mantenimiento_mensual"));
+            administracion.setIdCondominio(jadministracion.getInt("idCondominio"));
+            administracion.setIntervaloDeTransparencia(AccionesTablaAdministracion.obtenerIntervaloDeTransparencia(getContext(), jadministracion.getInt("idIntervalo_Transparencia")));
+            administracion.setPoseeMantenimientoProfesionalCuartoDeMaquinas(jadministracion.getInt("posee_mantenimiento_profesional_al_cuarto_de_maquinas") != 0);
+            administracion.setPoseeMantenimientoProfesionalElevadores(jadministracion.getInt("posee_mantenimiento_profesional_a_elevadores") != 0);
+            administracion.setPoseePersonalidadCapacitadoEnSeguridadIntramuros(jadministracion.getInt("posee_personal_capacitado_en_seguridad_intramuros") != 0);
+            administracion.setPoseePlanesDeTrabajo(jadministracion.getInt("posee_planes_de_trabajo") != 0);
+            administracion.setPoseeWiFiAbierto(jadministracion.getInt("posee_wifi_abierto") != 0);
+            administracion.setPromedioInicialDeEgresos((float) jadministracion.getDouble("promedio_inicial_de_egresos"));
+            administracion.setPromedioInicialDeMorosidad((float) jadministracion.getDouble("promedio_de_morosidad"));
+            AccionesTablaAdministracion.agregaAdministracion(getContext(), administracion);
+        }catch(JSONException e){
+            e.printStackTrace();
+        }
+    }
+
     private void setUserInfo(JSONObject json){
         try{
             SharedPreferences.Editor editor = getActivity().getSharedPreferences(CentralPoint.class.getName(), Context.MODE_PRIVATE).edit();
-            editor.putString("usuario", json.getString("nickname"));
+            editor.putString("usuario", json.getString("nombres") + " " + json.getString("ap_paterno"));
             editor.putString("email", json.getString("email"));
             editor.apply();
             Usuario usuario = new Usuario();
@@ -165,8 +215,11 @@ public class Login extends Fragment {
 
         @Override
         public void obtencionCorrecta(JSONObject json) {
+            setCondominio(usrInfo);
+            setAdministracion(usrInfo);
             setUserInfo(usrInfo);
             setConvocatorias(json);
+            getActivity().setResult(Activity.RESULT_OK);
             getActivity().finish();
         }
 

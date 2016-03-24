@@ -5,8 +5,8 @@ package org.inspira.condominio.datos;
  */
 public class Ingreso extends ModeloDeDatos {
 
-    private int idRazonDeIngreso;
-    private int idConceptoDeIngreso;
+    private RazonDeIngreso razonDeIngreso;
+    private ConceptoDeIngreso conceptoDeIngreso;
     private float monto;
     private String nombre;
     private String departamento;
@@ -20,20 +20,20 @@ public class Ingreso extends ModeloDeDatos {
         super(id);
     }
 
-    public int getIdRazonDeIngreso() {
-        return idRazonDeIngreso;
+    public RazonDeIngreso getRazonDeIngreso() {
+        return razonDeIngreso;
     }
 
-    public void setIdRazonDeIngreso(int idRazonDeIngreso) {
-        this.idRazonDeIngreso = idRazonDeIngreso;
+    public void setIdRazonDeIngreso(RazonDeIngreso razonDeIngreso) {
+        this.razonDeIngreso = razonDeIngreso;
     }
 
-    public int getIdConceptoDeIngreso() {
-        return idConceptoDeIngreso;
+    public ConceptoDeIngreso getConceptoDeIngreso() {
+        return conceptoDeIngreso;
     }
 
-    public void setIdConceptoDeIngreso(int idConceptoDeIngreso) {
-        this.idConceptoDeIngreso = idConceptoDeIngreso;
+    public void setConceptoDeIngreso(ConceptoDeIngreso conceptoDeIngreso) {
+        this.conceptoDeIngreso = conceptoDeIngreso;
     }
 
     public float getMonto() {
@@ -76,3 +76,4 @@ public class Ingreso extends ModeloDeDatos {
         this.sello = sello;
     }
 }
+

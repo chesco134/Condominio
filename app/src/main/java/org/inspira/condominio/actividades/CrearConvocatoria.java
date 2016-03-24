@@ -44,6 +44,12 @@ public class CrearConvocatoria extends AppCompatActivity {
         setContentView(R.layout.formato_para_convocatoria);
         datosDeEncabezado = new DatosDeEncabezado();
         ordenDelDia = new OrdenDelDia();
+        ordenDelDia.setAction(new ColocarTituloActionbarFragmen() {
+            @Override
+            public void onResume() {
+                getSupportActionBar().setTitle(R.string.orden_del_dia_definir_orden_del_dia);
+            }
+        });
         if (savedInstanceState == null){
             convocatoria = new Convocatoria();
             state = 0;

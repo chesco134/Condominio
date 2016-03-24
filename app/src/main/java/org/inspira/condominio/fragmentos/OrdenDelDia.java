@@ -16,6 +16,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import org.inspira.condominio.R;
+import org.inspira.condominio.actividades.ColocarTituloActionbarFragmen;
 import org.inspira.condominio.actividades.CrearConvocatoria;
 import org.inspira.condominio.datos.Convocatoria;
 import org.inspira.condominio.dialogos.EntradaTexto;
@@ -33,6 +34,11 @@ public class OrdenDelDia extends Fragment {
     private ListView listaDePuntos;
     private ArrayAdapter<String> adapter;
     private String nombreArchivo;
+    private ColocarTituloActionbarFragmen action;
+
+    public void setAction(ColocarTituloActionbarFragmen action) {
+        this.action = action;
+    }
 
     @Override
     public void onAttach(Context context){
@@ -106,7 +112,7 @@ public class OrdenDelDia extends Fragment {
     @Override
     public void onResume(){
         super.onResume();
-        getActivity().getActionBar().setTitle(R.string.orden_del_dia_definir_orden_del_dia);
+        action.onResume();
     }
 
     private void cambioDeTexto(String contenido, int posicion){
