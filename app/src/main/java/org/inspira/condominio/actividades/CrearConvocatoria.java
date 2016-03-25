@@ -186,7 +186,6 @@ public class CrearConvocatoria extends AppCompatActivity {
     private void generaPDF(){
         new Thread() {
             @Override public void run() {
-                convocatoria.setFirma(ProveedorDeRecursos.obtenerUsuario(CrearConvocatoria.this));
                 ExportarConvocatoria generar = new ExportarConvocatoria(CrearConvocatoria.this, convocatoria);
                 try {
                     AlmacenamientoInterno a = new AlmacenamientoInterno(CrearConvocatoria.this);
@@ -227,6 +226,7 @@ public class CrearConvocatoria extends AppCompatActivity {
     private String armarContenidoDeMensaje(){
         String contenido = null;
         convocatoria.setEmail(ProveedorDeRecursos.obtenerEmail(this));
+        convocatoria.setFirma(ProveedorDeRecursos.obtenerUsuario(this));
         try{
             JSONObject json = new JSONObject();
             json.put("action", 3);

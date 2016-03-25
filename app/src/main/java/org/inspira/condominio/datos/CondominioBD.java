@@ -297,6 +297,7 @@ public class CondominioBD extends SQLiteOpenHelper {
             convocatoria.setAsunto(c.getString(c.getColumnIndex("Asunto")));
             convocatoria.setUbicacionInterna(c.getString(c.getColumnIndex("Ubicacion_Interna")));
             convocatoria.setFechaInicio(c.getLong(c.getColumnIndex("Fecha_de_Inicio")));
+            convocatoria.setFirma(c.getString(c.getColumnIndex("firma")));
             Cursor c2 = db.rawQuery("select idPunto_OdD,Descripcion from Punto_OdD where idConvocatoria = CAST(? as INTEGER)",
                     new String[]{String.valueOf(convocatoria.getId())});
             List<PuntoOdD> puntos = new ArrayList<>();

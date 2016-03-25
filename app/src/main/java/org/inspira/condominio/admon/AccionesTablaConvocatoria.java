@@ -24,6 +24,7 @@ public class AccionesTablaConvocatoria {
         values.put("Asunto", convocatoria.getAsunto());
         values.put("Fecha_de_Inicio", convocatoria.getFechaInicio());
         values.put("Ubicacion_Interna", convocatoria.getUbicacionInterna());
+        values.put("firma", convocatoria.getFirma());
         values.put("email", convocatoria.getEmail());
         SQLiteDatabase db = new CondominioBD(context).getWritableDatabase();
         db.insert("Convocatoria", "---", values);
