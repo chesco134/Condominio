@@ -13,6 +13,7 @@ public class Convocatoria extends ModeloDeDatos{
     private String asunto;
     private String ubicacionInterna;
     private Long fechaInicio;
+    private String firma;
     private String email;
 
     public Convocatoria(){}
@@ -76,5 +77,13 @@ public class Convocatoria extends ModeloDeDatos{
         return (horaDelDia < 10 ? "0" + horaDelDia : horaDelDia)
                 + ":" +
                 (minuto < 10 ? "0" + minuto : minuto);
+    }
+
+    public String getFirma() {
+        return firma;
+    }
+
+    public void setFirma(String firma) {
+        this.firma = firma;
     }
 }

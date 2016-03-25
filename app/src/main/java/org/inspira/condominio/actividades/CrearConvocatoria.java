@@ -186,6 +186,7 @@ public class CrearConvocatoria extends AppCompatActivity {
     private void generaPDF(){
         new Thread() {
             @Override public void run() {
+                convocatoria.setFirma(ProveedorDeRecursos.obtenerUsuario(CrearConvocatoria.this));
                 ExportarConvocatoria generar = new ExportarConvocatoria(CrearConvocatoria.this, convocatoria);
                 try {
                     AlmacenamientoInterno a = new AlmacenamientoInterno(CrearConvocatoria.this);
@@ -232,6 +233,7 @@ public class CrearConvocatoria extends AppCompatActivity {
             json.put("Asunto", convocatoria.getAsunto());
             json.put("Ubicacion_Interna", convocatoria.getUbicacionInterna());
             json.put("Fecha_de_Inicio", convocatoria.getFechaInicio());
+            json.put("firma", convocatoria.getFirma());
             json.put("email", convocatoria.getEmail());
             JSONArray puntosOdD = new JSONArray();
             for(String descPunto : puntos)

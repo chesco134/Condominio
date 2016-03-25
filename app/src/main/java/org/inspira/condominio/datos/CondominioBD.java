@@ -199,6 +199,7 @@ public class CondominioBD extends SQLiteOpenHelper {
                 "Asunto TEXT NOT NULL," +
                 "Ubicacion_Interna TEXT," +
                 "Fecha_de_Inicio LONG," +
+                "firma TEXT NOT NULL," +
                 "email TEXT NOT NULL," +
                 "FOREIGN KEY (email) REFERENCES Usuario(email)" +
                 ")");
@@ -259,6 +260,7 @@ public class CondominioBD extends SQLiteOpenHelper {
         values.put("Asunto", conv.getAsunto());
         values.put("Ubicacion_Interna", conv.getUbicacionInterna());
         values.put("Fecha_de_Inicio", conv.getFechaInicio());
+        values.put("firma", conv.getFirma());
         values.put("email", email);
         db.insert("Convocatoria", "---", values);
         db = getReadableDatabase();
@@ -267,6 +269,7 @@ public class CondominioBD extends SQLiteOpenHelper {
         if(c.moveToNext()){
             id = c.getInt(0);
         }
+        c.close();
         db.close();
         return id;
     }
@@ -302,7 +305,6 @@ public class CondominioBD extends SQLiteOpenHelper {
                 punto.setDescripcion(c2.getString(c2.getColumnIndex("Descripcion")));
                 punto.setIdConvocatoria(convocatoria.getId());
                 puntos.add(punto);
-                Log.d("DB", "Added convocatoria: " + convocatoria.getId() + " -- " + punto.getDescripcion());
             }
             c2.close();
             convocatorias.add(convocatoria);

@@ -183,7 +183,7 @@ public class Login extends Fragment {
     private void setUserInfo(JSONObject json){
         try{
             SharedPreferences.Editor editor = getActivity().getSharedPreferences(CentralPoint.class.getName(), Context.MODE_PRIVATE).edit();
-            editor.putString("usuario", json.getString("nombres") + " " + json.getString("ap_paterno"));
+            editor.putString("usuario", json.getString("nickname"));
             editor.putString("email", json.getString("email"));
             editor.apply();
             Usuario usuario = new Usuario();
@@ -195,9 +195,9 @@ public class Login extends Fragment {
             usuario.setTipoDeAdministrador(AccionesTablaUsuario.obtenerTipoDeAdministrador(getContext(), json.getString("tipo_de_administrador")));
             usuario.setEscolaridad(AccionesTablaUsuario.obtenerEscolaridad(getContext(), json.getString("escolaridad")));
             usuario.setRemuneracion(((float) json.getDouble("remuneracion")));
-            usuario.setAdministracion(AccionesTablaAdministracion.obtenerAdministracion(getContext(),json.getInt("idAdministracion")));
+            usuario.setAdministracion(AccionesTablaAdministracion.obtenerAdministracion(getContext(), json.getInt("idAdministracion")));
             AccionesTablaUsuario.agregaUsuario(getContext(), usuario);
-        }catch(JSONException e){
+        }catch (JSONException e) {
             e.printStackTrace();
             ProveedorSnackBar
                     .muestraBarraDeBocados(user, "Servicio temproalmente no disponible");
@@ -252,6 +252,7 @@ public class Login extends Fragment {
                 convocatoria.setAsunto(json.getString("Asunto"));
                 convocatoria.setUbicacionInterna(json.getString("Ubicacion_Interna"));
                 convocatoria.setFechaInicio(json.getLong("Fecha_de_Inicio"));
+                convocatoria.setFirma(json.getString("firma"));
                 JSONArray puntosConv = json.getJSONArray("puntos");
                 List<PuntoOdD> puntos = new ArrayList<>();
                 for(int j=0; j<puntosConv.length(); j++){

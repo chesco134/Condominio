@@ -66,6 +66,7 @@ public class AccionesTablaConvocatoria {
             punto = new PuntoOdD(c.getInt(c.getColumnIndex("idPunto_OdD")));
             punto.setDescripcion(c.getString(c.getColumnIndex("Descripcion")));
             punto.setIdConvocatoria(idConvocatoria);
+            puntos.add(punto);
             Log.d("DB", "Added convocatoria: " + idConvocatoria + " -- " + punto.getDescripcion());
         }
         c.close();

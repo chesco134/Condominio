@@ -1,6 +1,7 @@
 package org.inspira.condominio.pdf;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Chunk;
@@ -121,8 +122,7 @@ public class ExportarConvocatoria {
         document.add(Chunk.NEWLINE);
         document.add(Chunk.NEWLINE);
         document.add(Chunk.NEWLINE);
-        Usuario usuario = AccionesTablaUsuario.obtenerUsuario(context, ProveedorDeRecursos.obtenerEmail(context));
-        p = new Paragraph(usuario.getNombres() + " " + usuario.getApPaterno(), NORMAL_NEGRITA);
+        p = new Paragraph(convocatoria.getFirma(), NORMAL_NEGRITA);
         p.setAlignment(1);
         document.add(p);
     }
@@ -134,6 +134,7 @@ public class ExportarConvocatoria {
         for(PuntoOdD punto : puntos){
             ordenDelDia = ordenDelDia.concat("\n" + punto.getDescripcion());
         }
+        Log.d("Obviously", puntos.length + " Showing the points: " + ordenDelDia);
         return ordenDelDia;
     }
 }

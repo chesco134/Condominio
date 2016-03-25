@@ -3,6 +3,7 @@ package org.inspira.condominio.actividades;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.text.Editable;
 import android.widget.TextView;
 
 import org.inspira.condominio.R;
@@ -18,6 +19,7 @@ public class ProveedorDeRecursos {
     public static final int REGISTRO_DE_ADMINISTRACION = 14;
     public static final int REGISTRO_DE_USUARIO = 15;
     public static final int SOLICITAR_CONTENIDO_CONDOMINIO = 16;
+    public static final int ACTUALIZACION_DE_NOMBRE = 17;
 
     public static int obtenerColorDeError(Context context){
         return context.getResources().getColor(R.color.error);
@@ -33,6 +35,23 @@ public class ProveedorDeRecursos {
                 .getInt("idAdministracion", -1);
     }
 
+    public static String obtenerEmail(Context context){
+        return context.getSharedPreferences(CentralPoint.class.getName(), Context.MODE_PRIVATE)
+                .getString("email", "NaN");
+    }
+
+    public static String obtenerUsuario(Context context){
+        return context.getSharedPreferences(CentralPoint.class.getName(), Context.MODE_PRIVATE)
+                .getString("usuario", "NaN");
+    }
+
+    public static void guardaUsuario(Context context, String usuario){
+        SharedPreferences.Editor editor = context.getSharedPreferences(CentralPoint.class.getName(), Context.MODE_PRIVATE)
+                .edit();
+        editor.putString("usuario", usuario);
+        editor.apply();
+    }
+
     public static void guardaRecursoInt(Context context, String nombre, int recurso){
         SharedPreferences.Editor editor = context.getSharedPreferences(Configuraciones.class.getName(), Context.MODE_PRIVATE)
                 .edit();
@@ -40,8 +59,10 @@ public class ProveedorDeRecursos {
         editor.apply();
     }
 
-    public static String obtenerEmail(Context context){
-        return context.getSharedPreferences(CentralPoint.class.getName(), Context.MODE_PRIVATE)
-                .getString("email", "NaN");
+    public static void guardaRecursoString(Context context, String nombre, String valor){
+        SharedPreferences.Editor editor = context.getSharedPreferences(Configuraciones.class.getName(), Context.MODE_PRIVATE)
+                .edit();
+        editor.putString(nombre, valor);
+        editor.apply();
     }
 }

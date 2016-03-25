@@ -17,9 +17,11 @@ import android.view.View;
 import android.widget.TextView;
 
 import org.inspira.condominio.R;
+import org.inspira.condominio.actividades.ActualizaTextoDesdeEntradaLibre;
 import org.inspira.condominio.actividades.Configuraciones;
 import org.inspira.condominio.actividades.Lobby;
 import org.inspira.condominio.actividades.Preparacion;
+import org.inspira.condominio.actividades.ProveedorDeRecursos;
 import org.inspira.condominio.actividades.SplashScreen;
 import org.inspira.condominio.admin.formatos.Formatos;
 import org.inspira.condominio.admin.formatos.FormatosLobby;
@@ -60,6 +62,7 @@ public class CentralPoint extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+
         isFirstTime = savedInstanceState == null;
         secondTime = true;
     }
@@ -78,14 +81,10 @@ public class CentralPoint extends AppCompatActivity
     private void actualizaNavigationView() {
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         View hView = navigationView.getHeaderView(navigationView.getHeaderCount()-1);
-        ((TextView)hView.findViewById(R.id.under_pp)).setText(
-                getSharedPreferences(getClass().getName(), Context.MODE_PRIVATE)
-                        .getString("usuario", "NaN")
-        );
-        ((TextView)hView.findViewById(R.id.textView)).setText(
-                getSharedPreferences(getClass().getName(), Context.MODE_PRIVATE)
-                        .getString("email", "NaN")
-        );
+        TextView nombreDeUsuario = (TextView)hView.findViewById(R.id.under_pp);
+        nombreDeUsuario.setText(ProveedorDeRecursos.obtenerUsuario(this));
+        nombreDeUsuario.setOnClickListener(new ActualizaTextoDesdeEntradaLibre(this, ProveedorDeRecursos.ACTUALIZACION_DE_NOMBRE,ProveedorDeRecursos.obtenerUsuario(this), "Con éste nombre se firmarán los documentos"));
+        ((TextView)hView.findViewById(R.id.textView)).setText(ProveedorDeRecursos.obtenerEmail(this));
     }
 
     @Override

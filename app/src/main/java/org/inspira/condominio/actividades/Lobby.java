@@ -78,7 +78,7 @@ public class Lobby extends AppCompatActivity {
             }
         }
         if(requestCode == VISOR_PDF){
-            adapter.borrarArchivos();
+            try{ adapter.borrarArchivos(); }catch(NullPointerException e){ e.printStackTrace(); }
         }
     }
 
