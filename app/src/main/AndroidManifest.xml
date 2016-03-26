@@ -30,6 +30,9 @@
             android:name=".actividades.SplashScreen"
             android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen" />
         <activity
+            android:name=".admin.habitantes.ControlDeHabitantes"
+            android:label="@string/habitantes" />
+        <activity
             android:name=".actividades.Preparacion"
             android:label="@string/registro" />
         <activity
@@ -85,7 +88,7 @@
         <activity
             android:name=".actividades.Configuraciones"
             android:label="@string/title_activity_configuraciones"
-            android:theme="@style/AppTheme"
+            android:theme="@style/MyAppTheme"
             android:parentActivityName=".admin.CentralPoint">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

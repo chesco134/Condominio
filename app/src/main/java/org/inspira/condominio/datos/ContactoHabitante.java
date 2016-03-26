@@ -6,7 +6,7 @@ package org.inspira.condominio.datos;
 public class ContactoHabitante extends ModeloDeDatos {
 
     private String contacto;
-    private Habitante habitante;
+    private int idHabitante;
 
     public ContactoHabitante() {
     }
@@ -23,11 +23,11 @@ public class ContactoHabitante extends ModeloDeDatos {
         this.contacto = contacto;
     }
 
-    public Habitante getHabitante() {
-        return habitante;
+    public int getIdHabitante() {
+        return idHabitante;
     }
 
-    public void setHabitante(Habitante habitante) {
-        this.habitante = habitante;
+    public void setIdHabitante(int idHabitante) {
+        this.idHabitante = idHabitante;
     }
 }

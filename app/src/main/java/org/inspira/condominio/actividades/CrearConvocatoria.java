@@ -13,7 +13,6 @@ import org.inspira.condominio.datos.Convocatoria;
 import org.inspira.condominio.datos.PuntoOdD;
 import org.inspira.condominio.dialogos.EntradaTexto;
 import org.inspira.condominio.dialogos.Informacion;
-import org.inspira.condominio.dialogos.ProveedorSnackBar;
 import org.inspira.condominio.dialogos.ProveedorToast;
 import org.inspira.condominio.fragmentos.DatosDeEncabezado;
 import org.inspira.condominio.fragmentos.OrdenDelDia;
@@ -27,7 +26,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.List;
 
 public class CrearConvocatoria extends AppCompatActivity {
@@ -200,7 +198,7 @@ public class CrearConvocatoria extends AppCompatActivity {
                     });
                 }catch(IOException e){
                     e.printStackTrace();
-                    MuestraSnackbarDesdeHilo.muestraMensaje(CrearConvocatoria.this,findViewById(R.id.formato_convocatoria_contenedor), getString(R.string.crear_convocatoria_error_pdf));
+                    MuestraMensajeDesdeHilo.muestraMensaje(CrearConvocatoria.this, findViewById(R.id.formato_convocatoria_contenedor), getString(R.string.crear_convocatoria_error_pdf));
                 }
             }
         }.start();
@@ -262,7 +260,7 @@ public class CrearConvocatoria extends AppCompatActivity {
 
         @Override
         public void problemasDeConexion(Thread t) {
-            MuestraSnackbarDesdeHilo.muestraMensaje(CrearConvocatoria.this, findViewById(R.id.preparacion_main_container), "Hecho");
+            MuestraMensajeDesdeHilo.muestraMensaje(CrearConvocatoria.this, findViewById(R.id.preparacion_main_container), "Hecho");
         }
 
         private int obtenerIdConvocatoria(String respuesta) {

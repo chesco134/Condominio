@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import org.inspira.condominio.actividades.ProveedorDeRecursos;
 import org.inspira.condominio.datos.CondominioBD;
 import org.inspira.condominio.datos.Torre;
 
@@ -23,7 +24,7 @@ public class AccionesTablaTorre {
         values.put("cantidad_de_pisos", torre.getCantidadDePisos());
         values.put("cantidad_de_focos", torre.getCantidadDeFocos());
         values.put("cantidad_de_departamentos", torre.getCantidadDeDepartamentos());
-        //values.put("idCondominio", torre.getcondominio());
+        values.put("idAdministracion", torre.getIdAdministracion());
         CondominioBD condominioBD = new CondominioBD(context);
         SQLiteDatabase writable = condominioBD.getWritableDatabase();
         writable.insert("Torre", "---", values);
@@ -36,10 +37,10 @@ public class AccionesTablaTorre {
         return idTorre;
     }
 
-    public static Torre[] obtenerTorres(Context context, int condominio){
+    public static Torre[] obtenerTorres(Context context, int idAdministracion){
         SQLiteDatabase db = new CondominioBD(context).getReadableDatabase();
-        Cursor c = db.rawQuery("select * from Torre where idCondominio = CAST(? as INTEGER)",
-                new String[]{String.valueOf(condominio)});
+        Cursor c = db.rawQuery("select * from Torre where idAdministracion = CAST(? as INTEGER)",
+                new String[]{String.valueOf(idAdministracion)});
         List<Torre> torres = new ArrayList<>();
         Torre torre;
         while(c.moveToNext()){
@@ -55,5 +56,23 @@ public class AccionesTablaTorre {
         c.close();
         db.close();
         return torres.toArray(new Torre[1]);
+    }
+
+    public static int obtenerIdTorre(Context context, String nombre){
+        SQLiteDatabase db = new CondominioBD(context).getReadableDatabase();
+        Cursor c = db.rawQuery("select idTorre from Torre where nombre like ?", new String[]{nombre});
+        int idTorre = c.moveToFirst() ? c.getInt(0) : -1;
+        c.close();
+        db.close();
+        return idTorre;
+    }
+
+    public static boolean existenTorres(Context context) {
+        SQLiteDatabase db = new CondominioBD(context).getReadableDatabase();
+        Cursor c = db.rawQuery("select idTorre from Torre where idAdministracion = CAST(? as INTEGER)", new String[]{String.valueOf(ProveedorDeRecursos.obtenerIdAdministracion(context))});
+        boolean hayTorres = c.moveToFirst();
+        c.close();
+        db.close();
+        return hayTorres;
     }
 }

@@ -37,8 +37,8 @@ public class DialogoDeConsultaSimple extends DialogFragment {
             builder.setMessage(mensaje);
         else
             builder.setMessage("¿Podemos registrar su ubicación geográfica?");
-        builder.setPositiveButton("Sí", new AccionPositiva());
-        builder.setNegativeButton("No", new AccionNegativa());
+        builder.setPositiveButton("Aceptar", new AccionPositiva());
+        builder.setNegativeButton("Cancelar", new AccionNegativa());
         return builder.create();
     }
 

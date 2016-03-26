@@ -25,6 +25,8 @@ import org.inspira.condominio.actividades.ProveedorDeRecursos;
 import org.inspira.condominio.actividades.SplashScreen;
 import org.inspira.condominio.admin.formatos.Formatos;
 import org.inspira.condominio.admin.formatos.FormatosLobby;
+import org.inspira.condominio.admin.habitantes.ControlDeHabitantes;
+import org.inspira.condominio.admon.AccionesTablaTorre;
 import org.inspira.condominio.admon.NuevoCondominioActivity;
 import org.inspira.condominio.datos.CondominioBD;
 import org.inspira.condominio.dialogos.ProveedorSnackBar;
@@ -104,8 +106,7 @@ public class CentralPoint extends AppCompatActivity
     }
 
     private void launchRegitraNuevoHabitante() {
-        ProveedorSnackBar
-                .muestraBarraDeBocados(findViewById(R.id.hello_world), "Sitio en construcción");
+        startActivity(new Intent(this, ControlDeHabitantes.class));
     }
 
     private void launchSplash() {

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <EditText
+        style="@style/MyEditText"
+        android:id="@+id/formato_registro_de_habitante_nombres"
+        android:inputType="text"
+        android:imeOptions="actionNext"
+        android:hint="@string/formato_registro_de_habitante_nombres"/>
+    <TextView
+        style="@style/MyTextView"
+        android:id="@+id/formato_registro_de_habitante_piso_nombres"
+        android:layout_below="@+id/formato_registro_de_habitante_nombres"
+        android:layout_alignStart="@+id/formato_registro_de_habitante_nombres"
+        android:layout_alignLeft="@+id/formato_registro_de_habitante_nombres"
+        android:layout_alignEnd="@+id/formato_registro_de_habitante_nombres"
+        android:layout_alignRight="@+id/formato_registro_de_habitante_nombres"/>
+
+    <EditText
+        style="@style/MyEditText"
+        android:id="@+id/formato_registro_de_habitante_ap_paterno"
+        android:layout_below="@+id/formato_registro_de_habitante_nombres"
+        android:inputType="text"
+        android:imeOptions="actionNext"
+        android:hint="@string/formato_registro_de_habitante_ap_paterno"/>
+    <TextView
+        style="@style/MyTextView"
+        android:id="@+id/formato_registro_de_habitante_piso_ap_paterno"
+        android:layout_below="@id/formato_registro_de_habitante_ap_paterno"
+        android:layout_alignStart="@+id/formato_registro_de_habitante_ap_paterno"
+        android:layout_alignLeft="@+id/formato_registro_de_habitante_ap_paterno"
+        android:layout_alignEnd="@+id/formato_registro_de_habitante_ap_paterno"
+        android:layout_alignRight="@+id/formato_registro_de_habitante_ap_paterno"/>
+
+    <EditText
+        style="@style/MyEditText"
+        android:id="@+id/formato_registro_de_habitante_ap_materno"
+        android:layout_below="@+id/formato_registro_de_habitante_ap_paterno"
+        android:inputType="text"
+        android:imeOptions="actionNext"
+        android:hint="@string/formato_registro_de_habitante_ap_materno"/>
+    <TextView
+        style="@style/MyTextView"
+        android:id="@+id/formato_registro_de_habitante_piso_ap_materno"
+        android:layout_below="@+id/formato_registro_de_habitante_ap_materno"
+        android:layout_alignLeft="@+id/formato_registro_de_habitante_ap_materno"
+        android:layout_alignStart="@+id/formato_registro_de_habitante_ap_materno"
+        android:layout_alignEnd="@+id/formato_registro_de_habitante_ap_materno"
+        android:layout_alignRight="@+id/formato_registro_de_habitante_ap_materno"/>
+
+    <EditText
+        style="@style/MyEditText"
+        android:id="@+id/formato_registro_de_habitante_nombre_departamento"
+        android:layout_below="@+id/formato_registro_de_habitante_ap_materno"
+        android:layout_inputType="text"
+        android:imeOptions="actionDone"
+        android:hint="@string/formato_registro_de_habitante_nombre_departamento"/>
+    <TextView
+        style="@style/MyTextView"
+        android:id="@+id/formato_registro_de_habitante_piso_nombre_departamento"
+        android:layout_below="@+id/formato_registro_de_habitante_nombre_departamento"
+        android:layout_alignLeft="@+id/formato_registro_de_habitante_nombre_departamento"
+        android:layout_alignStart="@+id/formato_registro_de_habitante_nombre_departamento"
+        android:layout_alignEnd="@+id/formato_registro_de_habitante_nombre_departamento"
+        android:layout_alignRight="@+id/formato_registro_de_habitante_nombre_departamento"/>
+
+
+    <TextView
+        style="@style/MyEditText"
+        android:id="@+id/formato_registro_de_habitante_torre"
+        android:layout_below="@+id/formato_registro_de_habitante_nombre_departamento"
+        android:hint="@string/formato_registro_de_habitante_torre"/>
+    <TextView
+        style="@style/MyTextView"
+        android:id="@+id/formato_registro_de_habitante_piso_torre"
+        android:layout_below="@+id/formato_registro_de_habitante_torre"
+        android:layout_alignStart="@+id/formato_registro_de_habitante_torre"
+        android:layout_alignLeft="@+id/formato_registro_de_habitante_torre"
+        android:layout_alignEnd="@+id/formato_registro_de_habitante_torre"
+        android:layout_alignRight="@+id/formato_registro_de_habitante_torre"
+        android:layout_marginBottom="12sp"/>
+</RelativeLayout>

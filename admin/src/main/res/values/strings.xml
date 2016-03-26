@@ -162,4 +162,12 @@
     <string name="formulario_registro_administracion_intervalo_de_transparencia">Tipo de administración</string>
     <string name="formulario_registro_administracion_texto_hecho">Hecho</string>
     <string name="formulario_registro_administracion_indicaciones_campos_opcionales">La administración posee:</string>
+    <string name="menu_habitantes_nuevo_habitante">Nuevo habitante</string>
+    <string name="menu_habitantes_remover_habitante">Remover habitante</string>
+    <string name="menu_habitantes_filtrar_habitantes">Torres</string>
+    <string name="formato_registro_de_habitante_nombre_departamento">Departamento</string>
+    <string name="formato_registro_de_habitante_ap_materno">Apellido materno</string>
+    <string name="formato_registro_de_habitante_ap_paterno">Apellido paterno</string>
+    <string name="formato_registro_de_habitante_nombres">Nombre(s)</string>
+    <string name="formato_registro_de_habitante_torre">Torre</string>
 </resources>

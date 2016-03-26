@@ -20,6 +20,7 @@ public class ProveedorDeRecursos {
     public static final int REGISTRO_DE_USUARIO = 15;
     public static final int SOLICITAR_CONTENIDO_CONDOMINIO = 16;
     public static final int ACTUALIZACION_DE_NOMBRE = 17;
+    public static final int REGISTRO_DE_HABITANTE = 18;
 
     public static int obtenerColorDeError(Context context){
         return context.getResources().getColor(R.color.error);

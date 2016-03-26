@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:background="#1e1e1e">
+
+    <ImageView
+        android:layout_width="180dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="20sp"
+        android:layout_marginStart="20sp"
+        android:layout_marginLeft="20sp"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/abbit_raw"/>
+
+    <TextView
+        android:id="@+id/configuraciones_texto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20sp"
+        android:layout_marginLeft="20sp"
+        android:layout_marginTop="20sp"
+        android:textColor="@color/white"
+        android:textSize="42sp"
+        android:text="Queremos que vivas bien"/>
+
+</LinearLayout>

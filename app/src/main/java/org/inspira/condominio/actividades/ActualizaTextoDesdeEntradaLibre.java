@@ -89,8 +89,8 @@ public class ActualizaTextoDesdeEntradaLibre implements View.OnClickListener, En
                 }
 
                 private void muestraMensaje(String mensaje) {
-                    MuestraSnackbarDesdeHilo.muestraMensaje(
-                            (AppCompatActivity)context,
+                    MuestraMensajeDesdeHilo.muestraMensaje(
+                            (AppCompatActivity) context,
                             ActualizaTextoDesdeEntradaLibre.this.view,
                             mensaje);
                 }
