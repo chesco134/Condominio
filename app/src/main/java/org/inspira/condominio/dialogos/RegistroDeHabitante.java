@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -17,6 +18,7 @@ import org.inspira.condominio.actividades.EfectoDeEnfoque;
 import org.inspira.condominio.actividades.MuestraMensajeDesdeHilo;
 import org.inspira.condominio.actividades.ProveedorDeRecursos;
 import org.inspira.condominio.actividades.Verificador;
+import org.inspira.condominio.admin.habitantes.ControlDeHabitantes;
 import org.inspira.condominio.admon.AccionesTablaHabitante;
 import org.inspira.condominio.admon.AccionesTablaTorre;
 import org.inspira.condominio.datos.Habitante;
@@ -35,10 +37,11 @@ public class RegistroDeHabitante extends DialogFragment {
     private EditText apMaterno;
     private EditText nombreDepartamento;
     private TextView torre;
-    private String[] nombresTorre;
+    private Context context;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState){
+        context = getContext();
         View rootView = ((LayoutInflater)getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.formato_registro_de_habitante, null, false);
         nombres = (EditText) rootView.findViewById(R.id.formato_registro_de_habitante_nombres);
         nombres.setOnFocusChangeListener(new EfectoDeEnfoque(getActivity(),rootView.findViewById(R.id.formato_registro_de_habitante_piso_nombres)));
@@ -50,7 +53,7 @@ public class RegistroDeHabitante extends DialogFragment {
         nombreDepartamento.setOnFocusChangeListener(new EfectoDeEnfoque(getActivity(), rootView.findViewById(R.id.formato_registro_de_habitante_piso_nombre_departamento)));
         torre = (TextView) rootView.findViewById(R.id.formato_registro_de_habitante_torre);
         Torre[] torres = AccionesTablaTorre.obtenerTorres(getContext(), ProveedorDeRecursos.obtenerIdAdministracion(getContext()));
-        nombresTorre = new String[torres.length];
+        String[] nombresTorre = new String[torres.length];
         int i=0;
         for(Torre torre : torres)
             nombresTorre[i++] = torre.getNombre();
@@ -65,7 +68,7 @@ public class RegistroDeHabitante extends DialogFragment {
                         }
                     }
                 })
-                .setNegativeButton("cancelar", new DialogInterface.OnClickListener() {
+                .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {}
                 })
@@ -81,7 +84,7 @@ public class RegistroDeHabitante extends DialogFragment {
                 String respuesta = ((ContactoConServidor)t).getResponse();
                 if(validaRespuesta(respuesta)){
                     guardaEnBaseDeDatos(obtenerIdDeHabitante(respuesta));
-                    MuestraMensajeDesdeHilo.muestraToast(getActivity(), "Hecho");
+                    MuestraMensajeDesdeHilo.muestraToast((AppCompatActivity)context, "Hecho");
                 }
             }
 
@@ -115,12 +118,13 @@ public class RegistroDeHabitante extends DialogFragment {
 
     private void guardaEnBaseDeDatos(int idHabitante) {
         Habitante habitante = new Habitante(idHabitante);
-        habitante.setIdTorre(AccionesTablaTorre.obtenerIdTorre(getContext(), torre.getText().toString()));
+        habitante.setIdTorre(AccionesTablaTorre.obtenerIdTorre(context, torre.getText().toString()));
         habitante.setNombres(nombres.getText().toString().trim());
         habitante.setApPaterno(apPaterno.getText().toString().trim());
         habitante.setApMaterno(apMaterno.getText().toString().trim());
         habitante.setNombreDepartamento(nombreDepartamento.getText().toString().trim());
-        AccionesTablaHabitante.agregarHabitante(getContext(), habitante);
+        AccionesTablaHabitante.agregarHabitante(context, habitante);
+        ((ControlDeHabitantes)context).agregarHabitante(habitante);
     }
 
     private String armarMensaje() {
@@ -132,7 +136,7 @@ public class RegistroDeHabitante extends DialogFragment {
             json.put("ap_paterno", apPaterno.getText().toString().trim());
             json.put("ap_materno", apMaterno.getText().toString().trim());
             json.put("nombre_departamento", nombreDepartamento.getText().toString().trim());
-            json.put("idTorre", AccionesTablaTorre.obtenerIdTorre(getContext(), torre.getText().toString()));
+            json.put("idTorre", AccionesTablaTorre.obtenerIdTorre(context, torre.getText().toString()));
             contenidoMensaje = json.toString();
         }catch(JSONException e){
             e.printStackTrace();

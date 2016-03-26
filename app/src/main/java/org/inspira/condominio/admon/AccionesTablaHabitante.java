@@ -55,7 +55,7 @@ public class AccionesTablaHabitante {
         Cursor c = db.rawQuery("select * from " +
                 "Habitante join " +
                 "(select idTorre from Torre join Usuario using(idAdministracion) where email like ?) a " +
-                "using idTorre order by ap_paterno", new String[]{ProveedorDeRecursos.obtenerEmail(context)});
+                "using(idTorre) order by ap_paterno", new String[]{ProveedorDeRecursos.obtenerEmail(context)});
         List<Habitante> habitantes = new ArrayList<>();
         Habitante habitante;
         while(c.moveToNext()){

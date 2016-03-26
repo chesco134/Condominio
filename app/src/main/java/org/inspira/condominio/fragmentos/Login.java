@@ -20,12 +20,16 @@ import org.inspira.condominio.actividades.ProveedorDeRecursos;
 import org.inspira.condominio.admin.CentralPoint;
 import org.inspira.condominio.admon.AccionesTablaAdministracion;
 import org.inspira.condominio.admon.AccionesTablaCondominio;
+import org.inspira.condominio.admon.AccionesTablaHabitante;
+import org.inspira.condominio.admon.AccionesTablaTorre;
 import org.inspira.condominio.admon.AccionesTablaUsuario;
 import org.inspira.condominio.datos.Administracion;
 import org.inspira.condominio.datos.Condominio;
 import org.inspira.condominio.datos.CondominioBD;
 import org.inspira.condominio.datos.Convocatoria;
+import org.inspira.condominio.datos.Habitante;
 import org.inspira.condominio.datos.PuntoOdD;
+import org.inspira.condominio.datos.Torre;
 import org.inspira.condominio.dialogos.ProveedorSnackBar;
 import org.inspira.condominio.networking.LoginConnection;
 import org.inspira.condominio.networking.ObtencionDeConvocatorias;
@@ -180,6 +184,41 @@ public class Login extends Fragment {
         }
     }
 
+    private void setTorresInfo(JSONObject json){
+        try{
+            JSONArray torres = json.getJSONArray("Torres");
+            JSONObject jtorre;
+            Torre torre;
+            JSONArray habitantes;
+            JSONObject jhabitante;
+            Habitante habitante;
+            for(int i=0; i<torres.length(); i++){
+                jtorre = torres.getJSONObject(i);
+                torre = new Torre(jtorre.getInt("idTorre"));
+                torre.setNombre(jtorre.getString("nombre"));
+                torre.setPoseeElevador(jtorre.getInt("posee_elevador") != 0);
+                torre.setCantidadDePisos(jtorre.getInt("cantidad_de_pisos"));
+                torre.setCantidadDeFocos(jtorre.getInt("cantidad_de_focos"));
+                torre.setCantidadDeDepartamentos(jtorre.getInt("cantidad_de_departamentos"));
+                torre.setIdAdministracion(jtorre.getInt("idAdministracion"));
+                AccionesTablaTorre.agregarTorre(getContext(), torre);
+                habitantes = jtorre.getJSONArray("Habitantes");
+                for(int j=0; j<habitantes.length(); j++){
+                    jhabitante = habitantes.getJSONObject(j);
+                    habitante = new Habitante(jhabitante.getInt("idHabitante"));
+                    habitante.setNombres(jhabitante.getString("nombres"));
+                    habitante.setApPaterno(jhabitante.getString("ap_paterno"));
+                    habitante.setApMaterno(jhabitante.getString("ap_materno"));
+                    habitante.setNombreDepartamento(jhabitante.getString("nombre_departamento"));
+                    habitante.setIdTorre(torre.getId());
+                    AccionesTablaHabitante.agregarHabitante(getContext(), habitante);
+                }
+            }
+        }catch(JSONException e){
+            e.printStackTrace();
+        }
+    }
+
     private void setUserInfo(JSONObject json){
         try{
             SharedPreferences.Editor editor = getActivity().getSharedPreferences(CentralPoint.class.getName(), Context.MODE_PRIVATE).edit();
@@ -222,6 +261,7 @@ public class Login extends Fragment {
         public void obtencionCorrecta(JSONObject json) {
             setCondominio(usrInfo);
             setAdministracion(usrInfo);
+            setTorresInfo(usrInfo);
             setUserInfo(usrInfo);
             setConvocatorias(json);
             getActivity().setResult(Activity.RESULT_OK);

@@ -11,6 +11,7 @@ import org.inspira.condominio.R;
 import org.inspira.condominio.admon.AccionesTablaHabitante;
 import org.inspira.condominio.datos.Habitante;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -72,6 +73,7 @@ public class AdaptadorDeHabitantes extends BaseAdapter {
     }
 
     private void cargarListaDeHabitantes(){
+        habitantes = new ArrayList<>();
         Collections.addAll(habitantes, AccionesTablaHabitante.obtenerHabitantes(context));
     }
 }

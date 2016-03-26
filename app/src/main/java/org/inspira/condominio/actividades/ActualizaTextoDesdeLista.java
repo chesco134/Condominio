@@ -36,8 +36,10 @@ public class ActualizaTextoDesdeLista implements View.OnClickListener {
                 ((TextView) v).setTextColor(Color.BLACK);
             }
         });
-
-        dlista.setStringArrayRes(stringArrayRes);
+        if(elementos != null)
+            dlista.setElementos(elementos);
+        else
+            dlista.setStringArrayRes(stringArrayRes);
         dlista.setTitulo(titulo);
         dlista.show(((AppCompatActivity)v.getContext()).getSupportFragmentManager(), "Seleccionar elemento");
     }

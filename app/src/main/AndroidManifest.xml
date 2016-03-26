@@ -31,7 +31,8 @@
             android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen" />
         <activity
             android:name=".admin.habitantes.ControlDeHabitantes"
-            android:label="@string/habitantes" />
+            android:label="@string/habitantes"
+            android:theme="@style/MyAppTheme"/>
         <activity
             android:name=".actividades.Preparacion"
             android:label="@string/registro" />

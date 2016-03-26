@@ -9,6 +9,7 @@ import android.widget.EditText;
 
 import org.inspira.condominio.R;
 import org.inspira.condominio.actividades.EfectoDeEnfoque;
+import org.inspira.condominio.actividades.MuestraMensajeDesdeHilo;
 import org.inspira.condominio.actividades.ProveedorDeRecursos;
 import org.inspira.condominio.actividades.Verificador;
 import org.inspira.condominio.datos.Torre;
@@ -37,7 +38,7 @@ public class RegistroDeTorre extends AppCompatActivity {
         numeroDeFocos = (EditText) findViewById(R.id.formulario_torre_cantidad_de_focos);
         numeroDeDepartamentos = (EditText) findViewById(R.id.formulario_torre_cantidad_de_departamentos);
         cuentaConElevador = (SwitchCompat) findViewById(R.id.formulario_torre_posee_elevador);
-        nombre.setOnFocusChangeListener(new EfectoDeEnfoque(this, findViewById(R.id.formato_de_egreso_piso_nombre)));
+        nombre.setOnFocusChangeListener(new EfectoDeEnfoque(this, findViewById(R.id.formulario_torre_piso_nombre)));
         numeroDePisos
                 .setOnFocusChangeListener(new EfectoDeEnfoque(this, findViewById(R.id.formulario_torre_piso_cantidad_de_pisos)));
         numeroDeFocos
@@ -112,6 +113,7 @@ public class RegistroDeTorre extends AppCompatActivity {
         torre.setCantidadDePisos(Integer.parseInt(numeroDePisos.getText().toString().trim()));
         torre.setCantidadDeDepartamentos(Integer.parseInt(numeroDeDepartamentos.getText().toString().trim()));
         torre.setCantidadDeFocos(Integer.parseInt(numeroDeFocos.getText().toString().trim()));
+        AccionesTablaTorre.agregarTorre(this, torre);
     }
 
     private boolean validaCampos(){
@@ -127,8 +129,23 @@ public class RegistroDeTorre extends AppCompatActivity {
         @Override
         public void resultadoSatisfactorio(Thread t) {
             String contenido = ((ContactoConServidor)t).getResponse();
-            guardarCamposEnBaseDeDatos(obtenerIdTorre(contenido));
-            iniciaRegistroDeAdministracion();
+            if(verificarRespuesta(contenido)) {
+                guardarCamposEnBaseDeDatos(obtenerIdTorre(contenido));
+                setResult(RESULT_OK);
+                finish();
+            }else{
+                MuestraMensajeDesdeHilo.muestraMensaje(RegistroDeTorre.this, nombre, "Servicio por el momento no disponible");
+            }
+        }
+
+        private boolean verificarRespuesta(String contenido) {
+            boolean valido = false;
+            try{
+                valido = new JSONObject(contenido).getBoolean("content");
+            }catch(JSONException e){
+                e.printStackTrace();
+            }
+            return valido;
         }
 
         private int obtenerIdTorre(String contenido) {
@@ -143,18 +160,7 @@ public class RegistroDeTorre extends AppCompatActivity {
 
         @Override
         public void problemasDeConexion(Thread t) {
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    ProveedorSnackBar
-                            .muestraBarraDeBocados(nombre, "Servicio termporalmente no disponible");
-                }
-            });
+            MuestraMensajeDesdeHilo.muestraMensaje(RegistroDeTorre.this, nombre, "Servicio temporalmente no disponible");
         }
-    }
-
-    private void iniciaRegistroDeAdministracion() {
-        startActivity(new Intent(this, RegistroAdministracion.class));
-        finish();
     }
 }
