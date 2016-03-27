@@ -133,7 +133,7 @@ public class RegistroDeTorre extends AppCompatActivity {
         @Override
         public void resultadoSatisfactorio(Thread t) {
             String contenido = ((ContactoConServidor)t).getResponse();
-            if(verificarRespuesta(contenido)) {
+            if(CompruebaCamposJSON.validaContenido(contenido)) {
                 Torre torre = guardarCamposEnBaseDeDatos(obtenerIdTorre(contenido));
                 Intent i = new Intent();
                 i.putExtra("torre", torre);
@@ -143,17 +143,6 @@ public class RegistroDeTorre extends AppCompatActivity {
                 MuestraMensajeDesdeHilo.muestraMensaje(RegistroDeTorre.this, nombre, "Servicio por el momento no disponible");
             }
         }
-
-        private boolean verificarRespuesta(String contenido) {
-            boolean valido = false;
-            try{
-                valido = new JSONObject(contenido).getBoolean("content");
-            }catch(JSONException e){
-                e.printStackTrace();
-            }
-            return valido;
-        }
-
         private int obtenerIdTorre(String contenido) {
             int idTorre = -1;
             try{

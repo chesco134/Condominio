@@ -20,6 +20,7 @@ public class AccionesTablaTorre {
 
     public static int agregarTorre(Context context, Torre torre){
         ContentValues values = new ContentValues();
+        values.put("idTorre", torre.getId());
         values.put("nombre", torre.getNombre());
         values.put("posee_elevador", torre.isPoseeElevador());
         values.put("cantidad_de_pisos", torre.getCantidadDePisos());

@@ -22,7 +22,7 @@ import org.inspira.condominio.R;
 import org.inspira.condominio.actividades.MuestraMensajeDesdeHilo;
 import org.inspira.condominio.actividades.ProveedorDeRecursos;
 import org.inspira.condominio.datos.Torre;
-import org.inspira.condominio.dialogos.DialogoDeConsultaSimple;
+import org.inspira.condominio.dialogos.DialogoDeLista;
 import org.inspira.condominio.dialogos.EntradaTexto;
 import org.inspira.condominio.dialogos.RemocionElementos;
 import org.inspira.condominio.fragmentos.OrdenDelDia;
@@ -30,6 +30,9 @@ import org.inspira.condominio.networking.ContactoConServidor;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by jcapiz on 26/03/16.
@@ -52,6 +55,28 @@ public class FragmentoSelectorDeTorre extends Fragment {
         listaDeTorres = (ListView) rootView.findViewById(R.id.administrador_de_torres_lista_torres);
         torreActual = (TextView) rootView.findViewById(R.id.administrador_de_torres_torre_actual);
         torreActual.setText(AccionesTablaTorre.obtenerTorre(getContext(), ProveedorDeRecursos.obtenerIdTorreActual(getContext())).getNombre());
+        Torre[] torres = AccionesTablaTorre.obtenerTorres(getContext(), ProveedorDeRecursos.obtenerIdAdministracion(getContext()));
+        final String[] elementos = new String[torres.length];
+        int i=0;
+        for(Torre torre : torres){
+            elementos[i++] = torre.getNombre();
+        }
+        torreActual.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogoDeLista ddl = new DialogoDeLista();
+                ddl.setTitulo("Cambio de Torre");
+                ddl.setElementos(elementos);
+                ddl.setAccion(new DialogoDeLista.AccionDialogoDeLista() {
+                    @Override
+                    public void objetoSeleccionado(String texto) {
+                        torreActual.setText(texto);
+                        ProveedorDeRecursos.guardaRecursoInt(getContext(), "idTorre", AccionesTablaTorre.obtenerIdTorre(getContext(), texto));
+                    }
+                });
+                ddl.show(getActivity().getSupportFragmentManager(), "Cambiar Torre");
+            }
+        });
         setHasOptionsMenu(true);
         return rootView;
     }
@@ -148,10 +173,9 @@ public class FragmentoSelectorDeTorre extends Fragment {
 
     private void setupData(){
         final Torre[] torres = AccionesTablaTorre.obtenerTorres(getContext(), ProveedorDeRecursos.obtenerIdAdministracion(getContext()));
-        String[] nombres = new String[torres.length];
-        int i=0;
+        List<String> nombres = new ArrayList<>();
         for(Torre torre : torres)
-            nombres[i++] = torre.getNombre();
+            nombres.add(torre.getNombre());
         adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, nombres);
         listaDeTorres.setAdapter(adapter);
         listaDeTorres.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -163,22 +187,8 @@ public class FragmentoSelectorDeTorre extends Fragment {
         listaDeTorres.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
-                DialogoDeConsultaSimple ddcs = new DialogoDeConsultaSimple();
-                Bundle args = new Bundle();
-                args.putString("mensaje", "¿Desea trabajar con la torre seleccionada?");
-                ddcs.setArguments(args);
-                ddcs.setAgenteDeInteraccion(new DialogoDeConsultaSimple.AgenteDeInteraccionConResultado() {
-                    @Override
-                    public void clickSobreAccionPositiva(DialogFragment dialogo) {
-                        torreActual.setText(adapter.getItem(position));
-                        ProveedorDeRecursos.guardaRecursoInt(getContext(), "idTorre", torres[position].getId());
-                    }
-
-                    @Override
-                    public void clickSobreAccionNegativa(DialogFragment dialogo) {
-                    }
-                });
-                ddcs.show(getActivity().getSupportFragmentManager(), "Colocar Torre");
+                torreActual.setText(adapter.getItem(position));
+                ProveedorDeRecursos.guardaRecursoInt(getContext(), "idTorre", torres[position].getId());
                 return true;
             }
         });

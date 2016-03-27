@@ -3,6 +3,7 @@ package org.inspira.condominio.admin.habitantes;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -149,6 +150,10 @@ public class ControlDeHabitantes extends AppCompatActivity {
     @Override
     protected void onResume(){
         super.onResume();
+        ActionBar bar = getSupportActionBar();
+        String currentTitle = "Habitantes ";
+        currentTitle = currentTitle.concat(AccionesTablaTorre.obtenerTorre(this, ProveedorDeRecursos.obtenerIdTorreActual(this)).getNombre());
+        bar.setTitle(currentTitle);
         if(!AccionesTablaTorre.existenTorres(this)){
             mostrarMensajeDeRegistroDeTorres();
         }

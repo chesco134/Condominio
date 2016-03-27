@@ -124,7 +124,8 @@ public class RegistroDeHabitante extends DialogFragment {
         habitante.setApMaterno(apMaterno.getText().toString().trim());
         habitante.setNombreDepartamento(nombreDepartamento.getText().toString().trim());
         AccionesTablaHabitante.agregarHabitante(context, habitante);
-        ((ControlDeHabitantes)context).agregarHabitante(habitante);
+        if(habitante.getIdTorre() == ProveedorDeRecursos.obtenerIdTorreActual(context))
+            ((ControlDeHabitantes)context).agregarHabitante(habitante);
     }
 
     private String armarMensaje() {
