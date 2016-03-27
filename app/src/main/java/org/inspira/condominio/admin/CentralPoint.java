@@ -80,7 +80,7 @@ public class CentralPoint extends AppCompatActivity
         View hView = navigationView.getHeaderView(navigationView.getHeaderCount()-1);
         TextView nombreDeUsuario = (TextView)hView.findViewById(R.id.under_pp);
         nombreDeUsuario.setText(ProveedorDeRecursos.obtenerUsuario(this));
-        nombreDeUsuario.setOnClickListener(new ActualizaTextoDesdeEntradaLibre(this, ProveedorDeRecursos.ACTUALIZACION_DE_NOMBRE,ProveedorDeRecursos.obtenerUsuario(this), "Con éste nombre se firmarán los documentos"));
+        nombreDeUsuario.setOnClickListener(new ActualizaTextoDesdeEntradaLibre(this, ProveedorDeRecursos.ACTUALIZACION_DE_NOMBRE, ProveedorDeRecursos.obtenerUsuario(this), "Con éste nombre se firmarán los documentos"));
         ((TextView)hView.findViewById(R.id.textView)).setText(ProveedorDeRecursos.obtenerEmail(this));
     }
 
@@ -129,12 +129,18 @@ public class CentralPoint extends AppCompatActivity
             launchAdministracion();
         } else if (id == R.id.nav_accidentes) {
             launchAccidentes();
+        } else if(id == R.id.nav_recursos_humanos){
+            launchRecursosHumanos();
         } else if (id == R.id.nav_configuracion) {
             launchConfiguracion();
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void launchRecursosHumanos() {
+
     }
 
     private void launchConvocatorias(){
