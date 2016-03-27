@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import org.inspira.condominio.R;
+import org.inspira.condominio.actividades.ProveedorDeRecursos;
 import org.inspira.condominio.admon.AccionesTablaHabitante;
 import org.inspira.condominio.datos.Habitante;
 
@@ -34,7 +35,7 @@ public class AdaptadorDeHabitantes extends BaseAdapter {
     }
 
     public Habitante removerHabitante(int posicion){
-        Habitante habitante = (Habitante)habitantes.get(posicion);
+        Habitante habitante = habitantes.remove(posicion);
         notifyDataSetChanged();
         return habitante;
     }
@@ -57,23 +58,19 @@ public class AdaptadorDeHabitantes extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View view;
-        if(convertView != null)
-            view = convertView;
-        else{
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = inflater.inflate(R.layout.entrada_lista_habitante, parent, false);
-            Habitante habitante = habitantes.get(position);
-            String nombreHabitante = habitante.getApPaterno() + " " + habitante.getApMaterno() + " " + habitante.getNombres();
-            ((TextView)view.findViewById(R.id.entrada_lista_habitante_nombre))
-                    .setText(nombreHabitante);
-            ((TextView) view.findViewById(R.id.entrada_lista_habitante_departamento))
-                    .setText(habitante.getNombreDepartamento());
-        }
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        view = inflater.inflate(R.layout.entrada_lista_habitante, parent, false);
+        Habitante habitante = habitantes.get(position);
+        String nombreHabitante = habitante.getApPaterno() + " " + habitante.getApMaterno() + " " + habitante.getNombres();
+        ((TextView)view.findViewById(R.id.entrada_lista_habitante_nombre))
+                .setText(nombreHabitante);
+        ((TextView) view.findViewById(R.id.entrada_lista_habitante_departamento))
+                .setText(habitante.getNombreDepartamento());
         return view;
     }
 
     private void cargarListaDeHabitantes(){
         habitantes = new ArrayList<>();
-        Collections.addAll(habitantes, AccionesTablaHabitante.obtenerHabitantes(context));
+        Collections.addAll(habitantes, AccionesTablaHabitante.obtenerHabitantes(context, ProveedorDeRecursos.obtenerIdTorreActual(context)));
     }
 }

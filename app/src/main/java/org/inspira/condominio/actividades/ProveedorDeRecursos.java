@@ -2,12 +2,14 @@ package org.inspira.condominio.actividades;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.text.Editable;
 import android.widget.TextView;
 
 import org.inspira.condominio.R;
 import org.inspira.condominio.admin.CentralPoint;
+import org.inspira.condominio.datos.CondominioBD;
 
 /**
  * Created by jcapiz on 18/03/16.
@@ -21,6 +23,9 @@ public class ProveedorDeRecursos {
     public static final int SOLICITAR_CONTENIDO_CONDOMINIO = 16;
     public static final int ACTUALIZACION_DE_NOMBRE = 17;
     public static final int REGISTRO_DE_HABITANTE = 18;
+    public static final int REMOCION_DE_HABITANTES = 19;
+    public static final int ACTUALIZAR_DATOS_TORRE = 20;
+    public static final int REMOCION_DE_TORRES = 21;
 
     public static int obtenerColorDeError(Context context){
         return context.getResources().getColor(R.color.error);
@@ -65,5 +70,10 @@ public class ProveedorDeRecursos {
                 .edit();
         editor.putString(nombre, valor);
         editor.apply();
+    }
+
+    public static int obtenerIdTorreActual(Context context) {
+        return context.getSharedPreferences(Configuraciones.class.getName(), Context.MODE_PRIVATE)
+                .getInt("idTorre", -1);
     }
 }

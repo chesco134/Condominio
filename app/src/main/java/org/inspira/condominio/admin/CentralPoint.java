@@ -1,13 +1,11 @@
 package org.inspira.condominio.admin;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -23,11 +21,8 @@ import org.inspira.condominio.actividades.Lobby;
 import org.inspira.condominio.actividades.Preparacion;
 import org.inspira.condominio.actividades.ProveedorDeRecursos;
 import org.inspira.condominio.actividades.SplashScreen;
-import org.inspira.condominio.admin.formatos.Formatos;
 import org.inspira.condominio.admin.formatos.FormatosLobby;
 import org.inspira.condominio.admin.habitantes.ControlDeHabitantes;
-import org.inspira.condominio.admon.AccionesTablaTorre;
-import org.inspira.condominio.admon.NuevoCondominioActivity;
 import org.inspira.condominio.datos.CondominioBD;
 import org.inspira.condominio.dialogos.ProveedorSnackBar;
 
@@ -128,7 +123,6 @@ public class CentralPoint extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
         if (id == R.id.nav_convocatorias) {
             launchConvocatorias();
         } else if (id == R.id.nav_administracion) {
@@ -138,7 +132,6 @@ public class CentralPoint extends AppCompatActivity
         } else if (id == R.id.nav_configuracion) {
             launchConfiguracion();
         }
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;

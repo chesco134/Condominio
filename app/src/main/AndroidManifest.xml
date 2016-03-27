@@ -13,6 +13,8 @@
         android:supportsRtl="true"
         android:theme="@style/MyAppTheme">
         <activity
+            android:name=".admon.SelectorDeTorre" />
+        <activity
             android:name=".dialogos.ActividadDeEspera"
             android:theme="@style/CustomTheme" />
         <activity

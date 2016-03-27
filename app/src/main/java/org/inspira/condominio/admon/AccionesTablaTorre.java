@@ -80,4 +80,42 @@ public class AccionesTablaTorre {
         db.close();
         return hayTorres;
     }
+
+    public static void actualizaTorre(Context context, Torre torre){
+        ContentValues values = new ContentValues();
+        values.put("nombre", torre.getNombre());
+        values.put("cantidad_de_pisos", torre.getCantidadDePisos());
+        values.put("cantidad_de_focos", torre.getCantidadDeFocos());
+        values.put("cantidad_de_departamentos", torre.getCantidadDeDepartamentos());
+        values.put("posee_elevador", torre.isPoseeElevador());
+        SQLiteDatabase db = new CondominioBD(context).getWritableDatabase();
+        db.update("Torre", values, "idTorre = CAST(? as INTEGER)", new String[]{String.valueOf(torre.getId())});
+        db.close();
+    }
+
+    public static void removerTorre(Context context, Integer index) {
+        SQLiteDatabase db = new CondominioBD(context).getWritableDatabase();
+        db.delete("Torre", "idTorre = CAST(? as INTEGER)", new String[]{String.valueOf(index)});
+        db.close();
+    }
+
+    public static Torre obtenerTorre(Context context, int idTorre) {
+        SQLiteDatabase db = new CondominioBD(context).getReadableDatabase();
+        Cursor c = db.rawQuery("select * from Torre where idTorre = CAST(? as INTEGER)", new String[]{String.valueOf(idTorre)});
+        Torre torre;
+        if(c.moveToFirst()){
+            torre = new Torre(idTorre);
+            torre.setCantidadDeDepartamentos(c.getInt(c.getColumnIndex("cantidad_de_departamentos")));
+            torre.setCantidadDeFocos(c.getInt(c.getColumnIndex("cantidad_de_focos")));
+            torre.setCantidadDePisos(c.getInt(c.getColumnIndex("cantidad_de_pisos")));
+            torre.setNombre(c.getString(c.getColumnIndex("nombre")));
+            torre.setPoseeElevador(c.getInt(c.getColumnIndex("posee_elevador")) != 0);
+            torre.setIdAdministracion(c.getInt(c.getColumnIndex("idAdministracion")));
+        }else{
+            torre = null;
+        }
+        c.close();
+        db.close();
+        return torre;
+    }
 }

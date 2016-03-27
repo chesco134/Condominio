@@ -9,13 +9,24 @@ import android.view.MenuItem;
 import android.widget.ListView;
 
 import org.inspira.condominio.R;
+import org.inspira.condominio.actividades.MuestraMensajeDesdeHilo;
 import org.inspira.condominio.actividades.ProveedorDeRecursos;
 import org.inspira.condominio.adaptadores.AdaptadorDeHabitantes;
+import org.inspira.condominio.admon.AccionesTablaHabitante;
 import org.inspira.condominio.admon.AccionesTablaTorre;
+import org.inspira.condominio.admon.CompruebaCamposJSON;
 import org.inspira.condominio.admon.RegistroDeTorre;
+import org.inspira.condominio.admon.SelectorDeTorre;
 import org.inspira.condominio.datos.Habitante;
 import org.inspira.condominio.dialogos.DialogoDeConsultaSimple;
+import org.inspira.condominio.dialogos.EntradaTexto;
 import org.inspira.condominio.dialogos.RegistroDeHabitante;
+import org.inspira.condominio.dialogos.RemocionElementos;
+import org.inspira.condominio.fragmentos.OrdenDelDia;
+import org.inspira.condominio.networking.ContactoConServidor;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Created by jcapiz on 25/03/16.
@@ -23,14 +34,13 @@ import org.inspira.condominio.dialogos.RegistroDeHabitante;
 public class ControlDeHabitantes extends AppCompatActivity {
 
     private AdaptadorDeHabitantes adapter;
+    private ListView listaHabitantes;
 
     @Override
     protected void onCreate(Bundle savedInstancesState){
         super.onCreate(savedInstancesState);
         setContentView(R.layout.control_de_habitantes);
-        ListView listaHabitantes = (ListView) findViewById(R.id.control_de_habitantes_lista);
-        adapter = new AdaptadorDeHabitantes(this);
-        listaHabitantes.setAdapter(adapter);
+        listaHabitantes = (ListView) findViewById(R.id.control_de_habitantes_lista);
     }
 
     @Override
@@ -50,13 +60,82 @@ public class ControlDeHabitantes extends AppCompatActivity {
             agregarHabitante();
             accionConsumida = true;
         }else if(itemId == R.id.remover_habitante){
-
+            removerHabitante();
             accionConsumida = true;
         }else if(itemId == R.id.torres){
-
+            iniciaSelectorDeTorre();
             accionConsumida = true;
         }
         return accionConsumida;
+    }
+
+    private void iniciaSelectorDeTorre() {
+        startActivity(new Intent(this, SelectorDeTorre.class));
+    }
+
+    private void removerHabitante() {
+        RemocionElementos rm = new RemocionElementos();
+        final Habitante[] habitantes = AccionesTablaHabitante.obtenerHabitantes(this, ProveedorDeRecursos.obtenerIdTorreActual(this));
+        String[] nombresHabitantes = new String[habitantes.length];
+        int i=0;
+        for(Habitante habitante : habitantes)
+            nombresHabitantes[i++] = habitante.getApPaterno() + " " + habitante.getApMaterno() + " " + habitante.getNombres();
+        Bundle args = new Bundle();
+        args.putStringArray("elementos", nombresHabitantes);
+        rm.setArguments(args);
+        rm.setAd(new EntradaTexto.AccionDialogo() {
+            @Override
+            public void accionPositiva(DialogFragment fragment) {
+                final Integer[] elementosSeleccionados = ((RemocionElementos)fragment).getElementosSeleccionados();
+                OrdenDelDia.prepareElements(elementosSeleccionados);
+                String cuerpoMensaje = armaCuerpoDeMensaje(elementosSeleccionados);
+                ContactoConServidor contacto = new ContactoConServidor(new ContactoConServidor.AccionesDeValidacionConServidor() {
+                    @Override
+                    public void resultadoSatisfactorio(Thread t) {
+                        String resultado = ((ContactoConServidor)t).getResponse();
+                        if(CompruebaCamposJSON.validaContenido(resultado)){
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    for(Integer index : elementosSeleccionados) {
+                                        adapter.removerHabitante(index);
+                                        AccionesTablaHabitante.removerHabitante(ControlDeHabitantes.this, habitantes[index].getId());
+                                    }
+                                }
+                            });
+                        }else{
+                            MuestraMensajeDesdeHilo.muestraToast(ControlDeHabitantes.this, "Servicio por el momento inalcanzable, sin cambios");
+                        }
+                    }
+
+                    @Override
+                    public void problemasDeConexion(Thread t) {
+                        MuestraMensajeDesdeHilo.muestraToast(ControlDeHabitantes.this, "Servicio temporalmente no disponible");
+                    }
+                }, cuerpoMensaje);
+                contacto.start();
+            }
+
+            private String armaCuerpoDeMensaje(Integer[] elementosSeleccionados) {
+                String cuerpoDeMensaje = null;
+                try{
+                    JSONObject json = new JSONObject();
+                    json.put("action", ProveedorDeRecursos.REMOCION_DE_HABITANTES);
+                    JSONArray elementos = new JSONArray();
+                    for(Integer i : elementosSeleccionados)
+                        elementos.put(habitantes[i].getId());
+                    json.put("elementos", elementos);
+                    cuerpoDeMensaje = json.toString();
+                }catch(JSONException e){
+                    e.printStackTrace();
+                }
+                return cuerpoDeMensaje;
+            }
+
+            @Override
+            public void accionNegativa(DialogFragment fragment) {}
+        });
+        rm.show(getSupportFragmentManager(), "Quitar habitantes");
     }
 
     private void agregarHabitante() {
@@ -73,6 +152,8 @@ public class ControlDeHabitantes extends AppCompatActivity {
         if(!AccionesTablaTorre.existenTorres(this)){
             mostrarMensajeDeRegistroDeTorres();
         }
+        adapter = new AdaptadorDeHabitantes(this);
+        listaHabitantes.setAdapter(adapter);
     }
 
     private void mostrarMensajeDeRegistroDeTorres() {
@@ -95,8 +176,13 @@ public class ControlDeHabitantes extends AppCompatActivity {
         ddcs.show(getSupportFragmentManager(), "Agregar Torre");
     }
 
-    public void agregarHabitante(Habitante habitante){
-        adapter.agregarHabitante(habitante);
+    public void agregarHabitante(final Habitante habitante){
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                adapter.agregarHabitante(habitante);
+            }
+        });
     }
 
 }

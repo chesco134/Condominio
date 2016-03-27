@@ -201,6 +201,8 @@ public class Login extends Fragment {
                 torre.setCantidadDeFocos(jtorre.getInt("cantidad_de_focos"));
                 torre.setCantidadDeDepartamentos(jtorre.getInt("cantidad_de_departamentos"));
                 torre.setIdAdministracion(jtorre.getInt("idAdministracion"));
+                if(i==0)
+                    ProveedorDeRecursos.guardaRecursoInt(getContext(), "idTorre", torre.getId());
                 AccionesTablaTorre.agregarTorre(getContext(), torre);
                 habitantes = jtorre.getJSONArray("Habitantes");
                 for(int j=0; j<habitantes.length(); j++){

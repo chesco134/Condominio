@@ -105,7 +105,7 @@ public class RegistroDeTorre extends AppCompatActivity {
         return cuerpoDeMensaje;
     }
 
-    private void guardarCamposEnBaseDeDatos(int idTorre) {
+    private Torre guardarCamposEnBaseDeDatos(int idTorre) {
         Torre torre = new Torre(idTorre);
         torre.setIdAdministracion(ProveedorDeRecursos.obtenerIdAdministracion(this));
         torre.setPoseeElevador(cuentaConElevador.isChecked());
@@ -113,7 +113,11 @@ public class RegistroDeTorre extends AppCompatActivity {
         torre.setCantidadDePisos(Integer.parseInt(numeroDePisos.getText().toString().trim()));
         torre.setCantidadDeDepartamentos(Integer.parseInt(numeroDeDepartamentos.getText().toString().trim()));
         torre.setCantidadDeFocos(Integer.parseInt(numeroDeFocos.getText().toString().trim()));
+        if(!AccionesTablaTorre.existenTorres(this)){
+            ProveedorDeRecursos.guardaRecursoInt(this, "idTorre", torre.getId());
+        }
         AccionesTablaTorre.agregarTorre(this, torre);
+        return torre;
     }
 
     private boolean validaCampos(){
@@ -130,8 +134,10 @@ public class RegistroDeTorre extends AppCompatActivity {
         public void resultadoSatisfactorio(Thread t) {
             String contenido = ((ContactoConServidor)t).getResponse();
             if(verificarRespuesta(contenido)) {
-                guardarCamposEnBaseDeDatos(obtenerIdTorre(contenido));
-                setResult(RESULT_OK);
+                Torre torre = guardarCamposEnBaseDeDatos(obtenerIdTorre(contenido));
+                Intent i = new Intent();
+                i.putExtra("torre", torre);
+                setResult(RESULT_OK,i);
                 finish();
             }else{
                 MuestraMensajeDesdeHilo.muestraMensaje(RegistroDeTorre.this, nombre, "Servicio por el momento no disponible");

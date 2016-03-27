@@ -302,7 +302,7 @@ public class OrdenDelDia extends Fragment {
         public void accionNegativa(DialogFragment fragment) {}
     }
 
-    private void prepareElements(Integer[] elements){
+    public static void prepareElements(Integer[] elements){
         Integer hold;
         for(int i=0; i<elements.length; i++){
             for(int j=i+1; j<elements.length; j++){

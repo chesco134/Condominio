@@ -96,4 +96,11 @@ public class AccionesTablaHabitante {
         db.close();
         return contactos.toArray(new ContactoHabitante[]{});
     }
+
+    public static void removerHabitante(Context context, int idHabitante){
+        SQLiteDatabase db = new CondominioBD(context).getWritableDatabase();
+        db.delete("Contacto_Habitante", "idHabitante = CAST(? as INTEGER)", new String[]{String.valueOf(idHabitante)});
+        db.delete("Habitante", "idHabitante = CAST(? as INTEGER)", new String[]{String.valueOf(idHabitante)});
+        db.close();
+    }
 }

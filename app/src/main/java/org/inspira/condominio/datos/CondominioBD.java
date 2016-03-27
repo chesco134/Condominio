@@ -102,7 +102,7 @@ public class CondominioBD extends SQLiteOpenHelper {
                 "ap_materno text not null," +
                 "nombre_departamento text not null," +
                 "idTorre integer not null," +
-                "foreign key(idTorre) references Torre(idTorre)" +
+                "foreign key(idTorre) references Torre(idTorre) on delete cascade on update cascade" +
                 ")");
         dataBase.execSQL("create table Contacto_Habitante(" +
                 "idContacto_Habitante integer not null primary key autoincrement," +
