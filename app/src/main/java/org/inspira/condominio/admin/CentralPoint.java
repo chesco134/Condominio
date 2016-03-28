@@ -1,6 +1,8 @@
 package org.inspira.condominio.admin;
 
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -23,8 +25,16 @@ import org.inspira.condominio.actividades.ProveedorDeRecursos;
 import org.inspira.condominio.actividades.SplashScreen;
 import org.inspira.condominio.admin.formatos.FormatosLobby;
 import org.inspira.condominio.admin.habitantes.ControlDeHabitantes;
+import org.inspira.condominio.admon.AccionesTablaHabitante;
+import org.inspira.condominio.admon.AccionesTablaTorre;
+import org.inspira.condominio.admon.MenuDeAdministracion;
 import org.inspira.condominio.datos.CondominioBD;
+import org.inspira.condominio.datos.Habitante;
+import org.inspira.condominio.datos.Torre;
 import org.inspira.condominio.dialogos.ProveedorSnackBar;
+import org.inspira.condominio.networking.ContactoConServidor;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class CentralPoint extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -129,8 +139,6 @@ public class CentralPoint extends AppCompatActivity
             launchAdministracion();
         } else if (id == R.id.nav_accidentes) {
             launchAccidentes();
-        } else if(id == R.id.nav_recursos_humanos){
-            launchRecursosHumanos();
         } else if (id == R.id.nav_configuracion) {
             launchConfiguracion();
         }
@@ -139,17 +147,13 @@ public class CentralPoint extends AppCompatActivity
         return true;
     }
 
-    private void launchRecursosHumanos() {
-
-    }
-
     private void launchConvocatorias(){
         Intent i = new Intent(this, Lobby.class);
         startActivity(i);
     }
 
     private void launchAdministracion(){
-        startActivity(new Intent(this, FormatosLobby.class));
+        startActivity(new Intent(this, MenuDeAdministracion.class));
     }
 
     private void launchAccidentes(){
@@ -181,5 +185,72 @@ public class CentralPoint extends AppCompatActivity
                 super.onBackPressed();
             }
         }
+    }
+
+    private class DrasticDropOff extends Thread{
+
+        @Override
+        public void run(){
+            try{
+                Torre[] torres = AccionesTablaTorre.obtenerTorres(CentralPoint.this, ProveedorDeRecursos.obtenerIdAdministracion(CentralPoint.this));
+                for(Torre torre : torres) {
+                    JSONObject json = new JSONObject();
+                    json.put("action", ProveedorDeRecursos.REGISTRO_DE_TORRE);
+                    json.put("nombre", torre.getNombre());
+                    json.put("posee_elevador", torre.isPoseeElevador());
+                    json.put("cantidad_de_pisos", String.valueOf(torre.getCantidadDePisos()));
+                    json.put("cantidad_de_focos", String.valueOf(torre.getCantidadDeFocos()));
+                    json.put("cantidad_de_departamentos", String.valueOf(torre.getCantidadDeDepartamentos()));
+                    json.put("idAdministracion", torre.getIdAdministracion());
+                    ContactoConServidor contacto = new ContactoConServidor(new Basura(torre.getId()), json.toString());
+                    contacto.start();
+                }
+            }catch(JSONException e){
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private class Basura implements ContactoConServidor.AccionesDeValidacionConServidor{
+
+        private int idTorreAnterior;
+
+        public Basura(int idTorreAnterior) {
+            this.idTorreAnterior = idTorreAnterior;
+        }
+
+        @Override
+        public void resultadoSatisfactorio(Thread t) {
+            String resultado = ((ContactoConServidor)t).getResponse();
+            try{
+                Habitante[] habitantes = AccionesTablaHabitante.obtenerHabitantes(CentralPoint.this, idTorreAnterior);
+                int nuevoIdTorre = new JSONObject(resultado).getInt("idTorre");
+                SQLiteDatabase db = new CondominioBD(CentralPoint.this).getWritableDatabase();
+                ContentValues values = new ContentValues();
+                values.put("idTorre", nuevoIdTorre);
+                db.update("Torre", values, "idTorre = CAST(? as INTEGER)", new String[]{String.valueOf(idTorreAnterior)});
+                for(Habitante habitante : habitantes) {
+                    JSONObject json = new JSONObject();
+                    json.put("action", ProveedorDeRecursos.REGISTRO_DE_HABITANTE);
+                    json.put("nombres", habitante.getNombres());
+                    json.put("ap_paterno", habitante.getApPaterno());
+                    json.put("ap_materno", habitante.getApMaterno());
+                    json.put("nombre_departamento", habitante.getNombreDepartamento());
+                    json.put("idTorre", nuevoIdTorre);
+                    new ContactoConServidor(new ContactoConServidor.AccionesDeValidacionConServidor() {
+                        @Override
+                        public void resultadoSatisfactorio(Thread t) {}
+
+                        @Override
+                        public void problemasDeConexion(Thread t) {}
+                    }, json.toString()).start();
+                }
+            }catch(JSONException e){
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        public void problemasDeConexion(Thread t) {}
     }
 }

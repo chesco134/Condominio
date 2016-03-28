@@ -17,4 +17,11 @@
     <color name="login_bg">#ffffe870</color>
     <color name="shadowColor">#99202020</color>
     <color name="gris_9">#ff999999</color>
+    <color name="amarillo">#e6dd2a</color>
+    <color name="morado">#8e37d3</color>
+    <color name="marroni">#833500</color>
+    <color name="rosa">#cc0092</color>
+    <color name="rosa_dark">#850060</color>
+    <color name="mi_blue">#2c44ff</color>
+    <color name="capa_miky">#80000000</color>
 </resources>

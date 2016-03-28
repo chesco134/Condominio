@@ -7,6 +7,8 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import org.inspira.condominio.R;
@@ -21,6 +23,7 @@ import org.inspira.condominio.admon.SelectorDeTorre;
 import org.inspira.condominio.datos.Habitante;
 import org.inspira.condominio.dialogos.DialogoDeConsultaSimple;
 import org.inspira.condominio.dialogos.EntradaTexto;
+import org.inspira.condominio.dialogos.ProveedorSnackBar;
 import org.inspira.condominio.dialogos.RegistroDeHabitante;
 import org.inspira.condominio.dialogos.RemocionElementos;
 import org.inspira.condominio.fragmentos.OrdenDelDia;
@@ -42,6 +45,13 @@ public class ControlDeHabitantes extends AppCompatActivity {
         super.onCreate(savedInstancesState);
         setContentView(R.layout.control_de_habitantes);
         listaHabitantes = (ListView) findViewById(R.id.control_de_habitantes_lista);
+        listaHabitantes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ProveedorSnackBar
+                        .muestraBarraDeBocados(view, "Uy que me haces cosquillas! :D");
+            }
+        });
     }
 
     @Override

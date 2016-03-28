@@ -2,9 +2,11 @@ package org.inspira.condominio.adaptadores;
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import org.inspira.condominio.R;
@@ -62,7 +64,7 @@ public class AdaptadorDeHabitantes extends BaseAdapter {
         view = inflater.inflate(R.layout.entrada_lista_habitante, parent, false);
         Habitante habitante = habitantes.get(position);
         String nombreHabitante = habitante.getApPaterno() + " " + habitante.getApMaterno() + " " + habitante.getNombres();
-        ((TextView)view.findViewById(R.id.entrada_lista_habitante_nombre))
+        ((TextView) view.findViewById(R.id.entrada_lista_habitante_nombre))
                 .setText(nombreHabitante);
         ((TextView) view.findViewById(R.id.entrada_lista_habitante_departamento))
                 .setText(habitante.getNombreDepartamento());

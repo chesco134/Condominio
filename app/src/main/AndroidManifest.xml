@@ -60,6 +60,14 @@
                 android:value=".admin.CentralPoint" />
         </activity>
         <activity
+            android:name=".admon.MenuDeAdministracion"
+            android:theme="@style/MyAppTheme"
+            android:label="@string/menu_administracion">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".admin.CentralPoint" />
+        </activity>
+        <activity
             android:name=".admin.formatos.Formatos"
             android:label="@string/title_activity_formatos_admin"
             android:parentActivityName=".admin.formatos.FormatosLobby">

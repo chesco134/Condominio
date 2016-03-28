@@ -120,11 +120,29 @@ public class FragmentoSelectorDeTorre extends Fragment {
                     public void resultadoSatisfactorio(Thread t) {
                         String respuesta = ((ContactoConServidor)t).getResponse();
                         if(CompruebaCamposJSON.validaContenido(respuesta)){
-                            for(Integer index : seleccion) {
-                                AccionesTablaTorre.removerTorre(getContext(), torres[index].getId());
-                                adapter.remove(elementos[index]);
-                            }
-                            MuestraMensajeDesdeHilo.muestraMensaje(getActivity(), torreActual, "Hecho");
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    boolean quitaronTorreActual = false;
+                                    int idTorreActual = ProveedorDeRecursos.obtenerIdTorreActual(getContext());
+                                    for(Integer index : seleccion) {
+                                        AccionesTablaTorre.removerTorre(getContext(), torres[index].getId());
+                                        adapter.remove(elementos[index]);
+                                        quitaronTorreActual = torres[index].getId() == idTorreActual;
+                                    }
+                                    if(quitaronTorreActual){
+                                        if(adapter.getCount() > 0){
+                                            String nuevaPrimeraTorre = adapter.getItem(0);
+                                            torreActual.setText(nuevaPrimeraTorre);
+                                            ProveedorDeRecursos.guardaRecursoInt(getContext(), "idTorre", AccionesTablaTorre.obtenerIdTorre(getContext(), nuevaPrimeraTorre));
+                                        }else{
+                                            torreActual.setText("");
+                                            ProveedorDeRecursos.guardaRecursoInt(getContext(), "idTorre", -1);
+                                        }
+                                    }
+                                    MuestraMensajeDesdeHilo.muestraMensaje(getActivity(), torreActual, "Hecho");
+                                }
+                            });
                         }else{
                             MuestraMensajeDesdeHilo.muestraMensaje(getActivity(), torreActual, "Servicio momentaneamente inaccesible");
                         }
@@ -144,7 +162,7 @@ public class FragmentoSelectorDeTorre extends Fragment {
                     JSONObject json = new JSONObject();
                     json.put("action", ProveedorDeRecursos.REMOCION_DE_TORRES);
                     JSONArray elementosSeleccionados = new JSONArray();
-                    for(int i=0; i<elementos.length; i++)
+                    for(Integer i : elementos)
                         elementosSeleccionados.put(torres[i].getId());
                     json.put("elementos", elementosSeleccionados);
                     cuerpoDeMensaje = json.toString();
