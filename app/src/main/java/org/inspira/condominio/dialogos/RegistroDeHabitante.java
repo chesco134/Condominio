@@ -9,7 +9,10 @@ import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import org.inspira.condominio.R;
@@ -22,6 +25,7 @@ import org.inspira.condominio.admin.habitantes.ControlDeHabitantes;
 import org.inspira.condominio.admon.AccionesTablaHabitante;
 import org.inspira.condominio.admon.AccionesTablaTorre;
 import org.inspira.condominio.datos.Habitante;
+import org.inspira.condominio.datos.PropietarioDeDepartamento;
 import org.inspira.condominio.datos.Torre;
 import org.inspira.condominio.networking.ContactoConServidor;
 import org.json.JSONException;
@@ -37,6 +41,9 @@ public class RegistroDeHabitante extends DialogFragment {
     private EditText apMaterno;
     private EditText nombreDepartamento;
     private TextView torre;
+    private CheckBox esPropietario;
+    private CheckBox poseeSeguro;
+    private RadioGroup selectorDeGenero;
     private Context context;
 
     @Override
@@ -52,6 +59,15 @@ public class RegistroDeHabitante extends DialogFragment {
         nombreDepartamento = (EditText) rootView.findViewById(R.id.formato_registro_de_habitante_nombre_departamento);
         nombreDepartamento.setOnFocusChangeListener(new EfectoDeEnfoque(getActivity(), rootView.findViewById(R.id.formato_registro_de_habitante_piso_nombre_departamento)));
         torre = (TextView) rootView.findViewById(R.id.formato_registro_de_habitante_torre);
+        esPropietario = (CheckBox) rootView.findViewById(R.id.formato_registro_de_habitante_es_propietario);
+        poseeSeguro = (CheckBox) rootView.findViewById(R.id.formato_registro_de_habitante_posee_seguro);
+        esPropietario.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                poseeSeguro.setEnabled(isChecked);
+            }
+        });
+        selectorDeGenero = (RadioGroup) rootView.findViewById(R.id.formato_registro_de_habitante_grupo_generos);
         Torre[] torres = AccionesTablaTorre.obtenerTorres(getContext(), ProveedorDeRecursos.obtenerIdAdministracion(getContext()));
         String[] nombresTorre = new String[torres.length];
         int i=0;
@@ -123,7 +139,14 @@ public class RegistroDeHabitante extends DialogFragment {
         habitante.setApPaterno(apPaterno.getText().toString().trim());
         habitante.setApMaterno(apMaterno.getText().toString().trim());
         habitante.setNombreDepartamento(nombreDepartamento.getText().toString().trim());
+        habitante.setGenero(selectorDeGenero.getCheckedRadioButtonId() == R.id.formato_registro_de_habitante_masculino);
         AccionesTablaHabitante.agregarHabitante(context, habitante);
+        if( esPropietario.isChecked() ) {
+            PropietarioDeDepartamento propietario = new PropietarioDeDepartamento();
+            propietario.setIdHabitante(idHabitante);
+            propietario.setPoseeSeguro(poseeSeguro.isChecked());
+            AccionesTablaHabitante.agregarHabitantePropietario(context, propietario);
+        }
         if(habitante.getIdTorre() == ProveedorDeRecursos.obtenerIdTorreActual(context))
             ((ControlDeHabitantes)context).agregarHabitante(habitante);
     }
@@ -137,7 +160,10 @@ public class RegistroDeHabitante extends DialogFragment {
             json.put("ap_paterno", apPaterno.getText().toString().trim());
             json.put("ap_materno", apMaterno.getText().toString().trim());
             json.put("nombre_departamento", nombreDepartamento.getText().toString().trim());
+            json.put("genero", selectorDeGenero.getCheckedRadioButtonId() == R.id.formato_registro_de_habitante_masculino ? 1 : 0);
             json.put("idTorre", AccionesTablaTorre.obtenerIdTorre(context, torre.getText().toString()));
+            json.put("es_propietario", esPropietario.isChecked());
+            json.put("posee_seguro", poseeSeguro.isChecked() ? 1 : 0);
             contenidoMensaje = json.toString();
         }catch(JSONException e){
             e.printStackTrace();

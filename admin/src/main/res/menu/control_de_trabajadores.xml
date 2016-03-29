@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/control_de_trabajadores_agregar_trabajador"
+        android:icon="@drawable/ic_add_circle_outline_white_24dp"
+        android:title="@string/control_de_trabajadores_agregar"
+        app:showAsAction="ifRoom|collapseActionView"/>
+
+    <item android:id="@+id/control_de_trabajadores_remover_trabajador"
+        android:icon="@drawable/ic_remove_circle_outline_white_24dp"
+        android:title="@string/control_de_trabajadores_agregar"
+        app:showAsAction="ifRoom|collapseActionView"/>
+
+</menu>

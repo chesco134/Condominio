@@ -8,6 +8,7 @@ public class Habitante extends ModeloDeDatos {
     private String nombres;
     private String apPaterno;
     private String apMaterno;
+    private boolean genero;
     private String nombreDepartamento;
     private int idTorre;
 
@@ -48,6 +49,14 @@ public class Habitante extends ModeloDeDatos {
 
     public void setNombreDepartamento(String nombreDepartamento) {
         this.nombreDepartamento = nombreDepartamento;
+    }
+
+    public boolean isGenero() {
+        return genero;
+    }
+
+    public void setGenero(boolean genero) {
+        this.genero = genero;
     }
 
     public int getIdTorre() {

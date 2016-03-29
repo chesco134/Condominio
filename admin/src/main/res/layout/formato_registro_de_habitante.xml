@@ -78,6 +78,52 @@
         android:layout_alignStart="@+id/formato_registro_de_habitante_torre"
         android:layout_alignLeft="@+id/formato_registro_de_habitante_torre"
         android:layout_alignEnd="@+id/formato_registro_de_habitante_torre"
-        android:layout_alignRight="@+id/formato_registro_de_habitante_torre"
-        android:layout_marginBottom="12sp"/>
+        android:layout_alignRight="@+id/formato_registro_de_habitante_torre"/>
+
+    <CheckBox
+        android:id="@+id/formato_registro_de_habitante_es_propietario"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/formato_registro_de_habitante_torre"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="12sp"
+        android:layout_marginEnd="12sp"
+        android:layout_marginRight="12sp"
+        android:layout_marginLeft="12sp"
+        android:layout_marginStart="12sp"
+        android:text="@string/formato_registro_de_habitante_es_propietario"/>
+    <CheckBox
+        android:id="@+id/formato_registro_de_habitante_posee_seguro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/formato_registro_de_habitante_es_propietario"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="12sp"
+        android:layout_marginEnd="12sp"
+        android:layout_marginRight="12sp"
+        android:layout_marginBottom="16sp"
+        android:text="@string/formato_registro_de_habitante_posee_seguro"
+        android:enabled="false"/>
+    <RadioGroup
+        android:id="@+id/formato_registro_de_habitante_grupo_generos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/formato_registro_de_habitante_torre"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="12sp">
+        <RadioButton
+            android:id="@+id/formato_registro_de_habitante_masculino"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/formato_registro_de_habitante_masculino"
+            android:checked="true"/>
+        <RadioButton
+            android:id="@+id/formato_registro_de_habitante_femenino"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/formato_registro_de_habitante_femenino"/>
+    </RadioGroup>
 </RelativeLayout>

@@ -27,4 +27,12 @@ public class Preparacion extends AppCompatActivity {
                 .add(R.id.preparacion_main_container, new Login())
                 .commit();
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+        if(requestCode != 1234) {
+            setResult(resultCode);
+            finish();
+        }
+    }
 }

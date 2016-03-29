@@ -3,8 +3,6 @@ package org.inspira.condominio.adaptadores;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
-import android.media.Image;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +13,7 @@ import android.widget.TextView;
 
 import org.inspira.condominio.R;
 import org.inspira.condominio.admin.formatos.FormatosLobby;
+import org.inspira.condominio.admin.trabajadores.ControlDeTrabajadores;
 
 /**
  * Created by jcapiz on 27/03/16.
@@ -46,7 +45,6 @@ public class MallaDeBotones extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         View rootView = ((LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE))
                 .inflate(R.layout.panel_boton, parent, false);
-        Log.d("Matrix", "The width: " + parent.getWidth() + " #" + position);
         if(parent.getWidth() > 0){
             rootView.setLayoutParams(new AbsListView.LayoutParams((parent.getWidth()/3) -2, (parent.getWidth()/3) - 2));
             rootView.setBackgroundResource(colores[position]);
@@ -78,7 +76,7 @@ public class MallaDeBotones extends BaseAdapter {
                     context.startActivity(new Intent(context, FormatosLobby.class));
                     break;
                 case 2:
-                    //context.startActivity(new Intent(context, ));
+                    context.startActivity(new Intent(context, ControlDeTrabajadores.class));
                     break;
             }
         }

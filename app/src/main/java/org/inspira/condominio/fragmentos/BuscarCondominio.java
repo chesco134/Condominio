@@ -172,7 +172,7 @@ public class BuscarCondominio extends Fragment {
                 .setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        startActivity(new Intent(getActivity(), NuevoCondominioActivity.class));
+                        startActivityForResult(new Intent(getActivity(), NuevoCondominioActivity.class), 321);
                         /****************************
                          * En el onResume de "Preparacion", debe revisarse la existencia de
                          * Condominio, Torres, Administración y Administrador, para tomar la acción

@@ -9,6 +9,7 @@ import org.inspira.condominio.actividades.ProveedorDeRecursos;
 import org.inspira.condominio.datos.CondominioBD;
 import org.inspira.condominio.datos.ContactoHabitante;
 import org.inspira.condominio.datos.Habitante;
+import org.inspira.condominio.datos.PropietarioDeDepartamento;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,10 +26,45 @@ public class AccionesTablaHabitante {
         values.put("ap_paterno", habitante.getApPaterno());
         values.put("ap_materno", habitante.getApMaterno());
         values.put("nombre_departamento", habitante.getNombreDepartamento());
+        values.put("genero", habitante.isGenero());
         values.put("idTorre", habitante.getIdTorre());
         SQLiteDatabase db = new CondominioBD(context).getWritableDatabase();
         db.insert("Habitante", "---", values);
         db.close();
+    }
+
+    public static void agregarHabitantePropietario(Context context, PropietarioDeDepartamento p){
+        ContentValues values = new ContentValues();
+        values.put("idHabitante", p.getIdHabitante());
+        values.put("posee_seguro", p.isPoseeSeguro());
+        SQLiteDatabase db = new CondominioBD(context).getWritableDatabase();
+        db.insert("Propietario_de_Departamento", "---", values);
+        db.close();
+    }
+
+    public static PropietarioDeDepartamento[] propietariosDeDepartamento(Context context){
+        SQLiteDatabase db = new CondominioBD(context).getReadableDatabase();
+        Cursor c = db.rawQuery("select * from Propietario_de_Departamento", null);
+        List<PropietarioDeDepartamento> propietarios = new ArrayList<>();
+        PropietarioDeDepartamento propietario;
+        while(c.moveToNext()){
+            propietario = new PropietarioDeDepartamento();
+            propietario.setIdHabitante(c.getInt(c.getColumnIndex("idHabitante")));
+            propietario.setPoseeSeguro(c.getInt(c.getColumnIndex("posee_seguro")) != 0);
+            propietarios.add(propietario);
+        }
+        c.close();
+        db.close();
+        return propietarios.toArray(new PropietarioDeDepartamento[0]);
+    }
+
+    public static boolean esPropietario(Context context, int idHabitante){
+        SQLiteDatabase db = new CondominioBD(context).getReadableDatabase();
+        Cursor c = db.rawQuery("select count(*) from Propietario_de_Departamento where idHabitante = CAST(? as INTEGER)", new String[]{String.valueOf(idHabitante)});
+        boolean esPropietario = c.moveToFirst() && c.getInt(0) > 0;
+        c.close();
+        db.close();
+        return esPropietario;
     }
 
     public static Habitante[] obtenerHabitantes(Context context, int idTorre){
@@ -42,6 +78,7 @@ public class AccionesTablaHabitante {
             habitante.setApPaterno(c.getString(c.getColumnIndex("ap_paterno")));
             habitante.setApMaterno(c.getString(c.getColumnIndex("ap_materno")));
             habitante.setNombreDepartamento(c.getString(c.getColumnIndex("nombre_departamento")));
+            habitante.setGenero(c.getInt(c.getColumnIndex("genero")) != 0);
             habitante.setIdTorre(idTorre);
             habitantes.add(habitante);
         }
@@ -64,6 +101,7 @@ public class AccionesTablaHabitante {
             habitante.setApPaterno(c.getString(c.getColumnIndex("ap_paterno")));
             habitante.setApMaterno(c.getString(c.getColumnIndex("ap_materno")));
             habitante.setNombreDepartamento(c.getString(c.getColumnIndex("nombre_departamento")));
+            habitante.setGenero(c.getInt(c.getColumnIndex("genero")) != 0);
             habitante.setIdTorre(c.getInt(c.getColumnIndex("idTorre")));
             habitantes.add(habitante);
         }

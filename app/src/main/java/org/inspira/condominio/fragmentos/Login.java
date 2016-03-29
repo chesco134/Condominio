@@ -2,6 +2,7 @@ package org.inspira.condominio.fragmentos;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.net.ConnectivityManager;
@@ -22,6 +23,7 @@ import org.inspira.condominio.admon.AccionesTablaAdministracion;
 import org.inspira.condominio.admon.AccionesTablaCondominio;
 import org.inspira.condominio.admon.AccionesTablaHabitante;
 import org.inspira.condominio.admon.AccionesTablaTorre;
+import org.inspira.condominio.admon.AccionesTablaTrabajador;
 import org.inspira.condominio.admon.AccionesTablaUsuario;
 import org.inspira.condominio.datos.Administracion;
 import org.inspira.condominio.datos.Condominio;
@@ -30,6 +32,8 @@ import org.inspira.condominio.datos.Convocatoria;
 import org.inspira.condominio.datos.Habitante;
 import org.inspira.condominio.datos.PuntoOdD;
 import org.inspira.condominio.datos.Torre;
+import org.inspira.condominio.datos.Trabajador;
+import org.inspira.condominio.dialogos.ActividadDeEspera;
 import org.inspira.condominio.dialogos.ProveedorSnackBar;
 import org.inspira.condominio.networking.LoginConnection;
 import org.inspira.condominio.networking.ObtencionDeConvocatorias;
@@ -74,6 +78,7 @@ public class Login extends Fragment {
                     userString = user.getText().toString().trim();
                     pwString = password.getText().toString().trim();
                     if (!"".equals(userString) && !"".equals(pwString)) {
+                        ((AppCompatActivity)getContext()).startActivityForResult(new Intent(getContext(), ActividadDeEspera.class), 1234);
                         LoginConnection lc = new LoginConnection(new LoginConnection.OnConnectionAction() {
                             @Override
                             public void validationSucceded(JSONObject json) {
@@ -211,10 +216,34 @@ public class Login extends Fragment {
                     habitante.setNombres(jhabitante.getString("nombres"));
                     habitante.setApPaterno(jhabitante.getString("ap_paterno"));
                     habitante.setApMaterno(jhabitante.getString("ap_materno"));
+                    habitante.setGenero(jhabitante.getInt("genero") == 1);
                     habitante.setNombreDepartamento(jhabitante.getString("nombre_departamento"));
                     habitante.setIdTorre(torre.getId());
                     AccionesTablaHabitante.agregarHabitante(getContext(), habitante);
                 }
+            }
+        }catch(JSONException e){
+            e.printStackTrace();
+        }
+    }
+
+    private void setTrabajadoresInfo(JSONObject json){
+        try{
+            JSONArray trabajadores = json.getJSONArray("Trabajadores");
+            Trabajador trabajador;
+            JSONObject jtrabajador;
+            for(int i=0; i<trabajadores.length(); i++){
+                jtrabajador = trabajadores.getJSONObject(i);
+                trabajador = new Trabajador(jtrabajador.getInt("idTrabajador"));
+                trabajador.setNombres(jtrabajador.getString("nombres"));
+                trabajador.setApPaterno(jtrabajador.getString("ap_paterno"));
+                trabajador.setApMaterno(jtrabajador.getString("ap_materno"));
+                trabajador.setSalario((float) jtrabajador.getDouble("salario"));
+                trabajador.setGenero(jtrabajador.getInt("genero") == 1);
+                trabajador.setIdTipoDeTrabajador(jtrabajador.getInt("idTipo_de_Trabajador"));
+                trabajador.setPoseeSeguroSocial(jtrabajador.getInt("posee_seguro_social") != 0);
+                trabajador.setIdAdministracion(jtrabajador.getInt("idAdministracion"));
+                AccionesTablaTrabajador.agregarTrabajador(getContext(), trabajador);
             }
         }catch(JSONException e){
             e.printStackTrace();
@@ -249,6 +278,7 @@ public class Login extends Fragment {
         password.setText("");
         ProveedorSnackBar
                 .muestraBarraDeBocados(password, "Error en las credenciales");
+        ((AppCompatActivity)getContext()).finishActivity(1234);
     }
 
     private class RespuestaObtencionDeConvocatorias implements ObtencionDeConvocatorias.AccionesObtencionDeConvocatorias{
@@ -264,8 +294,10 @@ public class Login extends Fragment {
             setCondominio(usrInfo);
             setAdministracion(usrInfo);
             setTorresInfo(usrInfo);
+            setTrabajadoresInfo(usrInfo);
             setUserInfo(usrInfo);
             setConvocatorias(json);
+            getActivity().finishActivity(1234);
             getActivity().setResult(Activity.RESULT_OK);
             getActivity().finish();
         }
@@ -279,6 +311,7 @@ public class Login extends Fragment {
                             .muestraBarraDeBocados(user, mensaje);
                 }
             });
+            getActivity().finishActivity(1234);
         }
     }
 

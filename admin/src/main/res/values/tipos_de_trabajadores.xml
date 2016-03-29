@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="tipos_de_trabajadores">
+        <item>Seguridad y vigilancia</item>
+        <item>Limpieza</item>
+        <item>Mantenimiento</item>
+        <item>Oficina</item>
+    </array>
+</resources>

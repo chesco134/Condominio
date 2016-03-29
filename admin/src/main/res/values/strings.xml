@@ -171,4 +171,17 @@
     <string name="formato_registro_de_habitante_nombres">Nombre(s)</string>
     <string name="formato_registro_de_habitante_torre">Torre</string>
     <string name="central_point_menu_recursos_humanos">Recursos humanos</string>
+    <string name="formato_registro_de_habitante_es_propietario">es propietario</string>
+    <string name="formato_registro_de_habitante_posee_seguro" >posee seguro</string>
+    <string name="formato_registro_de_trabajador_nombres">Nombre(s)</string>
+    <string name="formato_registro_de_trabajador_ap_paterno">Apellido paterno</string>
+    <string name="formato_registro_de_trabajador_ap_materno">Apellido materno</string>
+    <string name="formato_registro_de_trabajador_salario">Salario</string>
+    <string name="formato_registro_de_trabajador_tipo_de_trabajador">Tipo de trabajador</string>
+    <string name="formato_registro_de_trabajador_posee_seguro_social">Posee seguro social</string>
+    <string name="control_de_trabajadores_agregar">Nuevo trabajador</string>
+    <string name="formato_registro_de_habitante_masculino">Masculino</string>
+    <string name="formato_registro_de_habitante_femenino">Femenino</string>
+    <string name="formato_registro_de_trabajador_masculino">Masculino</string>
+    <string name="formato_registro_de_trabajador_femenino">Femenino</string>
 </resources>

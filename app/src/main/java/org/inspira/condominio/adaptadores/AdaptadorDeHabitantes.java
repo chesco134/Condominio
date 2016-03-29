@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.inspira.condominio.R;
@@ -68,6 +69,9 @@ public class AdaptadorDeHabitantes extends BaseAdapter {
                 .setText(nombreHabitante);
         ((TextView) view.findViewById(R.id.entrada_lista_habitante_departamento))
                 .setText(habitante.getNombreDepartamento());
+        ((ImageView) view.findViewById(R.id.entrada_lista_habitante_perfil))
+                .setImageResource(habitante.isGenero() ? R.drawable.user_coin_blk :
+                        R.drawable.woman_coin);
         return view;
     }
 

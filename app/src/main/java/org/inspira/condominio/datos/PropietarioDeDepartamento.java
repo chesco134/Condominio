@@ -5,15 +5,15 @@ package org.inspira.condominio.datos;
  */
 public class PropietarioDeDepartamento implements Shareable{
 
-    private Habitante habitante;
+    private int idHabitante;
     private boolean poseeSeguro;
 
-    public Habitante getHabitante() {
-        return habitante;
+    public int getIdHabitante() {
+        return idHabitante;
     }
 
-    public void setHabitante(Habitante habitante) {
-        this.habitante = habitante;
+    public void setIdHabitante(int idHabitante) {
+        this.idHabitante = idHabitante;
     }
 
     public boolean isPoseeSeguro() {

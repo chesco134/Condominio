@@ -21,6 +21,7 @@ import org.inspira.condominio.admon.CompruebaCamposJSON;
 import org.inspira.condominio.admon.RegistroDeTorre;
 import org.inspira.condominio.admon.SelectorDeTorre;
 import org.inspira.condominio.datos.Habitante;
+import org.inspira.condominio.datos.Torre;
 import org.inspira.condominio.dialogos.DialogoDeConsultaSimple;
 import org.inspira.condominio.dialogos.EntradaTexto;
 import org.inspira.condominio.dialogos.ProveedorSnackBar;
@@ -162,8 +163,11 @@ public class ControlDeHabitantes extends AppCompatActivity {
         super.onResume();
         ActionBar bar = getSupportActionBar();
         String currentTitle = "Habitantes ";
-        currentTitle = currentTitle.concat(AccionesTablaTorre.obtenerTorre(this, ProveedorDeRecursos.obtenerIdTorreActual(this)).getNombre());
-        bar.setTitle(currentTitle);
+        Torre torreActual = AccionesTablaTorre.obtenerTorre(this, ProveedorDeRecursos.obtenerIdTorreActual(this));
+        if(torreActual != null)
+            currentTitle = currentTitle.concat(torreActual.getNombre());
+        if( bar != null)
+            bar.setTitle(currentTitle);
         if(!AccionesTablaTorre.existenTorres(this)){
             mostrarMensajeDeRegistroDeTorres();
         }

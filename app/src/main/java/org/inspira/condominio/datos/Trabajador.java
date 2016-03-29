@@ -10,8 +10,9 @@ public class Trabajador extends ModeloDeDatos {
     private String apMaterno;
     private float salario;
     private boolean poseeSeguroSocial;
-    private Administracion administracion;
-    private TipoDeTrabajador tipoDeTrabajador;
+    private boolean genero;
+    private int idAdministracion;
+    private int idTipoDeTrabajador;
 
     public Trabajador() {
     }
@@ -60,19 +61,27 @@ public class Trabajador extends ModeloDeDatos {
         this.poseeSeguroSocial = poseeSeguroSocial;
     }
 
-    public Administracion getAdministracion() {
-        return administracion;
+    public int getIdAdministracion() {
+        return idAdministracion;
     }
 
-    public void setAdministracion(Administracion administracion) {
-        this.administracion = administracion;
+    public void setIdAdministracion(int idAdministracion) {
+        this.idAdministracion = idAdministracion;
     }
 
-    public TipoDeTrabajador getTipoDeTrabajador() {
-        return tipoDeTrabajador;
+    public boolean isGenero() {
+        return genero;
     }
 
-    public void setTipoDeTrabajador(TipoDeTrabajador tipoDeTrabajador) {
-        this.tipoDeTrabajador = tipoDeTrabajador;
+    public void setGenero(boolean genero) {
+        this.genero = genero;
+    }
+
+    public int getIdTipoDeTrabajador() {
+        return idTipoDeTrabajador;
+    }
+
+    public void setIdTipoDeTrabajador(int idTipoDeTrabajador) {
+        this.idTipoDeTrabajador = idTipoDeTrabajador;
     }
 }

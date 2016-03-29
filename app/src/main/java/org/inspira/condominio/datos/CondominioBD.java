@@ -101,6 +101,7 @@ public class CondominioBD extends SQLiteOpenHelper {
                 "ap_paterno text not null," +
                 "ap_materno text not null," +
                 "nombre_departamento text not null," +
+                "genero int not null," +
                 "idTorre integer not null," +
                 "foreign key(idTorre) references Torre(idTorre) on delete cascade on update cascade" +
                 ")");
@@ -189,6 +190,7 @@ public class CondominioBD extends SQLiteOpenHelper {
                 "ap_materno text not null," +
                 "salario float not null," +
                 "posee_seguro_social integer default 0," +
+                "genero integer default 1," +
                 "idAdministracion integer not null," +
                 "idTipo_de_Trabajador integer not null," +
                 "foreign key(idAdministracion) references Administracion(idAdministracion)," +

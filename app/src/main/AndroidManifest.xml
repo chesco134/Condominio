@@ -12,29 +12,27 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/MyAppTheme">
-        <activity
-            android:name=".admon.SelectorDeTorre" />
+        <activity android:name=".admon.SelectorDeTorre" />
         <activity
             android:name=".dialogos.ActividadDeEspera"
             android:theme="@style/CustomTheme" />
         <activity
             android:name=".admon.RegistroAdministracion"
-            android:label="@string/datos_administracion"/>
+            android:label="@string/datos_administracion" />
         <activity
             android:name=".admon.RegistroDeTorre"
-            android:label="@string/label_torre"/>
+            android:label="@string/label_torre" />
         <activity
             android:name=".admon.RegistroUsuario"
-            android:label="@string/datos_usuario"/>
-        <activity
-            android:name=".admon.NuevoCondominioActivity" />
+            android:label="@string/datos_usuario" />
+        <activity android:name=".admon.NuevoCondominioActivity" />
         <activity
             android:name=".actividades.SplashScreen"
             android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen" />
         <activity
             android:name=".admin.habitantes.ControlDeHabitantes"
             android:label="@string/habitantes"
-            android:theme="@style/MyAppTheme"/>
+            android:theme="@style/MyAppTheme" />
         <activity
             android:name=".actividades.Preparacion"
             android:label="@string/registro" />
@@ -61,8 +59,8 @@
         </activity>
         <activity
             android:name=".admon.MenuDeAdministracion"
-            android:theme="@style/MyAppTheme"
-            android:label="@string/menu_administracion">
+            android:label="@string/menu_administracion"
+            android:theme="@style/MyAppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".admin.CentralPoint" />
@@ -90,20 +88,28 @@
         <activity
             android:name=".admin.formatos.FormatosLobby"
             android:label="@string/title_activity_formatos_lobby"
-            android:parentActivityName=".admin.CentralPoint"
+            android:parentActivityName=".admon.MenuDeAdministracion"
             android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.inspira.condominio.admon.MenuDeAdministracion" />
+        </activity>
+        <activity
+            android:name=".actividades.Configuraciones"
+            android:label="@string/title_activity_configuraciones"
+            android:parentActivityName=".admin.CentralPoint"
+            android:theme="@style/MyAppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.inspira.condominio.admin.CentralPoint" />
         </activity>
         <activity
-            android:name=".actividades.Configuraciones"
-            android:label="@string/title_activity_configuraciones"
-            android:theme="@style/MyAppTheme"
-            android:parentActivityName=".admin.CentralPoint">
+            android:name=".admin.trabajadores.ControlDeTrabajadores"
+            android:label="@string/title_activity_control_de_trabajadores"
+            android:parentActivityName=".admon.MenuDeAdministracion">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="org.inspira.condominio.admin.CentralPoint" />
+                android:value="org.inspira.condominio.admon.MenuDeAdministracion" />
         </activity>
     </application>
 
