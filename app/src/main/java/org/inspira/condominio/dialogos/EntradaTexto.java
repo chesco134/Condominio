@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 
 import org.inspira.condominio.R;
@@ -21,10 +22,15 @@ public class EntradaTexto extends DialogFragment {
 
     private String mensaje;
     private String contenido;
+    private int tipoDeEntradaDeTexto = -1;
 
     public interface AccionDialogo extends Serializable{
         void accionPositiva(DialogFragment fragment);
         void accionNegativa(DialogFragment fragment);
+    }
+
+    public void setTipoDeEntradaDeTexto(int tipoDeEntradaDeTexto) {
+        this.tipoDeEntradaDeTexto = tipoDeEntradaDeTexto;
     }
 
     private AccionDialogo accionDialogo;
@@ -59,6 +65,8 @@ public class EntradaTexto extends DialogFragment {
         }
         contenido = args.getString("contenido");
         entradaDeTexto.setText(contenido);
+        if(tipoDeEntradaDeTexto != -1)
+            entradaDeTexto.setInputType(tipoDeEntradaDeTexto);
         mensaje = args.getString("mensaje");
         builder.setTitle(mensaje)
                 .setPositiveButton(R.string.dialogo_entrada_texto_aceptar, new DialogInterface.OnClickListener() {

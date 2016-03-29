@@ -184,4 +184,22 @@
     <string name="formato_registro_de_habitante_femenino">Femenino</string>
     <string name="formato_registro_de_trabajador_masculino">Masculino</string>
     <string name="formato_registro_de_trabajador_femenino">Femenino</string>
+    <string name="resumen_condominio_etiqueta_antiguedad">Antigüedad:</string>
+    <string name="resumen_condominio_antiguedad_tail">años</string>
+    <string name="resumen_condominio_etiqueta_inmoviliaria">Inmoviliaria:</string>
+    <string name="resumen_condominio_posee_sala_de_juntas">posee sala de juntas</string>
+    <string name="resumen_condominio_posee_gym">posee_gym</string>
+    <string name="resumen_condominio_posee_espacio_recreativo">posee espacio recreativo</string>
+    <string name="resumen_condominio_posee_espacio_cultural">posee espacio cultural</string>
+    <string name="resumen_condominio_posee_oficinas_administrativas">posee oficinas administrativas</string>
+    <string name="resumen_condominio_posee_alarma_sismica">posee alarma sísmica</string>
+    <string name="resumen_condominio_cantidad_cajones_estacionamiento">Cajones de estacionamiento:</string>
+    <string name="resumen_condominio_cantidad_lugares_estacionamiento_tail">cajones</string>
+    <string name="resumen_condominio_cantidad_de_lugares_estacionamiento_visitas">Cajones de estacionamiento para visitas:</string>
+    <string name="resumen_condominio_cantidad_lugares_estacionamiento_visitas_tail">cajones</string>
+    <string name="resumen_condominio_posee_cisterna_agua_pluvial">posee cisterna agua pluvial</string>
+    <string name="resumen_condominio_costo_aprox_por_unidad_privativa">Costo aproximado por unidad privativa:</string>
+    <string name="resumen_condominio_costo_aprox_por_unidad_privativa_tail">pesos</string>
+    <string name="resumen_condominio_etiqueta_capacidad_cisterna">Capacidad de la cisterna:</string>
+    <string name="resumen_condominio_capacidad_cisterna_tail">litros</string>
 </resources>
