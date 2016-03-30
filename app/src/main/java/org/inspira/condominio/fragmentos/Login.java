@@ -10,6 +10,7 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -298,7 +299,8 @@ public class Login extends Fragment {
             setUserInfo(usrInfo);
             setConvocatorias(json);
             getActivity().finishActivity(1234);
-            getActivity().setResult(Activity.RESULT_OK);
+            getActivity().setResult(AppCompatActivity.RESULT_OK);
+            Log.d("Atuni", "Setting resultCode: " + AppCompatActivity.RESULT_OK + " -- " + Activity.RESULT_OK);
             getActivity().finish();
         }
 

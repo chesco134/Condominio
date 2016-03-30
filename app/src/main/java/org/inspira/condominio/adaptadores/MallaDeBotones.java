@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.inspira.condominio.R;
+import org.inspira.condominio.admin.condominio.EstadoDeCondominio;
 import org.inspira.condominio.admin.formatos.FormatosLobby;
 import org.inspira.condominio.admin.trabajadores.ControlDeTrabajadores;
 
@@ -70,7 +71,7 @@ public class MallaDeBotones extends BaseAdapter {
         public void onClick(View view){
             switch(destiny){
                 case 0:
-                    //
+                    context.startActivity(new Intent(context, EstadoDeCondominio.class));
                     break;
                 case 1:
                     context.startActivity(new Intent(context, FormatosLobby.class));

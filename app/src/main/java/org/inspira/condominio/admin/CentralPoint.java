@@ -11,6 +11,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -35,6 +36,15 @@ import org.inspira.condominio.dialogos.ProveedorSnackBar;
 import org.inspira.condominio.networking.ContactoConServidor;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.ByteArrayOutputStream;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 
 public class CentralPoint extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -167,6 +177,7 @@ public class CentralPoint extends AppCompatActivity
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data){
+        Log.d("Atún", "Request code: " + requestCode + ", resultCode: " + resultCode + ", data? " + (data != null) + " $$ " + RESULT_OK);
         if(resultCode != RESULT_OK)
             finish();
     }
@@ -254,3 +265,44 @@ public class CentralPoint extends AppCompatActivity
         public void problemasDeConexion(Thread t) {}
     }
 }
+
+/**
+ *
+ *
+ *
+ if(savedInstanceState == null)
+ new Thread(){
+@Override
+public void run(){
+try{
+JSONObject json = new JSONObject();
+json.put("action",0);
+json.put("query", "insert into Tipo_de_Administrador values(2,'Condómino')");
+String content = json.toString();
+HttpURLConnection con = (HttpURLConnection) new URL(SERVER_URL).openConnection();
+con.setDoOutput(true);
+DataOutputStream salida = new DataOutputStream(con.getOutputStream());
+String body = content;//URLEncoder.encode(content, "utf8").trim();
+salida.write(body.getBytes());
+salida.flush();
+Log.d("Banner", "Sent: " + body);
+DataInputStream entrada = new DataInputStream(con.getInputStream());
+int length;
+byte[] chunk = new byte[64];
+ByteArrayOutputStream baos = new ByteArrayOutputStream();
+while((length = entrada.read(chunk))!= -1)
+baos.write(chunk, 0, length);
+Log.d("Banner", "Response ("+baos.size()+"): " + URLDecoder.decode(baos.toString(), "utf8"));
+baos.close();
+entrada.close();
+salida.close();
+con.disconnect();
+}catch(IOException | JSONException e){
+e.printStackTrace();
+}
+}
+}.start();
+ *
+ *
+ *
+ ***/

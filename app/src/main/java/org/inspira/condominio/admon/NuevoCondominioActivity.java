@@ -209,8 +209,7 @@ public class NuevoCondominioActivity extends AppCompatActivity {
 
     private void iniciaRegistroDeAdministracion() {
         /** Si se debe registrar a cada torre por separado, lanzar ese número de formularios. **/
-        startActivity(new Intent(this, RegistroAdministracion.class));
-        finish();
+        startActivityForResult(new Intent(this, RegistroAdministracion.class), 123);
     }
 
     private String armaCuerpoDeMensaje() {
@@ -336,7 +335,10 @@ public class NuevoCondominioActivity extends AppCompatActivity {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data){
-        setResult(resultCode);
-        finish();
+        Log.d("Nvo Condominio", "Came here with requestCode: " + requestCode + " and resultCode: " + resultCode);
+        if(requestCode != 1234) {
+            setResult(resultCode);
+            finish();
+        }
     }
 }

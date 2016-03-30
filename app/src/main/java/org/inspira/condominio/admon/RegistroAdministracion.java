@@ -3,6 +3,7 @@ package org.inspira.condominio.admon;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.GridView;
@@ -243,8 +244,7 @@ public class RegistroAdministracion extends AppCompatActivity {
     }
 
     private void iniciaRegistroDeUsuario() {
-        startActivity(new Intent(this, RegistroUsuario.class));
-        finish();
+        startActivityForResult(new Intent(this, RegistroUsuario.class), 1235);
     }
 
     private void habilitaBoton(){
@@ -254,6 +254,7 @@ public class RegistroAdministracion extends AppCompatActivity {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data){
+        Log.d("Reg Admon", "Came here with requestCode: " + requestCode + " and resultCode: " + resultCode);
         setResult(resultCode);
         finish();
     }

@@ -13,7 +13,7 @@
         android:layout_height="@dimen/app_bar_height"
         android:fitsSystemWindows="true"
         android:theme="@style/MyAppTheme.AppBarOverlay"
-        android:background="@color/colorPrimary">
+        android:background="@drawable/condominio_bkg">
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/toolbar_layout"
@@ -21,7 +21,6 @@
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
             app:expandedTitleTextAppearance="@style/collapsedAppBarTextAppearance"
-            app:collapsedTitleTextAppearance="@style/AppBarTextWhite"
             app:contentScrim="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed">
 
@@ -36,4 +35,13 @@
     </android.support.design.widget.AppBarLayout>
 
     <include layout="@layout/contenido_resumen_condominio" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/fab_margin"
+        android:src="@drawable/ic_assignment_white_24dp"
+        app:layout_anchor="@id/app_bar"
+        app:layout_anchorGravity="bottom|end"   />
 </android.support.design.widget.CoordinatorLayout>

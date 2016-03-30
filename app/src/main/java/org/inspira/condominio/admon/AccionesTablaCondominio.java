@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import org.inspira.condominio.actividades.ProveedorDeRecursos;
 import org.inspira.condominio.datos.Condominio;
 import org.inspira.condominio.datos.CondominioBD;
 import org.inspira.condominio.datos.TipoDeCondominio;
@@ -135,5 +136,13 @@ public class AccionesTablaCondominio {
         c.close();
         db.close();
         return resultado;
+    }
+
+    public static void actualizaCampo(Context context, String key, String value){
+        ContentValues values = new ContentValues();
+        values.put(key, value);
+        SQLiteDatabase db = new CondominioBD(context).getWritableDatabase();
+        db.update("Condominio", values, "idCondominio = CAST(? as INTEGER)", new String[]{String.valueOf(ProveedorDeRecursos.obtenerIdCondominio(context))});
+        db.close();
     }
 }
