@@ -88,4 +88,12 @@ public class AccionesTablaAdministracion {
         db.close();
         return administracion;
     }
+
+    public static void actualizaCampo(Context context, String key, String value){
+        ContentValues values = new ContentValues();
+        values.put(key, value);
+        SQLiteDatabase db = new CondominioBD(context).getWritableDatabase();
+        db.update("Administracion", values, "idAdministracion = CAST(? as INTEGER)", new String[]{String.valueOf(ProveedorDeRecursos.obtenerIdAdministracion(context))});
+        db.close();
+    }
 }

@@ -137,4 +137,5 @@ Las convocatorias para la celebración de asambleas ordinarias, se notificarán 
     <string name="menu_administracion">Administración</string>
     <string name="title_activity_control_de_trabajadores">ControlDeTrabajadores</string>
     <string name="Datos_de_Condominio">Datos de condominio</string>
+    <string name="Datos_de_Administracion">Administración</string>
 </resources>

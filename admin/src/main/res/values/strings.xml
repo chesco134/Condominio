@@ -208,6 +208,8 @@
     <string name="resumen_administracion_etiqueta_cuota_anual">Monto de \ncuota anual:</string>
     <string name="resumen_administracion_cuota_anual_pesos">pesos</string>
     <string name="resumen_administracion_promedio_egresos_tail">pesos</string>
-    <string name="resumen_administracion_etiqueta_promedio_egresos">Promedio de egresos\ndel semestre pasado:</string>
-    <string name="resumen_administracion_promedio_inicial_morosidad">Promedio de morosidad\ndel semestre pasado:</string>
+    <string name="resumen_administracion_etiqueta_promedio_egresos">Promedio de egresos\ndel semestre anterior:</string>
+    <string name="resumen_administracion_promedio_inicial_morosidad">Promedio de morosidad\ndel semestre anterior:</string>
+    <string name="resumen_administracion_etiqueta_cuota_mensual">Monto de \ncuota mensual:</string>
+    <string name="resumen_administracion_intervalo_transparencia">Intervalo de transparencia:</string>
 </resources>
