@@ -221,6 +221,7 @@
             android:orientation="vertical"
             android:layout_below="@+id/resumen_administracion_etiqueta_contacto"
             android:layout_marginTop="12sp"
+            android:layout_marginBottom="20sp"
             android:layout_alignStart="@+id/resumen_administracion_contenedor_de_cuota_mensual"
             android:layout_alignLeft="@+id/resumen_administracion_contenedor_de_cuota_mensual"/>
     </RelativeLayout>

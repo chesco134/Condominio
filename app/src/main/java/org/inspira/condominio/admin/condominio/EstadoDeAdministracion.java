@@ -1,30 +1,49 @@
 package org.inspira.condominio.admin.condominio;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.inspira.condominio.R;
 import org.inspira.condominio.actividades.AccionCheckBox;
 import org.inspira.condominio.actividades.ActualizaEntradaDesdeArreglo;
+import org.inspira.condominio.actividades.ActualizarCampoDeContacto;
 import org.inspira.condominio.actividades.ColocaValorDesdeDialogo;
 import org.inspira.condominio.actividades.InsertarElementoMultivalor;
+import org.inspira.condominio.actividades.MuestraMensajeDesdeHilo;
 import org.inspira.condominio.actividades.ProveedorDeRecursos;
 import org.inspira.condominio.admon.AccionesTablaAdministracion;
+import org.inspira.condominio.admon.CompruebaCamposJSON;
 import org.inspira.condominio.datos.Administracion;
+import org.inspira.condominio.datos.ContactoAdministracion;
+import org.inspira.condominio.dialogos.EntradaTexto;
+import org.inspira.condominio.dialogos.RemocionElementos;
+import org.inspira.condominio.fragmentos.OrdenDelDia;
+import org.inspira.condominio.networking.ContactoConServidor;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by jcapiz on 30/03/16.
  */
 public class EstadoDeAdministracion extends AppCompatActivity implements ColocaValorDesdeDialogo.FormatoDeMensaje, AccionCheckBox.ActualizacionDeCampo {
+
+    private LinearLayout contenedorContactos;
+    private int[] idContactos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -65,6 +84,24 @@ public class EstadoDeAdministracion extends AppCompatActivity implements ColocaV
         intramuros.setOnCheckedChangeListener(new AccionCheckBox(this, this, this));
         planes.setOnCheckedChangeListener(new AccionCheckBox(this, this, this));
         wifi.setOnCheckedChangeListener(new AccionCheckBox(this, this, this));
+        ContactoAdministracion[] contactos = AccionesTablaAdministracion.obtenerListaDeContactos(this);
+        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        contenedorContactos = (LinearLayout) findViewById(R.id.resumen_administracion_contenedor_de_contacto);
+        TextView nuevoTexto;
+        Bundle args = new Bundle();
+        args.putInt("action", ProveedorDeRecursos.ACTUALIZACION_DE_CONTACTO);
+        args.putString("table", "Contacto_Administracion");
+        args.putString("column", "contacto");
+        idContactos = new int[contactos.length];
+        int i=0;
+        for(ContactoAdministracion contacto : contactos){
+            args.putInt("pk_value", contacto.getId());
+            nuevoTexto = (TextView) inflater.inflate(R.layout.entrada_simple_de_texto, contenedorContactos, false);
+            nuevoTexto.setText(contacto.getContacto());
+            nuevoTexto.setOnClickListener(ActualizarCampoDeContacto.crearActualizarCampoDeContacto(this, args));
+            idContactos[i] = i++;
+            contenedorContactos.addView(nuevoTexto);
+        }
     }
 
     @Override
@@ -79,8 +116,86 @@ public class EstadoDeAdministracion extends AppCompatActivity implements ColocaV
         if( itemId == R.id.resumen_administracion_add_contacto){
             lanzaDialogoMultivalor();
             return true;
+        } else if( itemId == R.id.resumen_administracion_remove_contacto ){
+            lanzaDialogoRemocionDeContactos();
+            return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void lanzaDialogoRemocionDeContactos() {
+        RemocionElementos rm = new RemocionElementos();
+        final ContactoAdministracion[] contactos = AccionesTablaAdministracion.obtenerListaDeContactos(this);
+        String[] elementos = new String[contactos.length];
+        int i=0;
+        for(ContactoAdministracion contacto : contactos)
+            elementos[i++] = contacto.getContacto();
+        Bundle args = new Bundle();
+        args.putStringArray("elementos", elementos);
+        rm.setArguments(args);
+        rm.setAd(new EntradaTexto.AccionDialogo() {
+            @Override
+            public void accionPositiva(DialogFragment fragment) {
+                final Integer[] seleccion = ((RemocionElementos)fragment).getElementosSeleccionados();
+                OrdenDelDia.prepareElements(seleccion);
+                String contenidoDeMensaje = armarContenidoDeMensaje(seleccion);
+                ContactoConServidor contacto = new ContactoConServidor(new ContactoConServidor.AccionesDeValidacionConServidor() {
+                    @Override
+                    public void resultadoSatisfactorio(Thread t) {
+                        String respuesta = ((ContactoConServidor)t).getResponse();
+                        if(CompruebaCamposJSON.validaContenido(respuesta)){
+                            eliminarElementosEnBaseDeDatos();
+                            MuestraMensajeDesdeHilo.muestraMensaje(EstadoDeAdministracion.this, contenedorContactos, "Hecho");
+                        }else
+                            MuestraMensajeDesdeHilo.muestraMensaje(EstadoDeAdministracion.this, contenedorContactos, "Servicio por el momento no disponible");
+                    }
+
+                    private void eliminarElementosEnBaseDeDatos() {
+                        AccionesTablaAdministracion.eliminarContactos(EstadoDeAdministracion.this, seleccion);
+                        quitarElementosDeLaLista(seleccion);
+                    }
+
+                    @Override
+                    public void problemasDeConexion(Thread t) {
+                        MuestraMensajeDesdeHilo.muestraMensaje(EstadoDeAdministracion.this, contenedorContactos, "Servicio momentaneamente inalcanzable");
+                    }
+                }, contenidoDeMensaje);
+                contacto.start();
+            }
+
+            private String armarContenidoDeMensaje(Integer[] seleccion){
+                String contenidoDeMensaje = null;
+                try{
+                    JSONObject json = new JSONObject();
+                    json.put("action", ProveedorDeRecursos.REMOCION_DE_CONTACTOS);
+                    json.put("table", "Contacto_Administracion");
+                    JSONArray array = new JSONArray();
+                    for(Integer index : seleccion)
+                        array.put(contactos[index].getId());
+                    json.put("elementos", array);
+                    contenidoDeMensaje = json.toString();
+                }catch (JSONException e){
+                    e.printStackTrace();
+                }
+                return contenidoDeMensaje;
+            }
+
+            @Override
+            public void accionNegativa(DialogFragment fragment) {
+                MuestraMensajeDesdeHilo.muestraMensaje(EstadoDeAdministracion.this, contenedorContactos, "Servicio temporalmente inalcanzable");
+            }
+        });
+        rm.show(getSupportFragmentManager(), "Eliminar Contactos");
+    }
+
+    private void quitarElementosDeLaLista(final Integer[] seleccion) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                for(Integer index : seleccion)
+                    contenedorContactos.removeView(contenedorContactos.getChildAt(index));
+            }
+        });
     }
 
     private void lanzaDialogoMultivalor() {

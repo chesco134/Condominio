@@ -31,6 +31,8 @@ public class ProveedorDeRecursos {
     public static final int ACTUALIZAR_DATOS_CONDOMINIO = 24;
     public static final int ACTUALIZAR_DATOS_ADMINISTRACION = 25;
     public static final int REGISTRO_CONTACTO = 26;
+    public static final int ACTUALIZACION_DE_CONTACTO = 27;
+    public static final int REMOCION_DE_CONTACTOS = 28;
 
     public static int obtenerColorDeError(Context context){
         return context.getResources().getColor(R.color.error);

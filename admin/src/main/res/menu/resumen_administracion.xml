@@ -4,4 +4,7 @@
     <item android:id="@+id/resumen_administracion_add_contacto"
         android:title="@string/resumen_administracion_add_contacto"
         app:showAsAction="never" />
+    <item android:id="@+id/resumen_administracion_remove_contacto"
+        android:title="@string/resumen_administracion_remove_contacto"
+        app:showAsAction="never" />
 </menu>

@@ -154,7 +154,7 @@
     <string name="consulta_condominio_texto_boton_consulta">Unirse</string>
     <string name="consulta_condominio_texto_boton_nuevo_registro">Registrar</string>
     <string name="consulta_condominio_texto_saludo">Hola</string>
-    <string name="nuevo_condominio_cantidad_de_lugares_estacionamiento_visitas"># Cajodes de estacionamiento visitas</string>
+    <string name="nuevo_condominio_cantidad_de_lugares_estacionamiento_visitas"># Cajones de estacionamiento visitas</string>
     <string name="formulario_registro_administracion_costo_mantenimiento_mensual">Cuota de mantenimiento mensual</string>
     <string name="formulario_registro_administracion_costo_mantenimiento_anual">Cuota de mantenimiento anual</string>
     <string name="formulario_registro_administracion_promedio_morosidad">Promedio de morosidad semestral anterior</string>
@@ -212,5 +212,6 @@
     <string name="resumen_administracion_promedio_inicial_morosidad">Promedio de morosidad\ndel semestre anterior:</string>
     <string name="resumen_administracion_etiqueta_cuota_mensual">Monto de \ncuota mensual:</string>
     <string name="resumen_administracion_intervalo_transparencia">Intervalo de transparencia:</string>
-    <string name="resumen_administracion_add_contacto">+contacto</string>
+    <string name="resumen_administracion_add_contacto">+ Contacto</string>
+    <string name="resumen_administracion_remove_contacto">- Contacto</string>
 </resources>

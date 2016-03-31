@@ -8,7 +8,11 @@ import android.database.sqlite.SQLiteDatabase;
 import org.inspira.condominio.actividades.ProveedorDeRecursos;
 import org.inspira.condominio.datos.Administracion;
 import org.inspira.condominio.datos.CondominioBD;
+import org.inspira.condominio.datos.ContactoAdministracion;
 import org.inspira.condominio.datos.IntervaloDeTransparencia;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by jcapiz on 18/03/16.
@@ -95,5 +99,35 @@ public class AccionesTablaAdministracion {
         SQLiteDatabase db = new CondominioBD(context).getWritableDatabase();
         db.update("Administracion", values, "idAdministracion = CAST(? as INTEGER)", new String[]{String.valueOf(ProveedorDeRecursos.obtenerIdAdministracion(context))});
         db.close();
+    }
+
+    public static ContactoAdministracion[] obtenerListaDeContactos(Context context){
+        CondominioBD condominioBD = new CondominioBD(context);
+        SQLiteDatabase db = condominioBD.getReadableDatabase();
+        Cursor c = db.rawQuery("select * from Contacto_Administracion where idAdministracion " +
+                        "= CAST(? as INTEGER)",
+                new String[]{String.valueOf(ProveedorDeRecursos.obtenerIdAdministracion(context))});
+        List<ContactoAdministracion> contactos = new ArrayList<>();
+        ContactoAdministracion contacto;
+        while(c.moveToNext()){
+            contacto = new ContactoAdministracion(c.getInt(c.getColumnIndex("idContacto_Administracion")));
+            contacto.setAdministracion(AccionesTablaAdministracion.obtenerAdministracion(context, ProveedorDeRecursos.obtenerIdAdministracion(context)));
+            contacto.setContacto(c.getString(c.getColumnIndex("contacto")));
+            contactos.add(contacto);
+        }
+        c.close();
+        db.close();
+        condominioBD.close();
+        return contactos.toArray(new ContactoAdministracion[0]);
+    }
+
+    public static void eliminarContactos(Context context, Integer[] idsContactos){
+        CondominioBD condominioBD = new CondominioBD(context);
+        SQLiteDatabase db = condominioBD.getWritableDatabase();
+        for(Integer index : idsContactos)
+            db.delete("Contacto_Administracion", "idContacto_Administracion = CAST(? as INTEGER)",
+                    new String[]{String.valueOf(index)});
+        db.close();
+        condominioBD.close();
     }
 }
