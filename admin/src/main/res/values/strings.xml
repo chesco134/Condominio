@@ -214,4 +214,7 @@
     <string name="resumen_administracion_intervalo_transparencia">Intervalo de transparencia:</string>
     <string name="resumen_administracion_add_contacto">+ Contacto</string>
     <string name="resumen_administracion_remove_contacto">- Contacto</string>
+    <string name="detalles_habitante_etiqueta_nombre_departamento">Departamento:</string>
+    <string name="detalles_habitante_es_propietario">Propietario</string>
+    <string name="detalles_habitante_etiqueta_observaciones">Observaciones:</string>
 </resources>
