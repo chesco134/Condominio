@@ -12,7 +12,7 @@
 
         <RelativeLayout
             android:id="@+id/resumen_administracion_contenedor_de_cuota_mensual"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
@@ -48,7 +48,7 @@
 
         <RelativeLayout
             android:id="@+id/resumen_administracion_contenedor_de_cuota_anual"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignStart="@+id/resumen_administracion_contenedor_de_cuota_mensual"
             android:layout_alignLeft="@+id/resumen_administracion_contenedor_de_cuota_mensual"
@@ -81,7 +81,7 @@
         </RelativeLayout>
         <RelativeLayout
             android:id="@+id/resumen_administracion_contenedor_promedio_inicial_egresos"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/resumen_administracion_contenedor_de_cuota_anual"
             android:layout_marginTop="12sp"
@@ -114,7 +114,7 @@
         </RelativeLayout>
         <RelativeLayout
             android:id="@+id/resumen_administracion_contenedor_promedio_inicial_morosidad"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/resumen_administracion_contenedor_promedio_inicial_egresos"
             android:layout_marginTop="12sp"
@@ -147,7 +147,7 @@
         </RelativeLayout>
         <RelativeLayout
             android:id="@+id/resumen_administracion_contenedor_intervalo_transparencia"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/resumen_administracion_contenedor_promedio_inicial_morosidad"
             android:layout_alignStart="@+id/resumen_administracion_contenedor_de_cuota_mensual"
@@ -206,5 +206,22 @@
                 android:text="mantenimiento profesional al cuarto de maquinas"
                 android:layout_gravity="center_vertical"/>
         </TableLayout>
+        <TextView
+            android:id="@+id/resumen_administracion_etiqueta_contacto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/resumen_administracion_contenedor_de_cuota_mensual"
+            android:layout_alignLeft="@+id/resumen_administracion_contenedor_de_cuota_mensual"
+            android:layout_below="@+id/resumen_administracion_contenedor_campos_opcionales"
+            android:layout_marginTop="12sp"/>
+        <LinearLayout
+            android:id="@+id/resumen_administracion_contenedor_de_contacto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_below="@+id/resumen_administracion_etiqueta_contacto"
+            android:layout_marginTop="12sp"
+            android:layout_alignStart="@+id/resumen_administracion_contenedor_de_cuota_mensual"
+            android:layout_alignLeft="@+id/resumen_administracion_contenedor_de_cuota_mensual"/>
     </RelativeLayout>
 </android.support.v4.widget.NestedScrollView>

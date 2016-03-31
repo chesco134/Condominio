@@ -212,4 +212,5 @@
     <string name="resumen_administracion_promedio_inicial_morosidad">Promedio de morosidad\ndel semestre anterior:</string>
     <string name="resumen_administracion_etiqueta_cuota_mensual">Monto de \ncuota mensual:</string>
     <string name="resumen_administracion_intervalo_transparencia">Intervalo de transparencia:</string>
+    <string name="resumen_administracion_add_contacto">+contacto</string>
 </resources>

@@ -4,6 +4,9 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
@@ -11,6 +14,7 @@ import org.inspira.condominio.R;
 import org.inspira.condominio.actividades.AccionCheckBox;
 import org.inspira.condominio.actividades.ActualizaEntradaDesdeArreglo;
 import org.inspira.condominio.actividades.ColocaValorDesdeDialogo;
+import org.inspira.condominio.actividades.InsertarElementoMultivalor;
 import org.inspira.condominio.actividades.ProveedorDeRecursos;
 import org.inspira.condominio.admon.AccionesTablaAdministracion;
 import org.inspira.condominio.datos.Administracion;
@@ -61,6 +65,35 @@ public class EstadoDeAdministracion extends AppCompatActivity implements ColocaV
         intramuros.setOnCheckedChangeListener(new AccionCheckBox(this, this, this));
         planes.setOnCheckedChangeListener(new AccionCheckBox(this, this, this));
         wifi.setOnCheckedChangeListener(new AccionCheckBox(this, this, this));
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        getMenuInflater().inflate(R.menu.resumen_administracion, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        int itemId = item.getItemId();
+        if( itemId == R.id.resumen_administracion_add_contacto){
+            lanzaDialogoMultivalor();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void lanzaDialogoMultivalor() {
+        Bundle args = new Bundle();
+        args.putInt(InsertarElementoMultivalor.ACCION, ProveedorDeRecursos.REGISTRO_CONTACTO);
+        args.putString(InsertarElementoMultivalor.TITULO, "E-mail, facebook, twitter, tel, etc.");
+        args.putString(InsertarElementoMultivalor.TABLE_NAME, "Contacto_Administracion");
+        args.putString(InsertarElementoMultivalor.COLUMN_NAME, "contacto");
+        args.putString(InsertarElementoMultivalor.FK_NAME, "idAdministracion");
+        args.putInt(InsertarElementoMultivalor.FK_VALUE, ProveedorDeRecursos.obtenerIdAdministracion(this));
+        args.putInt(InsertarElementoMultivalor.INPUT_TYPE, InputType.TYPE_CLASS_TEXT);
+        InsertarElementoMultivalor dialogo = InsertarElementoMultivalor.crearDialogo(args);
+        dialogo.show(getSupportFragmentManager(), "Insertar 1 valor");
     }
 
     @Override
