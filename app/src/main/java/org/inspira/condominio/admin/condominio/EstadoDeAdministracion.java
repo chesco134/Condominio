@@ -210,6 +210,7 @@ public class EstadoDeAdministracion extends AppCompatActivity implements ColocaV
         args.putString(InsertarElementoMultivalor.FK_NAME, "idAdministracion");
         args.putInt(InsertarElementoMultivalor.FK_VALUE, ProveedorDeRecursos.obtenerIdAdministracion(this));
         args.putInt(InsertarElementoMultivalor.INPUT_TYPE, InputType.TYPE_CLASS_TEXT);
+        args.putInt(InsertarElementoMultivalor.RECURSO_DE_CONTENEDOR, R.id.resumen_administracion_contenedor_de_contacto);
         InsertarElementoMultivalor dialogo = InsertarElementoMultivalor.crearDialogo(args);
         dialogo.show(getSupportFragmentManager(), "Insertar 1 valor");
     }

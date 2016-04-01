@@ -10,9 +10,10 @@
 
     <RelativeLayout
         android:layout_width="match_parent" android:layout_height="wrap_content">
+
         <TextView
             android:id="@+id/detalles_habitante_etiqueta_contacto"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="12sp"
             android:layout_marginLeft="12sp"
@@ -25,7 +26,6 @@
             android:orientation="vertical"
             android:layout_below="@+id/detalles_habitante_etiqueta_contacto"
             android:layout_marginTop="12sp"
-            android:layout_marginBottom="20sp"
             android:layout_alignStart="@+id/detalles_habitante_etiqueta_contacto"
             android:layout_alignLeft="@+id/detalles_habitante_etiqueta_contacto"/>
         <TextView
@@ -45,6 +45,7 @@
             android:layout_alignStart="@+id/detalles_habitante_etiqueta_contacto"
             android:layout_alignLeft="@+id/detalles_habitante_etiqueta_contacto"
             android:layout_marginTop="12sp"
+            android:layout_marginBottom="20sp"
             android:orientation="vertical"/>
     </RelativeLayout>
 </android.support.v4.widget.NestedScrollView>

@@ -203,4 +203,26 @@ public class AccionesTablaHabitante {
         condominioBD.close();
         return poseeSeguro != 0;
     }
+
+    public static Habitante obtenerHabitante(Context context, int id) {
+        CondominioBD condominioBD = new CondominioBD(context);
+        SQLiteDatabase db = condominioBD.getReadableDatabase();
+        Cursor c = db.rawQuery("select * from Habitante where idHabitante = CAST(? as INTEGER)",
+                new String[]{String.valueOf(id)});
+        Habitante habitante;
+        if(c.moveToFirst()) {
+            habitante = new Habitante(id);
+            habitante.setNombreDepartamento(c.getString(c.getColumnIndex("nombre_departamento")));
+            habitante.setIdTorre(c.getInt(c.getColumnIndex("idTorre")));
+            habitante.setGenero(c.getInt(c.getColumnIndex("genero")) != 0);
+            habitante.setNombres(c.getString(c.getColumnIndex("nombres")));
+            habitante.setApPaterno(c.getString(c.getColumnIndex("ap_paterno")));
+            habitante.setApMaterno(c.getString(c.getColumnIndex("ap_materno")));
+        }else
+            habitante = null;
+        c.close();
+        db.close();
+        condominioBD.close();
+        return habitante;
+    }
 }

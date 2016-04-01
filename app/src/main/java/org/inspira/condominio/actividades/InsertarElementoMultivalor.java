@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import org.inspira.condominio.R;
 import org.inspira.condominio.admon.CompruebaCamposJSON;
@@ -39,7 +40,7 @@ public class InsertarElementoMultivalor extends DialogFragment {
     public static final java.lang.String TITULO = "titulo";
     //public static final java.lang.String CURRENT_VALUE = "valor_actual";
     public static final java.lang.String INPUT_TYPE = "input_type";
-    private static final String RECURSO_DE_CONTENEDOR = "content_res";
+    public static final String RECURSO_DE_CONTENEDOR = "content_res";
     private String tableName;
     private String columnName;
     private EditText entradaDeTexto;
@@ -94,6 +95,7 @@ public class InsertarElementoMultivalor extends DialogFragment {
         columnName = args.getString(COLUMN_NAME);
         fkName = args.getString(FK_NAME);
         fkValue = args.getInt(FK_VALUE);
+        recursoDeContenedor = args.getInt(RECURSO_DE_CONTENEDOR);
         String titulo = args.getString(TITULO);
         int tipoDeEntradaTextual = args.getInt(INPUT_TYPE);
         RelativeLayout contenedor = (RelativeLayout)((LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.entrada_de_texto, null, false);
@@ -176,5 +178,25 @@ public class InsertarElementoMultivalor extends DialogFragment {
         db.insert(tableName, "---", values);
         db.close();
         bdCondominio.close();
+        colocarEtiquetaEnActividad(pk_value, valor);
+    }
+
+    private void colocarEtiquetaEnActividad(String pkValue, String texto){
+        final LinearLayout container = (LinearLayout)((AppCompatActivity)context).findViewById(recursoDeContenedor);
+        Bundle args = new Bundle();
+        args.putInt("action", ProveedorDeRecursos.ACTUALIZACION_DE_CONTACTO);
+        args.putString("table", tableName);
+        args.putString("column", columnName);
+        args.putInt("pk_value", Integer.parseInt(pkValue));
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        final TextView nuevoTexto = (TextView) inflater.inflate(R.layout.entrada_simple_de_texto, container, false);
+        nuevoTexto.setText(texto);
+        nuevoTexto.setOnClickListener(ActualizarCampoDeContacto.crearActualizarCampoDeContacto(context, args));
+        ((AppCompatActivity)context).runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                container.addView(nuevoTexto);
+            }
+        });
     }
 }

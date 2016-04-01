@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import org.inspira.condominio.R;
 import org.inspira.condominio.actividades.AccionCheckBox;
+import org.inspira.condominio.actividades.ActualizaEntradaDesdeArreglo;
 import org.inspira.condominio.actividades.ActualizarCampoDeContacto;
 import org.inspira.condominio.actividades.ColocaValorDesdeDialogo;
 import org.inspira.condominio.actividades.InsertarElementoMultivalor;
@@ -26,11 +27,13 @@ import org.inspira.condominio.actividades.ProveedorDeRecursos;
 import org.inspira.condominio.admin.condominio.EstadoDeCondominio;
 import org.inspira.condominio.admon.AccionesTablaAdministracion;
 import org.inspira.condominio.admon.AccionesTablaHabitante;
+import org.inspira.condominio.admon.AccionesTablaTorre;
 import org.inspira.condominio.admon.CompruebaCamposJSON;
 import org.inspira.condominio.datos.ContactoAdministracion;
 import org.inspira.condominio.datos.ContactoHabitante;
 import org.inspira.condominio.datos.Habitante;
 import org.inspira.condominio.datos.PropietarioDeDepartamento;
+import org.inspira.condominio.datos.Torre;
 import org.inspira.condominio.dialogos.EntradaTexto;
 import org.inspira.condominio.dialogos.ProveedorSnackBar;
 import org.inspira.condominio.dialogos.RemocionElementos;
@@ -40,6 +43,7 @@ import org.inspira.condominio.networking.ContactoConServidor;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 /**
  * Created by jcapiz on 1/04/16.
@@ -62,12 +66,41 @@ public class ResumenHabitante extends AppCompatActivity implements ColocaValorDe
         ActionBar actionBar = getSupportActionBar();
         assert actionBar != null;
         actionBar.setDisplayHomeAsUpEnabled(true);
-        habitante = (Habitante) getIntent().getSerializableExtra("habitante");
+        if(savedInstanceState == null)
+            habitante = (Habitante) getIntent().getSerializableExtra("habitante");
+        else
+            habitante = AccionesTablaHabitante.obtenerHabitante(this, habitante.getId());
         nombreHabitante = (TextView) findViewById(R.id.detalles_habitante_nombre);
         String nombreCompleto = habitante.getApPaterno() + " " + habitante.getApMaterno() + " "
                 + habitante.getNombres();
         assert nombreHabitante != null;
         nombreHabitante.setText(nombreCompleto);
+        TextView torre = (TextView) findViewById(R.id.detalles_habitante_torre);
+        assert torre != null;
+        torre.setText(AccionesTablaTorre.obtenerTorre(this, habitante.getIdTorre()).getNombre());
+        Torre[] torres = AccionesTablaTorre.obtenerTorres(this, ProveedorDeRecursos.obtenerIdAdministracion(this));
+        String[] elementos = new String[torres.length];
+        int i = 0;
+        for(Torre t : torres)
+            elementos[i++] = t.getNombre();
+        torre.setOnClickListener(
+                new ActualizaEntradaDesdeArreglo(this, new ColocaValorDesdeDialogo.FormatoDeMensaje() {
+                    @Override
+                    public String armarContenidoDeMensaje(String key, String value) {
+                        String contenidoDeMensaje = null;
+                        try{
+                            JSONObject json = new JSONObject();
+                            json.put("action", ProveedorDeRecursos.ACTUALIZAR_DATOS_HABITANTE);
+                            json.put("idTorre", habitante.getId());
+                            json.put("key", key);
+                            json.put("value", value);
+                            contenidoDeMensaje = json.toString();
+                        }catch(JSONException e){
+                            e.printStackTrace();
+                        }
+                        return contenidoDeMensaje;
+                    }
+                }, elementos, "idTorre", this));
         TextView nombreDepartamento = (TextView) findViewById(R.id.detalles_habitante_nombre_departamento);
         assert nombreDepartamento != null;
         nombreDepartamento.setText(habitante.getNombreDepartamento());
@@ -109,7 +142,7 @@ public class ResumenHabitante extends AppCompatActivity implements ColocaValorDe
         RelativeLayout contenedorNombreDepartamento = (RelativeLayout) findViewById(R.id.detalles_habitante_contenedor_departamento);
         assert contenedorNombreDepartamento != null;
         contenedorNombreDepartamento
-                .setOnClickListener(new ColocaValorDesdeDialogo(this, R.id.detalles_habitante_etiqueta_nombre_departamento, R.id.detalles_habitante_nombre_departamento, EstadoDeCondominio.TIPO_NUMERICO, "promedio_inicial_de_morosidad", this, this));
+                .setOnClickListener(new ColocaValorDesdeDialogo(this, R.id.detalles_habitante_etiqueta_nombre_departamento, R.id.detalles_habitante_nombre_departamento, EstadoDeCondominio.TIPO_NUMERICO, "nombre_departamento", this, this));
         nombreHabitante
                 .setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -144,7 +177,7 @@ public class ResumenHabitante extends AppCompatActivity implements ColocaValorDe
         args.putString("table", "Contacto_Habitante");
         args.putString("column", "contacto");
         idContactos = new int[contactos.length];
-        int i=0;
+        i=0;
         for(ContactoHabitante contacto : contactos){
             args.putInt("pk_value", contacto.getId());
             nuevoTexto = (TextView) inflater.inflate(R.layout.entrada_simple_de_texto, contenedorContactos, false);
@@ -294,6 +327,7 @@ public class ResumenHabitante extends AppCompatActivity implements ColocaValorDe
         args.putString(InsertarElementoMultivalor.FK_NAME, "idHabitante");
         args.putInt(InsertarElementoMultivalor.FK_VALUE, habitante.getId());
         args.putInt(InsertarElementoMultivalor.INPUT_TYPE, InputType.TYPE_CLASS_TEXT);
+        args.putInt(InsertarElementoMultivalor.RECURSO_DE_CONTENEDOR, R.id.detalles_habitante_contenedor_de_contacto);
         InsertarElementoMultivalor dialogo = InsertarElementoMultivalor.crearDialogo(args);
         dialogo.show(getSupportFragmentManager(), "Insertar 1 valor");
     }
