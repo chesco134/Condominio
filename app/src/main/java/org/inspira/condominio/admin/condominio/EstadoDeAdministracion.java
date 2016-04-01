@@ -151,7 +151,10 @@ public class EstadoDeAdministracion extends AppCompatActivity implements ColocaV
                     }
 
                     private void eliminarElementosEnBaseDeDatos() {
-                        AccionesTablaAdministracion.eliminarContactos(EstadoDeAdministracion.this, seleccion);
+                        List<Integer> ids = new ArrayList<>();
+                        for(Integer index : seleccion)
+                            ids.add(contactos[index].getId());
+                        AccionesTablaAdministracion.eliminarContactos(EstadoDeAdministracion.this, ids.toArray(new Integer[0]));
                         quitarElementosDeLaLista(seleccion);
                     }
 

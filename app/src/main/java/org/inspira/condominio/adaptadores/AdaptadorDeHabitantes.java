@@ -14,6 +14,7 @@ import org.inspira.condominio.R;
 import org.inspira.condominio.actividades.ProveedorDeRecursos;
 import org.inspira.condominio.admon.AccionesTablaHabitante;
 import org.inspira.condominio.datos.Habitante;
+import org.inspira.condominio.dialogos.ProveedorSnackBar;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -69,9 +70,16 @@ public class AdaptadorDeHabitantes extends BaseAdapter {
                 .setText(nombreHabitante);
         ((TextView) view.findViewById(R.id.entrada_lista_habitante_departamento))
                 .setText(habitante.getNombreDepartamento());
-        ((ImageView) view.findViewById(R.id.entrada_lista_habitante_perfil))
-                .setImageResource(habitante.isGenero() ? R.drawable.user_coin_blk :
-                        R.drawable.woman_coin);
+        ImageView logo = (ImageView) view.findViewById(R.id.entrada_lista_habitante_perfil);
+        logo.setImageResource(habitante.isGenero() ? R.drawable.user_coin_blk :
+                R.drawable.woman_coin);
+        logo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ProveedorSnackBar
+                        .muestraBarraDeBocados(v, "Uy que me haces cosquillas! :D");
+            }
+        });
         return view;
     }
 

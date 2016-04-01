@@ -113,8 +113,8 @@
         </activity>
         <activity
             android:name=".admin.condominio.EstadoDeCondominio"
-            android:label="@string/Datos_de_Condominio"
             android:theme="@style/MyAppTheme.NoActionBar"
+            android:label="@string/Datos_de_Condominio"
             android:parentActivityName=".admon.MenuDeAdministracion">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -125,6 +125,14 @@
             android:label="@string/Datos_de_Administracion"
             android:theme="@style/MyAppTheme.NoActionBar"
             android:parentActivityName=".admon.MenuDeAdministracion">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.inspira.condominio.admon.MenuDeAdministracion" />
+        </activity>
+        <activity
+            android:name=".admin.habitantes.ResumenHabitante"
+            android:theme="@style/MyAppTheme.NoActionBar"
+            android:parentActivityName=".admin.habitantes.ControlDeHabitantes">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.inspira.condominio.admon.MenuDeAdministracion" />

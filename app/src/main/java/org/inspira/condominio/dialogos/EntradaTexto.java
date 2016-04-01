@@ -12,6 +12,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 
 import org.inspira.condominio.R;
+import org.inspira.condominio.actividades.EfectoDeEnfoque;
 
 import java.io.Serializable;
 
@@ -57,6 +58,8 @@ public class EntradaTexto extends DialogFragment {
         LayoutInflater inflater = (LayoutInflater)getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View root = inflater.inflate(R.layout.entrada_de_texto, null);
         entradaDeTexto = (EditText)root.findViewById(R.id.entrada_de_texto);
+        entradaDeTexto.setOnFocusChangeListener(new EfectoDeEnfoque(getActivity(),
+                root.findViewById(R.id.piso_entrada_de_texto)));
         if(savedInstanceState == null){
             args = getArguments();
         }else{

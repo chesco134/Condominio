@@ -13,7 +13,7 @@
         android:layout_height="@dimen/app_bar_height"
         android:fitsSystemWindows="true"
         android:theme="@style/MyAppTheme.AppBarOverlay"
-        android:background="@drawable/condominio_bkg_2">
+        android:background="@drawable/condominio_bkg_5">
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/toolbar_layout"

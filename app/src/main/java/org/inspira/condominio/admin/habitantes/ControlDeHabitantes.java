@@ -10,6 +10,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import org.inspira.condominio.R;
 import org.inspira.condominio.actividades.MuestraMensajeDesdeHilo;
@@ -24,7 +26,6 @@ import org.inspira.condominio.datos.Habitante;
 import org.inspira.condominio.datos.Torre;
 import org.inspira.condominio.dialogos.DialogoDeConsultaSimple;
 import org.inspira.condominio.dialogos.EntradaTexto;
-import org.inspira.condominio.dialogos.ProveedorSnackBar;
 import org.inspira.condominio.dialogos.RegistroDeHabitante;
 import org.inspira.condominio.dialogos.RemocionElementos;
 import org.inspira.condominio.fragmentos.OrdenDelDia;
@@ -49,8 +50,10 @@ public class ControlDeHabitantes extends AppCompatActivity {
         listaHabitantes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ProveedorSnackBar
-                        .muestraBarraDeBocados(view, "Uy que me haces cosquillas! :D");
+                Habitante habitante = (Habitante) adapter.getItem(position);
+                Intent i = new Intent(ControlDeHabitantes.this, ResumenHabitante.class);
+                i.putExtra("habitante", habitante);
+                startActivity(i);
             }
         });
     }

@@ -29,7 +29,38 @@ public class CondominioBD extends SQLiteOpenHelper {
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {}
+    public void onUpgrade(SQLiteDatabase dataBase, int oldVersion, int newVersion) {
+        /*
+        dataBase.execSQL("drop table if exists Egreso");
+        dataBase.execSQL("drop table if exists Razon_de_Egreso");
+        dataBase.execSQL("drop table if exists Ingreso");
+        dataBase.execSQL("drop table if exists Concepto_de_Ingreso");
+        dataBase.execSQL("drop table if exists Razon_de_Ingreso");
+        dataBase.execSQL("drop table if exists Punto_OdD");
+        dataBase.execSQL("drop table if exists Convocatoria");
+        dataBase.execSQL("drop table if exists Trabajador");
+        dataBase.execSQL("drop table if exists Tipo_de_Trabajador");
+        dataBase.execSQL("drop table if exists Presidente_de_Comite_de_Vigilancia");
+        dataBase.execSQL("drop table if exists Integrante_de_Comite_de_Vigilancia");
+        dataBase.execSQL("drop table if exists Contacto_Usuario");
+        dataBase.execSQL("drop table if exists Usuario_Profesionista");
+        dataBase.execSQL("drop table if exists Usuario");
+        dataBase.execSQL("drop table if exists Escolaridad");
+        dataBase.execSQL("drop table if exists Tipo_de_Administrador");
+        dataBase.execSQL("drop table if exists Reporte_de_Siniestro");
+        dataBase.execSQL("drop table if exists Tipo_de_Siniestro");
+        dataBase.execSQL("drop table if exists Propietario_de_Departamento");
+        dataBase.execSQL("drop table if exists Contacto_Habitante");
+        dataBase.execSQL("drop table if exists Habitante");
+        dataBase.execSQL("drop table if exists Torre");
+        dataBase.execSQL("drop table if exists Contacto_Administracion");
+        dataBase.execSQL("drop table if exists Administracion");
+        dataBase.execSQL("drop table if exists Intervalo_Transparencia");
+        dataBase.execSQL("drop table if exists Condominio");
+        dataBase.execSQL("drop table if exists Tipo_de_Condominio");
+        onCreate(dataBase);
+        */
+    }
 
     @Override
     public void onCreate(SQLiteDatabase dataBase) {
@@ -329,6 +360,7 @@ public class CondominioBD extends SQLiteOpenHelper {
         Cursor c = db.rawQuery("select * from Usuario", null);
         boolean exists = c.moveToNext();
         c.close();
+        db.close();
         return exists;
     }
 }

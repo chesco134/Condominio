@@ -6,7 +6,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import org.inspira.condominio.actividades.ProveedorDeRecursos;
+import org.inspira.condominio.admin.habitantes.ResumenHabitante;
 import org.inspira.condominio.datos.CondominioBD;
+import org.inspira.condominio.datos.ContactoAdministracion;
 import org.inspira.condominio.datos.ContactoHabitante;
 import org.inspira.condominio.datos.Habitante;
 import org.inspira.condominio.datos.PropietarioDeDepartamento;
@@ -119,26 +121,86 @@ public class AccionesTablaHabitante {
         db.close();
     }
 
-    public static ContactoHabitante[] obtenerContactoHabitante(Context context, int idHabitante){
-        SQLiteDatabase db = new CondominioBD(context).getReadableDatabase();
-        Cursor c = db.rawQuery("select idContacto_Habitante, contacto from Contacto_Habitante where idHabitante = CAST(? as INTEGER)", new String[]{String.valueOf(idHabitante)});
-        List<ContactoHabitante> contactos = new ArrayList<>();
-        ContactoHabitante contacto;
-        while(c.moveToNext()) {
-            contacto = new ContactoHabitante(c.getInt(c.getColumnIndex("idContacto_Habitante")));
-            contacto.setContacto(c.getString(c.getColumnIndex("contacto")));
-            contacto.setIdHabitante(idHabitante);
-            contactos.add(contacto);
-        }
-        c.close();
-        db.close();
-        return contactos.toArray(new ContactoHabitante[]{});
-    }
-
     public static void removerHabitante(Context context, int idHabitante){
         SQLiteDatabase db = new CondominioBD(context).getWritableDatabase();
         db.delete("Contacto_Habitante", "idHabitante = CAST(? as INTEGER)", new String[]{String.valueOf(idHabitante)});
         db.delete("Habitante", "idHabitante = CAST(? as INTEGER)", new String[]{String.valueOf(idHabitante)});
         db.close();
+    }
+
+    public static void actualizarNombre(Context context, int idHabitante, String nombres, String apPaterno, String apMaterno) {
+        ContentValues values = new ContentValues();
+        values.put("nombres", nombres);
+        values.put("ap_paterno", apPaterno);
+        values.put("ap_materno", apMaterno);
+        CondominioBD condominioBD = new CondominioBD(context);
+        SQLiteDatabase db = condominioBD.getWritableDatabase();
+        db.update("Habitante", values, "idHabitante = CAST(? as INTEGER)", new String[]{String.valueOf(idHabitante)});
+        db.close();
+        condominioBD.close();
+    }
+
+    public static void actualizaCampo(Context context, int id, String key, String value) {
+        ContentValues values = new ContentValues();
+        values.put(key, value);
+        CondominioBD condominioBD = new CondominioBD(context);
+        SQLiteDatabase db = condominioBD.getWritableDatabase();
+        db.update("Habitante", values, "idHabitante = CAST(? as INTEGER)",
+                new String[]{String.valueOf(id)});
+        db.close();
+        condominioBD.close();
+    }
+
+    public static ContactoHabitante[] obtenerListaDeContactos(Context context, int idHabitante) {
+        CondominioBD condominioBD = new CondominioBD(context);
+        SQLiteDatabase db = condominioBD.getReadableDatabase();
+        Cursor c = db.rawQuery("select * from Contacto_Habitante where idHabitante = CAST(? as INTEGER)"
+                , new String[]{String.valueOf(idHabitante)});
+        List<ContactoHabitante> contactos = new ArrayList<ContactoHabitante>();
+        ContactoHabitante contactoHabitante;
+        while(c.moveToNext()){
+            contactoHabitante = new ContactoHabitante(c.getInt(c.getColumnIndex("idContacto_Habitante")));
+            contactoHabitante.setContacto(c.getString(c.getColumnIndex("contacto")));
+            contactoHabitante.setIdHabitante(idHabitante);
+            contactos.add(contactoHabitante);
+        }
+        c.close();
+        db.close();
+        condominioBD.close();
+        return contactos.toArray(new ContactoHabitante[0]);
+    }
+
+    public static void actualizaEstadoDeSeguroDePropietario(Context context, boolean poseeSeguro, int idHabitante){
+        ContentValues values = new ContentValues();
+        values.put("posee_seguro", poseeSeguro ? 1 : 0);
+        CondominioBD condominioBD = new CondominioBD(context);
+        SQLiteDatabase db = condominioBD.getWritableDatabase();
+        db.update("Propietario_de_Departamento", values, "idHabitante = CAST(? as INTEGER)",
+                new String[]{String.valueOf(idHabitante)});
+        db.close();
+        condominioBD.close();
+    }
+
+    public static void quitaPropietarioDeDepartamento(Context context, int idHabitante){
+        CondominioBD condominioBD = new CondominioBD(context);
+        SQLiteDatabase db = condominioBD.getWritableDatabase();
+        db.delete("Propietario_de_Departamento", "idHabitante = CAST(? as INTEGER)",
+                new String[]{String.valueOf(idHabitante)});
+        db.close();
+        condominioBD.close();
+    }
+
+    public static boolean poseeSeguro(Context context, int id) {
+        CondominioBD condominioBD = new CondominioBD(context);
+        SQLiteDatabase db = condominioBD.getReadableDatabase();
+        Cursor c = db.rawQuery("select posee_seguro from Propietario_de_Departamento " +
+                "where idHabitante = CAST(? as INTEGER)",
+                new String[]{String.valueOf(id)});
+        c.moveToFirst();
+        int poseeSeguro = c.getInt(0);
+        c.close();
+        db.close();
+        condominioBD.close();
+        return poseeSeguro != 0;
     }
 }

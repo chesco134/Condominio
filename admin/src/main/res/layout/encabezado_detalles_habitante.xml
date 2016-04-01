@@ -1,29 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/shadowColor">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/MyAppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/shadowColor"
+            app:titleTextAppearance="@style/collapsedAppBarTextAppearance"
+            app:popupTheme="@style/MyAppTheme.PopupOverlay" />
+
+    </android.support.design.widget.AppBarLayout>
 
     <ImageView
         android:id="@+id/detalles_habitante_profile_picture"
-        android:layout_width="90dp"
-        android:layout_height="90dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="20sp"
-        android:layout_marginStart="20sp"
-        android:layout_marginLeft="20sp"/>
+        android:layout_marginTop="25sp"
+        android:layout_marginStart="25sp"
+        android:layout_marginLeft="20sp"
+        android:contentDescription="@string/app_name"/>
 
     <TextView
         android:id="@+id/detalles_habitante_nombre"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toEndOf="@+id/detalles_habitante_profile_picture"
-        android:layout_toRightOf="@+id/detalles_habitante_profile_picture"
-        android:layout_marginTop="40sp"
+        android:layout_below="@+id/detalles_habitante_profile_picture"
+        android:layout_marginTop="12sp"
         android:layout_marginStart="20sp"
         android:layout_marginLeft="20sp"
         android:layout_marginEnd="12sp"
         android:layout_marginRight="12sp"
+        android:layout_marginBottom="20sp"
         android:textSize="26sp"/>
 
     <RelativeLayout
@@ -58,7 +77,17 @@
         android:layout_below="@+id/detalles_habitante_contenedor_departamento"
         android:layout_alignEnd="@+id/detalles_habitante_contenedor_departamento"
         android:layout_alignRight="@+id/detalles_habitante_contenedor_departamento"
-        android:layout_marginTop="12sp"
+        android:layout_marginTop="4sp"
         android:text="@string/detalles_habitante_es_propietario"/>
+    <CheckBox
+        android:id="@+id/detalles_habitante_posee_seguro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/detalles_habitante_es_propietario"
+        android:layout_alignEnd="@+id/detalles_habitante_contenedor_departamento"
+        android:layout_alignRight="@+id/detalles_habitante_contenedor_departamento"
+        android:layout_marginTop="8sp"
+        android:text="@string/detalles_habitante_es_propietario"
+        android:textSize="10sp"/>
 
 </RelativeLayout>

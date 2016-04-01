@@ -11,6 +11,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import org.inspira.condominio.R;
@@ -38,6 +39,7 @@ public class InsertarElementoMultivalor extends DialogFragment {
     public static final java.lang.String TITULO = "titulo";
     //public static final java.lang.String CURRENT_VALUE = "valor_actual";
     public static final java.lang.String INPUT_TYPE = "input_type";
+    private static final String RECURSO_DE_CONTENEDOR = "content_res";
     private String tableName;
     private String columnName;
     private EditText entradaDeTexto;
@@ -45,6 +47,7 @@ public class InsertarElementoMultivalor extends DialogFragment {
     private String fkName;
     private int fkValue;
     private int action;
+    private int recursoDeContenedor;
     private Context context;
 
     public static InsertarElementoMultivalor crearDialogo(Bundle args){
@@ -64,6 +67,8 @@ public class InsertarElementoMultivalor extends DialogFragment {
             missingValues.add(TITULO);
         if(!args.containsKey(INPUT_TYPE))
             missingValues.add(INPUT_TYPE);
+        if(!args.containsKey(RECURSO_DE_CONTENEDOR))
+            missingValues.add(RECURSO_DE_CONTENEDOR);
         if(missingValues.size() > 0){
             String errorMessage = "No se han proporcionado los valores: ";
             String lastValue = missingValues.get(missingValues.size()-1);

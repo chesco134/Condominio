@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="org.inspira.jcapiz.resumenresultados.ScrollingActivity"
+    tools:context="org.inspira.condominio.admin.condominio.EstadoDeCondominio"
     tools:showIn="@layout/activity_scrolling_resumen_condominio">
     <RelativeLayout
         android:layout_width="match_parent"
