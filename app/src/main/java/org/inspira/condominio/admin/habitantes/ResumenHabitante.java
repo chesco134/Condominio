@@ -3,9 +3,7 @@ package org.inspira.condominio.admin.habitantes;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,7 +27,6 @@ import org.inspira.condominio.admon.AccionesTablaAdministracion;
 import org.inspira.condominio.admon.AccionesTablaHabitante;
 import org.inspira.condominio.admon.AccionesTablaTorre;
 import org.inspira.condominio.admon.CompruebaCamposJSON;
-import org.inspira.condominio.datos.ContactoAdministracion;
 import org.inspira.condominio.datos.ContactoHabitante;
 import org.inspira.condominio.datos.Habitante;
 import org.inspira.condominio.datos.PropietarioDeDepartamento;
@@ -43,7 +40,6 @@ import org.inspira.condominio.networking.ContactoConServidor;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 /**
  * Created by jcapiz on 1/04/16.
@@ -61,22 +57,22 @@ public class ResumenHabitante extends AppCompatActivity implements ColocaValorDe
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scrolling_detalles_habitante);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        ActionBar actionBar = getSupportActionBar();
-        assert actionBar != null;
-        actionBar.setDisplayHomeAsUpEnabled(true);
+        ImageView arrow = (ImageView) findViewById(R.id.detalles_habitante_back_arrow);
+        arrow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
         if(savedInstanceState == null)
             habitante = (Habitante) getIntent().getSerializableExtra("habitante");
         else
-            habitante = AccionesTablaHabitante.obtenerHabitante(this, habitante.getId());
+            habitante = AccionesTablaHabitante.obtenerHabitante(this, savedInstanceState.getInt("idHabitante"));
         nombreHabitante = (TextView) findViewById(R.id.detalles_habitante_nombre);
         String nombreCompleto = habitante.getApPaterno() + " " + habitante.getApMaterno() + " "
                 + habitante.getNombres();
-        assert nombreHabitante != null;
         nombreHabitante.setText(nombreCompleto);
         TextView torre = (TextView) findViewById(R.id.detalles_habitante_torre);
-        assert torre != null;
         torre.setText(AccionesTablaTorre.obtenerTorre(this, habitante.getIdTorre()).getNombre());
         Torre[] torres = AccionesTablaTorre.obtenerTorres(this, ProveedorDeRecursos.obtenerIdAdministracion(this));
         String[] elementos = new String[torres.length];
@@ -102,17 +98,13 @@ public class ResumenHabitante extends AppCompatActivity implements ColocaValorDe
                     }
                 }, elementos, "idTorre", this));
         TextView nombreDepartamento = (TextView) findViewById(R.id.detalles_habitante_nombre_departamento);
-        assert nombreDepartamento != null;
         nombreDepartamento.setText(habitante.getNombreDepartamento());
         ImageView image = (ImageView) findViewById(R.id.detalles_habitante_profile_picture);
-        assert image != null;
         image.setImageResource(habitante.isGenero() ? R.drawable.user_coin : R.drawable.woman_coin_2);
         boolean esPropietario = AccionesTablaHabitante.esPropietario(this, habitante.getId());
         marcaEsPropietario = (CheckBox) findViewById(R.id.detalles_habitante_es_propietario);
         poseeSeguro = (CheckBox) findViewById(R.id.detalles_habitante_posee_seguro);
-        assert marcaEsPropietario != null;
         marcaEsPropietario.setChecked(esPropietario);
-        assert poseeSeguro != null;
         if(marcaEsPropietario.isChecked())
             poseeSeguro.setChecked(AccionesTablaHabitante.poseeSeguro(this, habitante.getId()));
         poseeSeguro.setEnabled(marcaEsPropietario.isChecked());
@@ -140,7 +132,6 @@ public class ResumenHabitante extends AppCompatActivity implements ColocaValorDe
             }
         });
         RelativeLayout contenedorNombreDepartamento = (RelativeLayout) findViewById(R.id.detalles_habitante_contenedor_departamento);
-        assert contenedorNombreDepartamento != null;
         contenedorNombreDepartamento
                 .setOnClickListener(new ColocaValorDesdeDialogo(this, R.id.detalles_habitante_etiqueta_nombre_departamento, R.id.detalles_habitante_nombre_departamento, EstadoDeCondominio.TIPO_NUMERICO, "nombre_departamento", this, this));
         nombreHabitante
@@ -154,7 +145,6 @@ public class ResumenHabitante extends AppCompatActivity implements ColocaValorDe
                     }
                 });
         View etiquetaContacto = findViewById(R.id.detalles_habitante_etiqueta_contacto);
-        assert etiquetaContacto != null;
         etiquetaContacto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -186,6 +176,11 @@ public class ResumenHabitante extends AppCompatActivity implements ColocaValorDe
             idContactos[i] = i++;
             contenedorContactos.addView(nuevoTexto);
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState){
+        outState.putInt("idHabitante", habitante.getId());
     }
 
     private void agregaHabitantePropietarios() {
@@ -290,7 +285,7 @@ public class ResumenHabitante extends AppCompatActivity implements ColocaValorDe
 
     @Override
     public int obtenerId(String texto) {
-        return -1;
+        return AccionesTablaTorre.obtenerIdTorre(this, texto);
     }
 
     @Override

@@ -49,10 +49,12 @@ public class ActualizaEntradaDesdeArreglo implements View.OnClickListener{
             ddl.setStringArrayRes(arrayRes);
         String base = key.split("id")[1].replace('_', ' ');
         ddl.setTitulo(base);
-        ddl.setAccion(new MiAccionDialogoDeLista(view.getContext(), key, (TextView)view, fdm, adc));
-        if(context == null)
-            ddl.show(((AppCompatActivity)view.getContext()).getSupportFragmentManager(), "Seleccion Arreglo");
-        else
-            ddl.show(((AppCompatActivity)context).getSupportFragmentManager(), "Seleccion Arreglo");
+        if(context == null) {
+            ddl.setAccion(new MiAccionDialogoDeLista(view.getContext(), key, (TextView) view, fdm, adc));
+            ddl.show(((AppCompatActivity) view.getContext()).getSupportFragmentManager(), "Seleccion Arreglo");
+        }else {
+            ddl.setAccion(new MiAccionDialogoDeLista(context, key, (TextView) view, fdm, adc));
+            ddl.show(((AppCompatActivity) context).getSupportFragmentManager(), "Seleccion Arreglo");
+        }
     }
 }

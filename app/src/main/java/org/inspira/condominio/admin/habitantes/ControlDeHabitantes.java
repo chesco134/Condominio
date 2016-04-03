@@ -46,6 +46,7 @@ public class ControlDeHabitantes extends AppCompatActivity {
     protected void onCreate(Bundle savedInstancesState){
         super.onCreate(savedInstancesState);
         setContentView(R.layout.control_de_habitantes);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         listaHabitantes = (ListView) findViewById(R.id.control_de_habitantes_lista);
         listaHabitantes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

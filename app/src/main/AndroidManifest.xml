@@ -30,10 +30,6 @@
             android:name=".actividades.SplashScreen"
             android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen" />
         <activity
-            android:name=".admin.habitantes.ControlDeHabitantes"
-            android:label="@string/habitantes"
-            android:theme="@style/MyAppTheme" />
-        <activity
             android:name=".actividades.Preparacion"
             android:label="@string/registro" />
         <activity
@@ -136,6 +132,14 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.inspira.condominio.admon.MenuDeAdministracion" />
+        </activity>
+        <activity
+            android:name=".admin.habitantes.ControlDeHabitantes"
+            android:theme="@style/MyAppTheme"
+            android:parentActivityName=".admin.CentralPoint">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.inspira.condominio.admin.CentralPoint" />
         </activity>
     </application>
 

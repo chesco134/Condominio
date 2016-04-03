@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import org.inspira.condominio.actividades.ProveedorDeRecursos;
 import org.inspira.condominio.admin.habitantes.ResumenHabitante;
@@ -141,6 +142,7 @@ public class AccionesTablaHabitante {
     }
 
     public static void actualizaCampo(Context context, int id, String key, String value) {
+        Log.d("Bazoo", "Monster interaction: " + value);
         ContentValues values = new ContentValues();
         values.put(key, value);
         CondominioBD condominioBD = new CondominioBD(context);
