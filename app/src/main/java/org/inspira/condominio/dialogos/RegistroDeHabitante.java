@@ -40,7 +40,6 @@ public class RegistroDeHabitante extends DialogFragment {
     private EditText apPaterno;
     private EditText apMaterno;
     private EditText nombreDepartamento;
-    private TextView torre;
     private CheckBox esPropietario;
     private CheckBox poseeSeguro;
     private RadioGroup selectorDeGenero;
@@ -58,7 +57,6 @@ public class RegistroDeHabitante extends DialogFragment {
         apMaterno.setOnFocusChangeListener(new EfectoDeEnfoque(getActivity(), rootView.findViewById(R.id.formato_registro_de_habitante_piso_ap_materno)));
         nombreDepartamento = (EditText) rootView.findViewById(R.id.formato_registro_de_habitante_nombre_departamento);
         nombreDepartamento.setOnFocusChangeListener(new EfectoDeEnfoque(getActivity(), rootView.findViewById(R.id.formato_registro_de_habitante_piso_nombre_departamento)));
-        torre = (TextView) rootView.findViewById(R.id.formato_registro_de_habitante_torre);
         esPropietario = (CheckBox) rootView.findViewById(R.id.formato_registro_de_habitante_es_propietario);
         poseeSeguro = (CheckBox) rootView.findViewById(R.id.formato_registro_de_habitante_posee_seguro);
         esPropietario.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -68,12 +66,11 @@ public class RegistroDeHabitante extends DialogFragment {
             }
         });
         selectorDeGenero = (RadioGroup) rootView.findViewById(R.id.formato_registro_de_habitante_grupo_generos);
-        Torre[] torres = AccionesTablaTorre.obtenerTorres(getContext(), ProveedorDeRecursos.obtenerIdAdministracion(getContext()));
+        Torre[] torres = AccionesTablaTorre.obtenerTorres(context, ProveedorDeRecursos.obtenerIdAdministracion(getContext()));
         String[] nombresTorre = new String[torres.length];
         int i=0;
         for(Torre torre : torres)
             nombresTorre[i++] = torre.getNombre();
-        torre.setOnClickListener(new ActualizaTextoDesdeLista("Torre a la que pertenece", nombresTorre));
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         return builder.setTitle(getArguments().getString("titulo"))
                 .setPositiveButton("Registrar", new DialogInterface.OnClickListener() {
@@ -134,7 +131,7 @@ public class RegistroDeHabitante extends DialogFragment {
 
     private void guardaEnBaseDeDatos(int idHabitante) {
         Habitante habitante = new Habitante(idHabitante);
-        habitante.setIdTorre(AccionesTablaTorre.obtenerIdTorre(context, torre.getText().toString()));
+        habitante.setIdTorre(ProveedorDeRecursos.obtenerIdTorreActual(context));
         habitante.setNombres(nombres.getText().toString().trim());
         habitante.setApPaterno(apPaterno.getText().toString().trim());
         habitante.setApMaterno(apMaterno.getText().toString().trim());
@@ -161,7 +158,7 @@ public class RegistroDeHabitante extends DialogFragment {
             json.put("ap_materno", apMaterno.getText().toString().trim());
             json.put("nombre_departamento", nombreDepartamento.getText().toString().trim());
             json.put("genero", selectorDeGenero.getCheckedRadioButtonId() == R.id.formato_registro_de_habitante_masculino ? 1 : 0);
-            json.put("idTorre", AccionesTablaTorre.obtenerIdTorre(context, torre.getText().toString()));
+            json.put("idTorre", ProveedorDeRecursos.obtenerIdTorreActual(getContext()));
             json.put("es_propietario", esPropietario.isChecked());
             json.put("posee_seguro", poseeSeguro.isChecked() ? 1 : 0);
             contenidoMensaje = json.toString();
@@ -172,12 +169,11 @@ public class RegistroDeHabitante extends DialogFragment {
     }
 
     private boolean validarInformacion() {
-        boolean[] validacion = new boolean[5];
+        boolean[] validacion = new boolean[4];
         validacion[0] = Verificador.marcaCampo(getContext(), nombres, Verificador.TEXTO);
         validacion[1] = Verificador.marcaCampo(getContext(), apPaterno, Verificador.TEXTO);
         validacion[2] = Verificador.marcaCampo(getContext(), apMaterno, Verificador.TEXTO);
         validacion[3] = Verificador.marcaCampo(getContext(), nombreDepartamento, Verificador.TEXTO);
-        validacion[4] = Verificador.marcaCampo(getContext(), torre, Verificador.TEXTO);
-        return validacion[0] && validacion[1] && validacion[2] && validacion[3] && validacion[4];
+        return validacion[0] && validacion[1] && validacion[2] && validacion[3];
     }
 }

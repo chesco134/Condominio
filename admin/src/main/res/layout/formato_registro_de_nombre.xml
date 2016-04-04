@@ -38,7 +38,7 @@
         android:id="@+id/formato_registro_de_nombre_ap_materno"
         android:layout_below="@+id/formato_registro_de_nombre_ap_paterno"
         android:inputType="text"
-        android:imeOptions="actionNext"
+        android:imeOptions="actionDone"
         android:hint="@string/formato_registro_de_trabajador_ap_materno"/>
     <TextView
         style="@style/MyTextView"
@@ -47,6 +47,7 @@
         android:layout_alignLeft="@+id/formato_registro_de_nombre_ap_materno"
         android:layout_alignStart="@+id/formato_registro_de_nombre_ap_materno"
         android:layout_alignEnd="@+id/formato_registro_de_nombre_ap_materno"
-        android:layout_alignRight="@+id/formato_registro_de_nombre_ap_materno"/>
+        android:layout_alignRight="@+id/formato_registro_de_nombre_ap_materno"
+        android:layout_marginBottom="20sp"/>
 
 </RelativeLayout>

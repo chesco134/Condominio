@@ -227,6 +227,12 @@ public class CondominioBD extends SQLiteOpenHelper {
                 "foreign key(idAdministracion) references Administracion(idAdministracion)," +
                 "foreign key(idTipo_de_Trabajador) references Tipo_de_Trabajador(idTipo_de_Trabajador)" +
                 ")");
+        dataBase.execSQL("create table Contacto_Trabajador(" +
+                "idContacto_Trabajador integer not null primary key autoincrement," +
+                "contacto text not null," +
+                "idTrabajador integer not null," +
+                "foreign key(idTrabajador) references Trabajador(idTrabajador)" +
+                ")");
         dataBase.execSQL("create table Convocatoria(" +
                 "idConvocatoria INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," +
                 "Asunto TEXT NOT NULL," +
