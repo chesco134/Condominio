@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import org.inspira.condominio.datos.CondominioBD;
+import org.inspira.condominio.datos.ContactoTrabajador;
 import org.inspira.condominio.datos.Trabajador;
 
 import java.util.ArrayList;
@@ -97,5 +98,31 @@ public class AccionesTablaTrabajador {
         SQLiteDatabase db = new CondominioBD(context).getWritableDatabase();
         db.delete("Trabajador", "idTrabajador = CAST(? as INTEGER)", new String[]{String.valueOf(idTrabajador)});
         db.close();
+    }
+
+    public static void actualizacionDeCampo(Context context, String key, String value, int idTrabajador){
+        ContentValues values = new ContentValues();
+        values.put(key, value);
+        SQLiteDatabase db = new CondominioBD(context).getWritableDatabase();
+        db.update("Trabajador", values, "idTrabajador = CAST(? as INTEGER)",
+                new String[]{String.valueOf(idTrabajador)});
+        db.close();
+    }
+
+    public static ContactoTrabajador[] obtenerListaDeContactos(Context context, int idTrabajador){
+        SQLiteDatabase db = new CondominioBD(context).getReadableDatabase();
+        Cursor c = db.rawQuery("select * from Contacto_Trabajador where idTrabajador = CAST(? as INTEGER)",
+                new String[]{String.valueOf(idTrabajador)});
+        List<ContactoTrabajador> contactos = new ArrayList<>();
+        ContactoTrabajador contacto;
+        while(c.moveToNext()){
+            contacto = new ContactoTrabajador(c.getInt(c.getColumnIndex("idContacto_Trabajador")));
+            contacto.setContacto(c.getString(c.getColumnIndex("contacto")));
+            contacto.setIdTrabajador(idTrabajador);
+            contactos.add(contacto);
+        }
+        c.close();
+        db.close();
+        return contactos.toArray(new ContactoTrabajador[0]);
     }
 }

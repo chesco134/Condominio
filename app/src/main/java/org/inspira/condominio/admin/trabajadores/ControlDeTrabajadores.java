@@ -1,5 +1,6 @@
 package org.inspira.condominio.admin.trabajadores;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -11,6 +12,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -126,6 +128,15 @@ public class ControlDeTrabajadores extends AppCompatActivity implements ActionBa
             adapter = new AdaptadorDeTrabajadores(getContext(), AccionesTablaTrabajador.obtenerIdTipoDeTrabajador(getContext(),
                     getResources().getStringArray(R.array.tipos_de_trabajadores)[sectionNumber - 1]));
             listaTrabajadores.setAdapter(adapter);
+            listaTrabajadores.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Trabajador trabajador = (Trabajador)adapter.getItem(position);
+                    Intent i = new Intent(getContext(), DetallesTrabajador.class);
+                    i.putExtra("trabajador", trabajador);
+                    startActivity(i);
+                }
+            });
             setHasOptionsMenu(true);
             return rootView;
         }

@@ -7,18 +7,6 @@
     tools:context="org.inspira.condominio.admin.habitantes.ResumenHabitante">
 
     <ImageView
-        android:id="@+id/detalles_habitante_profile_picture"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="30sp"
-        android:layout_marginStart="30sp"
-        android:layout_marginLeft="30sp"
-        android:contentDescription="@string/app_name"/>
-
-    <ImageView
         android:id="@+id/detalles_habitante_back_arrow"
         android:layout_width="28dp"
         android:layout_height="28dp"
@@ -32,17 +20,28 @@
         android:src="@drawable/ic_arrow_back_white_24dp"
         android:contentDescription="@string/app_name"/>
 
+    <ImageView
+        android:id="@+id/detalles_habitante_profile_picture"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/detalles_habitante_back_arrow"
+        android:layout_marginTop="12sp"
+        android:layout_marginStart="12sp"
+        android:layout_marginLeft="12sp"
+        android:contentDescription="@string/app_name"/>
+
     <TextView
         android:id="@+id/detalles_habitante_nombre"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/detalles_habitante_posee_seguro"
         android:layout_marginTop="12sp"
-        android:layout_marginStart="20sp"
-        android:layout_marginLeft="20sp"
+        android:layout_alignStart="@+id/detalles_habitante_profile_picture"
+        android:layout_alignLeft="@+id/detalles_habitante_profile_picture"
         android:layout_marginEnd="12sp"
         android:layout_marginRight="12sp"
-        android:layout_marginBottom="20sp"
         android:textSize="26sp"/>
 
     <TextView
@@ -55,16 +54,15 @@
         android:id="@+id/detalles_habitante_contenedor_torre"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/detalles_habitante_back_arrow"
         android:layout_toEndOf="@+id/detalles_habitante_profile_picture"
         android:layout_toRightOf="@+id/detalles_habitante_profile_picture"
         android:layout_marginLeft="12sp"
         android:layout_marginStart="12sp"
         android:layout_marginEnd="12sp"
         android:layout_marginRight="12sp"
-        android:layout_marginTop="20sp"
         android:gravity="end">
         <TextView
             android:id="@+id/detalles_habitante_etiqueta_torre"
@@ -89,7 +87,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_marginEnd="12sp"
-        android:layout_marginTop="20sp"
+        android:layout_marginTop="12sp"
         android:layout_marginRight="12sp">
         <TextView
             android:id="@+id/detalles_habitante_etiqueta_nombre_departamento"
@@ -113,6 +111,8 @@
         android:layout_below="@+id/detalles_habitante_contenedor_departamento"
         android:layout_alignEnd="@+id/detalles_habitante_contenedor_departamento"
         android:layout_alignRight="@+id/detalles_habitante_contenedor_departamento"
+        android:layout_alignStart="@+id/detalles_habitante_posee_seguro"
+        android:layout_alignLeft="@+id/detalles_habitante_posee_seguro"
         android:layout_marginTop="10sp"
         android:text="@string/detalles_habitante_es_propietario"/>
     <CheckBox
@@ -123,7 +123,7 @@
         android:layout_alignEnd="@+id/detalles_habitante_contenedor_departamento"
         android:layout_alignRight="@+id/detalles_habitante_contenedor_departamento"
         android:layout_marginTop="5sp"
-        android:text="@string/detalles_habitante_es_propietario"
+        android:text="@string/detalles_habitante_asegurado"
         android:textSize="10sp"/>
 
 </RelativeLayout>

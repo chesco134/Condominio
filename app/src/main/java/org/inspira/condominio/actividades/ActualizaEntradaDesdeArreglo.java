@@ -20,13 +20,13 @@ public class ActualizaEntradaDesdeArreglo implements View.OnClickListener{
     private Context context;
     private String elementos[];
 
-    public ActualizaEntradaDesdeArreglo(ColocaValorDesdeDialogo.FormatoDeMensaje fdm, int arrayRes, String key, AccionCheckBox.ActualizacionDeCampo adc) {
+    public ActualizaEntradaDesdeArreglo(Context context, ColocaValorDesdeDialogo.FormatoDeMensaje fdm, int arrayRes, String key, AccionCheckBox.ActualizacionDeCampo adc) {
         this.fdm = fdm;
         this.adc = adc;
         this.key = key;
         this.arrayRes = arrayRes;
         elementos = null;
-        context = null;
+        this.context = context;
     }
 
     public ActualizaEntradaDesdeArreglo(Context context, ColocaValorDesdeDialogo.FormatoDeMensaje fdm, String[] elementos, String key, AccionCheckBox.ActualizacionDeCampo adc) {
@@ -49,12 +49,7 @@ public class ActualizaEntradaDesdeArreglo implements View.OnClickListener{
             ddl.setStringArrayRes(arrayRes);
         String base = key.split("id")[1].replace('_', ' ');
         ddl.setTitulo(base);
-        if(context == null) {
-            ddl.setAccion(new MiAccionDialogoDeLista(view.getContext(), key, (TextView) view, fdm, adc));
-            ddl.show(((AppCompatActivity) view.getContext()).getSupportFragmentManager(), "Seleccion Arreglo");
-        }else {
-            ddl.setAccion(new MiAccionDialogoDeLista(context, key, (TextView) view, fdm, adc));
-            ddl.show(((AppCompatActivity) context).getSupportFragmentManager(), "Seleccion Arreglo");
-        }
+        ddl.setAccion(new MiAccionDialogoDeLista(context, key, (TextView) view, fdm, adc));
+        ddl.show(((AppCompatActivity) context).getSupportFragmentManager(), "Seleccion Arreglo");
     }
 }

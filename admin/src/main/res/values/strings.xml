@@ -219,4 +219,8 @@
     <string name="detalles_habitante_etiqueta_observaciones">Observaciones:</string>
     <string name="detalles_habitante_etiqueta_contacto">Contacto:</string>
     <string name="detalles_habitante_etiqueta_torre">Torre:</string>
+    <string name="detalles_trabajador_etiqueta_tipo_trabajador">Recurso</string>
+    <string name="detalles_trabajador_posee_seguro">Asegurado</string>
+    <string name="detalles_trabajador_etiqueta_contacto">Contacto:</string>
+    <string name="detalles_habitante_asegurado">Propiedad asegurada</string>
 </resources>

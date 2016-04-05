@@ -141,6 +141,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.inspira.condominio.admin.CentralPoint" />
         </activity>
+        <activity
+            android:name=".admin.trabajadores.DetallesTrabajador"
+            android:theme="@style/MyAppTheme.NoActionBar"
+            android:parentActivityName=".admin.trabajadores.ControlDeTrabajadores">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".admin.trabajadores.ControlDeTrabajadores" />
+        </activity>
     </application>
 
 </manifest>

@@ -78,7 +78,7 @@ public class EstadoDeAdministracion extends AppCompatActivity implements ColocaV
                 .setOnClickListener(new ColocaValorDesdeDialogo(this, R.id.resumen_administracion_etiqueta_promedio_egresos, R.id.resumen_administracion_promedio_egresos, EstadoDeCondominio.TIPO_FLOTANTE, "promedio_inicial_de_egresos", this, this));
         findViewById(R.id.resumen_administracion_contenedor_promedio_inicial_morosidad)
                 .setOnClickListener(new ColocaValorDesdeDialogo(this, R.id.resumen_administracion_etiqueta_promedio_morosidad, R.id.resumen_administracion_promedio_morosidad, EstadoDeCondominio.TIPO_FLOTANTE, "promedio_inicial_de_morosidad", this, this));
-        findViewById(R.id.resumen_administracion_intervalo_transparencia).setOnClickListener(new ActualizaEntradaDesdeArreglo(this, R.array.intervalos_de_transparencia_admon, "idIntervalo_Transparencia", this));
+        findViewById(R.id.resumen_administracion_intervalo_transparencia).setOnClickListener(new ActualizaEntradaDesdeArreglo(this, this, R.array.intervalos_de_transparencia_admon, "idIntervalo_Transparencia", this));
         maquinas.setOnCheckedChangeListener(new AccionCheckBox(this, this, this));
         elevadores.setOnCheckedChangeListener(new AccionCheckBox(this, this, this));
         intramuros.setOnCheckedChangeListener(new AccionCheckBox(this, this, this));

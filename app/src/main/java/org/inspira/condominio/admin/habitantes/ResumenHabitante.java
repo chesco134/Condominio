@@ -34,7 +34,7 @@ import org.inspira.condominio.datos.Torre;
 import org.inspira.condominio.dialogos.EntradaTexto;
 import org.inspira.condominio.dialogos.ProveedorSnackBar;
 import org.inspira.condominio.dialogos.RemocionElementos;
-import org.inspira.condominio.dialogos.TomarNombreHabitante;
+import org.inspira.condominio.dialogos.TomarNombrePersona;
 import org.inspira.condominio.fragmentos.OrdenDelDia;
 import org.inspira.condominio.networking.ContactoConServidor;
 import org.json.JSONArray;
@@ -139,8 +139,8 @@ public class ResumenHabitante extends AppCompatActivity implements ColocaValorDe
                     @Override
                     public void onClick(View v) {
                         Bundle args = new Bundle();
-                        args.putSerializable("habitante", habitante);
-                        TomarNombreHabitante.obtenerTomarNombreHabitante(args)
+                        args.putSerializable("persona", habitante);
+                        TomarNombrePersona.obtenerTomarNombre(args)
                                 .show(getSupportFragmentManager(), "Tomar nombre");
                     }
                 });
