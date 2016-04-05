@@ -76,6 +76,7 @@ public class LoginConnection extends AsyncTask<String,String,JSONObject> {
             }
         }catch(JSONException e){
             e.printStackTrace();
+            actions.validationError();
         }
     }
 }

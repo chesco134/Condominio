@@ -1,16 +1,21 @@
 package org.inspira.condominio.admin.habitantes;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.inspira.condominio.R;
@@ -26,6 +31,8 @@ import org.inspira.condominio.datos.Habitante;
 import org.inspira.condominio.datos.Torre;
 import org.inspira.condominio.dialogos.DialogoDeConsultaSimple;
 import org.inspira.condominio.dialogos.EntradaTexto;
+import org.inspira.condominio.dialogos.ProveedorSnackBar;
+import org.inspira.condominio.dialogos.ProveedorToast;
 import org.inspira.condominio.dialogos.RegistroDeHabitante;
 import org.inspira.condominio.dialogos.RemocionElementos;
 import org.inspira.condominio.fragmentos.OrdenDelDia;
@@ -62,6 +69,17 @@ public class ControlDeHabitantes extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
         getMenuInflater().inflate(R.menu.control_de_habitantes, menu);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            // Associate searchable configuration with the SearchView
+            SearchManager searchManager =
+                    (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+            SearchView searchView =
+                    (SearchView) menu.findItem(R.id.buscar_habitante).getActionView();
+            searchView.setQueryHint("Nombre de habitante");
+            searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        }
+
         return true;
     }
 
@@ -69,16 +87,16 @@ public class ControlDeHabitantes extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item){
         int itemId = item.getItemId();
         boolean accionConsumida = false;
-        if( itemId == R.id.buscar_habitante ){
-
-            accionConsumida = true;
+        if( itemId == R.id.buscar_habitante){
+            onSearchRequested();
+            accionConsumida =  true;
         } else if(itemId == R.id.agregar_habitante){
             agregarHabitante();
             accionConsumida = true;
         }else if(itemId == R.id.remover_habitante){
             removerHabitante();
             accionConsumida = true;
-        }else if(itemId == R.id.torres){
+        } else if(itemId == R.id.torres){
             iniciaSelectorDeTorre();
             accionConsumida = true;
         }

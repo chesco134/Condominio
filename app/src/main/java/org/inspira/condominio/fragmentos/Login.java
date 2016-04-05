@@ -29,8 +29,12 @@ import org.inspira.condominio.admon.AccionesTablaUsuario;
 import org.inspira.condominio.datos.Administracion;
 import org.inspira.condominio.datos.Condominio;
 import org.inspira.condominio.datos.CondominioBD;
+import org.inspira.condominio.datos.ContactoAdministracion;
+import org.inspira.condominio.datos.ContactoHabitante;
+import org.inspira.condominio.datos.ContactoTrabajador;
 import org.inspira.condominio.datos.Convocatoria;
 import org.inspira.condominio.datos.Habitante;
+import org.inspira.condominio.datos.PropietarioDeDepartamento;
 import org.inspira.condominio.datos.PuntoOdD;
 import org.inspira.condominio.datos.Torre;
 import org.inspira.condominio.datos.Trabajador;
@@ -184,6 +188,16 @@ public class Login extends Fragment {
             administracion.setPromedioInicialDeEgresos((float) jadministracion.getDouble("promedio_inicial_de_egresos"));
             administracion.setPromedioInicialDeMorosidad((float) jadministracion.getDouble("promedio_de_morosidad"));
             AccionesTablaAdministracion.agregaAdministracion(getContext(), administracion);
+            JSONArray contactos = jadministracion.getJSONArray("Contacto");
+            JSONObject jcontacto;
+            ContactoAdministracion contactoAdministracion;
+            for(int j=0; j<contactos.length(); j++){
+                jcontacto = contactos.getJSONObject(j);
+                contactoAdministracion = new ContactoAdministracion(jcontacto.getInt("idContacto_Administracion"));
+                contactoAdministracion.setContacto(jcontacto.getString("contacto"));
+                contactoAdministracion.setAdministracion(administracion);
+                AccionesTablaAdministracion.agregaContactoAdministracion(getContext(), contactoAdministracion);
+            }
             ProveedorDeRecursos.guardaRecursoInt(getContext(), "idAdministracion", administracion.getId());
         }catch(JSONException e){
             e.printStackTrace();
@@ -198,6 +212,9 @@ public class Login extends Fragment {
             JSONArray habitantes;
             JSONObject jhabitante;
             Habitante habitante;
+            JSONArray contactosHabitante;
+            JSONObject jcontacto;
+            ContactoHabitante contactoHabitante;
             for(int i=0; i<torres.length(); i++){
                 jtorre = torres.getJSONObject(i);
                 torre = new Torre(jtorre.getInt("idTorre"));
@@ -221,6 +238,21 @@ public class Login extends Fragment {
                     habitante.setNombreDepartamento(jhabitante.getString("nombre_departamento"));
                     habitante.setIdTorre(torre.getId());
                     AccionesTablaHabitante.agregarHabitante(getContext(), habitante);
+                    contactosHabitante = jhabitante.getJSONArray("Contacto");
+                    for(int k=0; k<contactosHabitante.length(); k++){
+                        jcontacto = contactosHabitante.getJSONObject(k);
+                        contactoHabitante = new ContactoHabitante(jcontacto.getInt("idContacto_Habitante"));
+                        contactoHabitante.setContacto(jcontacto.getString("contacto"));
+                        contactoHabitante.setIdHabitante(jcontacto.getInt("idHabitante"));
+                        AccionesTablaHabitante.agregarContactoHabitante(getContext(), contactoHabitante);
+                    }
+                    if( jhabitante.getBoolean("es_propietario")){
+                        PropietarioDeDepartamento propietarioDeDepartamento =
+                                new PropietarioDeDepartamento();
+                        propietarioDeDepartamento.setPoseeSeguro(jhabitante.getInt("posee_seguro") != 0);
+                        propietarioDeDepartamento.setIdHabitante(habitante.getId());
+                        AccionesTablaHabitante.agregarHabitantePropietario(getContext(), propietarioDeDepartamento);
+                    }
                 }
             }
         }catch(JSONException e){
@@ -233,6 +265,9 @@ public class Login extends Fragment {
             JSONArray trabajadores = json.getJSONArray("Trabajadores");
             Trabajador trabajador;
             JSONObject jtrabajador;
+            JSONArray contactos;
+            JSONObject jcontacto;
+            ContactoTrabajador contactoTrabajador;
             for(int i=0; i<trabajadores.length(); i++){
                 jtrabajador = trabajadores.getJSONObject(i);
                 trabajador = new Trabajador(jtrabajador.getInt("idTrabajador"));
@@ -245,6 +280,14 @@ public class Login extends Fragment {
                 trabajador.setPoseeSeguroSocial(jtrabajador.getInt("posee_seguro_social") != 0);
                 trabajador.setIdAdministracion(jtrabajador.getInt("idAdministracion"));
                 AccionesTablaTrabajador.agregarTrabajador(getContext(), trabajador);
+                contactos = jtrabajador.getJSONArray("Contacto");
+                for(int j=0; j<contactos.length(); j++){
+                    jcontacto = contactos.getJSONObject(j);
+                    contactoTrabajador = new ContactoTrabajador(jcontacto.getInt("idContacto_Trabajador"));
+                    contactoTrabajador.setContacto(jcontacto.getString("contacto"));
+                    contactoTrabajador.setIdTrabajador(jcontacto.getInt("idTrabajador"));
+                    AccionesTablaTrabajador.agregarContactoTrabajador(getContext(), contactoTrabajador);
+                }
             }
         }catch(JSONException e){
             e.printStackTrace();

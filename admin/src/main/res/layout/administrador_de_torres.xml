@@ -3,25 +3,47 @@
     android:layout_width="match_parent" android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/administrador_de_torres_torre_actual"
-        android:layout_width="match_parent"
+        android:id="@+id/administrador_de_torres_etiqueta_torre_actual"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
-        android:layout_marginTop="20sp"
+        android:layout_marginStart="12sp"
+        android:layout_marginLeft="12sp"
+        android:layout_marginTop="25sp"
+        android:textSize="14sp"
+        android:text="@string/administrador_de_torres_etiqueta_torre_actual"/>
+
+    <TextView
+        android:id="@+id/administrador_de_torres_torre_actual"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/administrador_de_torres_etiqueta_torre_actual"
         android:layout_marginLeft="12sp"
         android:layout_marginStart="12sp"
         android:layout_marginEnd="12sp"
         android:layout_marginRight="12sp"
         android:textSize="42sp"/>
 
+    <TextView
+        android:id="@+id/administrador_de_torres_etiqueta_torres_disponibles"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/administrador_de_torres_torre_actual"
+        android:layout_marginTop="12sp"
+        android:layout_marginStart="12sp"
+        android:layout_marginLeft="12sp"
+        android:textSize="14sp"
+        android:text="Torres disponibles"/>
+
     <ListView
         android:id="@+id/administrador_de_torres_lista_torres"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/administrador_de_torres_torre_actual"
-        android:layout_marginTop="12sp"
+        android:layout_below="@+id/administrador_de_torres_etiqueta_torres_disponibles"
         android:layout_marginStart="12sp"
         android:layout_marginLeft="12sp"
         android:layout_marginEnd="12sp"

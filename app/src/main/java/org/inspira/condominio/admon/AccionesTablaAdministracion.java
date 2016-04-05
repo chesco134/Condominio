@@ -130,4 +130,14 @@ public class AccionesTablaAdministracion {
         db.close();
         condominioBD.close();
     }
+
+    public static void agregaContactoAdministracion(Context context, ContactoAdministracion contacto) {
+        ContentValues values = new ContentValues();
+        values.put("idContacto_Administracion", contacto.getId());
+        values.put("contacto", contacto.getContacto());
+        values.put("idAdministracion", contacto.getAdministracion().getId());
+        SQLiteDatabase db = new CondominioBD(context).getWritableDatabase();
+        db.insert("Contacto_Administracion", "---", values);
+        db.close();
+    }
 }

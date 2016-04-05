@@ -19,7 +19,7 @@ public class AccionCheckBox implements CompoundButton.OnCheckedChangeListener{
 
     public interface ActualizacionDeCampo {
         void actualizaCampo(String key, String value);
-        int obtenerId(String texto);
+        int obtenerId(String texto); // Se refiere a obtener el id del texto seleccionado.
     }
 
     public AccionCheckBox(Context context, ColocaValorDesdeDialogo.FormatoDeMensaje fdm, ActualizacionDeCampo acb) {

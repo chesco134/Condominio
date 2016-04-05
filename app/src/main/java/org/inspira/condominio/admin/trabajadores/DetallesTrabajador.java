@@ -112,7 +112,8 @@ public class DetallesTrabajador extends AppCompatActivity implements ColocaValor
             idContactos[i] = i++;
             contenedorContactos.addView(nuevoTexto);
         }
-        View etiquetaContacto = findViewById(R.id.detalles_habitante_etiqueta_contacto);
+        View etiquetaContacto = findViewById(R.id.detalles_trabajador_etiqueta_contacto);
+        assert etiquetaContacto != null;
         etiquetaContacto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -253,17 +254,11 @@ public class DetallesTrabajador extends AppCompatActivity implements ColocaValor
     @Override
     public void actualizaCampo(String key, String value) {
         AccionesTablaTrabajador.actualizacionDeCampo(this, key, value, trabajador.getId());
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-
-            }
-        });
     }
 
     @Override
     public int obtenerId(String texto) {
-        return trabajador.getId();
+        return AccionesTablaTrabajador.obtenerIdTipoDeTrabajador(this, texto);
     }
 
     @Override
@@ -271,9 +266,10 @@ public class DetallesTrabajador extends AppCompatActivity implements ColocaValor
         String contenidoDeMensaje = null;
         try{
             JSONObject json = new JSONObject();
-            json.put("action", ProveedorDeRecursos.ACTUALIZACION_DE_TRABAJADOR);
-            json.put("idTrabajador", trabajador.getId());
-            json.put("key", key);
+            json.put("action", ProveedorDeRecursos.ACTUALIZACION_DE_CONTACTO);
+            json.put("table", "Trabajador");
+            json.put("pk_value", trabajador.getId());
+            json.put("column", key);
             json.put("value", value);
             contenidoDeMensaje = json.toString();
         }catch(JSONException e){

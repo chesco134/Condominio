@@ -87,7 +87,7 @@ public class ResumenHabitante extends AppCompatActivity implements ColocaValorDe
                         try{
                             JSONObject json = new JSONObject();
                             json.put("action", ProveedorDeRecursos.ACTUALIZAR_DATOS_HABITANTE);
-                            json.put("idTorre", habitante.getId());
+                            json.put("idHabitante", habitante.getId());
                             json.put("key", key);
                             json.put("value", value);
                             contenidoDeMensaje = json.toString();

@@ -56,7 +56,7 @@ public class EstadoDeCondominio extends AppCompatActivity implements ColocaValor
                 .setOnClickListener(new ColocaValorDesdeDialogo(this, R.id.resumen_condominio_etiqueta_cantidad_lugares_estacionamiento, R.id.resumen_condominio_cantidad_lugares_estacionamiento, TIPO_NUMERICO, "cantidad_de_lugares_estacionamiento", this, this));
         findViewById(R.id.resumen_condominio_contenedor_estacionamiento_visitas)
                 .setOnClickListener(new ColocaValorDesdeDialogo(this, R.id.resumen_condominio_etiqueta_cantidad_lugares_estacionamiento_visitas, R.id.resumen_condominio_cantidad_lugares_estacionamiento_visitas, TIPO_NUMERICO, "cantidad_de_lugares_estacionamiento_visitas", this, this));
-        findViewById(R.id.resumen_condominio_tipo_de_condominio).setOnClickListener(new ActualizaEntradaDesdeArreglo(this, R.array.tipos_de_condominio, "idTipo_de_Condominio", this));
+        findViewById(R.id.resumen_condominio_tipo_de_condominio).setOnClickListener(new ActualizaEntradaDesdeArreglo(this, this, R.array.tipos_de_condominio, "idTipo_de_Condominio", this));
         findViewById(R.id.resumen_condominio_nombre).setOnClickListener(new ColocaValorDesdeDialogo(this, "Nombde del Condominio", R.id.resumen_condominio_nombre, TIPO_TEXTO, "nombre", this, this));
         CheckBox poseeSalaDejuntas = (CheckBox)findViewById(R.id.resumen_condominio_posee_sala_de_juntas);
         CheckBox poseeEspacioRecreativo = (CheckBox)findViewById(R.id.resumen_condominio_posee_espacio_recreativo);

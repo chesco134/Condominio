@@ -5,7 +5,8 @@
     <item android:id="@+id/buscar_habitante"
         android:title="@string/menu_habitantes_nuevo_habitante"
         android:icon="@drawable/ic_search_white_24dp"
-        app:showAsAction="ifRoom"/>
+        app:actionViewClass="android.support.v7.widget.SearchView"
+        app:showAsAction="collapseActionView|ifRoom"/>
     <item android:id="@+id/agregar_habitante"
         android:title="@string/menu_habitantes_nuevo_habitante"
         android:icon="@drawable/ic_add_circle_outline_white_24dp"

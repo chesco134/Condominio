@@ -125,13 +125,10 @@ public class ControlDeTrabajadores extends AppCompatActivity implements ActionBa
             View rootView = inflater.inflate(R.layout.control_de_habitantes, container, false);
             listaTrabajadores = (ListView) rootView.findViewById(R.id.control_de_habitantes_lista);
             sectionNumber = getArguments().getInt(ARG_SECTION_NUMBER);
-            adapter = new AdaptadorDeTrabajadores(getContext(), AccionesTablaTrabajador.obtenerIdTipoDeTrabajador(getContext(),
-                    getResources().getStringArray(R.array.tipos_de_trabajadores)[sectionNumber - 1]));
-            listaTrabajadores.setAdapter(adapter);
             listaTrabajadores.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Trabajador trabajador = (Trabajador)adapter.getItem(position);
+                    Trabajador trabajador = (Trabajador) adapter.getItem(position);
                     Intent i = new Intent(getContext(), DetallesTrabajador.class);
                     i.putExtra("trabajador", trabajador);
                     startActivity(i);
@@ -139,6 +136,14 @@ public class ControlDeTrabajadores extends AppCompatActivity implements ActionBa
             });
             setHasOptionsMenu(true);
             return rootView;
+        }
+
+        @Override
+        public void onResume(){
+            super.onResume();
+            adapter = new AdaptadorDeTrabajadores(getContext(), AccionesTablaTrabajador.obtenerIdTipoDeTrabajador(getContext(),
+                    getResources().getStringArray(R.array.tipos_de_trabajadores)[sectionNumber - 1]));
+            listaTrabajadores.setAdapter(adapter);
         }
 
         @Override

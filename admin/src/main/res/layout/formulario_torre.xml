@@ -54,7 +54,7 @@
         android:id="@+id/formulario_torre_cantidad_de_departamentos"
         android:layout_below="@+id/formulario_torre_cantidad_de_focos"
         android:inputType="number"
-        android:imeOptions="actionNext"
+        android:imeOptions="actionDone"
         android:hint="@string/formulario_torre_cantidad_De_departamentos"/>
     <TextView
         style="@style/MyTextView"

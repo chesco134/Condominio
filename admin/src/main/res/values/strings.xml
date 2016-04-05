@@ -223,4 +223,6 @@
     <string name="detalles_trabajador_posee_seguro">Asegurado</string>
     <string name="detalles_trabajador_etiqueta_contacto">Contacto:</string>
     <string name="detalles_habitante_asegurado">Propiedad asegurada</string>
+    <string name="administrador_de_torres_etiqueta_torre_actual">Torre actual:</string>
+    <string name="search_hint_personas">Nombre de habitante</string>
 </resources>

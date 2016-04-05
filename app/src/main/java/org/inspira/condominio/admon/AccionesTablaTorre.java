@@ -94,9 +94,23 @@ public class AccionesTablaTorre {
         db.close();
     }
 
-    public static void removerTorre(Context context, Integer index) {
+    public static void removerTorre(Context context, int idTorre) {
         SQLiteDatabase db = new CondominioBD(context).getWritableDatabase();
-        db.delete("Torre", "idTorre = CAST(? as INTEGER)", new String[]{String.valueOf(index)});
+        SQLiteDatabase db2 = new CondominioBD(context).getReadableDatabase();
+        Cursor c = db2.rawQuery("select idHabitante from Habitante where idTorre = CAST(? as INTEGER)",
+                new String[]{String.valueOf(idTorre)});
+        String idHabitante;
+        while(c.moveToNext()){
+            idHabitante = String.valueOf(c.getInt(0));
+            db.delete("Contacto_Habitante", "idHabitante = CAST(? as INTEGER)",
+                    new String[]{idHabitante});
+            db.delete("Propietario_de_Departamento", "idHabitante = CAST(? as INTEGER)",
+                    new String[]{idHabitante});
+            db.delete("Habitante", "idHabitante = CAST(? as INTEGER)",
+                    new String[]{idHabitante});
+        }
+        c.close();
+        db.delete("Torre", "idTorre = CAST(? as INTEGER)", new String[]{String.valueOf(idTorre)});
         db.close();
     }
 

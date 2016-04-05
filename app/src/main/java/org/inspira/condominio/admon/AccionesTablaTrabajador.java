@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import org.inspira.condominio.datos.CondominioBD;
 import org.inspira.condominio.datos.ContactoTrabajador;
@@ -96,6 +97,7 @@ public class AccionesTablaTrabajador {
 
     public static void removerTrabajador(Context context, int idTrabajador){
         SQLiteDatabase db = new CondominioBD(context).getWritableDatabase();
+        db.delete("Contacto_Trabajador", "idTrabajador = CAST(? as INTEGER)", new String[]{String.valueOf(idTrabajador)});
         db.delete("Trabajador", "idTrabajador = CAST(? as INTEGER)", new String[]{String.valueOf(idTrabajador)});
         db.close();
     }
@@ -104,8 +106,9 @@ public class AccionesTablaTrabajador {
         ContentValues values = new ContentValues();
         values.put(key, value);
         SQLiteDatabase db = new CondominioBD(context).getWritableDatabase();
-        db.update("Trabajador", values, "idTrabajador = CAST(? as INTEGER)",
+        int rowsAffected = db.update("Trabajador", values, "idTrabajador = CAST(? as INTEGER)",
                 new String[]{String.valueOf(idTrabajador)});
+        Log.d("Shukkaku", "Rows affected: " + rowsAffected);
         db.close();
     }
 
@@ -124,5 +127,15 @@ public class AccionesTablaTrabajador {
         c.close();
         db.close();
         return contactos.toArray(new ContactoTrabajador[0]);
+    }
+
+    public static void agregarContactoTrabajador(Context context, ContactoTrabajador contacto){
+        ContentValues values = new ContentValues();
+        values.put("contacto", contacto.getContacto());
+        values.put("idTrabajador", contacto.getIdTrabajador());
+        values.put("idContacto_Trabajador", contacto.getId());
+        SQLiteDatabase db = new CondominioBD(context).getWritableDatabase();
+        db.insert("Contacto_Trabajador", "---", values);
+        db.close();
     }
 }
