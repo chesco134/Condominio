@@ -26,7 +26,7 @@ import org.inspira.condominio.admin.condominio.EstadoDeCondominio;
 import org.inspira.condominio.admon.AccionesTablaAdministracion;
 import org.inspira.condominio.admon.AccionesTablaHabitante;
 import org.inspira.condominio.admon.AccionesTablaTorre;
-import org.inspira.condominio.admon.CompruebaCamposJSON;
+import org.inspira.condominio.actividades.CompruebaCamposJSON;
 import org.inspira.condominio.datos.ContactoHabitante;
 import org.inspira.condominio.datos.Habitante;
 import org.inspira.condominio.datos.PropietarioDeDepartamento;

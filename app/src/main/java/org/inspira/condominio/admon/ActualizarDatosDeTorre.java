@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import org.inspira.condominio.R;
+import org.inspira.condominio.actividades.CompruebaCamposJSON;
 import org.inspira.condominio.actividades.EfectoDeEnfoque;
 import org.inspira.condominio.actividades.MuestraMensajeDesdeHilo;
 import org.inspira.condominio.actividades.ProveedorDeRecursos;

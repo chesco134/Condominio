@@ -252,10 +252,12 @@ public class CondominioBD extends SQLiteOpenHelper {
                 "idRazon_de_Ingreso INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
                 "Razon_de_Ingreso TEXT NOT NULL" +
                 ")");
+        dataBase.execSQL("insert into Razon_de_Ingreso(Razon_de_Ingreso) values('Departamento'),('Arrendatario'),('Otro')");
         dataBase.execSQL("create table Concepto_de_Ingreso(" +
                 "idConcepto_de_Ingreso integer not null primary key autoincrement," +
                 "Concepto_de_Ingreso text not null" +
                 ")");
+        dataBase.execSQL("insert into Concepto_de_Ingreso(Concepto_de_Ingreso) values('Cuota ordinaria'),('Cuota extraordinaria'),('Adeudos'),('Fondo anual'),('Arrendatario'),('Otro')");
         dataBase.execSQL("create table Ingreso(" +
                 "idIngreso INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
                 "idRazon_de_Ingreso INTEGER NOT NULL," +

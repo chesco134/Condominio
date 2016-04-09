@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import org.inspira.condominio.R;
+import org.inspira.condominio.actividades.CompruebaCamposJSON;
 import org.inspira.condominio.actividades.Configuraciones;
 import org.inspira.condominio.actividades.ProveedorDeRecursos;
 import org.inspira.condominio.adaptadores.MallaDeCheckBoxes;

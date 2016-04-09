@@ -19,6 +19,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import org.inspira.condominio.R;
+import org.inspira.condominio.actividades.CompruebaCamposJSON;
 import org.inspira.condominio.actividades.MuestraMensajeDesdeHilo;
 import org.inspira.condominio.actividades.ProveedorDeRecursos;
 import org.inspira.condominio.datos.Torre;

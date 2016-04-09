@@ -16,7 +16,7 @@ import org.inspira.condominio.actividades.ActualizaNombreEnBD;
 import org.inspira.condominio.actividades.EfectoDeEnfoque;
 import org.inspira.condominio.actividades.MuestraMensajeDesdeHilo;
 import org.inspira.condominio.actividades.ProveedorDeRecursos;
-import org.inspira.condominio.admon.CompruebaCamposJSON;
+import org.inspira.condominio.actividades.CompruebaCamposJSON;
 import org.inspira.condominio.datos.Persona;
 import org.inspira.condominio.networking.ContactoConServidor;
 import org.json.JSONException;

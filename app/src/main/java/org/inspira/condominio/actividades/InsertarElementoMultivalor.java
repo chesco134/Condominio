@@ -16,7 +16,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.inspira.condominio.R;
-import org.inspira.condominio.admon.CompruebaCamposJSON;
 import org.inspira.condominio.datos.CondominioBD;
 import org.inspira.condominio.networking.ContactoConServidor;
 import org.json.JSONException;

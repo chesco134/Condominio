@@ -4,7 +4,6 @@ import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
-import org.inspira.condominio.admon.CompruebaCamposJSON;
 import org.inspira.condominio.dialogos.DialogoDeLista;
 import org.inspira.condominio.dialogos.ProveedorSnackBar;
 import org.inspira.condominio.networking.ContactoConServidor;

@@ -1,21 +1,27 @@
 package org.inspira.condominio.admin.formatos;
 
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import org.inspira.condominio.R;
 import org.inspira.condominio.adaptadores.MyFragmentStatePagerAdapter;
+import org.inspira.condominio.admon.AccionesTablaContable;
+import org.inspira.condominio.dialogos.EntradaTexto;
 
 import java.util.LinkedList;
 
@@ -101,15 +107,45 @@ public class Formatos extends AppCompatActivity implements
             conceptosDePago = (Spinner) rootView.findViewById(R.id.formato_de_ingreso_concepto);
             monto = (EditText) rootView.findViewById(R.id.formato_de_ingreso_monto);
             nombre = (EditText) rootView.findViewById(R.id.formato_de_ingreso_nombre);
-            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
-                    R.array.razones_de_ingreso, android.R.layout.simple_spinner_item);
-            ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(getActivity(),
-                    R.array.conceptos_de_ingreso, android.R.layout.simple_spinner_item);
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item,
+                    AccionesTablaContable.obtenerRazonesDeIngreso(getContext()));
+            ArrayAdapter<String> adapter2 = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item,
+                    AccionesTablaContable.obtenerConceptosDeIngreso(getContext()));
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             razonesDePago.setAdapter(adapter);
             conceptosDePago.setAdapter(adapter2);
+            razonesDePago.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    String selectedText = ((TextView) view).getText().toString();
+                    if ("Otro".equals(selectedText)) {
+                        iniciaRecepcionDeTexto();
+                    }
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+                }
+            });
             return rootView;
+        }
+
+        private void iniciaRecepcionDeTexto() {
+            EntradaTexto entradaTexto = new EntradaTexto();
+            Bundle args = new Bundle();
+            args.putString("mensaje", "Nueva razón de ingreso");
+            entradaTexto.setArguments(args);
+            entradaTexto.setAccionDialogo(new EntradaTexto.AccionDialogo() {
+                @Override
+                public void accionPositiva(DialogFragment fragment) {
+
+                }
+
+                @Override
+                public void accionNegativa(DialogFragment fragment) {}
+            });
+            entradaTexto.show(((AppCompatActivity)getContext()).getSupportFragmentManager(), "Agregar");
         }
     }
 

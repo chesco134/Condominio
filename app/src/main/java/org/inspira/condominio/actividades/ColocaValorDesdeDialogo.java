@@ -7,8 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
-import org.inspira.condominio.admon.AccionesTablaCondominio;
-import org.inspira.condominio.admon.CompruebaCamposJSON;
 import org.inspira.condominio.dialogos.EntradaTexto;
 import org.inspira.condominio.networking.ContactoConServidor;
 

@@ -36,24 +36,9 @@ public class FormatosLobby extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-                verificarSello();
+                launchFormatos();
             }
         });
-    }
-
-    private void verificarSello() {
-        String email = getSharedPreferences(CentralPoint.class.getName(), Context.MODE_PRIVATE)
-                .getString("email", "NaN");
-        if(!"NaN".equals(email)){
-            launchFormatos();
-            /*
-            if(new CondominioBD(this).revisaExistenciaDeSello(email)){
-                launchFormatos();
-            }else{
-                iniciaDialogoParaConsultaDeSello(email);
-            }
-            */
-        }
     }
 
     private void launchFormatos() {

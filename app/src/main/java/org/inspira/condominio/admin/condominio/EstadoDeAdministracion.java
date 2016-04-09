@@ -23,7 +23,7 @@ import org.inspira.condominio.actividades.InsertarElementoMultivalor;
 import org.inspira.condominio.actividades.MuestraMensajeDesdeHilo;
 import org.inspira.condominio.actividades.ProveedorDeRecursos;
 import org.inspira.condominio.admon.AccionesTablaAdministracion;
-import org.inspira.condominio.admon.CompruebaCamposJSON;
+import org.inspira.condominio.actividades.CompruebaCamposJSON;
 import org.inspira.condominio.datos.Administracion;
 import org.inspira.condominio.datos.ContactoAdministracion;
 import org.inspira.condominio.dialogos.EntradaTexto;

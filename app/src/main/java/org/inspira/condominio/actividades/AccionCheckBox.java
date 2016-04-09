@@ -4,7 +4,6 @@ import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.CompoundButton;
 
-import org.inspira.condominio.admon.CompruebaCamposJSON;
 import org.inspira.condominio.networking.ContactoConServidor;
 
 /**

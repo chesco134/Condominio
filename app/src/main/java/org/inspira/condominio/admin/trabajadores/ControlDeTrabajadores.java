@@ -21,7 +21,7 @@ import org.inspira.condominio.actividades.MuestraMensajeDesdeHilo;
 import org.inspira.condominio.actividades.ProveedorDeRecursos;
 import org.inspira.condominio.adaptadores.AdaptadorDeTrabajadores;
 import org.inspira.condominio.admon.AccionesTablaTrabajador;
-import org.inspira.condominio.admon.CompruebaCamposJSON;
+import org.inspira.condominio.actividades.CompruebaCamposJSON;
 import org.inspira.condominio.datos.Trabajador;
 import org.inspira.condominio.dialogos.EntradaTexto;
 import org.inspira.condominio.dialogos.RegistroDeTrabajador;
