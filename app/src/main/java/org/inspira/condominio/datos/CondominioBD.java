@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -266,6 +265,7 @@ public class CondominioBD extends SQLiteOpenHelper {
                 "idHabitante integer not null," +
                 "departamento text," +
                 "fecha text not null," +
+                "es_extraordinario integer default 0," +
                 "email text not null," +
                 "foreign key(idHabitante) references Habitante(idHabitante)," +
                 "foreign key(idRazon_de_Ingreso) references Razon_de_Ingreso(idRazon_de_Ingreso)," +
@@ -283,6 +283,7 @@ public class CondominioBD extends SQLiteOpenHelper {
                 "monto float not null," +
                 "favorecido text not null," +  // Debe ser un string que venga del server de un habitante registrado.
                 "fecha long not null," +
+                "es_extraordinario integer default 0," +
                 "email text not null," +
                 "foreign key(idRazon_de_Egreso) references Razon_de_Egreso(idRazon_de_Egreso)," +
                 "foreign key(email) references Usuario(email)" +

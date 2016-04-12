@@ -59,8 +59,8 @@ Las convocatorias para la celebración de asambleas ordinarias, se notificarán 
     <string name="estructura_de_convocatoria_relleno_7">Ciudad de México a </string>
     <string name="estructura_de_convocatoria_primer_punto_unamovible">1.- Lista de asistencia e instalación de la asamblea.</string>
     <string name="estructura_de_convocatoria_segundo_punto_inamovible">2.- Nombramiento de presidente, secretario y escrutador de la asamblea.</string>
-    <string name="formato_de_ingreso_razon_de_pago">Seleccione razón de pago:</string>
-    <string name="formato_de_ingreso_concepto">Concepto:</string>
+    <string name="formato_de_ingreso_razon_de_pago">Seleccione razón de pago</string>
+    <string name="formato_de_ingreso_concepto">Concepto</string>
     <string name="formato_de_ingreso_pista_monto">Monto</string>
     <string name="formato_de_ingreso_pista_nombre">Nombre</string>
     <string name="formato_de_ingreso_confirmar">Confirmar</string>

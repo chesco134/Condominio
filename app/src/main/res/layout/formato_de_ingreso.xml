@@ -3,7 +3,7 @@
     android:layout_width="match_parent" android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/formato_de_ingreso_label_spiner"
+        android:id="@+id/formato_de_ingreso_etiqueta_razon_de_pago"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -15,46 +15,24 @@
         android:text="@string/formato_de_ingreso_razon_de_pago"
         android:textSize="20sp"/>
 
-    <Spinner
-        android:id="@+id/formato_de_ingreso_razon_de_pago"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="12sp"
-        android:layout_marginLeft="12sp"
-        android:layout_marginEnd="12sp"
-        android:layout_marginRight="12sp"
-        android:layout_marginTop="12sp"
-        android:layout_below="@+id/formato_de_ingreso_label_spiner"/>
-
     <TextView
         android:id="@+id/formato_de_ingreso_etiqueta_concepto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/formato_de_ingreso_razon_de_pago"
+        android:layout_below="@+id/formato_de_ingreso_etiqueta_razon_de_pago"
         android:layout_marginLeft="20sp"
         android:layout_marginStart="20sp"
-        android:layout_marginTop="12sp"
+        android:layout_marginTop="20sp"
         android:layout_marginEnd="12sp"
         android:layout_marginRight="12sp"
         android:text="@string/formato_de_ingreso_concepto"
         android:textSize="20sp"/>
-    
-    <Spinner
-        android:id="@+id/formato_de_ingreso_concepto"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="12sp"
-        android:layout_marginLeft="12sp"
-        android:layout_marginEnd="12sp"
-        android:layout_marginRight="12sp"
-        android:layout_marginTop="12sp"
-        android:layout_below="@+id/formato_de_ingreso_etiqueta_concepto"/>
 
     <EditText
         android:id="@+id/formato_de_ingreso_monto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/formato_de_ingreso_concepto"
+        android:layout_below="@+id/formato_de_ingreso_etiqueta_concepto"
         android:layout_marginStart="20sp"
         android:layout_marginLeft="20sp"
         android:layout_marginEnd="20sp"

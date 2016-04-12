@@ -1,9 +1,7 @@
 package org.inspira.condominio.admin.formatos;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.app.Activity;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
@@ -11,9 +9,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import org.inspira.condominio.R;
-import org.inspira.condominio.actividades.CrearConvocatoria;
-import org.inspira.condominio.admin.CentralPoint;
-import org.inspira.condominio.datos.CondominioBD;
 import org.inspira.condominio.dialogos.EntradaTexto;
 import org.inspira.condominio.dialogos.ProveedorSnackBar;
 import org.inspira.condominio.dialogos.ProveedorToast;
