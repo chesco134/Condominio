@@ -19,9 +19,17 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import org.inspira.condominio.R;
+import org.inspira.condominio.actividades.CompruebaCamposJSON;
+import org.inspira.condominio.actividades.MuestraMensajeDesdeHilo;
+import org.inspira.condominio.actividades.ProveedorDeRecursos;
 import org.inspira.condominio.adaptadores.MyFragmentStatePagerAdapter;
 import org.inspira.condominio.admon.AccionesTablaContable;
+import org.inspira.condominio.datos.ConceptoDeIngreso;
+import org.inspira.condominio.datos.RazonDeIngreso;
 import org.inspira.condominio.dialogos.EntradaTexto;
+import org.inspira.condominio.networking.ContactoConServidor;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.LinkedList;
 
@@ -39,7 +47,6 @@ public class Formatos extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_formatos_admin);
-        FragmentManager fm = getSupportFragmentManager();
         LinkedList<Fragment> frags = new LinkedList<>();
         frags.add(new FormatoDeIngreso());
         frags.add(new FormatoDeEgreso());
@@ -95,6 +102,8 @@ public class Formatos extends AppCompatActivity implements
         private Spinner conceptosDePago;
         private EditText monto;
         private EditText nombre;
+        ArrayAdapter<String> adapter;
+        ArrayAdapter<String> adapter2;
 
         public FormatoDeIngreso() {
         }
@@ -107,20 +116,13 @@ public class Formatos extends AppCompatActivity implements
             conceptosDePago = (Spinner) rootView.findViewById(R.id.formato_de_ingreso_concepto);
             monto = (EditText) rootView.findViewById(R.id.formato_de_ingreso_monto);
             nombre = (EditText) rootView.findViewById(R.id.formato_de_ingreso_nombre);
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item,
-                    AccionesTablaContable.obtenerRazonesDeIngreso(getContext()));
-            ArrayAdapter<String> adapter2 = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item,
-                    AccionesTablaContable.obtenerConceptosDeIngreso(getContext()));
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            razonesDePago.setAdapter(adapter);
-            conceptosDePago.setAdapter(adapter2);
             razonesDePago.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                     String selectedText = ((TextView) view).getText().toString();
                     if ("Otro".equals(selectedText)) {
-                        iniciaRecepcionDeTexto();
+                        iniciaRecepcionDeTexto((AppCompatActivity) getContext(),
+                                "Razon_de_Ingreso", "Razon_de_Ingreso");
                     }
                 }
 
@@ -131,21 +133,21 @@ public class Formatos extends AppCompatActivity implements
             return rootView;
         }
 
-        private void iniciaRecepcionDeTexto() {
-            EntradaTexto entradaTexto = new EntradaTexto();
-            Bundle args = new Bundle();
-            args.putString("mensaje", "Nueva razón de ingreso");
-            entradaTexto.setArguments(args);
-            entradaTexto.setAccionDialogo(new EntradaTexto.AccionDialogo() {
-                @Override
-                public void accionPositiva(DialogFragment fragment) {
+        @Override
+        public void onResume(){
+            super.onResume();
+            colocarElementosSpiners();
+        }
 
-                }
-
-                @Override
-                public void accionNegativa(DialogFragment fragment) {}
-            });
-            entradaTexto.show(((AppCompatActivity)getContext()).getSupportFragmentManager(), "Agregar");
+        private void colocarElementosSpiners() {
+            adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item,
+                    AccionesTablaContable.obtenerRazonesDeIngreso(getContext()));
+            adapter2 = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item,
+                    AccionesTablaContable.obtenerConceptosDeIngreso(getContext()));
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            razonesDePago.setAdapter(adapter);
+            conceptosDePago.setAdapter(adapter2);
         }
     }
 
@@ -170,6 +172,72 @@ public class Formatos extends AppCompatActivity implements
             conceptosDeEgreso.setAdapter(adapter);
             return rootView;
         }
+    }
+
+    private static void iniciaRecepcionDeTexto(final AppCompatActivity activity, final String table, final String column) {
+        EntradaTexto entradaTexto = new EntradaTexto();
+        Bundle args = new Bundle();
+        args.putString("mensaje", "Nueva razón de ingreso");
+        entradaTexto.setArguments(args);
+        entradaTexto.setAccionDialogo(new EntradaTexto.AccionDialogo() {
+            @Override
+            public void accionPositiva(DialogFragment fragment) {
+                final String texto = ((EntradaTexto) fragment).getEntradaDeTexto();
+                if (!AccionesTablaContable.comprobarExistenciaDeTexto(activity, column, texto, table)) {
+                    ContactoConServidor contacto = new ContactoConServidor(new ContactoConServidor.AccionesDeValidacionConServidor() {
+                        @Override
+                        public void resultadoSatisfactorio(Thread t) {
+                            String response = ((ContactoConServidor)t).getResponse();
+                            if(CompruebaCamposJSON.validaContenido(response)){
+                                int id = (Integer)CompruebaCamposJSON.obtenerCampos(response).get("id");
+                                if("Razon_de_Ingreso".equals(table)){
+                                    RazonDeIngreso razonDeIngreso = new RazonDeIngreso(id);
+                                    razonDeIngreso.setRazonDeIngreso(texto);
+                                    AccionesTablaContable.agregarRazonDeIngreso(activity, razonDeIngreso);
+                                }else if("Concepto_de_Ingreso".equals(table)){
+                                    ConceptoDeIngreso conceptoDeIngreso = new ConceptoDeIngreso(id);
+                                    conceptoDeIngreso.setConceptoDeIngreso(texto);
+                                    AccionesTablaContable.agregarConceptoDeIngreso(activity, conceptoDeIngreso);
+                                }
+                                MuestraMensajeDesdeHilo
+                                        .muestraMensaje(activity, activity.findViewById(R.id.container), "Hecho");
+                            }else{
+                                MuestraMensajeDesdeHilo
+                                        .muestraMensaje(activity, activity.findViewById(R.id.container), "Servicio por el momento no disponible");
+                            }
+                        }
+
+                        @Override
+                        public void problemasDeConexion(Thread t) {
+
+                        }
+                    }, armarMensajeAltaTipo(table, texto));
+                    contacto.start();
+                } else {
+                    MuestraMensajeDesdeHilo
+                            .muestraMensaje(activity, activity.findViewById(R.id.container), "El texto ya existe.");
+                }
+            }
+
+            @Override
+            public void accionNegativa(DialogFragment fragment) {
+            }
+        });
+        entradaTexto.show(activity.getSupportFragmentManager(), "Agregar");
+    }
+
+    private static String armarMensajeAltaTipo(String table, String value) {
+        String mensaje = null;
+        try{
+            JSONObject json = new JSONObject();
+            json.put("action", ProveedorDeRecursos.REGISTRO_DE_RAZON_O_CONCEPTO);
+            json.put("table", table);
+            json.put("value", value);
+            mensaje = json.toString();
+        }catch(JSONException e){
+            e.printStackTrace();
+        }
+        return mensaje;
     }
 
     private static final Integer[] TITULOS = {

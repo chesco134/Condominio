@@ -276,6 +276,7 @@ public class CondominioBD extends SQLiteOpenHelper {
                 "idRazon_de_Egreso integer not null primary key autoincrement," +
                 "Razon_de_Egreso text not null" +
                 ")");
+        dataBase.execSQL("insert into Razon_de_Egreso(Razon_de_Egreso) values ('Pago a proveedor'), ('Efectivo para compra de materiales'), ('Pago a administrador'), ('Pago a personal de limpieza'), ('Pago a personal de seguridad, vigilancia y/o portería'), ('Otro')");
         dataBase.execSQL("create table Egreso(" +
                 "idEgreso INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
                 "idRazon_de_Egreso integer not null," +
