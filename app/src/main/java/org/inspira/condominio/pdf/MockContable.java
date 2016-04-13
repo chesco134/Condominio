@@ -36,14 +36,14 @@ public class MockContable {
             ingreso.setDepartamento("Adawita");
             ingreso.setFecha(new java.util.Date().getTime());
             ingreso.setMonto((float)482.5);
-            ingreso.setNombre("Jorjomo Almonzo");
+            ingreso.setIdHabitante("Jorjomo Almonzo");
             ingreso.setSello("54235GFD3456");
             ConceptoDeIngreso conceptoDeIngreso = new ConceptoDeIngreso(1);
             conceptoDeIngreso.setConceptoDeIngreso("Cuota mensual");
             ingreso.setConceptoDeIngreso(conceptoDeIngreso);
             RazonDeIngreso razon = new RazonDeIngreso(1);
             razon.setRazonDeIngreso("Test razón de ingrerso");
-            ingreso.setIdRazonDeIngreso(razon);
+            ingreso.setRazonDeIngreso(razon);
             Ingreso[] ingresos = new Ingreso[1];
             ingresos[0] = ingreso;
             doc.setAdeudos(ingresos);

@@ -13,29 +13,21 @@ import org.inspira.condominio.R;
  */
 public class DialogoDeLista extends DialogFragment {
 
-    private AccionDialogoDeLista accion;
     private int stringArrayRes;
     private String titulo;
     private String[] elementos;
+    private AccionDialogoDeLista accion;
 
-    public void setStringArrayRes(int stringArrayRes) {
-        this.stringArrayRes = stringArrayRes;
-    }
+    public void setStringArrayRes(int stringArrayRes) { this.stringArrayRes = stringArrayRes; }
+
+    public void setElementos(String[] elementos) { this.elementos = elementos; }
 
     public void setTitulo(String titulo) {
         this.titulo = titulo;
     }
 
-    public interface AccionDialogoDeLista{
-        void objetoSeleccionado(String texto);
-    }
-
     public void setAccion(AccionDialogoDeLista accion) {
         this.accion = accion;
-    }
-
-    public void setElementos(String[] elementos) {
-        this.elementos = elementos;
     }
 
     @Override
@@ -59,5 +51,9 @@ public class DialogoDeLista extends DialogFragment {
                 }
             });
         return builder.create();
+    }
+
+    public interface AccionDialogoDeLista{
+        void objetoSeleccionado(String texto);
     }
 }

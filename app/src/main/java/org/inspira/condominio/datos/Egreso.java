@@ -5,11 +5,12 @@ package org.inspira.condominio.datos;
  */
 public class Egreso extends ModeloDeDatos {
 
-    private int idRazon_de_Egreso;
+    private int idRazonDeEgreso;
     private float monto;
     private String favorecido;
     private long fecha; // La fecha de expedición del comprobante
-    private String sello;
+    private boolean esExtraordinario;
+    private String email;
 
     public Egreso() {
     }
@@ -18,12 +19,12 @@ public class Egreso extends ModeloDeDatos {
         super(id);
     }
 
-    public int getIdRazon_de_Egreso() {
-        return idRazon_de_Egreso;
+    public int getIdRazonDeEgreso() {
+        return idRazonDeEgreso;
     }
 
-    public void setIdRazon_de_Egreso(int idRazon_de_Egreso) {
-        this.idRazon_de_Egreso = idRazon_de_Egreso;
+    public void setIdRazonDeEgreso(int idRazon_de_Egreso) {
+        this.idRazonDeEgreso = idRazon_de_Egreso;
     }
 
     public float getMonto() {
@@ -50,11 +51,19 @@ public class Egreso extends ModeloDeDatos {
         this.fecha = fecha;
     }
 
-    public String getSello() {
-        return sello;
+    public boolean isEsExtraordinario() {
+        return esExtraordinario;
     }
 
-    public void setSello(String sello) {
-        this.sello = sello;
+    public void setEsExtraordinario(boolean esExtraordinario) {
+        this.esExtraordinario = esExtraordinario;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

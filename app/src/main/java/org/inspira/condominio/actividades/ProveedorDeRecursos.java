@@ -40,6 +40,7 @@ public class ProveedorDeRecursos {
     public static final int REGISTRO_DE_PROPIETARIO = 33;
     public static final int ACTUALIZACION_DE_TRABAJADOR = 34;
     public static final int REGISTRO_DE_RAZON_O_CONCEPTO = 35;
+    public static final int REGISTRO_DE_INGRESO = 36;
 
     public static int obtenerColorDeError(Context context){
         return context.getResources().getColor(R.color.error);

@@ -264,7 +264,7 @@ public class CondominioBD extends SQLiteOpenHelper {
                 "monto float not null," +
                 "idHabitante integer not null," +
                 "departamento text," +
-                "fecha text not null," +
+                "fecha long not null," +
                 "es_extraordinario integer default 0," +
                 "email text not null," +
                 "foreign key(idHabitante) references Habitante(idHabitante)," +
@@ -281,7 +281,7 @@ public class CondominioBD extends SQLiteOpenHelper {
                 "idEgreso INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
                 "idRazon_de_Egreso integer not null," +
                 "monto float not null," +
-                "favorecido text not null," +  // Debe ser un string que venga del server de un habitante registrado.
+                "favorecido text," +  // Debe ser un string que venga del server de un habitante registrado.
                 "fecha long not null," +
                 "es_extraordinario integer default 0," +
                 "email text not null," +

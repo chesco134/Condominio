@@ -17,7 +17,6 @@ import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
-import itextlearning.ImageBackgroundEvent;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -72,7 +71,7 @@ public class DocumentoEstadoDeCuenta {
         table.setLockedWidth(true);
         PdfPCell cell = new PdfPCell();
         cell.setBorder(0);
-        cell.setCellEvent(new ImageBackgroundEvent(image));
+        //cell.setCellEvent(new ImageBackgroundEvent(image));
         cell.setFixedHeight(image.getScaledHeight());
         table.addCell(cell);
         documento.add(table);

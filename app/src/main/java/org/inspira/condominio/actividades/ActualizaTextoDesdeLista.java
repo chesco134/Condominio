@@ -15,6 +15,7 @@ public class ActualizaTextoDesdeLista implements View.OnClickListener {
     private int stringArrayRes;
     private String titulo;
     private String[] elementos;
+    private View referencedView;
 
     public ActualizaTextoDesdeLista(int stringArrayRes, String titulo) {
         this.stringArrayRes = stringArrayRes;
@@ -26,14 +27,23 @@ public class ActualizaTextoDesdeLista implements View.OnClickListener {
         this.elementos = elementos;
     }
 
+    public void setReferencedView(View referencedView) {
+        this.referencedView = referencedView;
+    }
+
     @Override
     public void onClick(final View v){
         DialogoDeLista dlista = new DialogoDeLista();
         dlista.setAccion(new DialogoDeLista.AccionDialogoDeLista() {
             @Override
             public void objetoSeleccionado(String texto) {
-                ((TextView)v).setText(texto);
-                ((TextView) v).setTextColor(Color.BLACK);
+                if (referencedView == null) {
+                    ((TextView) v).setText(texto);
+                    ((TextView) v).setTextColor(Color.BLACK);
+                }else{
+                    ((TextView) referencedView).setText(texto);
+                    ((TextView) referencedView).setTextColor(Color.BLACK);
+                }
             }
         });
         if(elementos != null)
@@ -41,6 +51,6 @@ public class ActualizaTextoDesdeLista implements View.OnClickListener {
         else
             dlista.setStringArrayRes(stringArrayRes);
         dlista.setTitulo(titulo);
-        dlista.show(((AppCompatActivity)v.getContext()).getSupportFragmentManager(), "Seleccionar elemento");
+        dlista.show(((AppCompatActivity) v.getContext()).getSupportFragmentManager(), "Seleccionar elemento");
     }
 }

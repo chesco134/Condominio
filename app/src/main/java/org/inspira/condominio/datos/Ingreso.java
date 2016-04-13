@@ -8,10 +8,11 @@ public class Ingreso extends ModeloDeDatos {
     private RazonDeIngreso razonDeIngreso;
     private ConceptoDeIngreso conceptoDeIngreso;
     private float monto;
-    private String nombre;
+    private int idHabitante;
     private String departamento;
     private long fecha;
-    private String sello;
+    private boolean extraordinario;
+    private String email;
 
     public Ingreso() {
     }
@@ -24,7 +25,7 @@ public class Ingreso extends ModeloDeDatos {
         return razonDeIngreso;
     }
 
-    public void setIdRazonDeIngreso(RazonDeIngreso razonDeIngreso) {
+    public void setRazonDeIngreso(RazonDeIngreso razonDeIngreso) {
         this.razonDeIngreso = razonDeIngreso;
     }
 
@@ -44,12 +45,12 @@ public class Ingreso extends ModeloDeDatos {
         this.monto = monto;
     }
 
-    public String getNombre() {
-        return nombre;
+    public int getIdHabitante() {
+        return idHabitante;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setIdHabitante(int idHabitante) {
+        this.idHabitante = idHabitante;
     }
 
     public String getDepartamento() {
@@ -68,12 +69,20 @@ public class Ingreso extends ModeloDeDatos {
         this.fecha = fecha;
     }
 
-    public String getSello() {
-        return sello;
+    public boolean isExtraordinario() {
+        return extraordinario;
     }
 
-    public void setSello(String sello) {
-        this.sello = sello;
+    public void setExtraordinario(boolean extraordinario) {
+        this.extraordinario = extraordinario;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }
 
