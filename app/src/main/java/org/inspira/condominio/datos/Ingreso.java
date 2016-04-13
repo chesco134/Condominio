@@ -11,7 +11,6 @@ public class Ingreso extends ModeloDeDatos {
     private int idHabitante;
     private String departamento;
     private long fecha;
-    private boolean extraordinario;
     private String email;
 
     public Ingreso() {
@@ -67,14 +66,6 @@ public class Ingreso extends ModeloDeDatos {
 
     public void setFecha(long fecha) {
         this.fecha = fecha;
-    }
-
-    public boolean isExtraordinario() {
-        return extraordinario;
-    }
-
-    public void setExtraordinario(boolean extraordinario) {
-        this.extraordinario = extraordinario;
     }
 
     public String getEmail() {

@@ -6,12 +6,42 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import com.itextpdf.text.DocumentException;
 
 import org.inspira.condominio.R;
+import org.inspira.condominio.actividades.MuestraMensajeDesdeHilo;
+import org.inspira.condominio.actividades.ProveedorDeRecursos;
+import org.inspira.condominio.adaptadores.AdaptadorDeIngresos;
+import org.inspira.condominio.adaptadores.AdaptadorDeEgresos;
+import org.inspira.condominio.admon.AccionesTablaCondominio;
+import org.inspira.condominio.admon.AccionesTablaContable;
+import org.inspira.condominio.datos.AlmacenamientoInterno;
+import org.inspira.condominio.datos.Condominio;
+import org.inspira.condominio.datos.Egreso;
+import org.inspira.condominio.datos.InformacionEgreso;
+import org.inspira.condominio.datos.InformacionIngresos;
+import org.inspira.condominio.datos.Ingreso;
 import org.inspira.condominio.dialogos.EntradaTexto;
 import org.inspira.condominio.dialogos.ProveedorSnackBar;
 import org.inspira.condominio.dialogos.ProveedorToast;
+import org.inspira.condominio.fragmentos.FormatosDeEgreso;
+import org.inspira.condominio.fragmentos.FormatosDeIngreso;
+import org.inspira.condominio.pdf.DocumentoEgresos;
+import org.inspira.condominio.pdf.DocumentoIngreso;
+import org.inspira.condominio.pdf.ExportarConvocatoria;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 
 public class FormatosLobby extends AppCompatActivity {
 
@@ -22,11 +52,13 @@ public class FormatosLobby extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_formatos_lobby);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        assert toolbar != null;
         toolbar.setTitle(getResources().getString(R.string.texto_formatos_admin));
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_white_24dp);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        assert fab != null;
         fab.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -34,47 +66,153 @@ public class FormatosLobby extends AppCompatActivity {
                 launchFormatos();
             }
         });
+        if(getSupportFragmentManager().findFragmentByTag("Mock") == null)
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.content_lobby_main_container, new FormatosDeIngreso(), "Mock")
+                    .commit();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        getMenuInflater().inflate(R.menu.menu_de_formatos, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        int itemId = item.getItemId();
+        if(itemId == R.id.menu_de_formatos_ver_egresos){
+            agregaFragmentoDeEgresos();
+        }else if(itemId == R.id.menu_de_formatos_exportar_documentos){
+            generarDocumentos();
+        }
+        return true;
+    }
+
+    private void generarDocumentos() {
+        try {
+            AlmacenamientoInterno a = new AlmacenamientoInterno(FormatosLobby.this);
+            a.crearDirectorioContable();
+            Calendar c = Calendar.getInstance();
+            String str = obtenerMes(c.get(Calendar.MONTH));
+            int year = c.get(Calendar.YEAR);
+            String file = a.obtenerRutaDeAlmacenamientoContable() + "/Ingresos " + str + " " + year + ".pdf";
+            String fileEgresosOrdinarios = a.obtenerRutaDeAlmacenamientoContable() + "/EgresosOrdinarios " + str + " " + year + ".pdf";
+            String fileEgresosExtraordinarios = a.obtenerRutaDeAlmacenamientoContable() + "/EgresosExtraordinarios " + str + " " + year + ".pdf";
+            Ingreso[] ingresos = AccionesTablaContable.obtenerIngresosDelMes(this);
+            float total = 0;
+            for(Ingreso ingreso : ingresos)
+                total += ingreso.getMonto();
+            Ingreso[] ingresosExtraordinarios = AccionesTablaContable.obtenerIngresosDelMesExtraordinarios(this);
+            float totalExtraordinario = 0;
+            for(Ingreso ingreso : ingresosExtraordinarios)
+                totalExtraordinario += ingreso.getMonto();
+            InformacionIngresos infoIngresosExtraordinarios = new InformacionIngresos(0,totalExtraordinario);
+            InformacionIngresos infoIngresos = new InformacionIngresos(0,total-totalExtraordinario);
+            DocumentoIngreso doc = new DocumentoIngreso(infoIngresos, infoIngresosExtraordinarios);
+            Condominio condominio = AccionesTablaCondominio.obtenerCondominio(this, ProveedorDeRecursos.obtenerIdCondominio(this));
+            doc.exportarPdf(file, condominio.getNombre(), condominio.getDireccion());
+            Egreso[] egresos = AccionesTablaContable.obtenerEgresosDelMesOrdinarios(this);
+            List<InformacionEgreso> informacionEgresos = new ArrayList<>();
+            InformacionEgreso informacionEgreso;
+            Log.d("PUTOPENDEJO", "Egresos: " + egresos[0].getFecha());
+            for(Egreso egreso : egresos) {
+                informacionEgreso = new InformacionEgreso();
+                informacionEgreso.setFecha(egreso.getFecha());
+                informacionEgreso.setMonto(egreso.getMonto());
+                informacionEgreso.setDescripcion(AccionesTablaContable.obtenerRazonDeEgreso(this, egreso.getIdRazonDeEgreso()));
+                informacionEgreso.setTipoDePago("Efectivo");
+                informacionEgresos.add(informacionEgreso);
+            }
+            DocumentoEgresos docEgresos = new DocumentoEgresos(ProveedorDeRecursos.obtenerUsuario(this),
+                    informacionEgresos.toArray(new InformacionEgreso[]{}), "Ordinarios",
+                    "José A. Nochebuena 5000", "José A. Nochebuena 2000");
+            docEgresos.exportarPdf(fileEgresosOrdinarios);
+            Egreso[] egresosExtra = AccionesTablaContable.obtenerEgresosDelMesExtraordinarios(this);
+            informacionEgresos = new ArrayList<>();
+            for(Egreso egreso : egresosExtra) {
+                informacionEgreso = new InformacionEgreso();
+                informacionEgreso.setFecha(egreso.getFecha());
+                informacionEgreso.setMonto(egreso.getMonto());
+                informacionEgreso.setDescripcion(AccionesTablaContable.obtenerRazonDeEgreso(this, egreso.getIdRazonDeEgreso()));
+                informacionEgreso.setTipoDePago("Efectivo");
+                informacionEgresos.add(informacionEgreso);
+            }
+            DocumentoEgresos docEgresosExtra = new DocumentoEgresos(ProveedorDeRecursos.obtenerUsuario(this),
+                    informacionEgresos.toArray(new InformacionEgreso[0]), "Extraordinarios",
+                    "José A. Nochebuena", "José A. Nochebuena 2");
+            docEgresosExtra.exportarPdf(fileEgresosExtraordinarios);
+            runOnUiThread(new Runnable(){
+                @Override
+                public void run(){
+                    ProveedorToast.showToast(FormatosLobby.this,R.string.crear_convocatoria_archivo_creado);
+                }
+            });
+        }catch(IOException e){
+            e.printStackTrace();
+            MuestraMensajeDesdeHilo.muestraMensaje(FormatosLobby.this, findViewById(R.id.formato_convocatoria_contenedor), getString(R.string.crear_convocatoria_error_pdf));
+        } catch (DocumentException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void agregaFragmentoDeEgresos() {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.content_lobby_main_container, new FormatosDeEgreso(), "Fury")
+                .addToBackStack("Fury")
+                .commit();
     }
 
     private void launchFormatos() {
         startActivityForResult(new Intent(FormatosLobby.this, Formatos.class), CREAR_FORMATO);
     }
 
-    private void iniciaDialogoParaConsultaDeSello(String email){
-        EntradaTexto et = new EntradaTexto();
-        Bundle args = new Bundle();
-        args.putString("mensaje", "Por favor, ingrese su sello electrónico para continuar");
-        et.setArguments(args);
-        et.setAccionDialogo(new AccionSobreIngresoDeSello(email) {
-        });
-        et.show(getSupportFragmentManager(), "Ingresar sello");
-    }
+    private String obtenerMes(int month){
 
-    private class AccionSobreIngresoDeSello implements EntradaTexto.AccionDialogo{
-
-        private String email;
-
-        public AccionSobreIngresoDeSello(String email) {
-            this.email = email;
+        String monthStr;
+        switch (month){
+            case 0:
+                monthStr = "Enero";
+                break;
+            case 1:
+                monthStr = "Febrero";
+                break;
+            case 2:
+                monthStr = "Marzo";
+                break;
+            case 3:
+                monthStr = "Abril";
+                break;
+            case 4:
+                monthStr = "Mayo";
+                break;
+            case 5:
+                monthStr = "Junio";
+                break;
+            case 6:
+                monthStr = "Julio";
+                break;
+            case 7:
+                monthStr = "Agosto";
+                break;
+            case 8:
+                monthStr = "Septiembre";
+                break;
+            case 9:
+                monthStr = "Octubre";
+                break;
+            case 10:
+                monthStr = "Noviembre";
+                break;
+            case 11:
+                monthStr = "Diciembre";
+                break;
+            default:
+                monthStr = "";
         }
-
-        @Override
-        public void accionPositiva(DialogFragment fragment) {
-            EntradaTexto et = (EntradaTexto) fragment;
-            String sello = et.getEntradaDeTexto();
-            if (!"".equals(sello)) {
-                //new CondominioBD(FormatosLobby.this).agregaSello(email, sello);
-                launchFormatos();
-                ProveedorToast.showToast(FormatosLobby.this, "Gracias");
-            }else{
-                ProveedorSnackBar
-                        .muestraBarraDeBocados(findViewById(R.id.toolbar), "El campo no debe quedar vacío");
-            }
-        }
-
-        @Override
-        public void accionNegativa(DialogFragment fragment) {
-        }
+        return monthStr;
     }
 
 }

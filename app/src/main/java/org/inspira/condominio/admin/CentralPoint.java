@@ -147,10 +147,10 @@ public class CentralPoint extends AppCompatActivity
             launchConvocatorias();
         } else if (id == R.id.nav_administracion) {
             launchAdministracion();
-        } else if (id == R.id.nav_accidentes) {
-            launchAccidentes();
-        } else if (id == R.id.nav_configuracion) {
-            launchConfiguracion();
+//        } else if (id == R.id.nav_accidentes) {
+//            launchAccidentes();
+//        } else if (id == R.id.nav_configuracion) {
+//            launchConfiguracion();
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

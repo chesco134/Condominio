@@ -10,33 +10,37 @@
             android:id="@+id/nav_administracion"
             android:icon="@drawable/ic_domain_black_24dp"
             android:title="@string/central_point_menu_administracion" />
+        <!--
         <item
             android:id="@+id/nav_accidentes"
             android:icon="@drawable/ic_event_note_black_24dp"
             android:title="@string/central_point_menu_accidentes" />
+        -->
         <!--
         <item
             android:id="@+id/nav_recursos_humanos"
             android:icon="@drawable/ic_work_black_24dp"
             android:title="@string/central_point_menu_recursos_humanos" />
         -->
-        <item
-            android:id="@+id/nav_configuracion"
-            android:icon="@drawable/ic_settings_black_24dp"
-            android:title="@string/central_point_menu_configuracion" />
-    </group>
+    <!--
+    <item
+        android:id="@+id/nav_configuracion"
+        android:icon="@drawable/ic_settings_black_24dp"
+        android:title="@string/central_point_menu_configuracion" />
+        -->
+</group>
 <!--
-    <item android:title="Communicate">
-        <menu>
-            <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
-            <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Send" />
-        </menu>
-    </item>
+<item android:title="Communicate">
+    <menu>
+        <item
+            android:id="@+id/nav_share"
+            android:icon="@drawable/ic_menu_share"
+            android:title="Share" />
+        <item
+            android:id="@+id/nav_send"
+            android:icon="@drawable/ic_menu_send"
+            android:title="Send" />
+    </menu>
+</item>
 -->
 </menu>

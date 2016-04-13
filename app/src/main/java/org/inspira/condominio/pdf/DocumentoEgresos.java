@@ -49,7 +49,7 @@ public class DocumentoEgresos {
         this.vocal1 = vocal1;
     }
     
-    public void exportarPdf(String destino, String imgResStr, String nombreInmueble, String dir)
+    public void exportarPdf(String destino)
             throws IOException, DocumentException {
         File file = new File(destino);
         file.getParentFile().mkdirs();

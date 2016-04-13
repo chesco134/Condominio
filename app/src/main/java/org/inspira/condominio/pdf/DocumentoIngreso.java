@@ -47,10 +47,9 @@ public class DocumentoIngreso {
         totalExtra = 0;
     }
 
-    public void exportarPdf(String destino, String imgResStr, String nombreInmueble, String dir)
+    public void exportarPdf(String destino, String nombreInmueble, String dir)
             throws IOException, DocumentException {
         File file = new File(destino);
-        file.getParentFile().mkdirs();
         PdfWriter.getInstance(documento, new FileOutputStream(file));
         documento.open();
         Paragraph inmueble = new Paragraph(nombreInmueble,

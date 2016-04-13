@@ -23,13 +23,24 @@ public class AlmacenamientoInterno {
     }
 
     public void crearDirectorio(){
-        File f = new File(Environment.getExternalStorageDirectory(), context.getString(R.string.app_name));
+        File f = new File(Environment.getExternalStorageDirectory(), context.getString(R.string.app_name).concat("/Convocatorias"));
+        if (!f.exists()) {
+            f.mkdirs();
+        }
+    }
+
+    public void crearDirectorioContable(){
+        File f = new File(Environment.getExternalStorageDirectory(), context.getString(R.string.app_name).concat("/Contable"));
         if (!f.exists()) {
             f.mkdirs();
         }
     }
 
     public String obtenerRutaDeAlmacenamiento(){
-        return obtenerRutaAlmacenamientoInterno() + "/" + context.getString(R.string.app_name);
+        return obtenerRutaAlmacenamientoInterno() + "/" + context.getString(R.string.app_name).concat("/Convocatorias");
+    }
+
+    public String obtenerRutaDeAlmacenamientoContable(){
+        return obtenerRutaAlmacenamientoInterno() + "/" + context.getString(R.string.app_name).concat("/Contable");
     }
 }

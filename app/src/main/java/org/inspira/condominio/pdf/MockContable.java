@@ -36,8 +36,7 @@ public class MockContable {
             ingreso.setDepartamento("Adawita");
             ingreso.setFecha(new java.util.Date().getTime());
             ingreso.setMonto((float)482.5);
-            ingreso.setIdHabitante("Jorjomo Almonzo");
-            ingreso.setSello("54235GFD3456");
+            ingreso.setIdHabitante(44);
             ConceptoDeIngreso conceptoDeIngreso = new ConceptoDeIngreso(1);
             conceptoDeIngreso.setConceptoDeIngreso("Cuota mensual");
             ingreso.setConceptoDeIngreso(conceptoDeIngreso);
@@ -68,7 +67,7 @@ public class MockContable {
             infoIngresosExtra.setTotalhabitantes(560);
             infoIngresosExtra.setTotalRegulares(270);
             DocumentoIngreso doc = new DocumentoIngreso(infoIngresos, infoIngresosExtra);
-            doc.exportarPdf(TABLITA, IMG1, "Zukaritas", "Calle 66306713333");
+            doc.exportarPdf(TABLITA, "Zukaritas", "Calle 66306713333");
             //new ITextLearning().createPdf(TABLITA);
         } catch (IOException | DocumentException ex) {
             ex.printStackTrace();
@@ -97,7 +96,7 @@ public class MockContable {
             DocumentoEgresos doc = new DocumentoEgresos("Jorge Robles Montecarlo",
                     egresos.toArray(new InformacionEgreso[0]), "Ordinarios",
                     "Julio Bértiz Monrique", "Mariana Ávila Maldonado");
-            doc.exportarPdf(TABLITA, IMG1, "Zukaritas", "Calle 66306713333");
+            doc.exportarPdf(TABLITA);
         } catch (IOException | DocumentException ex) {
             ex.printStackTrace();
         }

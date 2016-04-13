@@ -21,7 +21,7 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_lobby" />
+    <include layout="@layout/content_lobby_convocatoria" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"

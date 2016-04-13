@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/elemento_egreso_monto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="3sp"
+        android:layout_marginStart="12sp"
+        android:layout_marginLeft="12sp"
+        android:textSize="20sp"/>
+    <TextView
+        android:id="@+id/elemento_egreso_tail_monto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/elemento_egreso_monto"
+        android:layout_toRightOf="@+id/elemento_egreso_monto"
+        android:layout_marginStart="4sp"
+        android:layout_marginLeft="4sp"
+        android:layout_alignBottom="@+id/elemento_egreso_monto"
+        android:text="pesos"/>
+
+    <TextView
+        android:id="@+id/elemento_egreso_fecha"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/elemento_egreso_monto"
+        android:layout_toEndOf="@+id/elemento_egreso_tail_monto"
+        android:layout_toRightOf="@+id/elemento_egreso_tail_monto"
+        android:layout_marginStart="12sp"
+        android:layout_marginLeft="12sp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginEnd="12sp"
+        android:layout_marginRight="12sp"
+        android:gravity="end"/>
+
+    <TextView
+        android:id="@+id/elemento_egreso_habitante"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/elemento_egreso_monto"
+        android:layout_alignLeft="@+id/elemento_egreso_monto"
+        android:layout_marginStart="12sp"
+        android:layout_marginLeft="12sp"
+        android:layout_below="@+id/elemento_egreso_monto"
+        android:layout_marginTop="2sp" />
+
+    <TextView
+        android:id="@+id/elemento_egreso_razon_de_egreso"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/elemento_egreso_habitante"
+        android:layout_alignLeft="@+id/elemento_egreso_habitante"
+        android:layout_below="@+id/elemento_egreso_habitante"
+        android:layout_marginTop="2sp"
+        android:layout_marginBottom="3sp"/>
+</RelativeLayout>

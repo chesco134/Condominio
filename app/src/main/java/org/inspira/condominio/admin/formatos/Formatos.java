@@ -12,11 +12,10 @@ import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import org.inspira.condominio.R;
@@ -28,6 +27,7 @@ import org.inspira.condominio.adaptadores.MyFragmentStatePagerAdapter;
 import org.inspira.condominio.admon.AccionesTablaContable;
 import org.inspira.condominio.admon.AccionesTablaHabitante;
 import org.inspira.condominio.datos.ConceptoDeIngreso;
+import org.inspira.condominio.datos.Egreso;
 import org.inspira.condominio.datos.Habitante;
 import org.inspira.condominio.datos.Ingreso;
 import org.inspira.condominio.datos.RazonDeEgreso;
@@ -113,7 +113,6 @@ public class Formatos extends AppCompatActivity implements
         private TextView razonDePago;
         private TextView conceptoDePago;
         private TextView nombre;
-        private SwitchCompat esExtraordinario;
         private EditText monto;
         private List<String> nombres;
         private Habitante[] habitantes;
@@ -128,7 +127,6 @@ public class Formatos extends AppCompatActivity implements
             razonDePago = (TextView) rootView.findViewById(R.id.formato_de_ingreso_razon_de_pago);
             conceptoDePago = (TextView) rootView.findViewById(R.id.formato_de_ingreso_concepto);
             nombre = (TextView) rootView.findViewById(R.id.formato_de_ingreso_nombre);
-            esExtraordinario = (SwitchCompat) rootView.findViewById(R.id.formato_de_ingreso_es_extraordinario);
             monto = (EditText) rootView.findViewById(R.id.formato_de_ingreso_monto);
             Button confirmar = (Button) rootView.findViewById(R.id.formato_de_ingreso_confirmar);
             confirmar.setOnClickListener(new ValidacionDeCampos(getContext()));
@@ -154,8 +152,8 @@ public class Formatos extends AppCompatActivity implements
             for(Habitante habitante : habitantes)
                 nombres.add(habitante.getApPaterno() + " " + habitante.getApMaterno() + " " + habitante.getNombres());
             ActualizaTextoDesdeLista actualizaTextoDesdeLista3 = new ActualizaTextoDesdeLista("Habitantes", nombres.toArray(new String[0]));
-            actualizaTextoDesdeLista3.setReferencedView(nombre);
             contenedorNombre.setOnClickListener(actualizaTextoDesdeLista3);
+            actualizaTextoDesdeLista3.setReferencedView(nombre);
         }
 
         private class ValidacionDeCampos implements View.OnClickListener,
@@ -167,20 +165,19 @@ public class Formatos extends AppCompatActivity implements
 
             public ValidacionDeCampos(Context context) {
                 this.context = context;
-                this.view = view;
             }
 
             @Override
             public void onClick(View v){
+                this.view = v;
                 iniciaValidacionDeCampos();
             }
 
             private void iniciaValidacionDeCampos(){
-                RazonDeIngreso razonDeIngreso = generaRazonDeIngreso();
+                generaRazonDeIngreso();
             }
 
-            private RazonDeIngreso generaRazonDeIngreso(){
-                RazonDeIngreso razonDeIngreso = null;
+            private void generaRazonDeIngreso(){
                 String razon = razonDePago.getText().toString();
                 String concepto = conceptoDePago.getText().toString();
                 String nombre = FormatoDeIngreso.this.nombre.getText().toString();
@@ -188,7 +185,6 @@ public class Formatos extends AppCompatActivity implements
                 if(!"Razón de pago".equals(razon) && !"Concepto".equals(concepto) && !"Nombre".equals(nombre)){
                     iniciaValidacionDeCamposRemota(razon, concepto, nombre, Float.parseFloat(monto));
                 }
-                return razonDeIngreso;
             }
 
             private void iniciaValidacionDeCamposRemota(String razon, String concepto, String nombre, float monto) {
@@ -211,17 +207,16 @@ public class Formatos extends AppCompatActivity implements
                 ingreso.setDepartamento(habitante.getNombreDepartamento());
                 ingreso.setFecha(new Date().getTime());
                 ingreso.setMonto(monto);
-                ingreso.setExtraordinario(esExtraordinario.isChecked());
                 ingreso.setEmail(ProveedorDeRecursos.obtenerEmail(context));
                 try{
                     JSONObject json = new JSONObject();
                     json.put("action", ProveedorDeRecursos.REGISTRO_DE_INGRESO);
-                    json.put("idRazon_de_Ingreso", ingreso.getRazonDeIngreso());
-                    json.put("idConcepto_de_Ingreso", ingreso.getConceptoDeIngreso());
+                    json.put("idRazon_de_Ingreso", ingreso.getRazonDeIngreso().getId());
+                    json.put("idConcepto_de_Ingreso", ingreso.getConceptoDeIngreso().getId());
+                    json.put("monto", ingreso.getMonto());
                     json.put("idHabitante", ingreso.getIdHabitante());
                     json.put("departamento", ingreso.getDepartamento());
                     json.put("fecha", ingreso.getFecha());
-                    json.put("es_extraordinario", ingreso.isExtraordinario() ? 1 : 0);
                     json.put("email", ingreso.getEmail());
                     cuerpoDeMensaje = json.toString();
                 }catch(JSONException e){
@@ -252,9 +247,10 @@ public class Formatos extends AppCompatActivity implements
 
     public static class FormatoDeEgreso extends Fragment{
 
-        private TextView conceptosDeEgreso;
+        private TextView razonDeEgreso;
         private TextView monto;
         private TextView favorecido;
+        private SwitchCompat esExtraordinario;
 
         public FormatoDeEgreso(){}
 
@@ -262,9 +258,12 @@ public class Formatos extends AppCompatActivity implements
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.formato_de_egreso, container, false);
-            conceptosDeEgreso = (TextView) rootView.findViewById(R.id.formato_de_egreso_razon_de_egreso);
+            razonDeEgreso = (TextView) rootView.findViewById(R.id.formato_de_egreso_razon_de_egreso);
             monto = (TextView) rootView.findViewById(R.id.formato_de_egreso_monto);
             favorecido = (TextView) rootView.findViewById(R.id.formato_de_egreso_favorecido);
+            esExtraordinario = (SwitchCompat) rootView.findViewById(R.id.formato_de_egreso_es_extraordinario);
+            Button confirmar = (Button) rootView.findViewById(R.id.formato_de_egreso_confirmar);
+            confirmar.setOnClickListener(new ValidacionDeCampos(getContext()));
             return rootView;
         }
 
@@ -277,6 +276,173 @@ public class Formatos extends AppCompatActivity implements
         private void colocarElementos() {
             RelativeLayout contenedorRazonesDeEgreso = (RelativeLayout) getView().findViewById(R.id.formato_de_egreso_contenedor_razon_de_egreso);
             String[] razonesDeEgreso = AccionesTablaContable.obtenerRazonesDeEgreso(getContext()).toArray(new String[0]);
+            contenedorRazonesDeEgreso.setOnClickListener(new MiDialogoDeLista(getContext(), "Razones de egreso", razonesDeEgreso, "Razon_de_Egreso", razonDeEgreso));
+            RelativeLayout contenedorMonto = (RelativeLayout) getView().findViewById(R.id.formato_de_egreso_contenedor_monto);
+            contenedorMonto.setOnClickListener(new ActualizarCampoMonto(monto, getContext()));
+            RelativeLayout contenedorFavorecido = (RelativeLayout) getView().findViewById(R.id.formato_de_egreso_contenedor_favorecido);
+            contenedorFavorecido.setOnClickListener(new ActualizarCampoFavorecido(getContext(), favorecido));
+        }
+
+        private class ActualizarCampoFavorecido implements View.OnClickListener, EntradaTexto.AccionDialogo {
+
+            private Context context;
+            private TextView referencedView;
+
+            public ActualizarCampoFavorecido(Context context, TextView referencedView) {
+                this.context = context;
+                this.referencedView = referencedView;
+            }
+
+            @Override
+            public void onClick(View v) {
+                iniciarDialogo();
+            }
+
+            private void iniciarDialogo(){
+                EntradaTexto et = new EntradaTexto();
+                et.setTipoDeEntradaDeTexto(EditorInfo.TYPE_CLASS_TEXT);
+                Bundle args = new Bundle();
+                args.putString("mensaje", "A favor de");
+                args.putString("contenido", referencedView.getText().toString());
+                et.setArguments(args);
+                et.setAccionDialogo(this);
+                et.show(((AppCompatActivity)context).getSupportFragmentManager(), "Obtener favorecido");
+            }
+
+            @Override
+            public void accionPositiva(DialogFragment fragment) {
+                String texto = ((EntradaTexto)fragment).getEntradaDeTexto();
+                if(!"".equals(texto))
+                    referencedView.setText(texto);
+            }
+
+            @Override
+            public void accionNegativa(DialogFragment fragment) {}
+        }
+
+        private class ActualizarCampoMonto implements View.OnClickListener, EntradaTexto.AccionDialogo {
+
+            private TextView referencedView;
+            private Context context;
+
+            public ActualizarCampoMonto(TextView referencedView, Context context) {
+                this.referencedView = referencedView;
+                this.context = context;
+            }
+
+            @Override
+            public void onClick(View view){
+                iniciarDialogoDeMonto();
+            }
+
+            private void iniciarDialogoDeMonto(){
+                EntradaTexto et = new EntradaTexto();
+                et.setTipoDeEntradaDeTexto(EditorInfo.TYPE_CLASS_NUMBER | EditorInfo.TYPE_NUMBER_FLAG_DECIMAL);
+                Bundle args = new Bundle();
+                args.putString("mensaje", "Defina el monto");
+                args.putString("contenido", referencedView.getText().toString());
+                et.setArguments(args);
+                et.setAccionDialogo(this);
+                et.show(((AppCompatActivity)context).getSupportFragmentManager(), "Obtener monto");
+            }
+
+            @Override
+            public void accionPositiva(DialogFragment fragment) {
+                String texto = ((EntradaTexto)fragment).getEntradaDeTexto();
+                if(!"".equals(texto))
+                    try{
+                        if(Float.parseFloat(texto) > 0)
+                            referencedView.setText(texto);
+                        else
+                            ProveedorSnackBar.muestraBarraDeBocados(referencedView, "¿Se trata de una deuda?");
+                    } catch (NumberFormatException e){
+                        e.printStackTrace();
+                        ProveedorSnackBar.muestraBarraDeBocados(referencedView, "Debe ser un número");
+                    }
+            }
+
+            @Override
+            public void accionNegativa(DialogFragment fragment) {}
+        }
+
+        private class ValidacionDeCampos implements View.OnClickListener,
+                ContactoConServidor.AccionesDeValidacionConServidor{
+
+            private Context context;
+            private Egreso egreso;
+            private View view;
+
+            public ValidacionDeCampos(Context context) {
+                this.context = context;
+            }
+
+            @Override
+            public void onClick(View v){
+                this.view = v;
+                iniciaValidacionDeCampos();
+            }
+
+            private void iniciaValidacionDeCampos(){
+                generaRazonDeIngreso();
+            }
+
+            private void generaRazonDeIngreso(){
+                String razon = razonDeEgreso.getText().toString();
+                String favorecido = FormatoDeEgreso.this.favorecido.getText().toString();
+                String monto = FormatoDeEgreso.this.monto.getText().toString();
+                if(!"Razón de pago".equals(razon) && !"Favorecido".equals(favorecido)){
+                    iniciaValidacionDeCamposRemota(razon, favorecido, Float.parseFloat(monto));
+                }
+            }
+
+            private void iniciaValidacionDeCamposRemota(String razon, String favorecido, float monto) {
+                String cuerpoDeMensaje = armarCuerpoDeMensaje(razon, favorecido, monto);
+                ContactoConServidor contactoConServidor = new ContactoConServidor(this, cuerpoDeMensaje);
+                contactoConServidor.start();
+            }
+
+            private String armarCuerpoDeMensaje(String razon, String favorecido, float monto) {
+                String cuerpoDeMensaje = null;
+                egreso = new Egreso();
+                egreso.setIdRazonDeEgreso(AccionesTablaContable.obtenerIdRazonDeEgreso(context, razon));
+                egreso.setMonto(monto);
+                egreso.setFecha(new Date().getTime());
+                egreso.setFavorecido(favorecido);
+                egreso.setEsExtraordinario(esExtraordinario.isChecked());
+                egreso.setEmail(ProveedorDeRecursos.obtenerEmail(context));
+                try{
+                    JSONObject json = new JSONObject();
+                    json.put("action", ProveedorDeRecursos.REGISTRO_DE_EGRESO);
+                    json.put("idRazon_de_Egreso", egreso.getIdRazonDeEgreso());
+                    json.put("monto", egreso.getMonto());
+                    json.put("fecha", egreso.getFecha());
+                    json.put("favorecido", egreso.getFavorecido());
+                    json.put("es_extraordinario", egreso.isEsExtraordinario() ? 1 : 0);
+                    json.put("email", egreso.getEmail());
+                    cuerpoDeMensaje = json.toString();
+                }catch(JSONException e){
+                    e.printStackTrace();
+                }
+                return cuerpoDeMensaje;
+            }
+
+            @Override
+            public void resultadoSatisfactorio(Thread t) {
+                String response = ((ContactoConServidor)t).getResponse();
+                if(CompruebaCamposJSON.validaContenido(response)){
+                    int id = (int) CompruebaCamposJSON.obtenerCampos(response).get("id");
+                    egreso.setId(id);
+                    AccionesTablaContable.agregarEgreso(context, egreso);
+                    MuestraMensajeDesdeHilo.muestraMensaje((AppCompatActivity)context, view, "Hecho");
+                }else{
+                    MuestraMensajeDesdeHilo.muestraMensaje((AppCompatActivity)context, view, "Servicio por el momento no disponible");
+                }
+            }
+
+            @Override
+            public void problemasDeConexion(Thread t) {
+                MuestraMensajeDesdeHilo.muestraMensaje((AppCompatActivity)context, view, "Servicio momentáneamente inalcanzable");
+            }
         }
     }
 

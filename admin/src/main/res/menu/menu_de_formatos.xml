@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/menu_de_formatos_ver_egresos"
+        android:orderInCategory="100"
+        android:title="@string/menu_formatos_ver_egresos"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_de_formatos_exportar_documentos"
+        android:orderInCategory="100"
+        android:title="@string/menu_formatos_exportar_documentos"
+        app:showAsAction="never" />
+
+</menu>

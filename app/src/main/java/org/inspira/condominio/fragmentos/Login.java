@@ -22,20 +22,26 @@ import org.inspira.condominio.actividades.ProveedorDeRecursos;
 import org.inspira.condominio.admin.CentralPoint;
 import org.inspira.condominio.admon.AccionesTablaAdministracion;
 import org.inspira.condominio.admon.AccionesTablaCondominio;
+import org.inspira.condominio.admon.AccionesTablaContable;
 import org.inspira.condominio.admon.AccionesTablaHabitante;
 import org.inspira.condominio.admon.AccionesTablaTorre;
 import org.inspira.condominio.admon.AccionesTablaTrabajador;
 import org.inspira.condominio.admon.AccionesTablaUsuario;
 import org.inspira.condominio.datos.Administracion;
+import org.inspira.condominio.datos.ConceptoDeIngreso;
 import org.inspira.condominio.datos.Condominio;
 import org.inspira.condominio.datos.CondominioBD;
 import org.inspira.condominio.datos.ContactoAdministracion;
 import org.inspira.condominio.datos.ContactoHabitante;
 import org.inspira.condominio.datos.ContactoTrabajador;
 import org.inspira.condominio.datos.Convocatoria;
+import org.inspira.condominio.datos.Egreso;
 import org.inspira.condominio.datos.Habitante;
+import org.inspira.condominio.datos.Ingreso;
 import org.inspira.condominio.datos.PropietarioDeDepartamento;
 import org.inspira.condominio.datos.PuntoOdD;
+import org.inspira.condominio.datos.RazonDeEgreso;
+import org.inspira.condominio.datos.RazonDeIngreso;
 import org.inspira.condominio.datos.Torre;
 import org.inspira.condominio.datos.Trabajador;
 import org.inspira.condominio.dialogos.ActividadDeEspera;
@@ -318,6 +324,74 @@ public class Login extends Fragment {
         }
     }
 
+    private void setAccountantInfo(JSONObject json){
+        try{
+            List<Integer> idsRazonDeIngreso = new ArrayList<>();
+            List<Integer> idsConceptoDeIngreso = new ArrayList<>();
+            List<Integer> idsRazonDeEgreso = new ArrayList<>();
+            JSONArray jingresos = json.getJSONArray("Ingresos");
+            JSONArray jegresos = json.getJSONArray("Egresos");
+            JSONObject jingreso;
+            JSONObject jegreso;
+            Ingreso ingreso;
+            Egreso egreso;
+            RazonDeIngreso razonDeIngreso;
+            ConceptoDeIngreso conceptoDeIngreso;
+            RazonDeEgreso razonDeEgreso;
+            for(int i=0; i<jingresos.length(); i++){
+                jingreso = jingresos.getJSONObject(i);
+                ingreso = new Ingreso(jingreso.getInt("idIngreso"));
+                razonDeIngreso = new RazonDeIngreso(jingreso.getInt("idRazon_de_Ingreso"));
+                if(razonDeIngreso.getId() > 3){
+                    if(!idsRazonDeIngreso.contains(razonDeIngreso.getId())) {
+                        razonDeIngreso.setRazonDeIngreso(jingreso.getString("razon_de_ingreso"));
+                        AccionesTablaContable.agregarRazonDeIngreso(getContext(), razonDeIngreso);
+                        Log.d("Special", "This one is special: " + jingreso.getString("razon_de_ingreso"));
+                        idsConceptoDeIngreso.add(razonDeIngreso.getId());
+                    }
+                }
+                ingreso.setRazonDeIngreso(razonDeIngreso);
+                conceptoDeIngreso = new ConceptoDeIngreso(jingreso.getInt("idConcepto_de_Ingreso"));
+                if(conceptoDeIngreso.getId() > 6){
+                    if(!idsConceptoDeIngreso.contains(conceptoDeIngreso.getId())){
+                        conceptoDeIngreso.setConceptoDeIngreso(jingreso.getString("concepto_de_ingreso"));
+                        AccionesTablaContable.agregarConceptoDeIngreso(getContext(), conceptoDeIngreso);
+                        idsConceptoDeIngreso.add(conceptoDeIngreso.getId());
+                    }
+                }
+                ingreso.setConceptoDeIngreso(conceptoDeIngreso);
+                ingreso.setMonto((float) jingreso.getDouble("monto"));
+                ingreso.setIdHabitante(jingreso.getInt("idHabitante"));
+                ingreso.setDepartamento(jingreso.getString("departamento"));
+                ingreso.setFecha(jingreso.getLong("fecha"));
+                ingreso.setEmail(jingreso.getString("email"));
+                AccionesTablaContable.agregarIngreso(getContext(), ingreso);
+                Log.d("Higer", "id: " + ingreso.getId() + ", idRazon_de_Ingreso: " + ingreso.getRazonDeIngreso().getId() + ", idConcepto_de_Ingreso: " + ingreso.getConceptoDeIngreso().getId() + ", monto: " + ingreso.getMonto() + ", idHabitante: " + ingreso.getIdHabitante() + ", depa: " + ingreso.getDepartamento() + ", fecha: " + ingreso.getFecha() + ", " + ingreso.getEmail());
+            }
+            for(int i=0; i<jegresos.length(); i++){
+                jegreso = jegresos.getJSONObject(i);
+                egreso = new Egreso(jegreso.getInt("idEgreso"));
+                razonDeEgreso = new RazonDeEgreso(jegreso.getInt("idRazon_de_Egreso"));
+                if(razonDeEgreso.getId() > 6){
+                    if(!idsRazonDeEgreso.contains(razonDeEgreso.getId())){
+                        razonDeEgreso.setRazonDeEgreso(jegreso.getString("razon_de_egreso"));
+                        idsRazonDeEgreso.add(razonDeEgreso.getId());
+                        AccionesTablaContable.agregarRazonDeEgreso(getContext(), razonDeEgreso);
+                    }
+                }
+                egreso.setIdRazonDeEgreso(razonDeEgreso.getId());
+                egreso.setMonto((float) jegreso.getDouble("monto"));
+                egreso.setFavorecido(jegreso.getString("favorecido"));
+                egreso.setFecha(jegreso.getLong("fecha"));
+                egreso.setEsExtraordinario(jegreso.getInt("es_extraordinario") != 0);
+                egreso.setEmail(jegreso.getString("email"));
+                AccionesTablaContable.agregarEgreso(getContext(), egreso);
+            }
+        }catch(JSONException e){
+            e.printStackTrace();
+        }
+    }
+
     private void cleanPass(){
         password.setText("");
         ProveedorSnackBar
@@ -340,6 +414,7 @@ public class Login extends Fragment {
             setTorresInfo(usrInfo);
             setTrabajadoresInfo(usrInfo);
             setUserInfo(usrInfo);
+            setAccountantInfo(usrInfo);
             setConvocatorias(json);
             getActivity().finishActivity(1234);
             getActivity().setResult(AppCompatActivity.RESULT_OK);

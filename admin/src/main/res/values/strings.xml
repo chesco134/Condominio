@@ -225,4 +225,6 @@
     <string name="detalles_habitante_asegurado">Propiedad asegurada</string>
     <string name="administrador_de_torres_etiqueta_torre_actual">Torre actual:</string>
     <string name="search_hint_personas">Nombre de habitante</string>
+    <string name="menu_formatos_ver_egresos">Egresos</string>
+    <string name="menu_formatos_exportar_documentos">Expedir PDFs</string>
 </resources>

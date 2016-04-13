@@ -1,103 +1,121 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent">
 
     <RelativeLayout
-        android:id="@+id/formato_de_egreso_contenedor_razon_de_egreso"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="20sp"
-        android:layout_marginLeft="20sp"
-        android:layout_marginEnd="20sp"
-        android:layout_marginRight="20sp"
-        android:layout_marginTop="26sp">
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:id="@+id/formato_de_egreso_contenedor_razon_de_egreso"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="20sp"
+            android:layout_marginLeft="20sp"
+            android:layout_marginEnd="20sp"
+            android:layout_marginRight="20sp"
+            android:layout_marginTop="26sp">
 
-        <TextView
-            android:id="@+id/formato_de_egreso_etiqueta_razon_de_egreso"
+            <TextView
+                android:id="@+id/formato_de_egreso_etiqueta_razon_de_egreso"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/formato_de_egreso_razon_de_pago"
+                android:textSize="12sp"/>
+            <TextView
+                android:id="@+id/formato_de_egreso_razon_de_egreso"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/formato_de_egreso_etiqueta_razon_de_egreso"
+                android:layout_marginTop="4sp"
+                android:textSize="14sp"
+                android:textColor="@android:color/black"
+                android:textStyle="bold"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/formato_de_egreso_contenedor_monto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/formato_de_egreso_contenedor_razon_de_egreso"
+            android:layout_marginTop="20sp"
+            android:layout_alignStart="@+id/formato_de_egreso_contenedor_razon_de_egreso"
+            android:layout_alignLeft="@+id/formato_de_egreso_contenedor_razon_de_egreso"
+            android:layout_alignEnd="@+id/formato_de_egreso_contenedor_razon_de_egreso"
+            android:layout_alignRight="@+id/formato_de_egreso_contenedor_razon_de_egreso">
+            <TextView
+                android:id="@+id/formato_de_egreso_etiqueta_monto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/formato_de_ingreso_pista_monto"
+                android:textSize="12sp"/>
+            <TextView
+                android:id="@+id/formato_de_egreso_monto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/formato_de_egreso_etiqueta_monto"
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                android:textSize="14sp"/>
+            <TextView
+                android:id="@+id/formato_de_egreso_postfijo_monto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/formato_de_egreso_monto"
+                android:layout_toRightOf="@+id/formato_de_egreso_monto"
+                android:layout_marginStart="4sp"
+                android:layout_marginLeft="4sp"
+                android:layout_alignBottom="@+id/formato_de_egreso_monto"
+                android:text="pesos"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/formato_de_egreso_contenedor_favorecido"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/formato_de_egreso_contenedor_monto"
+            android:layout_marginTop="20sp"
+            android:layout_alignStart="@+id/formato_de_egreso_contenedor_razon_de_egreso"
+            android:layout_alignLeft="@+id/formato_de_egreso_contenedor_razon_de_egreso"
+            android:layout_alignEnd="@+id/formato_de_egreso_contenedor_razon_de_egreso"
+            android:layout_alignRight="@+id/formato_de_egreso_contenedor_razon_de_egreso">
+            <TextView
+                android:id="@+id/formato_de_egreso_etiqueta_favorecido"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/formato_de_egreso_pista_nombre"
+                android:textSize="12sp"/>
+            <TextView
+                android:id="@+id/formato_de_egreso_favorecido"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/formato_de_egreso_etiqueta_favorecido"
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                android:textSize="14sp"/>
+        </RelativeLayout>
+
+        <android.support.v7.widget.SwitchCompat
+            android:id="@+id/formato_de_egreso_es_extraordinario"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/formato_de_egreso_razon_de_pago"
-            android:textSize="20sp"/>
-        <TextView
-            android:id="@+id/formato_de_egreso_razon_de_egreso"
+            android:layout_below="@+id/formato_de_egreso_contenedor_favorecido"
+            android:layout_alignStart="@+id/formato_de_egreso_contenedor_favorecido"
+            android:layout_alignLeft="@+id/formato_de_egreso_contenedor_favorecido"
+            android:layout_marginTop="12sp"
+            android:text="es extraordinario"/>
+
+        <Button
+            style="@style/MyButtonCustom"
+            android:id="@+id/formato_de_egreso_confirmar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/formato_de_egreso_etiqueta_razon_de_egreso"
-            android:layout_marginTop="4sp"
-            android:textSize="12sp"
-            android:textStyle="bold"/>
+            android:layout_below="@+id/formato_de_egreso_contenedor_favorecido"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginEnd="20sp"
+            android:layout_marginRight="20sp"
+            android:layout_marginTop="12sp"
+            android:text="@string/formato_de_ingreso_confirmar"/>
     </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/formato_de_egreso_contenedor_monto"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/formato_de_egreso_contenedor_razon_de_egreso"
-        android:layout_marginTop="20sp"
-        android:layout_alignStart="@+id/formato_de_egreso_contenedor_razon_de_egreso"
-        android:layout_alignLeft="@+id/formato_de_egreso_contenedor_razon_de_egreso"
-        android:layout_alignEnd="@+id/formato_de_egreso_contenedor_razon_de_egreso"
-        android:layout_alignRight="@+id/formato_de_egreso_contenedor_razon_de_egreso">
-        <TextView
-            android:id="@+id/formato_de_egreso_etiqueta_monto"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/formato_de_ingreso_pista_monto"
-            android:textSize="20sp"/>
-        <TextView
-            android:id="@+id/formato_de_egreso_monto"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/formato_de_egreso_etiqueta_monto"
-            android:textStyle="bold"
-            android:textSize="12sp"/>
-        <TextView
-            android:id="@+id/formato_de_egreso_postfijo_monto"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toEndOf="@+id/formato_de_egreso_monto"
-            android:layout_toRightOf="@+id/formato_de_egreso_monto"
-            android:layout_marginStart="4sp"
-            android:layout_marginLeft="4sp"
-            android:text="pesos"/>
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/formato_de_egreso_contenedor_favorecido"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/formato_de_egreso_contenedor_monto"
-        android:layout_marginTop="20sp"
-        android:layout_alignStart="@+id/formato_de_egreso_contenedor_razon_de_egreso"
-        android:layout_alignLeft="@+id/formato_de_egreso_contenedor_razon_de_egreso"
-        android:layout_alignEnd="@+id/formato_de_egreso_contenedor_razon_de_egreso"
-        android:layout_alignRight="@+id/formato_de_egreso_contenedor_razon_de_egreso">
-        <TextView
-            android:id="@+id/formato_de_egreso_etiqueta_favorecido"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/formato_de_egreso_pista_nombre"
-            android:textSize="20sp"/>
-        <TextView
-            android:id="@+id/formato_de_egreso_favorecido"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/formato_de_egreso_etiqueta_favorecido"
-            android:textStyle="bold"
-            android:textSize="12sp"/>
-    </RelativeLayout>
-
-    <Button
-        style="@style/MyButtonCustom"
-        android:id="@+id/format_de_ingreso_confirmar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/formato_de_egreso_contenedor_favorecido"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginEnd="20sp"
-        android:layout_marginRight="20sp"
-        android:layout_marginTop="12sp"
-        android:text="@string/formato_de_ingreso_confirmar"/>
-</RelativeLayout>
+</ScrollView>

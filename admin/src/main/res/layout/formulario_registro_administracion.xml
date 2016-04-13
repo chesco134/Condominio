@@ -115,7 +115,7 @@
             style="@style/MyButtonCustom"
             android:id="@+id/formulario_registro_administracion_boton_hecho"
             android:layout_below="@+id/formulario_registro_administracion_campos_opcionales"
-            android:layout_marginBottom="20sp"
+            android:layout_marginBottom="12sp"
             android:text="@string/formulario_registro_administracion_texto_hecho"/>
     </RelativeLayout>
 </ScrollView>
