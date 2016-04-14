@@ -364,6 +364,7 @@ public class Login extends Fragment {
                 ingreso.setIdHabitante(jingreso.getInt("idHabitante"));
                 ingreso.setDepartamento(jingreso.getString("departamento"));
                 ingreso.setFecha(jingreso.getLong("fecha"));
+                ingreso.setExisteEnBanco(jingreso.getInt("existe_en_banco") != 0);
                 ingreso.setEmail(jingreso.getString("email"));
                 AccionesTablaContable.agregarIngreso(getContext(), ingreso);
                 Log.d("Higer", "id: " + ingreso.getId() + ", idRazon_de_Ingreso: " + ingreso.getRazonDeIngreso().getId() + ", idConcepto_de_Ingreso: " + ingreso.getConceptoDeIngreso().getId() + ", monto: " + ingreso.getMonto() + ", idHabitante: " + ingreso.getIdHabitante() + ", depa: " + ingreso.getDepartamento() + ", fecha: " + ingreso.getFecha() + ", " + ingreso.getEmail());

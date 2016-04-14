@@ -22,6 +22,7 @@ import org.inspira.condominio.adaptadores.AdaptadorDeIngresos;
 import org.inspira.condominio.adaptadores.AdaptadorDeEgresos;
 import org.inspira.condominio.admon.AccionesTablaCondominio;
 import org.inspira.condominio.admon.AccionesTablaContable;
+import org.inspira.condominio.admon.AccionesTablaHabitante;
 import org.inspira.condominio.datos.AlmacenamientoInterno;
 import org.inspira.condominio.datos.Condominio;
 import org.inspira.condominio.datos.Egreso;
@@ -73,24 +74,7 @@ public class FormatosLobby extends AppCompatActivity {
                     .commit();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu){
-        getMenuInflater().inflate(R.menu.menu_de_formatos, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item){
-        int itemId = item.getItemId();
-        if(itemId == R.id.menu_de_formatos_ver_egresos){
-            agregaFragmentoDeEgresos();
-        }else if(itemId == R.id.menu_de_formatos_exportar_documentos){
-            generarDocumentos();
-        }
-        return true;
-    }
-
-    private void generarDocumentos() {
+    public void generarDocumentos() {
         try {
             AlmacenamientoInterno a = new AlmacenamientoInterno(FormatosLobby.this);
             a.crearDirectorioContable();
@@ -100,23 +84,34 @@ public class FormatosLobby extends AppCompatActivity {
             String file = a.obtenerRutaDeAlmacenamientoContable() + "/Ingresos " + str + " " + year + ".pdf";
             String fileEgresosOrdinarios = a.obtenerRutaDeAlmacenamientoContable() + "/EgresosOrdinarios " + str + " " + year + ".pdf";
             String fileEgresosExtraordinarios = a.obtenerRutaDeAlmacenamientoContable() + "/EgresosExtraordinarios " + str + " " + year + ".pdf";
-            Ingreso[] ingresos = AccionesTablaContable.obtenerIngresosDelMes(this);
-            float total = 0;
+            Ingreso[] ingresos = AccionesTablaContable.obtenerIngresosDelMesOrdinarios(this);
+            float totalOrdinario = 0;
+            float totalOrdinarioEnBanco = 0;
             for(Ingreso ingreso : ingresos)
-                total += ingreso.getMonto();
+                if(ingreso.isExisteEnBanco())
+                    totalOrdinarioEnBanco += ingreso.getMonto();
+                else
+                    totalOrdinario += ingreso.getMonto();
             Ingreso[] ingresosExtraordinarios = AccionesTablaContable.obtenerIngresosDelMesExtraordinarios(this);
             float totalExtraordinario = 0;
+            float totalExtraordinarioEnBanco = 0;
             for(Ingreso ingreso : ingresosExtraordinarios)
-                totalExtraordinario += ingreso.getMonto();
-            InformacionIngresos infoIngresosExtraordinarios = new InformacionIngresos(0,totalExtraordinario);
-            InformacionIngresos infoIngresos = new InformacionIngresos(0,total-totalExtraordinario);
+                if(ingreso.isExisteEnBanco())
+                    totalExtraordinarioEnBanco += ingreso.getMonto();
+                else
+                    totalExtraordinario += ingreso.getMonto();
+            InformacionIngresos infoIngresosExtraordinarios = new InformacionIngresos(totalExtraordinarioEnBanco,totalExtraordinario);
+            infoIngresosExtraordinarios.setTotalhabitantes(AccionesTablaHabitante.obtenerNumeroDeHabitantesEnTorre(this));
+            infoIngresosExtraordinarios.setTotalRegulares(ingresosExtraordinarios.length);
+            InformacionIngresos infoIngresos = new InformacionIngresos(totalOrdinarioEnBanco, totalOrdinario);
+            infoIngresos.setTotalhabitantes(AccionesTablaHabitante.obtenerNumeroDeHabitantesEnTorre(this));
+            infoIngresos.setTotalRegulares(ingresos.length);
             DocumentoIngreso doc = new DocumentoIngreso(infoIngresos, infoIngresosExtraordinarios);
             Condominio condominio = AccionesTablaCondominio.obtenerCondominio(this, ProveedorDeRecursos.obtenerIdCondominio(this));
             doc.exportarPdf(file, condominio.getNombre(), condominio.getDireccion());
             Egreso[] egresos = AccionesTablaContable.obtenerEgresosDelMesOrdinarios(this);
             List<InformacionEgreso> informacionEgresos = new ArrayList<>();
             InformacionEgreso informacionEgreso;
-            Log.d("PUTOPENDEJO", "Egresos: " + egresos[0].getFecha());
             for(Egreso egreso : egresos) {
                 informacionEgreso = new InformacionEgreso();
                 informacionEgreso.setFecha(egreso.getFecha());
@@ -155,14 +150,6 @@ public class FormatosLobby extends AppCompatActivity {
         } catch (DocumentException e) {
             e.printStackTrace();
         }
-    }
-
-    private void agregaFragmentoDeEgresos() {
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.content_lobby_main_container, new FormatosDeEgreso(), "Fury")
-                .addToBackStack("Fury")
-                .commit();
     }
 
     private void launchFormatos() {

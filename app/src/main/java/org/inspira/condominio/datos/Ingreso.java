@@ -11,6 +11,7 @@ public class Ingreso extends ModeloDeDatos {
     private int idHabitante;
     private String departamento;
     private long fecha;
+    private boolean existeEnBanco;
     private String email;
 
     public Ingreso() {
@@ -74,6 +75,14 @@ public class Ingreso extends ModeloDeDatos {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public boolean isExisteEnBanco() {
+        return existeEnBanco;
+    }
+
+    public void setExisteEnBanco(boolean existeEnBanco) {
+        this.existeEnBanco = existeEnBanco;
     }
 }
 

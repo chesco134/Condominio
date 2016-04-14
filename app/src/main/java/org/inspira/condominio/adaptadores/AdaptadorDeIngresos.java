@@ -15,6 +15,7 @@ import org.inspira.condominio.datos.Habitante;
 import org.inspira.condominio.datos.Ingreso;
 
 import java.text.DateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -71,6 +72,17 @@ public class AdaptadorDeIngresos extends BaseAdapter {
         razonDeIngreso.setText(AccionesTablaContable.obtenerRazonDeIngreso(context, ingresos[position].getRazonDeIngreso().getId()));
         conceptoIngreso.setText(AccionesTablaContable.obtenerConceptoDeIngreso(context, ingresos[position].getConceptoDeIngreso().getId()));
         fecha.setText(DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault()).format(new Date(ingresos[position].getFecha())));
+        fecha.append(formatedHour(ingresos[position].getFecha()));
         return view;
+    }
+
+    private String formatedHour(long time){
+        Calendar c = Calendar.getInstance();
+        c.setTimeInMillis(time);
+        int hour = c.get(Calendar.HOUR_OF_DAY);
+        int minute = c.get(Calendar.MINUTE);
+        int sec = c.get(Calendar.SECOND);
+        return "\n" + (hour < 10 ? "0" + hour : hour)
+                + ":" + (minute < 10 ? "0" + minute : minute);
     }
 }

@@ -227,4 +227,14 @@ public class AccionesTablaHabitante {
         condominioBD.close();
         return habitante;
     }
+
+    public static int obtenerNumeroDeHabitantesEnTorre(Context context){
+        SQLiteDatabase db = new CondominioBD(context).getReadableDatabase();
+        Cursor c = db.rawQuery("select count(*) from Habitante where idTorre = CAST(? as INTEGER)",
+                new String[]{String.valueOf(ProveedorDeRecursos.obtenerIdTorreActual(context))});
+        int cantidadDeHabitantes = c.moveToNext() ? c.getInt(0) : -1;
+        c.close();
+        db.close();
+        return cantidadDeHabitantes;
+    }
 }

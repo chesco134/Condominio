@@ -163,6 +163,7 @@ public class AccionesTablaContable {
         values.put("departamento", ingreso.getDepartamento());
         values.put("monto", ingreso.getMonto());
         values.put("fecha", ingreso.getFecha());
+        values.put("existe_en_banco", ingreso.isExisteEnBanco() ? 1 : 0);
         values.put("email", ingreso.getEmail());
         SQLiteDatabase db = new CondominioBD(context).getWritableDatabase();
         db.insert("Ingreso", "---", values);
@@ -205,9 +206,41 @@ public class AccionesTablaContable {
             ingreso.setIdHabitante(cursor.getInt(cursor.getColumnIndex("idHabitante")));
             ingreso.setDepartamento(cursor.getString(cursor.getColumnIndex("departamento")));
             ingreso.setFecha(cursor.getLong(cursor.getColumnIndex("fecha")));
+            ingreso.setExisteEnBanco(cursor.getInt(cursor.getColumnIndex("existe_en_banco")) != 0);
             ingreso.setEmail(cursor.getString(cursor.getColumnIndex("email")));
             ingresos.add(ingreso);
             Log.d("Higer", "id: " + ingreso.getId() + ", idRazon_de_Ingreso: " + ingreso.getRazonDeIngreso().getId() + ", idConcepto_de_Ingreso: " + ingreso.getConceptoDeIngreso().getId() + ", monto: " + ingreso.getMonto() + ", idHabitante: " + ingreso.getIdHabitante() + ", depa: " + ingreso.getDepartamento() + ", fecha: " + ingreso.getFecha() + ", " + ingreso.getEmail());
+        }
+        cursor.close();
+        db.close();
+        return ingresos.toArray(new Ingreso[0]);
+    }
+
+    public static Ingreso[] obtenerIngresosDelMesOrdinarios(Context context){
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.DAY_OF_MONTH, 1);
+        long baseTime = c.getTimeInMillis();
+        SQLiteDatabase db = new CondominioBD(context).getReadableDatabase();
+        Cursor cursor = db.rawQuery("select * from Ingreso where email like ? and " +
+                        "fecha >= CAST(? as LONG) and idConcepto_de_Ingreso = 0 order by fecha desc",
+                new String[]{ProveedorDeRecursos.obtenerEmail(context), String.valueOf(baseTime)});
+        List<Ingreso> ingresos = new ArrayList<>();
+        Ingreso ingreso;
+        RazonDeIngreso razonDeIngreso;
+        ConceptoDeIngreso conceptoDeIngreso;
+        while(cursor.moveToNext()){
+            ingreso = new Ingreso(cursor.getInt(cursor.getColumnIndex("idIngreso")));
+            razonDeIngreso = new RazonDeIngreso(cursor.getInt(cursor.getColumnIndex("idRazon_de_Ingreso")));
+            ingreso.setRazonDeIngreso(razonDeIngreso);
+            conceptoDeIngreso = new ConceptoDeIngreso(cursor.getInt(cursor.getColumnIndex("idConcepto_de_Ingreso")));
+            ingreso.setConceptoDeIngreso(conceptoDeIngreso);
+            ingreso.setMonto(cursor.getFloat(cursor.getColumnIndex("monto")));
+            ingreso.setIdHabitante(cursor.getInt(cursor.getColumnIndex("idHabitante")));
+            ingreso.setDepartamento(cursor.getString(cursor.getColumnIndex("departamento")));
+            ingreso.setFecha(cursor.getLong(cursor.getColumnIndex("fecha")));
+            ingreso.setExisteEnBanco(cursor.getInt(cursor.getColumnIndex("existe_en_banco")) != 0);
+            ingreso.setEmail(cursor.getString(cursor.getColumnIndex("email")));
+            ingresos.add(ingreso);
         }
         cursor.close();
         db.close();
@@ -236,6 +269,7 @@ public class AccionesTablaContable {
             ingreso.setIdHabitante(cursor.getInt(cursor.getColumnIndex("idHabitante")));
             ingreso.setDepartamento(cursor.getString(cursor.getColumnIndex("departamento")));
             ingreso.setFecha(cursor.getLong(cursor.getColumnIndex("fecha")));
+            ingreso.setExisteEnBanco(cursor.getInt(cursor.getColumnIndex("existe_en_banco")) != 0);
             ingreso.setEmail(cursor.getString(cursor.getColumnIndex("email")));
             ingresos.add(ingreso);
         }

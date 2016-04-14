@@ -30,6 +30,7 @@
                 android:layout_marginTop="4sp"
                 android:textSize="14sp"
                 android:textColor="@android:color/black"
+                android:text="@string/formato_de_egreso_razon_de_pago"
                 android:textStyle="bold"/>
         </RelativeLayout>
 
@@ -91,6 +92,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/formato_de_egreso_etiqueta_favorecido"
                 android:textStyle="bold"
+                android:hint="Beneficiado"
                 android:textColor="@android:color/black"
                 android:textSize="14sp"/>
         </RelativeLayout>

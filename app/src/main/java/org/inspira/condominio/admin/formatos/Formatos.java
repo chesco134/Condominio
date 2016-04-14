@@ -114,6 +114,7 @@ public class Formatos extends AppCompatActivity implements
         private TextView conceptoDePago;
         private TextView nombre;
         private EditText monto;
+        private SwitchCompat existeEnBanco;
         private List<String> nombres;
         private Habitante[] habitantes;
 
@@ -128,6 +129,7 @@ public class Formatos extends AppCompatActivity implements
             conceptoDePago = (TextView) rootView.findViewById(R.id.formato_de_ingreso_concepto);
             nombre = (TextView) rootView.findViewById(R.id.formato_de_ingreso_nombre);
             monto = (EditText) rootView.findViewById(R.id.formato_de_ingreso_monto);
+            existeEnBanco = (SwitchCompat) rootView.findViewById(R.id.formato_de_ingreso_en_banco);
             Button confirmar = (Button) rootView.findViewById(R.id.formato_de_ingreso_confirmar);
             confirmar.setOnClickListener(new ValidacionDeCampos(getContext()));
             return rootView;
@@ -152,8 +154,8 @@ public class Formatos extends AppCompatActivity implements
             for(Habitante habitante : habitantes)
                 nombres.add(habitante.getApPaterno() + " " + habitante.getApMaterno() + " " + habitante.getNombres());
             ActualizaTextoDesdeLista actualizaTextoDesdeLista3 = new ActualizaTextoDesdeLista("Habitantes", nombres.toArray(new String[0]));
-            contenedorNombre.setOnClickListener(actualizaTextoDesdeLista3);
             actualizaTextoDesdeLista3.setReferencedView(nombre);
+            contenedorNombre.setOnClickListener(actualizaTextoDesdeLista3);
         }
 
         private class ValidacionDeCampos implements View.OnClickListener,
@@ -207,6 +209,7 @@ public class Formatos extends AppCompatActivity implements
                 ingreso.setDepartamento(habitante.getNombreDepartamento());
                 ingreso.setFecha(new Date().getTime());
                 ingreso.setMonto(monto);
+                ingreso.setExisteEnBanco(existeEnBanco.isChecked());
                 ingreso.setEmail(ProveedorDeRecursos.obtenerEmail(context));
                 try{
                     JSONObject json = new JSONObject();
@@ -217,6 +220,7 @@ public class Formatos extends AppCompatActivity implements
                     json.put("idHabitante", ingreso.getIdHabitante());
                     json.put("departamento", ingreso.getDepartamento());
                     json.put("fecha", ingreso.getFecha());
+                    json.put("existe_en_banco", ingreso.isExisteEnBanco());
                     json.put("email", ingreso.getEmail());
                     cuerpoDeMensaje = json.toString();
                 }catch(JSONException e){
@@ -232,7 +236,8 @@ public class Formatos extends AppCompatActivity implements
                     int id = (int) CompruebaCamposJSON.obtenerCampos(response).get("id");
                     ingreso.setId(id);
                     AccionesTablaContable.agregarIngreso(context, ingreso);
-                    MuestraMensajeDesdeHilo.muestraMensaje((AppCompatActivity)context, view, "Hecho");
+                    MuestraMensajeDesdeHilo.muestraMensaje((AppCompatActivity) context, view, "Hecho");
+                    getActivity().finish();
                 }else{
                     MuestraMensajeDesdeHilo.muestraMensaje((AppCompatActivity)context, view, "Servicio por el momento no disponible");
                 }
@@ -434,6 +439,7 @@ public class Formatos extends AppCompatActivity implements
                     egreso.setId(id);
                     AccionesTablaContable.agregarEgreso(context, egreso);
                     MuestraMensajeDesdeHilo.muestraMensaje((AppCompatActivity)context, view, "Hecho");
+                    getActivity().finish();
                 }else{
                     MuestraMensajeDesdeHilo.muestraMensaje((AppCompatActivity)context, view, "Servicio por el momento no disponible");
                 }

@@ -265,6 +265,7 @@ public class CondominioBD extends SQLiteOpenHelper {
                 "idHabitante integer not null," +
                 "departamento text," +
                 "fecha long not null," +
+                "existe_en_banco integer default 0," +
                 "email text not null," +
                 "foreign key(idHabitante) references Habitante(idHabitante)," +
                 "foreign key(idRazon_de_Ingreso) references Razon_de_Ingreso(idRazon_de_Ingreso)," +

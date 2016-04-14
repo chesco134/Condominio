@@ -3,7 +3,11 @@ package org.inspira.condominio.fragmentos;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
@@ -11,6 +15,7 @@ import android.widget.TextView;
 
 import org.inspira.condominio.R;
 import org.inspira.condominio.adaptadores.AdaptadorDeIngresos;
+import org.inspira.condominio.admin.formatos.FormatosLobby;
 
 import java.util.Calendar;
 
@@ -79,7 +84,32 @@ public class FormatosDeIngreso extends Fragment {
         monthStr = monthStr.concat(" de " + year);
         assert total != null;
         total.setText(monthStr);
+        setHasOptionsMenu(true);
         return rootView;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater){
+        inflater.inflate(R.menu.menu_de_formatos, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        int itemId = item.getItemId();
+        if(itemId == R.id.menu_de_formatos_ver_egresos){
+            agregaFragmentoDeEgresos();
+        }else if(itemId == R.id.menu_de_formatos_exportar_documentos){
+            ((FormatosLobby)getContext()).generarDocumentos();
+        }
+        return true;
+    }
+
+    private void agregaFragmentoDeEgresos() {
+        ((AppCompatActivity)getContext()).getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.content_lobby_main_container, new FormatosDeEgreso(), "Fury")
+                .addToBackStack("Fury")
+                .commit();
     }
 
     @Override

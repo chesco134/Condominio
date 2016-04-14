@@ -64,7 +64,7 @@ Las convocatorias para la celebración de asambleas ordinarias, se notificarán 
     <string name="formato_de_ingreso_pista_monto">Monto</string>
     <string name="formato_de_ingreso_pista_nombre">Nombre</string>
     <string name="formato_de_ingreso_confirmar">Confirmar</string>
-    <string name="formato_de_egreso_razon_de_pago">Concepto:</string>
+    <string name="formato_de_egreso_razon_de_pago">Concepto</string>
     <string name="formato_de_egreso_pista_nombre">A favor de</string>
     <string name="title_activity_formatos_admin">Formatos Admin</string>
     <string name="section_format">Hello World from section: %1$d</string>
