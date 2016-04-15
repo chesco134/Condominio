@@ -230,8 +230,7 @@ public class AccionesTablaHabitante {
 
     public static int obtenerNumeroDeHabitantesEnTorre(Context context){
         SQLiteDatabase db = new CondominioBD(context).getReadableDatabase();
-        Cursor c = db.rawQuery("select count(*) from Habitante where idTorre = CAST(? as INTEGER)",
-                new String[]{String.valueOf(ProveedorDeRecursos.obtenerIdTorreActual(context))});
+        Cursor c = db.rawQuery("select count(*) from Habitante", null);
         int cantidadDeHabitantes = c.moveToNext() ? c.getInt(0) : -1;
         c.close();
         db.close();
