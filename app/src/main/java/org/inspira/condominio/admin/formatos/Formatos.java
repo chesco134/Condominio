@@ -9,6 +9,9 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SwitchCompat;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -110,6 +113,7 @@ public class Formatos extends AppCompatActivity implements
 
     public static class FormatoDeIngreso extends Fragment {
 
+        private MiDialogoDeLista dialogoParaConceptoDeIngreso;
         private TextView razonDePago;
         private TextView conceptoDePago;
         private TextView nombre;
@@ -132,6 +136,23 @@ public class Formatos extends AppCompatActivity implements
             existeEnBanco = (SwitchCompat) rootView.findViewById(R.id.formato_de_ingreso_en_banco);
             Button confirmar = (Button) rootView.findViewById(R.id.formato_de_ingreso_confirmar);
             confirmar.setOnClickListener(new ValidacionDeCampos(getContext()));
+            nombre.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    Log.d("Nombre Watcher", "Text changed to: " + s.toString());
+                    int index = nombres.indexOf(s.toString());
+                    if (index != -1)
+                        dialogoParaConceptoDeIngreso.setIdHabitente(habitantes[index].getId());
+                }
+            });
             return rootView;
         }
 
@@ -146,8 +167,8 @@ public class Formatos extends AppCompatActivity implements
             String[] razonesDeIngreso = AccionesTablaContable.obtenerRazonesDeIngreso(getContext()).toArray(new String[0]);
             contenedorRazonesDePago.setOnClickListener(new MiDialogoDeLista(getContext(), "Razones de ingreso", razonesDeIngreso, "Razon_de_Ingreso", razonDePago));
             RelativeLayout contenedorConceptoDePago = (RelativeLayout) getView().findViewById(R.id.formato_de_ingreso_contenedor_concepto_de_ingreso);
-            String[] conceptosDeIngreso = AccionesTablaContable.obtenerConceptosDeIngreso(getContext()).toArray(new String[0]);
-            contenedorConceptoDePago.setOnClickListener(new MiDialogoDeLista(getContext(), "Conceptos de ingreso", conceptosDeIngreso, "Concepto_de_Ingreso", conceptoDePago));
+            dialogoParaConceptoDeIngreso = new MiDialogoDeLista(getContext(), "Conceptos de ingreso", null, "Concepto_de_Ingreso", conceptoDePago);
+            contenedorConceptoDePago.setOnClickListener(dialogoParaConceptoDeIngreso);
             RelativeLayout contenedorNombre = (RelativeLayout) getView().findViewById(R.id.formato_de_ingreso_contenedor_nombre);
             habitantes = AccionesTablaHabitante.obtenerHabitantes(getContext());
             nombres = new ArrayList<>();
@@ -186,6 +207,8 @@ public class Formatos extends AppCompatActivity implements
                 String monto = FormatoDeIngreso.this.monto.getText().toString();
                 if(!"Razón de pago".equals(razon) && !"Concepto".equals(concepto) && !"Nombre".equals(nombre)){
                     iniciaValidacionDeCamposRemota(razon, concepto, nombre, Float.parseFloat(monto));
+                }else{
+                    ProveedorSnackBar.muestraBarraDeBocados(view, "Por favor llene los campos");
                 }
             }
 
@@ -462,6 +485,7 @@ public class Formatos extends AppCompatActivity implements
             EntradaTexto.AccionDialogo,
             ContactoConServidor.AccionesDeValidacionConServidor{
 
+        private Integer idHabitente;
         private Context context;
         private String titulo;
         private String[] elementos;
@@ -475,6 +499,11 @@ public class Formatos extends AppCompatActivity implements
             this.elementos = elementos;
             this.tabla = tabla;
             this.etiquetaObjetivo = etiquetaObjetivo;
+            idHabitente = -1;
+        }
+
+        public void setIdHabitente(Integer idHabitente) {
+            this.idHabitente = idHabitente;
         }
 
         @Override
@@ -574,6 +603,12 @@ public class Formatos extends AppCompatActivity implements
         private void mostrarDialogoDeLista(){
             DialogoDeLista dialogoDeLista = new DialogoDeLista();
             dialogoDeLista.setTitulo(titulo);
+            if("Concepto_de_Ingreso".equals(tabla))
+                if(idHabitente == -1) {
+                    ProveedorSnackBar.muestraBarraDeBocados(etiquetaObjetivo, "Por favor seleccione primero un habitante");
+                    return;
+                }else
+                    elementos = AccionesTablaContable.obtenerRazonesDePagoFaltantesParaHabitante(context, idHabitente);
             dialogoDeLista.setElementos(elementos);
             dialogoDeLista.setAccion(this);
             dialogoDeLista.show(((AppCompatActivity) context).getSupportFragmentManager(), "Selección");

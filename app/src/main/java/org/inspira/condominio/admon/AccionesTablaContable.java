@@ -352,4 +352,27 @@ public class AccionesTablaContable {
         db.close();
         return egresos.toArray(new Egreso[0]);
     }
+
+    public static String[] obtenerRazonesDePagoFaltantesParaHabitante(Context context, int idHabitante){
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+        long baseTime = calendar.getTimeInMillis();
+        SQLiteDatabase db = new CondominioBD(context).getReadableDatabase();
+        Cursor c = db.rawQuery("select Concepto_de_Ingreso from " +
+                        "Concepto_de_Ingreso left join " +
+                        "(select idConcepto_de_Ingreso from Concepto_de_Ingreso join Ingreso " +
+                        "using(idConcepto_de_Ingreso) where email like ? and " +
+                        "fecha >= CAST(? as LONG) and idHabitante = CAST(? as INTEGER))a " +
+                        "on Concepto_de_Ingreso.idConcepto_de_Ingreso = a.idConcepto_de_Ingreso " +
+                        "where a.idConcepto_de_Ingreso is null",
+                new String[]{ProveedorDeRecursos.obtenerEmail(context), String.valueOf(baseTime),
+                        String.valueOf(idHabitante)});
+        List<String> conceptosDeIngreso = new ArrayList<>();
+        while(c.moveToNext()){
+            conceptosDeIngreso.add(c.getString(0));
+        }
+        c.close();
+        db.close();
+        return conceptosDeIngreso.toArray(new String[]{});
+    }
 }

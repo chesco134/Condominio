@@ -141,7 +141,7 @@ public class FormatosLobby extends AppCompatActivity {
             runOnUiThread(new Runnable(){
                 @Override
                 public void run(){
-                    ProveedorToast.showToast(FormatosLobby.this,R.string.crear_convocatoria_archivo_creado);
+                    ProveedorToast.showToast(FormatosLobby.this,"Archivos creados");
                 }
             });
         }catch(IOException e){

@@ -205,7 +205,7 @@ public class DocumentoEgresos {
             cell5.setColspan(6);
             cell5.setFixedHeight(20f);
             PdfPCell cell6 = new PdfPCell(new Phrase(String.format("%.2f pesos", egreso.getMonto()), F_NORMAL));
-            cell6.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+            cell6.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
             cell6.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
             cell6.setColspan(2);
             cell6.setFixedHeight(20f);

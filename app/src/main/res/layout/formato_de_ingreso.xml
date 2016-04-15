@@ -5,8 +5,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+
         <RelativeLayout
-            android:id="@+id/formato_de_ingreso_contenedor_razon_de_ingreso"
+            android:id="@+id/formato_de_ingreso_contenedor_nombre"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
@@ -15,6 +16,46 @@
             android:layout_marginLeft="20sp"
             android:layout_marginTop="26sp"
             android:layout_alignParentTop="true">
+            <TextView
+                android:id="@+id/formato_de_ingreso_etiqueta_nombre"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/formato_de_ingreso_pista_nombre"
+                android:textSize="12sp" />
+            <TextView
+                android:id="@+id/formato_de_ingreso_nombre"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/formato_de_ingreso_etiqueta_nombre"
+                android:layout_marginStart="4sp"
+                android:layout_marginLeft="4sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                android:textSize="14sp"
+                android:text="@string/formato_de_ingreso_pista_nombre"/>
+        </RelativeLayout>
+
+        <android.support.v7.widget.SwitchCompat
+            android:id="@+id/formato_de_ingreso_en_banco"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginEnd="20sp"
+            android:layout_marginRight="20sp"
+            android:layout_marginTop="26sp"
+            android:text="En banco"/>
+
+        <RelativeLayout
+            android:id="@+id/formato_de_ingreso_contenedor_razon_de_ingreso"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/formato_de_ingreso_contenedor_nombre"
+            android:layout_marginTop="20sp"
+            android:layout_alignStart="@+id/formato_de_ingreso_monto"
+            android:layout_alignLeft="@+id/formato_de_ingreso_monto"
+            android:layout_alignEnd="@+id/formato_de_ingreso_monto"
+            android:layout_alignRight="@+id/formato_de_ingreso_monto">
             <TextView
                 android:id="@+id/formato_de_ingreso_etiqueta_razon_de_pago"
                 android:layout_width="wrap_content"
@@ -33,17 +74,6 @@
                 android:textColor="@android:color/black"
                 android:textSize="14sp"/>
         </RelativeLayout>
-
-        <android.support.v7.widget.SwitchCompat
-            android:id="@+id/formato_de_ingreso_en_banco"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginEnd="20sp"
-            android:layout_marginRight="20sp"
-            android:layout_marginTop="26sp"
-            android:text="En banco"/>
 
         <RelativeLayout
             android:id="@+id/formato_de_ingreso_contenedor_concepto_de_ingreso"
@@ -72,40 +102,11 @@
                 android:textSize="14sp"/>
         </RelativeLayout>
 
-        <RelativeLayout
-            android:id="@+id/formato_de_ingreso_contenedor_nombre"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/formato_de_ingreso_contenedor_concepto_de_ingreso"
-            android:layout_marginTop="20sp"
-            android:layout_alignStart="@+id/formato_de_ingreso_monto"
-            android:layout_alignLeft="@+id/formato_de_ingreso_monto"
-            android:layout_alignEnd="@+id/formato_de_ingreso_monto"
-            android:layout_alignRight="@+id/formato_de_ingreso_monto">
-            <TextView
-                android:id="@+id/formato_de_ingreso_etiqueta_nombre"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/formato_de_ingreso_pista_nombre"
-                android:textSize="12sp" />
-            <TextView
-                android:id="@+id/formato_de_ingreso_nombre"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/formato_de_ingreso_etiqueta_nombre"
-                android:layout_marginStart="4sp"
-                android:layout_marginLeft="4sp"
-                android:textStyle="bold"
-                android:textColor="@android:color/black"
-                android:textSize="14sp"
-                android:text="@string/formato_de_ingreso_pista_nombre"/>
-        </RelativeLayout>
-
         <EditText
             android:id="@+id/formato_de_ingreso_monto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/formato_de_ingreso_contenedor_nombre"
+            android:layout_below="@+id/formato_de_ingreso_contenedor_concepto_de_ingreso"
             android:layout_marginStart="20sp"
             android:layout_marginLeft="20sp"
             android:layout_marginEnd="20sp"

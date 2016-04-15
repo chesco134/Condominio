@@ -192,7 +192,7 @@ public class DocumentoIngreso {
         cell8.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
         cell8.setColspan(2);
         cell8.setFixedHeight(20f);
-        PdfPCell cell9 = new PdfPCell(new Phrase(String.format("%.2f%%",(float)((infoIngresos.getTotalhabitantes() - infoIngresos.getTotalRegulares())/infoIngresos.getTotalhabitantes())*100), F_NORMAL));
+        PdfPCell cell9 = new PdfPCell(new Phrase(String.format("%.2f%%",(((float)infoIngresos.getTotalhabitantes() - (float)infoIngresos.getTotalRegulares())/(float)infoIngresos.getTotalhabitantes())*100), F_NORMAL));
         cell9.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         cell9.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
         cell9.setColspan(2);
