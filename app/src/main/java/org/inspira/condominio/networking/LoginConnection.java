@@ -46,6 +46,7 @@ public class LoginConnection extends AsyncTask<String,String,JSONObject> {
             json.put("action", 1);
             json.put("user", user);
             json.put("password", password);
+            Log.e("Logger", "Sending: " + json.toString());
             DataOutputStream salida = new DataOutputStream(urlCon.getOutputStream());
             salida.write(json.toString().getBytes());
             salida.flush();
@@ -57,7 +58,7 @@ public class LoginConnection extends AsyncTask<String,String,JSONObject> {
             byte[] chunk = new byte[64];
             while( (length = entrada.read(chunk)) != -1)
                 baos.write(chunk,0,length);
-            Log.d("Logger", URLDecoder.decode(baos.toString(), "utf8"));
+            Log.e("Logger", URLDecoder.decode(baos.toString(), "utf8"));
             json = new JSONObject(baos.toString());
             baos.close();
         }catch(JSONException | IOException e){

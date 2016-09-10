@@ -61,14 +61,32 @@ public class DocumentoEgresos {
                 new Font(Font.FontFamily.HELVETICA, 18, Font.BOLD, new BaseColor(0x000000)));
         heading.setSpacingBefore(16f);
         heading.setSpacingAfter(16f);
-        Paragraph heading2 = new Paragraph("Vo. Bo.",
+        Paragraph heading2 = new Paragraph("Autorizó",
                 new Font(Font.FontFamily.HELVETICA, 12, Font.NORMAL, new BaseColor(0x000000)));
-        heading2.setSpacingBefore(16f);
-        heading2.setSpacingAfter(32f);
+        PdfPTable table = new PdfPTable(2);
+        table.setWidthPercentage(100);
+        Paragraph heading3 = new Paragraph("Vo. Bo.",
+                new Font(Font.FontFamily.HELVETICA, 12, Font.NORMAL, new BaseColor(0x000000)));
+        PdfPCell cell1 = new PdfPCell(heading2);
+        cell1.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+        cell1.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+        cell1.setColspan(1);
+        cell1.setFixedHeight(20f);
+        cell1.setBorder(Rectangle.NO_BORDER);
+        PdfPCell cell2 = new PdfPCell(heading3);
+        cell2.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
+        cell2.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
+        cell2.setColspan(1);
+        cell2.setFixedHeight(20f);
+        cell2.setBorder(Rectangle.NO_BORDER);
+        table.addCell(cell1);
+        table.addCell(cell2);
+        table.setSpacingBefore(16f);
+        table.setSpacingAfter(32f);
         
         documento.add(heading);
         agregarTablaEgresos(egresos);
-        documento.add(heading2);
+        documento.add(table);
         agregarZonaVistoBueno();
         documento.close();
     }
@@ -104,13 +122,13 @@ public class DocumentoEgresos {
         cell5.setColspan(1);
         cell5.setFixedHeight(20f);
         cell5.setBorder(Rectangle.NO_BORDER);
-        PdfPCell cell6 = new PdfPCell(new Phrase(vocal1, F_NORMAL));
+        PdfPCell cell6 = new PdfPCell(new Phrase("", F_NORMAL));
         cell6.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         cell6.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
         cell6.setColspan(5);
         cell6.setFixedHeight(20f);
         cell6.setBorder(Rectangle.NO_BORDER);
-        PdfPCell cell7 = new PdfPCell(new Phrase(("(Presidente)"), F_NORMAL));
+        PdfPCell cell7 = new PdfPCell(new Phrase(("(Administrador)"), F_NORMAL));
         cell7.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         cell7.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
         cell7.setColspan(5);
@@ -122,7 +140,7 @@ public class DocumentoEgresos {
         cell8.setColspan(1);
         cell8.setFixedHeight(20f);
         cell8.setBorder(Rectangle.NO_BORDER);
-        PdfPCell cell9 = new PdfPCell(new Phrase(("(Primer vocal)"), F_NORMAL));
+        PdfPCell cell9 = new PdfPCell(new Phrase(("(Presidente comité de vigilancia)"), F_NORMAL));
         cell9.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         cell9.setVerticalAlignment(PdfPCell.ALIGN_MIDDLE);
         cell9.setColspan(5);

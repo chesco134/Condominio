@@ -334,7 +334,7 @@ public class AccionesTablaContable {
         long baseTime = calendar.getTimeInMillis();
         SQLiteDatabase db = new CondominioBD(context).getReadableDatabase();
         Cursor c = db.rawQuery("select * from Egreso where email like ? and " +
-                        "fecha >= CAST(? as LONG) and es_extraordinario != 2 order by fecha desc",
+                        "fecha >= CAST(? as LONG) and es_extraordinario != 1 order by fecha desc",
                 new String[]{ProveedorDeRecursos.obtenerEmail(context), String.valueOf(baseTime)});
         List<Egreso> egresos = new ArrayList<>();
         Egreso egreso;

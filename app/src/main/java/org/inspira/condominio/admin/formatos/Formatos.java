@@ -147,8 +147,8 @@ public class Formatos extends AppCompatActivity implements
 
                 @Override
                 public void afterTextChanged(Editable s) {
-                    Log.d("Nombre Watcher", "Text changed to: " + s.toString());
                     int index = nombres.indexOf(s.toString());
+                    Log.e("Nombre Watcher", "Text changed to: " + s.toString() + ". With index: " + index + " and ID: " + habitantes[index].getId());
                     if (index != -1)
                         dialogoParaConceptoDeIngreso.setIdHabitente(habitantes[index].getId());
                 }
@@ -167,13 +167,13 @@ public class Formatos extends AppCompatActivity implements
             String[] razonesDeIngreso = AccionesTablaContable.obtenerRazonesDeIngreso(getContext()).toArray(new String[0]);
             contenedorRazonesDePago.setOnClickListener(new MiDialogoDeLista(getContext(), "Razones de ingreso", razonesDeIngreso, "Razon_de_Ingreso", razonDePago));
             RelativeLayout contenedorConceptoDePago = (RelativeLayout) getView().findViewById(R.id.formato_de_ingreso_contenedor_concepto_de_ingreso);
-            dialogoParaConceptoDeIngreso = new MiDialogoDeLista(getContext(), "Conceptos de ingreso", null, "Concepto_de_Ingreso", conceptoDePago);
+            dialogoParaConceptoDeIngreso = new MiDialogoDeLista(getContext(), "Conceptos de ingreso", new String[]{"Cuota ordinaria","Cuota extraordinaria","Adeudos","Fondo anual","Arrendatario","Otro"}, "Concepto_de_Ingreso", conceptoDePago);
             contenedorConceptoDePago.setOnClickListener(dialogoParaConceptoDeIngreso);
             RelativeLayout contenedorNombre = (RelativeLayout) getView().findViewById(R.id.formato_de_ingreso_contenedor_nombre);
             habitantes = AccionesTablaHabitante.obtenerHabitantes(getContext());
             nombres = new ArrayList<>();
             for(Habitante habitante : habitantes)
-                nombres.add(habitante.getApPaterno() + " " + habitante.getApMaterno() + " " + habitante.getNombres());
+                nombres.add(habitante.getApPaterno() + " " + habitante.getApMaterno() + " " + habitante.getNombres() + " " + habitante.getId());
             ActualizaTextoDesdeLista actualizaTextoDesdeLista3 = new ActualizaTextoDesdeLista("Habitantes", nombres.toArray(new String[0]));
             actualizaTextoDesdeLista3.setReferencedView(nombre);
             contenedorNombre.setOnClickListener(actualizaTextoDesdeLista3);
@@ -603,12 +603,12 @@ public class Formatos extends AppCompatActivity implements
         private void mostrarDialogoDeLista(){
             DialogoDeLista dialogoDeLista = new DialogoDeLista();
             dialogoDeLista.setTitulo(titulo);
+            Log.e("CONCEPTO_IN", "Revisando el idHabitante: " + idHabitente);
             if("Concepto_de_Ingreso".equals(tabla))
                 if(idHabitente == -1) {
                     ProveedorSnackBar.muestraBarraDeBocados(etiquetaObjetivo, "Por favor seleccione primero un habitante");
                     return;
-                }else
-                    elementos = AccionesTablaContable.obtenerRazonesDePagoFaltantesParaHabitante(context, idHabitente);
+                }//else elementos = AccionesTablaContable.obtenerRazonesDePagoFaltantesParaHabitante(context, idHabitente);
             dialogoDeLista.setElementos(elementos);
             dialogoDeLista.setAccion(this);
             dialogoDeLista.show(((AppCompatActivity) context).getSupportFragmentManager(), "Selección");

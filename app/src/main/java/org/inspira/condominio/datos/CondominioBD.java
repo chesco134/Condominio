@@ -169,7 +169,7 @@ public class CondominioBD extends SQLiteOpenHelper {
                 "idEscolaridad integer not null primary key autoincrement," +
                 "escolaridad text not null" +
                 ")");
-        dataBase.execSQL("insert into Escolaridad(escolaridad) values('Básico'),('Medio superior'),('Superior'),('Maestría'),('Doctorado')");
+        dataBase.execSQL("insert into Escolaridad(escolaridad) values('Básico'),('Medio superior'),('Licenciatura'),('Maestría'),('Doctorado')");
         dataBase.execSQL("create table Usuario(" + // Se trata del admin.
                 "email TEXT NOT NULL PRIMARY KEY," +
                 "nombres TEXT NOT NULL," +

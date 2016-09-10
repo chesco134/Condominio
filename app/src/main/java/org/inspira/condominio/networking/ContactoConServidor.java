@@ -34,7 +34,7 @@ public class ContactoConServidor extends Thread {
     @Override
     public void run(){
         try{
-            Log.d("Server", "We are to send ("+content.getBytes().length+" bytes): " + content);
+            Log.e("Server", "We are to send ("+content.getBytes().length+" bytes): " + content);
             HttpURLConnection con = (HttpURLConnection) new URL(CentralPoint.SERVER_URL).openConnection();
             con.setDoOutput(true);
             DataOutputStream salida = new DataOutputStream(con.getOutputStream());
@@ -47,7 +47,7 @@ public class ContactoConServidor extends Thread {
             while((length = entrada.read(chunk)) != -1)
                 baos.write(chunk,0,length);
             response = URLDecoder.decode(baos.toString(), "utf8").trim();
-            Log.d("ContactoServer", "Server dijo (" + baos.size() + " bytes): " + response);
+            Log.e("ContactoServer", "Server dijo (" + baos.size() + " bytes): " + response);
             baos.close();
             con.disconnect();
             entrada.close();

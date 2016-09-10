@@ -52,7 +52,7 @@ public class ObtencionDeConvocatorias extends Thread {
             DataInputStream entrada = new DataInputStream(con.getInputStream());
             while((length = entrada.read(chunk)) != -1)
                 baos.write(chunk, 0, length);
-            Log.d("CHEWBACCA", URLDecoder.decode(baos.toString(), "utf8"));
+            Log.e("CHEWBACCA", URLDecoder.decode(baos.toString(), "utf8"));
             json = new JSONObject(URLDecoder.decode(baos.toString(), "utf8"));
             baos.close();
             try{
