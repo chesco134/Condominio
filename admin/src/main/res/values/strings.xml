@@ -28,7 +28,7 @@
 
     <string name="nuevo_condominio_direccion">Dirección</string>
     <string name="nuevo_condominio_edad">Antigüedad</string>
-    <string name="nuevo_condominio_inmoviliaria">Inmoviliaria</string>
+    <string name="nuevo_condominio_inmoviliaria">Inmobiliaria</string>
     <string name="nuevo_condominio_tipo_de_condominio">Tipo de Condominio</string>
     <string name="nuevo_condominio_nombre_del_condominio">Nombre del condominio</string>
     <string name="nuevo_condominio_siguiente">Siguiente</string>
@@ -159,7 +159,7 @@
     <string name="formulario_registro_administracion_costo_mantenimiento_anual">Cuota de mantenimiento anual</string>
     <string name="formulario_registro_administracion_promedio_morosidad">Promedio de morosidad semestral anterior</string>
     <string name="formulario_registro_administracion_promedio_egresos">Promedio de egresos semestral anterior</string>
-    <string name="formulario_registro_administracion_intervalo_de_transparencia">Tipo de administración</string>
+    <string name="formulario_registro_administracion_intervalo_de_transparencia">Intervalo de transparencia</string>
     <string name="formulario_registro_administracion_texto_hecho">Hecho</string>
     <string name="formulario_registro_administracion_indicaciones_campos_opcionales">La administración posee:</string>
     <string name="menu_habitantes_nuevo_habitante">Nuevo habitante</string>

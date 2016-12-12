@@ -49,7 +49,7 @@ import java.net.URLEncoder;
 public class CentralPoint extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    public static final String SERVER_URL = "http://votacionesipn.com/condominios/";
+    public static final String SERVER_URL = "http://192.168.6.132/";
     private static final int INICIAR_REGISTRO = 1;
     private boolean isFirstTime;
     private boolean secondTime;
